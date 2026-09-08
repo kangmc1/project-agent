@@ -183,6 +183,7 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
             _, pb, hb = choose(llm, R.ORCH_SYSTEM, q_before + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all2) + ".", choices_all2)
             _, pa, ha = choose(llm, R.ORCH_SYSTEM, q_after + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all2) + ".", choices_all2)
             state = new_state; transcript = [state]; n_compressions += 1
+            reports = []  # originals are gone after compression: only the compressed state survives (no leak to agents or to the orchestrator's recent-report window)
             entry["compression"] = {"n": n_compressions, "words_before": words, "words_after": len(state.split()), "survival": rep, "score": score(rep), "repaired": repaired,
                                     "policy_before": pb, "policy_after": pa, "entropy_before": hb, "entropy_after": ha, "decision_jsd": _jsd(pb, pa)}
         entry["state_survival"] = survival_report(obls, state) if entry.get("compression") else None
