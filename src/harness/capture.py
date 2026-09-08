@@ -47,9 +47,11 @@ class RunContext:
         self.step_id = 0
         self.chat_model_starts = 0
         self.pending: dict[int, dict[str, Any]] = {}
-        self.last_tokens_by_agent: dict[str, tuple[int, dict[str, Any]]] = {}
+        self.last_tokens_by_agent: dict[str, tuple[int, dict[str, Any], str]] = {}
         self.count_tokens = token_counter or approx_tokens
         self._open_tools: dict[str, dict[str, Any]] = {}
+        self.last_agent = "planner"  # agent of the most recent LLM call = issuer of the next tool call
+        self.skip_tools = {"policy_checker", "db_agent", "solver", "verifier"}  # wrappers log themselves via log_fn
 
     # ---------------- httpx event hooks ----------------
     def hooks(self) -> dict[str, list]:
@@ -83,14 +85,18 @@ class RunContext:
             self.step_id += 1
             sid = self.step_id
             agent = meta["agent"]
-            n_tok = self.count_tokens(body.get("messages", []))
+            msgs = body.get("messages", []) or []
+            n_tok = self.count_tokens(msgs)
+            thread_key = json.dumps(next((m.get("content") for m in msgs if m.get("role") == "user"), None))[:400]
             prev = self.last_tokens_by_agent.get(agent)
-            if prev and n_tok < 0.6 * prev[0]:
-                # context shrank sharply for the same agent -> keep the pre-summarization body
+            if prev and prev[2] == thread_key and n_tok < 0.6 * prev[0]:
+                # same conversation thread for the same agent shrank sharply -> summarization happened; keep the pre-summary body
                 (self.run_dir / "summarization_pre" / f"step_{sid}.json").write_text(
                     json.dumps(prev[1], ensure_ascii=False), encoding="utf-8"
                 )
-            self.last_tokens_by_agent[agent] = (n_tok, body)
+            self.last_tokens_by_agent[agent] = (n_tok, body, thread_key)
+            if agent not in ("user_sim", "summarizer"):
+                self.last_agent = agent
             row = {
                 "step_id": sid,
                 "agent": agent,
@@ -115,7 +121,8 @@ class RunContext:
                 f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
     # ---------------- tool logging (LangChain callbacks) ----------------
-    def log_tool(self, agent: str, tool: str, args: Any, result: Any, status: str, latency: float) -> None:
+    def log_tool(self, agent: str | None, tool: str, args: Any, result: Any, status: str, latency: float) -> None:
+        agent = agent or self.last_agent
         with self.lock:
             self.db.execute(
                 "INSERT INTO tool_calls (step_id, agent, tool, args_json, result_json, status, latency, ts) VALUES (?,?,?,?,?,?,?,?)",
@@ -157,16 +164,22 @@ class ToolCallback(BaseCallbackHandler):
 
     def on_tool_start(self, serialized, input_str, *, run_id, inputs=None, **kwargs):  # type: ignore[override]
         name = (serialized or {}).get("name") or kwargs.get("name") or "tool"
+        if name in self.ctx.skip_tools:
+            return
         self._open[str(run_id)] = (name, inputs if inputs is not None else input_str, time.time())
 
     def on_tool_end(self, output, *, run_id, **kwargs):  # type: ignore[override]
-        name, args, t0 = self._open.pop(str(run_id), ("tool", None, time.time()))
+        if str(run_id) not in self._open:
+            return
+        name, args, t0 = self._open.pop(str(run_id))
         out = getattr(output, "content", output)
-        self.ctx.log_tool(self.agent, name, args, out, "ok", time.time() - t0)
+        self.ctx.log_tool(None, name, args, out, "ok", time.time() - t0)
 
     def on_tool_error(self, error, *, run_id, **kwargs):  # type: ignore[override]
-        name, args, t0 = self._open.pop(str(run_id), ("tool", None, time.time()))
-        self.ctx.log_tool(self.agent, name, args, repr(error), "error", time.time() - t0)
+        if str(run_id) not in self._open:
+            return
+        name, args, t0 = self._open.pop(str(run_id))
+        self.ctx.log_tool(None, name, args, repr(error), "error", time.time() - t0)
 
 
 def make_http_client(ctx: RunContext, timeout: float = 600.0):

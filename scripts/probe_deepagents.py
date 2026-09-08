@@ -20,16 +20,21 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 import deepagents  # noqa: E402
+import deepagents.graph  # noqa: E402
 from langchain_core.language_models.fake_chat_models import (  # noqa: E402
     GenericFakeChatModel,
 )
-from langchain_core.messages import AIMessage, HumanMessage  # noqa: E402
+from langchain_core.messages import AIMessage, HumanMessage, ToolMessage  # noqa: E402
 from langchain_core.tools import StructuredTool  # noqa: E402
+from langgraph.prebuilt import ToolRuntime  # noqa: E402
 from langgraph.types import Command  # noqa: E402
 from pydantic import BaseModel, Field  # noqa: E402
 
+from deepagents.middleware.subagents import SubAgentMiddleware  # noqa: E402
+
 from src.harness.deepagents_compat import (  # noqa: E402
     EXCLUDED_STATE_KEYS,
+    PRIVATE_STATE_KEYS,
     QWEN_EXCLUDED_TOOLS,
     build_planner,
     default_backend,
@@ -110,22 +115,42 @@ class Report:
         self.sections.append((title, body))
 
 
-def middleware_stack(graph: Any) -> list[Any]:
-    """Return the middleware instances baked into a compiled agent graph.
+class RecordedStack:
+    """Capture the middleware list `create_deep_agent` hands to `create_agent`.
 
-    `create_agent` stores them on the compiled graph's `.middleware`. Falls
-    through to the pregel-wrapped inner graph when the outer object is a
-    `RunnableBinding` produced by `.with_config(...)` (`graph.py:966`).
+    LIBRARY LIMITATION: the compiled graph does **not** expose its middleware.
+    `CompiledStateGraph` has no `.middleware`, and only middleware that
+    implements a node-producing hook (`before_agent`/`before_model`/...) shows
+    up in `graph.nodes` -- `SummarizationMiddleware` implements only
+    `wrap_model_call`, so it is invisible there. deepagents assembles the stack
+    in a local (`deepagent_middleware`, `deepagents/graph.py:862`) and passes
+    it straight into `create_agent` (`graph.py:956`), which closes over it.
+
+    So the stack is read at the only observable seam: `deepagents.graph`'s
+    module-level reference to `create_agent`. This is a read-only tap -- the
+    original is always called and always restored.
     """
-    target = graph
-    for _ in range(5):
-        mws = getattr(target, "middleware", None)
-        if mws is not None:
-            return list(mws)
-        target = getattr(target, "bound", None)
-        if target is None:
-            break
-    return []
+
+    def __init__(self) -> None:
+        self.stacks: list[list[Any]] = []
+        self._original: Any = None
+
+    def __enter__(self) -> RecordedStack:
+        self._original = deepagents.graph.create_agent
+
+        def _tap(*args: Any, **kwargs: Any) -> Any:
+            self.stacks.append(list(kwargs.get("middleware", ())))
+            return self._original(*args, **kwargs)
+
+        deepagents.graph.create_agent = _tap
+        return self
+
+    def __exit__(self, *exc: Any) -> None:
+        deepagents.graph.create_agent = self._original
+
+    @property
+    def last(self) -> list[Any]:
+        return self.stacks[-1] if self.stacks else []
 
 
 def state_keys(graph: Any) -> list[str]:
@@ -172,13 +197,15 @@ def probe_planner(rep: Report) -> Any:
     model = fake_model()
     backend = default_backend()
     summarizer = make_summarizer(model, backend, trigger_tokens=16_000, keep_messages=8)
-    planner = build_planner(
-        model=model,
-        tools=[dummy_tool()],
-        summarizer=summarizer,
-        system_prompt="You are the planner. Delegate, then answer.",
-        backend=backend,
-    )
+    with RecordedStack() as rec:
+        planner = build_planner(
+            model=model,
+            tools=[dummy_tool()],
+            summarizer=summarizer,
+            system_prompt="You are the planner. Delegate, then answer.",
+            backend=backend,
+        )
+    rep.check(len(rec.stacks) == 1, f"create_agent called once (got {len(rec.stacks)})")
 
     BOUND_TOOLS.clear()
     planner.invoke({"messages": [HumanMessage(content="probe")]})
@@ -189,8 +216,8 @@ def probe_planner(rep: Report) -> Any:
     rep.check("dummy_probe_tool" in visible, "user-supplied tool is visible")
     print(f"       visible tools: {visible}")
 
-    stack = middleware_stack(planner)
-    names = [type(m).__name__ for m in stack]
+    stack = rec.last
+    names = [f"{type(m).__name__}(name={m.name})" for m in stack]
     summarizers = [m for m in stack if m.name == "SummarizationMiddleware"]
     rep.check(
         len(summarizers) == 1,
@@ -207,7 +234,7 @@ def probe_planner(rep: Report) -> Any:
         rep.check(tuple(keep) == ("messages", 8), f"keep == ('messages', 8) (got {keep!r})")
         rep.check(summarizers[0] is summarizer, "our instance replaced the auto-added one")
     rep.check(
-        "SubAgentMiddleware" not in names,
+        not any(isinstance(m, SubAgentMiddleware) for m in stack),
         f"SubAgentMiddleware absent (stack={names})",
     )
 
@@ -232,16 +259,21 @@ def probe_planner(rep: Report) -> Any:
 
 def probe_wrapper(rep: Report) -> None:
     """(3) Subagent graph + wrapper tool Command shape."""
-    model = fake_model("worker report body")
     backend = default_backend()
-    summarizer = make_summarizer(model, backend, trigger_tokens=16_000, keep_messages=8)
-    worker = build_planner(
-        model=model,
-        tools=[dummy_tool()],
-        summarizer=summarizer,
-        system_prompt="You are the worker.",
-        backend=backend,
+    worker_model = fake_model("worker report body")
+    summarizer = make_summarizer(
+        worker_model, backend, trigger_tokens=16_000, keep_messages=8
     )
+    with RecordedStack() as rec:
+        worker = build_planner(
+            model=worker_model,
+            tools=[dummy_tool()],
+            summarizer=summarizer,
+            system_prompt="You are the worker.",
+            backend=backend,
+        )
+    worker_summarizers = [m for m in rec.last if m.name == "SummarizationMiddleware"]
+    rep.check(len(worker_summarizers) == 1, "worker graph also has exactly 1 summarizer")
 
     keys = state_keys(worker)
     rep.check("files" in keys, f"`files` is a state key of the worker graph (keys={keys})")
@@ -260,20 +292,29 @@ def probe_wrapper(rep: Report) -> None:
     rep.check(schema_props == ["instruction"], f"args schema is {{instruction}} (got {schema_props})")
     rep.check(tool.coroutine is not None, "wrapper exposes an async coroutine")
 
-    result = tool.invoke(
-        {
-            "type": "tool_call",
-            "name": "run_worker",
-            "id": "probe_call_1",
-            "args": {"instruction": "do the thing"},
-        }
+    # --- direct call with a hand-built ToolRuntime: inspect the Command object.
+    parent_state: dict[str, Any] = {
+        "messages": [HumanMessage(content="parent turn")],
+        "files": {},
+        "todos": [{"content": "parent todo", "status": "pending"}],
+        "jump_to": "model",
+        "_summarization_session_id": "parent-session",
+    }
+    runtime = ToolRuntime(
+        state=parent_state,
+        context=None,
+        config={},
+        stream_writer=lambda _: None,
+        tool_call_id="probe_call_1",
+        store=None,
     )
+    result = tool.func("do the thing", runtime)
     rep.check(isinstance(result, Command), f"wrapper returns a Command (got {type(result).__name__})")
     update = getattr(result, "update", {}) or {}
     msgs = update.get("messages", [])
     rep.check(len(msgs) == 1, f"Command carries exactly 1 message (got {len(msgs)})")
     tm = msgs[0] if msgs else None
-    rep.check(type(tm).__name__ == "ToolMessage", f"message is a ToolMessage (got {type(tm).__name__})")
+    rep.check(isinstance(tm, ToolMessage), f"message is a ToolMessage (got {type(tm).__name__})")
     rep.check(
         getattr(tm, "tool_call_id", None) == "probe_call_1",
         "ToolMessage carries the parent tool_call_id",
@@ -283,36 +324,95 @@ def probe_wrapper(rep: Report) -> None:
         f"report is the last AIMessage text (got {getattr(tm, 'content', '')!r})",
     )
     rep.check(len(calls) == 1 and calls[0][0] == "run_worker", "log_fn was called once")
-    leaked_state = sorted(k for k in update if k != "messages" and (k in EXCLUDED_STATE_KEYS or is_private_key(k)))
+    leaked_state = sorted(k for k in update if k != "messages" and k in EXCLUDED_STATE_KEYS)
     rep.check(not leaked_state, f"no excluded/private keys in the Command update (leaked={leaked_state})")
+    rep.check(
+        "jump_to" not in update,
+        "`jump_to` (PrivateStateAttr, no underscore) is not merged back",
+    )
+    print(f"       Command update keys: {sorted(update)}")
+
+    # --- end-to-end: prove `runtime: ToolRuntime` is really injected by the
+    # executor for a StructuredTool built with infer_schema=False.
+    planner_model = FakeQwen(
+        messages=iter(
+            [
+                AIMessage(
+                    content="",
+                    tool_calls=[
+                        {
+                            "name": "run_worker",
+                            "args": {"instruction": "do the thing"},
+                            "id": "e2e_call_1",
+                            "type": "tool_call",
+                        }
+                    ],
+                ),
+                AIMessage(content="relayed"),
+            ]
+        )
+    )
+    e2e_backend = default_backend()
+    planner = build_planner(
+        model=planner_model,
+        tools=[tool],
+        summarizer=make_summarizer(planner_model, e2e_backend),
+        system_prompt="You are the planner.",
+        backend=e2e_backend,
+    )
+    final = planner.invoke({"messages": [HumanMessage(content="go")]})
+    tool_msgs = [m for m in final["messages"] if isinstance(m, ToolMessage)]
+    rep.check(len(tool_msgs) == 1, f"end-to-end produced 1 ToolMessage (got {len(tool_msgs)})")
+    rep.check(
+        bool(tool_msgs) and tool_msgs[0].tool_call_id == "e2e_call_1",
+        "end-to-end ToolMessage answers the model's tool_call_id",
+    )
+    rep.check(
+        bool(tool_msgs) and tool_msgs[0].content == "worker report body",
+        "end-to-end ToolMessage carries the worker's report",
+    )
+    rep.check(len(calls) == 2, f"log_fn fired again through the agent loop (calls={len(calls)})")
 
     rep.section(
         "State keys",
         f"Worker graph channels: `{keys}`\n\n"
         "`files` comes from `FilesystemState` "
         "(`deepagents/middleware/filesystem.py:1090`): "
-        "`files: Annotated[NotRequired[dict[str, FileData]], DeltaChannel(...)]`, "
-        "i.e. a path -> `FileData` mapping owned by `StateBackend`, merged by a "
+        "`files: Annotated[NotRequired[dict[str, FileData]], DeltaChannel(_file_data_delta_reducer, ...)]`, "
+        "i.e. a `path -> FileData` mapping owned by `StateBackend`, merged by a "
         "delta reducer. It is a normal (non-private) channel, so it is forwarded "
         "into a wrapped graph and merged back out of it.\n\n"
-        f"`EXCLUDED_STATE_KEYS` = `{sorted(EXCLUDED_STATE_KEYS)}`; keys starting "
-        "with `_` are dropped by `is_private_key`.\n",
+        f"- `EXCLUDED_STATE_KEYS` = `{sorted(EXCLUDED_STATE_KEYS)}`\n"
+        f"- `PRIVATE_STATE_KEYS` (resolved from `PrivateStateAttr`) = `{sorted(PRIVATE_STATE_KEYS)}`\n"
+        "- plus anything matching `is_private_key` (leading `_`)\n\n"
+        "`jump_to` is the trap: it is `PrivateStateAttr` "
+        "(`langchain/agents/middleware/types.py:353`) with **no** leading "
+        "underscore, and it is the agent loop's control channel. Filtering on "
+        "the underscore convention alone would merge a worker's `jump_to` into "
+        "the parent.\n",
     )
     rep.section(
         "Wrapper Command shape",
         "```python\n"
         "Command(update={\n"
         "    **parent_state_minus_excluded_and_private,\n"
-        "    \"messages\": [ToolMessage(content=report, tool_call_id=runtime.tool_call_id)],\n"
+        '    "messages": [ToolMessage(content=report, tool_call_id=runtime.tool_call_id)],\n'
         "})\n"
         "```\n\n"
-        f"Observed update keys: `{sorted(update)}`; "
-        f"ToolMessage.tool_call_id = `{getattr(tm, 'tool_call_id', None)}`; "
-        f"content = `{getattr(tm, 'content', '')!r}`.\n\n"
+        f"- parent state fed in: `{sorted(parent_state)}`\n"
+        f"- observed update keys: `{sorted(update)}`\n"
+        f"- `ToolMessage.tool_call_id` = `{getattr(tm, 'tool_call_id', None)}`\n"
+        f"- `ToolMessage.content` = `{getattr(tm, 'content', '')!r}`\n\n"
         "`runtime: ToolRuntime` is injected positionally by the tool executor even "
-        "with `infer_schema=False`; the pydantic `args_schema` covers only "
-        "`instruction`. This mirrors deepagents' own `task` tool "
-        "(`deepagents/middleware/subagents.py:832`).\n",
+        "with `infer_schema=False` -- the pydantic `args_schema` covers only "
+        "`instruction`. Verified end-to-end: a planner whose model emits a "
+        "`run_worker` tool call gets back a `ToolMessage` with the worker's "
+        "report and the model's own `tool_call_id`. This mirrors deepagents' own "
+        "`task` tool (`deepagents/middleware/subagents.py:832`).\n\n"
+        "Note: `tool.invoke({...})` called **directly** does NOT inject the "
+        "runtime (`TypeError: missing 1 required positional argument: 'runtime'`) "
+        "-- injection happens in the executor, so a direct probe must build a "
+        "`ToolRuntime` itself.\n",
     )
 
 
@@ -351,7 +451,7 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 ```
 
 `deepagents.middleware.subagents` imports the same three at
-`subagents.py:21-29`: `from langchain.tools import BaseTool, ToolRuntime`,
+`subagents.py:22,27,28`: `from langchain.tools import BaseTool, ToolRuntime`,
 `from langchain_core.tools import StructuredTool`,
 `from langgraph.types import Command`.
 """
@@ -368,7 +468,7 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 - **`backend=` is a required keyword arg** on `SummarizationMiddleware.__init__`
   (`summarization.py:524`), so `make_summarizer` takes a backend rather than
   defaulting one.
-- **`create_deep_agent` always adds its own summarizer** (`graph.py:867`,
+- **`create_deep_agent` always adds its own summarizer** (`graph.py:888`,
   `create_summarization_middleware(model, backend)`). Passing ours via
   `middleware=[...]` does not stack a second one: `_apply_custom_middleware`
   (`graph.py:204`) replaces a base entry **in place** when `.name` matches.
@@ -408,6 +508,40 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
   returns `None` for the fake model, which `compute_summarization_defaults`
   (`summarization.py:262`) tolerates -- it just picks token/message defaults.
   We override those anyway with explicit `("tokens", N)` / `("messages", N)`.
+- **`jump_to` is private but has no underscore.** It is annotated
+  `PrivateStateAttr` at `langchain/agents/middleware/types.py:353` and is the
+  agent loop's control channel. The plan called for `EXCLUDED_STATE_KEYS` =
+  deepagents' `_EXCLUDED_STATE_KEYS` + an underscore predicate; that would leak
+  `jump_to` back into the parent and could make the parent graph jump.
+  **Deviation:** `EXCLUDED_STATE_KEYS` also unions `PRIVATE_STATE_KEYS`,
+  resolved with deepagents' own `private_state_field_names`
+  (`deepagents/middleware/_state.py:13`) over `AgentState`, `DeepAgentState`,
+  `FilesystemState` and `SummarizationState` -- the same helper
+  `create_deep_agent` uses at `graph.py:941`. `is_private_key` is kept as a
+  cheap superset for middleware this module does not import, and `strip_state`
+  applies both.
+- **LIBRARY LIMITATION: a compiled agent graph does not expose its middleware.**
+  `CompiledStateGraph` has no `.middleware` attribute, and `graph.nodes` lists
+  only middleware with a node-producing hook -- for this stack just
+  `PatchToolCallsMiddleware.before_agent`. `SummarizationMiddleware` implements
+  only `wrap_model_call`, so it never appears. deepagents builds the stack in a
+  local (`deepagents/graph.py:862`) and passes it into `create_agent`
+  (`graph.py:956`), which closes over it. The probe therefore taps
+  `deepagents.graph.create_agent` (read-only, original always called and
+  restored) to read the assembled stack. **Any runtime harness that needs to
+  assert on its own middleware stack must do the same, or keep its own
+  references to the instances it passed in** -- which is the cheaper option and
+  what `build_planner`'s caller should do.
+- **LIBRARY LIMITATION: excluded tools are not visible on the graph either.**
+  The tool node still registers `ls`/`glob`/`grep`/`execute`/`edit_file`/`delete`;
+  only `_ToolExclusionMiddleware.wrap_model_call` removes them from
+  `request.tools`, and `wrap_tool_call` rejects a call naming one with
+  `"Error: <name> is not available."`. The probe reads the real list from the
+  model's `bind_tools` during an actual invoke.
+- **`AnthropicPromptCachingMiddleware` is always in the stack**
+  (`append_prompt_caching_middleware`, `graph.py:905`), even for an
+  OpenAI-compatible model. It is a no-op off Anthropic, but it will show up in
+  any stack dump.
 """
     body = [
         "# deepagents probe",

@@ -8,3 +8,35 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - P1 gate: ALL PASS (a-j). transformers 5.x: apply_chat_template(tokenize=True) returns Encoding -> tokenize=False then tok(text).
 - Data: data/tau_task_ids.json, data/aime_ids.json (batch1 = first 15 each). Raw httpx user simulator in src/data/tau_user.py (tests pass).
 - Harness written: capture.py (httpx2 hooks, sqlite tool log, fs snapshots), model.py, tools.py, airline.py, aime.py, run.py, validate.py. Awaiting deepagents_compat.py (probe agent).
+
+## 02:03 D1 primitives self-test (scoring server :18003)
+- stepwise (allowed_token_ids, decode path) vs method 2 (prompt_logprobs, prefill path): both deterministic on repeat, but at the
+  tool-name position they differ by up to 0.12-0.13 logprob (e.g. -0.581 vs -0.698; prefill shows an exact tie -0.698/-0.698,
+  decode shows a gap of exactly 0.25 = bf16 logit ulp at |logit|~32). Conclusion: bf16 logit quantization, not a method error.
+  The executor's own generation uses the decode path, so stepwise matches gen_logprobs better. |dlogP|<=0.01 is not achievable;
+  amend P4(ii) tolerance to 0.15 with this evidence (criterionAmendments) when running --check on real traces.
+- Candidate tokens: score '<tool_call>\n{"name": "<name>' WITHOUT closing quote (model emits '",' as one token; lone '"' is ~-19).
+- deepagents_compat: profile resolution keyed by ChatOpenAI.model_name=='qwen32b' (openai:qwen32b); SummarizationMiddleware alias,
+  backend= required; task removed via GeneralPurposeSubagentProfile(enabled=False)+subagents=None; jump_to private key excluded.
+
+## 02:12 US-001 (M1) complete; M2 smoke round 2 running
+- Smoke round 1: airline_000 ok 85s/32 steps (planner tool ratio 0.93, callbacks==steps), aime_000 ok 73s success (277).
+- Fixes after round 1: (a) subagents append to /case_notes.md (tests merge-out), (b) summarization_pre heuristic keyed by
+  (agent, first user message) to avoid false positives on fresh subagent invocations, (c) validate excludes final planner
+  step from tool-call ratio, (d) solver/verifier must call run_python, (e) tool-call rows attributed to last LLM-calling
+  agent (ctx.last_agent) and wrapper rows logged once via log_fn (callback skips wrappers).
+- Real failure seen: db_agent called book_reservation with origin="HAT", destination="136" -> "Error: 'amount'" (tool misuse).
+
+## 02:14 D1 equivalence resolved at distribution level
+- Dry --check on aime_000: stepwise vs method-2 softmax distributions agree (8/8 within |dp|<=0.01, max 0.0063); logp-level
+  agreement only 34% within 0.01 due to bf16 logit quantization on negligible candidates. PRD US-003 criterion amended (rev 2).
+- Pre-mortem 4 observed on AIME: confidence>0.99 on 87.5% of decisions (T=2 variant: 62.5%). Added H_T2/confidence_T2 to d1 rows;
+  p_actual/margin kept as alternative signals; report peakedness as a finding.
+- Throughput: 0.52 decisions/s at prefix-cache hit 0.987 -> ~2,500 decisions ~ 80 min on :18003.
+- Smoke r2: aime_000 PASS all P2 checks; airline r2 hit tau-bench random task_index out-of-range (fixed: pass task_index); r3 running.
+
+## 02:16 G2 PASSED — US-002 (M2) e2e complete; batch 1 launched
+- airline_000 r3: ok, 353 s, 101 steps (80 chat + 21 user_sim), planner tool ratio 1.0, callbacks==steps, shared FS case_notes.md
+  visible in planner snapshot, tool rows attributed per agent. aime_000: ok, success, 8 steps, all checks pass.
+- Batch 1 started 02:16 with --parallel 4 (logs/batch1.log). Expect ~60-90 min.
+- D2/D7/D9/extract/index/summarize modules delivered by agents (synthetic-tested); eval scripts agent still running.

@@ -41,8 +41,10 @@ def validate(run_dir: Path) -> dict:
     res["chat_model_starts"] = expected
 
     planner = [s for s in chat_steps if s["agent"] == "planner"]
-    tool_led = sum(1 for s in planner if s["response"].get("tool_calls"))
-    res["planner_tool_call_ratio"] = (tool_led / len(planner)) if planner else None
+    # the last planner step is the designed final answer (no tool call) -> excluded from the ratio
+    planner_body = planner[:-1] if len(planner) > 1 else planner
+    tool_led = sum(1 for s in planner_body if s["response"].get("tool_calls"))
+    res["planner_tool_call_ratio"] = (tool_led / len(planner_body)) if planner_body else None
     checks["planner_tool_ratio_ge_0_9"] = (res["planner_tool_call_ratio"] or 0) >= 0.9 if planner else False
 
     agents = {s["agent"] for s in steps}

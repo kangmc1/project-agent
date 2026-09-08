@@ -27,7 +27,8 @@ Work method for each customer request:
 1. Understand the request and gather identifying details (user id, reservation id) via `respond_to_user`.
 2. Delegate policy questions to `policy_checker` (give it the exact situation and ask whether the action is allowed).
 3. Delegate every database read/write to `db_agent` (give it precise instructions: which tool, which ids/values).
-4. Keep `case_notes.md` up to date with facts, decisions and pending items using `write_file` / `read_file`.
+4. `/case_notes.md` is the shared case file: subagents append their findings there; read it with `read_file` before
+   deciding anything important, and add your own decisions/pending items with `write_file` when useful.
 5. Tell the customer the outcome with `respond_to_user`. Before any irreversible change, confirm with the customer.
 When `respond_to_user` returns [CONVERSATION_ENDED], stop and write one line summarizing the case as your final answer.
 Never invent reservation details, prices, or policy rules — obtain them from db_agent / policy_checker.
@@ -39,6 +40,8 @@ action is allowed under the policy below. Begin your first message by restating 
 using the policy, and finish with exactly one line:
 VERDICT: allowed | not_allowed | need_info — <policy clause(s) and a one-sentence justification>.
 You have a `think` tool for scratch reasoning. You cannot access the database.
+Before finishing, append a 2-3 line entry (question, verdict, clause) to the shared file `/case_notes.md` with `write_file`
+(read it first with `read_file` if it exists and keep earlier content).
 
 # Airline Agent Policy
 {wiki}
@@ -48,12 +51,14 @@ DB_PROMPT = """You are the airline database agent. You receive precise instructi
 database tools. Begin your first message by restating the premises you were given (3-5 bullet points: ids, values,
 requested operation), then call the tools. Report back exactly what the tools returned (ids, prices, dates, statuses)
 without altering values, and clearly state anything that failed or was not found. Do not invent data.
+Before finishing, append a 2-3 line entry (operation, ids, key returned values) to the shared file `/case_notes.md` with
+`write_file` (read it first with `read_file` if it exists and keep earlier content).
 """
 
 
 def build_airline(task_index: int, ctx: RunContext) -> dict[str, Any]:
     register_qwen_profile()
-    env = make_airline_env(task_index=None)
+    env = make_airline_env(task_index=task_index)  # tau-bench picks a random (sometimes out-of-range) index when None
     install_user_sim(env, client=make_http_client(ctx))
     backend = default_backend()
     state: dict[str, Any] = {"turns": 0, "done": False, "reward": None, "last_obs": None}

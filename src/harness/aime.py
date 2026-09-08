@@ -26,13 +26,15 @@ Do not call `submit_answer` more than once.
 
 SOLVER_PROMPT = """You are a careful competition mathematician. Begin your first message by restating the problem's premises
 (3-5 bullet points: givens, constraints, what is asked). Then solve step by step, using `run_python` for every
-non-trivial computation (arithmetic, enumeration, algebra checks). State each key equation explicitly on its own line.
+non-trivial computation (arithmetic, enumeration, algebra checks). You MUST call `run_python` at least once, and you
+MUST verify your final integer with a `run_python` computation before stating it. State each key equation explicitly on its own line.
 Finish with exactly one line: FINAL ANSWER: <integer>.
 """
 
 VERIFIER_PROMPT = """You independently solve the problem from scratch (you are NOT given anyone else's answer). Begin your first
 message by restating the premises (3-5 bullet points). Solve step by step, using `run_python` to compute and to
-brute-force check where possible. State key equations explicitly. Finish with exactly one line: FINAL ANSWER: <integer>.
+brute-force check where possible. You MUST call `run_python` at least once and verify the final integer with it.
+State key equations explicitly. Finish with exactly one line: FINAL ANSWER: <integer>.
 """
 
 

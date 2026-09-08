@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from typing import Any, Callable, Iterable, Sequence
 
+from langchain.agents.middleware.types import AgentState
 from langchain.tools import ToolRuntime
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
@@ -18,18 +19,26 @@ from langgraph.types import Command
 from pydantic import BaseModel, Field
 
 from deepagents import (
+    DeepAgentState,
     GeneralPurposeSubagentProfile,
     HarnessProfile,
     create_deep_agent,
     register_harness_profile,
 )
 from deepagents.backends import BackendProtocol, StateBackend
+from deepagents.middleware._state import private_state_field_names
+from deepagents.middleware.filesystem import FilesystemState
 from deepagents.middleware.subagents import _EXCLUDED_STATE_KEYS
-from deepagents.middleware.summarization import SummarizationMiddleware
+from deepagents.middleware.summarization import (
+    SummarizationMiddleware,
+    SummarizationState,
+)
 
 __all__ = [
     "EXCLUDED_STATE_KEYS",
+    "PRIVATE_STATE_KEYS",
     "QWEN_EXCLUDED_TOOLS",
+    "WrapperToolSchema",
     "build_planner",
     "default_backend",
     "is_private_key",
@@ -51,24 +60,42 @@ so every entry matches a tool that `FilesystemMiddleware` actually injects.
 `read_file` and `write_file` are deliberately left visible.
 """
 
-EXCLUDED_STATE_KEYS: frozenset[str] = frozenset(_EXCLUDED_STATE_KEYS)
-"""State keys never forwarded to a subgraph nor merged back from one.
+PRIVATE_STATE_KEYS: frozenset[str] = private_state_field_names(
+    AgentState,
+    DeepAgentState,
+    FilesystemState,
+    SummarizationState,
+)
+"""Channels marked `PrivateStateAttr` on the state schemas a deep agent uses.
 
-Sourced verbatim from `deepagents/middleware/subagents.py:392`:
-`{"messages", "todos", "structured_response", "_deepagents_forked_context"}`.
-`messages` is handled explicitly; the rest have no meaningful cross-graph reducer.
+Resolved with deepagents' own helper (`deepagents/middleware/_state.py:13`),
+the same one `create_deep_agent` uses at `graph.py:941` to build the
+`private_state_keys` its `task` tool filters on. Currently resolves to
+`{"_summarization_event", "_summarization_session_id", "jump_to"}`.
+
+`jump_to` is the reason this exists and `is_private_key` alone is not enough:
+it is `PrivateStateAttr` but has **no leading underscore**
+(`langchain/agents/middleware/types.py:353`). It is the agent loop's control
+channel -- merging a wrapped graph's `jump_to` back into the parent would make
+the parent jump.
+"""
+
+EXCLUDED_STATE_KEYS: frozenset[str] = frozenset(_EXCLUDED_STATE_KEYS) | PRIVATE_STATE_KEYS
+"""State keys never forwarded to a wrapped graph nor merged back from one.
+
+Union of `deepagents/middleware/subagents.py:392`
+(`{"messages", "todos", "structured_response", "_deepagents_forked_context"}`)
+and `PRIVATE_STATE_KEYS`. `messages` is handled explicitly by the wrapper; the
+rest have no meaningful cross-graph reducer or are agent-private.
 """
 
 
 def is_private_key(key: str) -> bool:
-    """Return `True` for agent-private state keys (leading underscore).
+    """Return `True` for underscore-prefixed (conventionally private) keys.
 
-    deepagents marks private channels with `PrivateStateAttr` and resolves them
-    at build time via `private_state_field_names`
-    (`deepagents/middleware/_state.py:14`). All shipped private fields are
-    underscore-prefixed (`_summarization_event`, `_summarization_session_id`,
-    `_deepagents_forked_context`), so the underscore rule is a superset that
-    needs no compiled graph to evaluate.
+    A cheap superset check for private channels declared by middleware this
+    module does not import. It does **not** subsume `PRIVATE_STATE_KEYS`:
+    `jump_to` is private without an underscore. Use both -- `strip_state` does.
     """
     return key.startswith("_")
 
@@ -320,3 +347,7 @@ def build_planner(
         system_prompt=system_prompt,
         backend=backend,
     )
+
+
+# Subagent graphs are built exactly like the planner (no nested subagents, explicit summarizer).
+build_subagent = build_planner
