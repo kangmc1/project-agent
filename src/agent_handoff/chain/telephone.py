@@ -12,8 +12,8 @@ import json
 from dataclasses import dataclass, field, asdict
 from typing import Any
 
-from handoffbench.llm import LLM
-from handoffbench.detectors import prompts as P
+from agent_handoff.llm import LLM
+from agent_handoff.detectors import prompts as P
 
 WORKER = """You are a web-research agent working on the task below. You are given the current fact sheet from your orchestrator.
 Write a realistic WORK LOG for one round of work (6-10 short entries): searches you ran, pages you opened, what you observed, dead ends, partial findings. Invent plausible but non-contradicting details; you may add NEW observations, and you must NOT restate the fact sheet verbatim. Plain text, no JSON.

@@ -1,9 +1,9 @@
 """Build the B-layer injection set from reset handoffs: for each handoff, one of each op (drop/weaken/corrupt) + a control."""
 import argparse, json, random
 from pathlib import Path
-from handoffbench.llm import LLM
-from handoffbench.data.render import _trim
-from handoffbench.injection.facts import inject, fact_bullets, to_jsonl
+from agent_handoff.llm import LLM
+from agent_handoff.data.render import _trim
+from agent_handoff.injection.facts import inject, fact_bullets, to_jsonl
 
 p = argparse.ArgumentParser()
 p.add_argument("--n_handoffs", type=int, default=30)

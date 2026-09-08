@@ -4,8 +4,8 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from handoffbench.llm import LLM
-from handoffbench.detectors import prompts as P
+from agent_handoff.llm import LLM
+from agent_handoff.detectors import prompts as P
 
 SENDER_FAULT_FROM_SURVIVAL = {"absent": "S1", "weakened": "S2", "corrupted": "S3"}
 

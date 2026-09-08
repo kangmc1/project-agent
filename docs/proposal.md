@@ -51,7 +51,7 @@ handoff h = (S, R, t, C_S, A, I_R, B_R) (`design/02_handoff_definition.md`). 유
 - (보조) **행동 분산 불확실성** (D3): 같은 문맥에서 다음 행동 k회 샘플 → 도구·인자 클러스터 분산. 결정적 실수 스텝과의 상관.
 
 ### 3.4 파이프라인
-1. 추출기: TraceElephant run → H1 1,228 / H3 75 이벤트 (`src/handoffbench/data/traceelephant.py`)
+1. 추출기: TraceElephant run → H1 1,228 / H3 75 이벤트 (`src/agent_handoff/data/traceelephant.py`)
 2. 주입기: 실제 fact sheet 항목 소실/약화/변조 + 대조군 (`injection/facts.py`)
 3. 체인 시뮬레이터: K-hop 압축 (`chain/telephone.py`) × 포맷 × 검사기
 4. 검사기: D0 규칙 / D1 holistic judge / D2 계약 검사기 (`detectors/`)

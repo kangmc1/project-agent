@@ -1,7 +1,7 @@
 """Extract handoff events from TraceElephant runs into data/handoffs/<system>.jsonl and print stats."""
 import argparse, collections, statistics
 from pathlib import Path
-from handoffbench.data.traceelephant import iter_runs, extract_magentic_handoffs, to_jsonl
+from agent_handoff.data.traceelephant import iter_runs, extract_magentic_handoffs, to_jsonl
 
 p = argparse.ArgumentParser()
 p.add_argument("--data_root", default="data/external/TraceElephant_data/data")
@@ -25,7 +25,7 @@ seglen = [len(h.receiver_steps) for h in all_h]
 print(f"receiver segment steps: min/median/max = {min(seglen)}/{statistics.median(seglen)}/{max(seglen)}")
 
 # ---- Type II: context-reset handoffs ----
-from handoffbench.data.traceelephant import extract_magentic_resets
+from agent_handoff.data.traceelephant import extract_magentic_resets
 resets = []
 for run in iter_runs(Path(a.data_root), system="magentic-one"):
     resets.extend(extract_magentic_resets(run))

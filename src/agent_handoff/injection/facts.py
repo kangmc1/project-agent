@@ -16,7 +16,7 @@ import random
 from dataclasses import dataclass, asdict
 from typing import Any
 
-from handoffbench.llm import LLM
+from agent_handoff.llm import LLM
 
 BOILERPLATE = re.compile(r"(today'?s date|system: darwin|do not use sudo|sudo|within 50 rounds|50 rounds of conversation|output format|## answer|terminate)", re.I)
 SECTION1 = re.compile(r"1\.\s*GIVEN OR VERIFIED FACTS\s*\n(.*?)(?=\n\s*2\.\s*FACTS|\Z)", re.S)

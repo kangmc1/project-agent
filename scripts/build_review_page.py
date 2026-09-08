@@ -5,7 +5,7 @@ each handoff is saved to db doc labels/<handoff_id>, and the labels are read bac
 """
 import json, html, datetime
 from pathlib import Path
-from handoffbench.data.render import render_reset_handoff, render_instruction_handoff
+from agent_handoff.data.render import render_reset_handoff, render_instruction_handoff
 
 pilot = json.load(open("data/pilot/pilot_set.json"))
 R = {json.loads(l)["handoff_id"]: json.loads(l) for l in open("data/handoffs/magentic_one_resets.jsonl")}

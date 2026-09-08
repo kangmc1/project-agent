@@ -1,8 +1,8 @@
 """D1: holistic judge — one call, direct fault labels."""
 from __future__ import annotations
 from typing import Any
-from handoffbench.llm import LLM
-from handoffbench.detectors import prompts as P
+from agent_handoff.llm import LLM
+from agent_handoff.detectors import prompts as P
 
 
 def holistic_judge(llm: LLM, rendered: dict[str, Any]) -> dict[str, Any]:

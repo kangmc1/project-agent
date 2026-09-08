@@ -5,10 +5,10 @@ Outputs: results/raw/<tag>_<layer>_<detector>.jsonl (one line per handoff)
 """
 import argparse, json, time, random
 from pathlib import Path
-from handoffbench.llm import LLM
-from handoffbench.data.render import render_reset_handoff, render_instruction_handoff
-from handoffbench.detectors.contract import contract_check
-from handoffbench.detectors.holistic import holistic_judge
+from agent_handoff.llm import LLM
+from agent_handoff.data.render import render_reset_handoff, render_instruction_handoff
+from agent_handoff.detectors.contract import contract_check
+from agent_handoff.detectors.holistic import holistic_judge
 
 p = argparse.ArgumentParser()
 p.add_argument("--layer", choices=["reset", "instruction"], required=True)

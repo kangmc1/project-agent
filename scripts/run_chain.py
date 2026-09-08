@@ -1,9 +1,9 @@
 """C-layer: run telephone chains seeded from real reset handoffs. Compare no-guard vs guard."""
 import argparse, json, random, collections
 from pathlib import Path
-from handoffbench.llm import LLM
-from handoffbench.chain.telephone import run_chain
-from handoffbench.injection.facts import fact_bullets
+from agent_handoff.llm import LLM
+from agent_handoff.chain.telephone import run_chain
+from agent_handoff.injection.facts import fact_bullets
 
 p = argparse.ArgumentParser()
 p.add_argument("--n_seeds", type=int, default=6)

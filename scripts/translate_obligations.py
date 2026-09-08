@@ -1,7 +1,7 @@
 """Translate draft obligation sentences to Korean (batched per handoff)."""
 import json
 from pathlib import Path
-from handoffbench.llm import LLM
+from agent_handoff.llm import LLM
 out_path = Path("data/pilot/ko_obl.json")
 ko = json.load(open(out_path)) if out_path.exists() else {}
 llm = LLM()

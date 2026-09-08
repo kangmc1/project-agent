@@ -1,8 +1,8 @@
 """Korean reading aid for the review page: translate task/artifact/obligations, summarize receiver behaviour."""
 import json, sys
 from pathlib import Path
-from handoffbench.llm import LLM
-from handoffbench.data.render import render_reset_handoff, render_instruction_handoff
+from agent_handoff.llm import LLM
+from agent_handoff.data.render import render_reset_handoff, render_instruction_handoff
 
 pilot = json.load(open("data/pilot/pilot_set.json"))
 R = {json.loads(l)["handoff_id"]: json.loads(l) for l in open("data/handoffs/magentic_one_resets.jsonl")}

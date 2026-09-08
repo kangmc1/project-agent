@@ -1,13 +1,13 @@
-# handoffbench
+# agent-handoff
 
-Benchmark and detectors for failures at agent-to-agent handoffs: what gets dropped, who is responsible, and whether it snowballs into task failure.
+How stable is an agent system across handoffs? A benchmark and pipeline that measures how much of what an agent knows (constraints, verified facts, open questions, prohibitions) survives context compression and agent-to-agent handoffs, how fast errors get baked in and spread, and how handoff format and boundary checking change that.
 
 > Work in progress — take-home task (2026-09-08 ~ 09-09).
 
 ## Layout
 
 ```
-src/handoffbench/
+src/agent_handoff/
   env/         mock tools + task templates
   generation/  clean trajectory generator + failure injector
   detectors/   rule-based and LLM-judge detectors

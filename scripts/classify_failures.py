@@ -1,8 +1,8 @@
 """Classify TraceElephant's 220 human-written failure reasons into failure types (data-driven problem definition)."""
 import json, collections
 from pathlib import Path
-from handoffbench.llm import LLM
-from handoffbench.data.traceelephant import iter_runs
+from agent_handoff.llm import LLM
+from agent_handoff.data.traceelephant import iter_runs
 
 CATS = {
  "hallucination": "agent asserted information not supported by any observation (fabricated fact, invented number/name, unsupported conclusion)",

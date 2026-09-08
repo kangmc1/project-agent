@@ -8,11 +8,11 @@ Scoring per injection:
 """
 import argparse, json, time, collections
 from pathlib import Path
-from handoffbench.llm import LLM
-from handoffbench.data.render import render_transcript
-from handoffbench.detectors.contract import contract_check
-from handoffbench.detectors.holistic import holistic_judge
-from handoffbench.injection.facts import overlap
+from agent_handoff.llm import LLM
+from agent_handoff.data.render import render_transcript
+from agent_handoff.detectors.contract import contract_check
+from agent_handoff.detectors.holistic import holistic_judge
+from agent_handoff.injection.facts import overlap
 
 p = argparse.ArgumentParser()
 p.add_argument("--injections", default="data/injections/reset_facts.jsonl")
