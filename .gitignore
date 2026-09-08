@@ -1,18 +1,1 @@
-# local-only
 mission.md
-.omc/
-logs/
-
-# python
-__pycache__/
-*.pyc
-.venv/
-*.egg-info/
-.pytest_cache/
-
-# large / generated (never committed)
-data/external/
-data/cache/
-results/raw/
-work/
-*.log
