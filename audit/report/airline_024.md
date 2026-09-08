@@ -4,7 +4,6 @@
 |---|---|---|---|---|
 | 2 | planner | D1/tool | {"confidence": 0.629, "p_actual": 0.622, "margin": 0.245} | action distribution: db_agent 0.62, respond_to_user 0.38, no_tool 0.00 (actual: db_agent) |
 | 2 | planner | D1/handoff | {"p_delegate": 0.622, "H2": 0.956} | delegate-vs-not split p_delegate=0.62 |
-| 4 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 11 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["hxdubj", "reservation id hxdubj is associated with the user", "verified booking code association", "yara_garcia_1905"], "altered": []} | db_agent report->planner: missing ['hxdubj', 'reservation id hxdubj is associated with the user', 'verified booking code association'] altered [] |
 | 20 | db_agent | D1/tool | {"confidence": 0.65, "p_actual": 0.553, "margin": 0.217} | action distribution: get_reservation_details 0.55, calculate 0.34, no_tool 0.09 (actual: get_reservation_details) |
 | 23 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate |
@@ -32,8 +31,8 @@
  },
  "D3": {
   "n_steps": 43,
-  "flagged": 5,
-  "missing_tool": 4,
+  "flagged": 4,
+  "missing_tool": 3,
   "fabricated_arg": 1,
   "tool_error": 4
  },

@@ -21,7 +21,7 @@
     "fabricated_arg": false,
     "tool_error": false
    },
-   "evidence": "required but never called: cancel_reservation, search_direct_flight/search_onestop_flight"
+   "evidence": "required but never called: cancel_reservation"
   },
   {
    "step": 7,

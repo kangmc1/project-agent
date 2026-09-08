@@ -3,7 +3,7 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 2 | planner | D1/handoff | {"p_delegate": 0.182, "H2": 0.685} | delegate-vs-not split p_delegate=0.18 |
-| 6 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight, get_reservation_details/get_user_details |
+| 6 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: get_reservation_details/get_user_details |
 
 ## Per-module summary
 ```

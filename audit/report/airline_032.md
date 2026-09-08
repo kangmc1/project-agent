@@ -2,11 +2,9 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 10 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 16 | planner | D1/tool | {"confidence": 0.649, "p_actual": 0.679, "margin": 0.358} | action distribution: db_agent 0.68, respond_to_user 0.32, no_tool 0.00 (actual: db_agent) |
 | 16 | planner | D1/handoff | {"p_delegate": 0.679, "H2": 0.905} | delegate-vs-not split p_delegate=0.68 |
 | 23 | db_agent | D1/tool | {"confidence": 0.718, "p_actual": 0.714, "margin": 0.51} | action distribution: write_file 0.71, read_file 0.20, no_tool 0.07 (actual: write_file) |
-| 24 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 29 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: get_user_details |
 | 30 | planner | D1/handoff | {"p_delegate": 0.191, "H2": 0.704} | delegate-vs-not split p_delegate=0.19 |
 | 40 | planner | D1/handoff | {"p_delegate": 0.182, "H2": 0.685} | delegate-vs-not split p_delegate=0.18 |
@@ -35,8 +33,8 @@
  },
  "D3": {
   "n_steps": 75,
-  "flagged": 10,
-  "missing_tool": 8,
+  "flagged": 8,
+  "missing_tool": 6,
   "fabricated_arg": 2,
   "tool_error": 9
  },

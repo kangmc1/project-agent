@@ -147,7 +147,7 @@
     "fabricated_arg": false,
     "tool_error": false
    },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight/get_reservation_details"
   }
  ],
  "per_module_summary": {

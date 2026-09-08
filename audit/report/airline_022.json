@@ -20,7 +20,7 @@
     "fabricated_arg": false,
     "tool_error": true
    },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight/get_reservation_details"
   },
   {
    "step": 10,
@@ -32,17 +32,6 @@
     "tool_error": true
    },
    "evidence": "argument never given: get_user_details.user_id=ivan_rossi"
-  },
-  {
-   "step": 12,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   }
  ],
  "per_module_summary": {
@@ -52,8 +41,8 @@
   },
   "D3": {
    "n_steps": 11,
-   "flagged": 4,
-   "missing_tool": 2,
+   "flagged": 3,
+   "missing_tool": 1,
    "fabricated_arg": 2,
    "tool_error": 3
   },

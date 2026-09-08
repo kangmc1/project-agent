@@ -198,3 +198,13 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   they had flagged (3) as ambiguous. Reverted: d3_final flag = missing_tool OR fabricated_arg; tool_error kept as a descriptive
   field only. Airline subagent: AUROC 0.679 [0.603, 0.747], decisive 0.564; flag recall 0.48, FPR 0.12, precision 0.50;
   136/1,296 steps flagged. (3) reported only as a measured, not-adopted variant. eval/, reports regenerated.
+
+## 2026-09-09 07:40 KST — D3 (1)∪(2): condition (1) mapping bug fixed; two variants measured and rejected
+- False-positive audit (airline subagent, 23 FPs): 21 came from condition (1)'s regex reading "the reservation's flight details"
+  as a flight-SEARCH requirement. Fix: search_flights fires only on search intent; get_reservation_details satisfies it when
+  the instruction is about a reservation. Label-informed fix of a mapping bug (disclosed in proposal A.19); AIME rules untouched.
+- Tried and REVERTED: exempting reports that state failure ("no flights found") — removed 8 FPs but also 5 TPs incl. decisive
+  airline_002/19 (failure caused by the agent's own arguments). Kept only as descriptive field `reported_failure`.
+- Final airline subagent: recall 0.33 (16/48), FPR 0.07, precision 0.55, tool-scope recall 10/26, decisive 1/8,
+  AUROC 0.632 [0.565, 0.705]. Flags 116/1,296 (missing_tool 64, fabricated_arg 52). The initial 0.68 had 6 TPs flagged for
+  the wrong reason and 21 regex FPs; the honest number is 0.63.

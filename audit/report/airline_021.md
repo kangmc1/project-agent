@@ -2,7 +2,6 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 9 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 11 | planner | D1/handoff | {"p_delegate": 0.77, "H2": 0.779} | delegate-vs-not split p_delegate=0.77 |
 
 ## Per-module summary
@@ -14,8 +13,8 @@
  },
  "D3": {
   "n_steps": 16,
-  "flagged": 1,
-  "missing_tool": 1,
+  "flagged": 0,
+  "missing_tool": 0,
   "fabricated_arg": 0,
   "tool_error": 1
  },

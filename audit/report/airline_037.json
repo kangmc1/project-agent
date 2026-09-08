@@ -20,7 +20,7 @@
     "fabricated_arg": false,
     "tool_error": false
    },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight, get_reservation_details/get_user_details"
+   "evidence": "required but never called: get_reservation_details/get_user_details"
   }
  ],
  "per_module_summary": {

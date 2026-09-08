@@ -24,17 +24,6 @@
    "evidence": "action distribution: get_reservation_details 0.62, no_tool 0.38, cancel_reservation 0.00 (actual: get_reservation_details)"
   },
   {
-   "step": 10,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 15,
    "agent": "planner",
    "module": "D1",
@@ -119,17 +108,6 @@
    "evidence": "action distribution: think 0.78, write_file 0.17, no_tool 0.03 (actual: think)"
   },
   {
-   "step": 45,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 46,
    "agent": "planner",
    "module": "D1",
@@ -159,8 +137,8 @@
   },
   "D3": {
    "n_steps": 48,
-   "flagged": 2,
-   "missing_tool": 2,
+   "flagged": 0,
+   "missing_tool": 0,
    "fabricated_arg": 0,
    "tool_error": 1
   },

@@ -21,6 +21,7 @@ from pathlib import Path
 WRAPPERS = {"policy_checker", "db_agent", "solver", "verifier"}
 AUX = {"user_sim", "summarizer"}
 AUDIT = Path("audit")
+REPORTED_FAILURE = re.compile(r"\b(no (?:direct|one-stop|available|matching|such)?\s*(?:flights?|reservations?|results?|options?) (?:were |was )?(?:found|available)|not available|unable to|could not|cannot proceed|can't proceed|not found|does not exist|failed)\b", re.I)
 
 # family -> (instruction regex, tools that satisfy it — any one suffices)
 AIRLINE_DB: list[tuple[str, re.Pattern, list[str]]] = [
@@ -29,7 +30,10 @@ AIRLINE_DB: list[tuple[str, re.Pattern, list[str]]] = [
      ["book_reservation"]),
     ("price", re.compile(r"\b(current |latest |updated |new )?(prices?|fares?|costs?)\b", re.I),
      ["search_direct_flight", "search_onestop_flight", "book_reservation", "calculate"]),
-    ("search_flights", re.compile(r"\b(search|find|look\s*up|check)\b[^.]{0,80}\bflights?\b|\bavailable flights?\b|\bflight options?\b", re.I),
+    # flight SEARCH intent only: "search for flights", "available/alternative flights", "flight options"; NOT "the reservation's
+    # flight details" (that is a reservation lookup). If the instruction is about an existing reservation/booking, its flight
+    # details also come from get_reservation_details, so that tool satisfies the family too (see required_families).
+    ("search_flights", re.compile(r"\b(search|look)\s+for\b[^.]{0,60}\bflights?\b|\b(available|alternative|one-stop|direct|nonstop|other|new)\s+flights?\b|\bflight options?\b|\bflight availability\b", re.I),
      ["search_direct_flight", "search_onestop_flight"]),
     ("reservation_lookup", re.compile(r"\b(retrieve|get|fetch|look\s*up|pull|check|find|search|verify|confirm)\b[^.]{0,80}\b(reservation|booking|confirmation code|itinerary)", re.I),
      ["get_reservation_details", "get_user_details"]),
@@ -55,7 +59,15 @@ def required_families(agent: str, domain: str, instruction: str) -> list[dict]:
         rules = AIME_ANY
     else:
         return []  # policy_checker: policy text is in its prompt; no tool requirement derivable
-    return [{"family": fam, "tools": tools} for fam, rx, tools in rules if rx.search(instruction or "")]
+    out = []
+    about_reservation = bool(re.search(r"\b(reservation|booking|confirmation code|itinerary)\b", instruction or "", re.I))
+    for fam, rx, tools in rules:
+        if rx.search(instruction or ""):
+            t = list(tools)
+            if fam == "search_flights" and about_reservation:
+                t.append("get_reservation_details")
+            out.append({"family": fam, "tools": t})
+    return out
 
 
 def _handoffs(steps: list[dict]):
@@ -94,10 +106,16 @@ def audit_run(run: Path) -> list[dict]:
         called = sorted({tc["function"]["name"] for x in sub for tc in (x["response"].get("tool_calls") or [])})
         missing = [r for r in req if not any(t in called for t in r["tools"])]
         report = sub[-1]
+        # NOTE (07:35): an exemption for reports that state failure ("no flights found", "unable to") was tried and reverted —
+        # it removed 8 false positives but also 5 true positives (incl. a decisive step) where the reported failure was caused
+        # by the agent's own mistake. Failure wording cannot separate honest failure from self-inflicted failure, so it is only
+        # recorded as a descriptive field here.
+        report_text = report["response"].get("content") or ""
+        reported_failure = bool(REPORTED_FAILURE.search(report_text))
         rows.append({"run_id": run.name, "domain": domain, "step_id": report["step_id"], "agent": w,
                      "planner_step_id": pstep, "n_subagent_steps": len(sub), "instruction": instr[:300],
                      "required": req, "called": called, "missing": missing,
-                     "applicable": bool(req), "satisfied": (not missing) if req else None,
+                     "applicable": bool(req), "satisfied": (not missing) if req else None, "reported_failure": reported_failure,
                      "report_is_no_tool": not (report["response"].get("tool_calls") or [])})
     return rows
 

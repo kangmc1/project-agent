@@ -47,17 +47,6 @@
    "evidence": "action distribution: no_tool 0.63, transfer_to_human_agents 0.10, book_reservation 0.10 (actual: get_reservation_details)"
   },
   {
-   "step": 7,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 12,
    "agent": "db_agent",
    "module": "D1",
@@ -82,17 +71,6 @@
    "evidence": "action distribution: respond_to_user 0.59, read_file 0.36, write_file 0.05 (actual: respond_to_user)"
   },
   {
-   "step": 18,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 22,
    "agent": "db_agent",
    "module": "D3",
@@ -112,7 +90,7 @@
     "fabricated_arg": false,
     "tool_error": true
    },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight/get_reservation_details"
   },
   {
    "step": 29,
@@ -134,8 +112,8 @@
   },
   "D3": {
    "n_steps": 23,
-   "flagged": 5,
-   "missing_tool": 3,
+   "flagged": 3,
+   "missing_tool": 1,
    "fabricated_arg": 2,
    "tool_error": 7
   },

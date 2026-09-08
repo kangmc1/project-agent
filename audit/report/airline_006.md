@@ -13,7 +13,7 @@
 | 20 | db_agent | D1/tool | {"confidence": 0.746, "p_actual": 0.617, "margin": 0.243} | action distribution: get_user_details 0.62, search_direct_flight 0.37, think 0.01 (actual: get_user_details) |
 | 20 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": true} | argument never given: get_user_details.user_id=aarav_garcia_123 |
 | 25 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": true} | argument never given: get_user_details.user_id=aarav_garcia_123 |
-| 26 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
+| 26 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight/get_reservation_details |
 
 ## Per-module summary
 ```

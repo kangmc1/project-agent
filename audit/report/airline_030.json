@@ -1,17 +1,6 @@
 {
  "flags": [
   {
-   "step": 7,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 10,
    "agent": "planner",
    "module": "D1",
@@ -77,8 +66,8 @@
   },
   "D3": {
    "n_steps": 20,
-   "flagged": 1,
-   "missing_tool": 1,
+   "flagged": 0,
+   "missing_tool": 0,
    "fabricated_arg": 0,
    "tool_error": 0
   },

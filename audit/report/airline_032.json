@@ -1,17 +1,6 @@
 {
  "flags": [
   {
-   "step": 10,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 16,
    "agent": "planner",
    "module": "D1",
@@ -45,17 +34,6 @@
     "margin": 0.51
    },
    "evidence": "action distribution: write_file 0.71, read_file 0.20, no_tool 0.07 (actual: write_file)"
-  },
-  {
-   "step": 24,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 29,
@@ -272,8 +250,8 @@
   },
   "D3": {
    "n_steps": 75,
-   "flagged": 10,
-   "missing_tool": 8,
+   "flagged": 8,
+   "missing_tool": 6,
    "fabricated_arg": 2,
    "tool_error": 9
   },

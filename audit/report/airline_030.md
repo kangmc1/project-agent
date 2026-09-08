@@ -2,7 +2,6 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 7 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 10 | planner | D1/handoff | {"p_delegate": 0.121, "H2": 0.531} | delegate-vs-not split p_delegate=0.12 |
 | 12 | planner | D1/tool | {"confidence": 0.534, "p_actual": 0.685, "margin": 0.488} | action distribution: policy_checker 0.68, db_agent 0.20, respond_to_user 0.12 (actual: policy_checker) |
 | 12 | planner | D1/handoff | {"p_delegate": 0.881, "H2": 0.528} | delegate-vs-not split p_delegate=0.88 |
@@ -18,8 +17,8 @@
  },
  "D3": {
   "n_steps": 20,
-  "flagged": 1,
-  "missing_tool": 1,
+  "flagged": 0,
+  "missing_tool": 0,
   "fabricated_arg": 0,
   "tool_error": 0
  },

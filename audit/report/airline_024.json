@@ -24,17 +24,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.62"
   },
   {
-   "step": 4,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": true,
-    "fabricated_arg": false,
-    "tool_error": false
-   },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
-  },
-  {
    "step": 11,
    "agent": "planner",
    "module": "D7",
@@ -243,8 +232,8 @@
   },
   "D3": {
    "n_steps": 43,
-   "flagged": 5,
-   "missing_tool": 4,
+   "flagged": 4,
+   "missing_tool": 3,
    "fabricated_arg": 1,
    "tool_error": 4
   },
