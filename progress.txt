@@ -192,3 +192,5 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   precision 17%, clean steps flagged 39%; AIME precision 75% / recall 21%. Output archived audit/_removed/d2_judge_8b_pilot.jsonl;
   module parked in src/audit/unused/d2_judge.py. 32B judge rerun cancelled; all vLLM servers shut down (GPUs 1-4 free).
 - Final modules in results: D1 (decision), D3 (procedural tool-use failure), D7 (handoff). D2 = design only.
+- 07:15 correction: evidence size is NOT why the 8B judge failed — airline subagent evidence per step: median 744 chars, p90 3,560,
+  max 14,887 (search_onestop_flight up to 12k; up to 13 tool msgs per handoff). The judge misreads short evidence too.

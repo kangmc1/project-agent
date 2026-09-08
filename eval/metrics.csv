@@ -59,12 +59,6 @@ step_auroc,D1_handoff,planner,aime,auroc_all_errors,0.517857,0.241071,0.794643,6
 step_auroc,D1_handoff,planner,aime,auroc_decisive,,,,2,56,123,123,
 step_auroc,D1_handoff,planner,all,auroc_all_errors,0.610483,0.523753,0.685049,52,204,514,514,
 step_auroc,D1_handoff,planner,all,auroc_decisive,0.558551,0.41122,0.683687,18,204,514,514,
-step_auroc,D2_judge,subagent,airline,auroc_all_errors,0.472874,0.382694,0.567306,31,110,253,435,
-step_auroc,D2_judge,subagent,airline,auroc_decisive,0.304545,0.258977,0.35,6,110,253,435,
-step_auroc,D2_judge,subagent,aime,auroc_all_errors,0.521802,0.396802,0.639535,43,16,165,259,
-step_auroc,D2_judge,subagent,aime,auroc_decisive,0.4875,0.34375,0.7,5,16,165,259,
-step_auroc,D2_judge,subagent,all,auroc_all_errors,0.457797,0.393101,0.523386,74,126,418,694,
-step_auroc,D2_judge,subagent,all,auroc_decisive,0.358586,0.285714,0.467532,11,126,418,694,
 step_auroc,D3,planner,airline,auroc_all_errors,0.521739,0.5,0.554348,46,148,391,391,
 step_auroc,D3,planner,airline,auroc_decisive,0.5,0.5,0.5,16,148,391,391,
 step_auroc,D3,planner,aime,auroc_all_errors,0.5,0.5,0.5,6,56,123,123,
@@ -155,10 +149,6 @@ trace_auroc,D1_handoff,planner,aime,auroc_max,0.630435,0.380435,0.842391,23,8,31
 trace_auroc,D1_handoff,planner,aime,auroc_mean,0.679348,0.423913,0.891304,23,8,31,,
 trace_auroc,D1_handoff,planner,all,auroc_max,0.635417,0.462798,0.782738,48,14,62,,
 trace_auroc,D1_handoff,planner,all,auroc_mean,0.581845,0.401749,0.745647,48,14,62,,
-trace_auroc,D2_judge,subagent,aime,auroc_max,,,,2,1,3,,"not computable (success=1, failure=2)"
-trace_auroc,D2_judge,subagent,aime,auroc_mean,,,,2,1,3,,"not computable (success=1, failure=2)"
-trace_auroc,D2_judge,subagent,all,auroc_max,,,,2,1,3,,"not computable (success=1, failure=2)"
-trace_auroc,D2_judge,subagent,all,auroc_mean,,,,2,1,3,,"not computable (success=1, failure=2)"
 trace_auroc,D3,planner,airline,auroc_max,0.373333,0.186583,0.5405,25,6,31,,
 trace_auroc,D3,planner,airline,auroc_mean,0.373333,0.173167,0.5405,25,6,31,,
 trace_auroc,D3,planner,aime,auroc_max,0.521739,0.5,0.565217,23,8,31,,
@@ -267,15 +257,6 @@ attribution,D1_handoff,planner,aime,agent_acc,0.086957,,,23,,,,
 attribution,D1_handoff,planner,all,exact_acc,0.12766,,,47,,,,
 attribution,D1_handoff,planner,all,pm1_acc,0.297872,,,47,,,,
 attribution,D1_handoff,planner,all,agent_acc,0.382979,,,47,,,,
-attribution,D2_judge,subagent,airline,exact_acc,0.041667,,,24,,,,
-attribution,D2_judge,subagent,airline,pm1_acc,0.083333,,,24,,,,
-attribution,D2_judge,subagent,airline,agent_acc,0.25,,,24,,,,
-attribution,D2_judge,subagent,aime,exact_acc,0.095238,,,21,,,,
-attribution,D2_judge,subagent,aime,pm1_acc,0.52381,,,21,,,,
-attribution,D2_judge,subagent,aime,agent_acc,0.714286,,,21,,,,
-attribution,D2_judge,subagent,all,exact_acc,0.066667,,,45,,,,
-attribution,D2_judge,subagent,all,pm1_acc,0.288889,,,45,,,,
-attribution,D2_judge,subagent,all,agent_acc,0.466667,,,45,,,,
 attribution,D3,planner,airline,exact_acc,0.125,,,24,,,,
 attribution,D3,planner,airline,pm1_acc,0.291667,,,24,,,,
 attribution,D3,planner,airline,agent_acc,0.666667,,,24,,,,
@@ -441,18 +422,6 @@ recall_at_fpr10,D1_handoff,planner,all,threshold,0.68459,,,52,204,,,
 recall_at_fpr10,D1_handoff,planner,all,fpr,0.098039,,,52,204,,,
 recall_at_fpr10,D1_handoff,planner,all,recall_all_errors,0.096154,,,52,204,,,
 latency,D1_handoff,planner,all,median_steps_after_decisive,3.5,,,14,,,,censored=33
-recall_at_fpr10,D2_judge,subagent,airline,threshold,0.666667,,,31,110,,,
-recall_at_fpr10,D2_judge,subagent,airline,fpr,0.054545,,,31,110,,,
-recall_at_fpr10,D2_judge,subagent,airline,recall_all_errors,0.032258,,,31,110,,,
-latency,D2_judge,subagent,airline,median_steps_after_decisive,12.0,,,2,,,,censored=22
-recall_at_fpr10,D2_judge,subagent,aime,threshold,0.5,,,43,16,,,
-recall_at_fpr10,D2_judge,subagent,aime,fpr,0.0625,,,43,16,,,
-recall_at_fpr10,D2_judge,subagent,aime,recall_all_errors,0.069767,,,43,16,,,
-latency,D2_judge,subagent,aime,median_steps_after_decisive,3.0,,,3,,,,censored=19
-recall_at_fpr10,D2_judge,subagent,all,threshold,0.666667,,,74,126,,,
-recall_at_fpr10,D2_judge,subagent,all,fpr,0.055556,,,74,126,,,
-recall_at_fpr10,D2_judge,subagent,all,recall_all_errors,0.027027,,,74,126,,,
-latency,D2_judge,subagent,all,median_steps_after_decisive,12.0,,,2,,,,censored=44
 recall_at_fpr10,D3,planner,airline,threshold,1.0,,,46,148,,,
 recall_at_fpr10,D3,planner,airline,fpr,0.0,,,46,148,,,
 recall_at_fpr10,D3,planner,airline,recall_all_errors,0.043478,,,46,148,,,
@@ -561,4 +530,4 @@ matched,D3,subagent,all,auroc_all_errors,0.676733,0.622553,0.727285,120,226,346,
 matched,D3,all,airline,auroc_all_errors,0.622875,0.579119,0.673445,94,338,432,,matched intersection
 matched,D3,all,aime,auroc_all_errors,0.682414,0.624697,0.73913,78,92,170,,matched intersection
 matched,D3,all,all,auroc_all_errors,0.642442,0.604637,0.67734,172,430,602,,matched intersection
-any_flag,any,all,all,frac_error_steps_flagged,0.552326,,,172,,,,hit=95
+any_flag,any,all,all,frac_error_steps_flagged,0.534884,,,172,,,,hit=92

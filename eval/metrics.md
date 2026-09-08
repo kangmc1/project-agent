@@ -1,10 +1,10 @@
 # Detection metrics
 
-- generated: 2026-09-09 06:39:53 KST
+- generated: 2026-09-09 06:41:36 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
-- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2_judge, D3, D7_instruction->premise, D7_report->planner
+- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D3, D7_instruction->premise, D7_report->planner
 - bootstrap: 1000 stratified resamples, seed 0; AUROC is `n/a` when n_pos < 3 or n_neg < 3.
 
 ## 1. Step-level AUROC
@@ -43,9 +43,6 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D1_handoff | planner | airline | 391/391 | 46 | 148 | 0.579 [0.493, 0.667] | 16 | 0.552 [0.430, 0.685] |
 | D1_handoff | planner | aime | 123/123 | 6 | 56 | 0.518 [0.241, 0.795] | 2 | n/a |
 | D1_handoff | planner | all | 514/514 | 52 | 204 | 0.610 [0.524, 0.685] | 18 | 0.559 [0.411, 0.684] |
-| D2_judge | subagent | airline | 253/435 | 31 | 110 | 0.473 [0.383, 0.567] | 6 | 0.305 [0.259, 0.350] |
-| D2_judge | subagent | aime | 165/259 | 43 | 16 | 0.522 [0.397, 0.640] | 5 | 0.487 [0.344, 0.700] |
-| D2_judge | subagent | all | 418/694 | 74 | 126 | 0.458 [0.393, 0.523] | 11 | 0.359 [0.286, 0.468] |
 | D3 | planner | airline | 391/391 | 46 | 148 | 0.522 [0.500, 0.554] | 16 | 0.500 [0.500, 0.500] |
 | D3 | planner | aime | 123/123 | 6 | 56 | 0.500 [0.500, 0.500] | 2 | n/a |
 | D3 | planner | all | 514/514 | 52 | 204 | 0.519 [0.500, 0.548] | 18 | 0.500 [0.500, 0.500] |
@@ -98,8 +95,6 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | D1_handoff | planner | airline | 31 | 25 | 6 | 0.673 [0.507, 0.840] | 0.467 [0.240, 0.693] |
 | D1_handoff | planner | aime | 31 | 23 | 8 | 0.630 [0.380, 0.842] | 0.679 [0.424, 0.891] |
 | D1_handoff | planner | all | 62 | 48 | 14 | 0.635 [0.463, 0.783] | 0.582 [0.402, 0.746] |
-| D2_judge | subagent | aime | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
-| D2_judge | subagent | all | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
 | D3 | planner | airline | 31 | 25 | 6 | 0.373 [0.187, 0.540] | 0.373 [0.173, 0.540] |
 | D3 | planner | aime | 31 | 23 | 8 | 0.522 [0.500, 0.565] | 0.522 [0.500, 0.565] |
 | D3 | planner | all | 62 | 48 | 14 | 0.460 [0.353, 0.542] | 0.461 [0.356, 0.542] |
@@ -146,9 +141,6 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | D1_handoff | planner | airline | 24 | 0.208 | 0.292 | 0.667 |
 | D1_handoff | planner | aime | 23 | 0.043 | 0.304 | 0.087 |
 | D1_handoff | planner | all | 47 | 0.128 | 0.298 | 0.383 |
-| D2_judge | subagent | airline | 24 | 0.042 | 0.083 | 0.250 |
-| D2_judge | subagent | aime | 21 | 0.095 | 0.524 | 0.714 |
-| D2_judge | subagent | all | 45 | 0.067 | 0.289 | 0.467 |
 | D3 | planner | airline | 24 | 0.125 | 0.292 | 0.667 |
 | D3 | planner | aime | 23 | 0.043 | 0.522 | 0.087 |
 | D3 | planner | all | 47 | 0.085 | 0.404 | 0.383 |
@@ -201,9 +193,6 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | D1_handoff | planner | airline | 0.7041 | 0.095 | 0.065 | 46 | 8/24 | 5.5 |
 | D1_handoff | planner | aime | 0.0853 | 0.089 | 0.333 | 6 | 10/23 | 4.5 |
 | D1_handoff | planner | all | 0.6846 | 0.098 | 0.096 | 52 | 14/47 | 3.5 |
-| D2_judge | subagent | airline | 0.6667 | 0.055 | 0.032 | 31 | 2/24 | 12.0 |
-| D2_judge | subagent | aime | 0.5 | 0.062 | 0.070 | 43 | 3/22 | 3.0 |
-| D2_judge | subagent | all | 0.6667 | 0.056 | 0.027 | 74 | 2/46 | 12.0 |
 | D3 | planner | airline | 1 | 0.000 | 0.043 | 46 | 1/24 | 20.0 |
 | D3 | planner | aime | 1e-09 | 0.000 | 0.000 | 6 | 1/23 | 29.0 |
 | D3 | planner | all | 1 | 0.000 | 0.038 | 52 | 2/47 | 24.5 |
@@ -269,7 +258,7 @@ Intersection = 1296 step(s) scored by all of D1_1-conf, D3.
 
 ## 7. Any-flag coverage (descriptive)
 
-Of the 172 labeled error steps (decisive + transient), **0.552** (95/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
+Of the 172 labeled error steps (decisive + transient), **0.535** (92/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
-Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2_judge`=0.4000, `D3`=1.0000, `D7_instruction->premise`=0.7500, `D7_report->planner`=1.0000.
+Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D3`=1.0000, `D7_instruction->premise`=0.7500, `D7_report->planner`=1.0000.
 
