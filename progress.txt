@@ -233,3 +233,10 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   (d2_toolcalls/d2_instruction/d2_args/d2_action/d3_handoff[.jsonl|_stats.json]); d7_v1 archived under audit/_removed/.
 - Eval items: D2 (binary flag), D3_instruction->premise, D3_report->planner. report/system_report module labels updated.
   Numbers unchanged. check_docs expects **D1..**D4 module paragraphs. Also added flag-level P/R/F1/FPR section (§1b) at 08:05.
+- 08:35 proposal (fork): D2 행동 근거성 = (1)∪(2)∪(3′) written with final numbers (airline subagent F1 0.541, P 0.622, R 0.479,
+  FPR 0.074, decisive 2/8, AUROC 0.703 [0.625, 0.778]; AIME F1 0.571 / P 0.909 / R 0.417); flag-level table (§1b) is the primary
+  D2 table, 구성 이력 table has 8 rows incl. (2)-only, (3′)-only, (2)∪(3′), file/wrapper-included and exemption variants;
+  §4.1.4 + glossary define F1; modules RENUMBERED D1 결정 / D2 행동 근거성 / D3 handoff / D4 근거 의존(설계만) throughout incl.
+  appendix history (no retired numbers; math-equation module deletion stated once without a number); 핵심 결과 table replaced
+  by the user-approved 6-row 모듈/층/역할/주 지표/비교용 AUROC/판정 shape; D-numbering sentence before the §3.3 identity table;
+  부록 B repro uses d2_toolcalls/d2_instruction/d2_args/d2_action/d3_handoff. check_docs --proposal/--skeleton OK.
