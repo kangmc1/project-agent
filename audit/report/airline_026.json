@@ -56,7 +56,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: update_reservation_flights.user_id=credit_card_7334; tool update_reservation_flights returned an error"
+   "evidence": "argument never given: update_reservation_flights.user_id=credit_card_7334"
   },
   {
    "step": 27,

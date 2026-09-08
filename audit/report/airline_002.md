@@ -3,7 +3,6 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 4 | planner | D1/handoff | {"p_delegate": 0.852, "H2": 0.605} | delegate-vs-not split p_delegate=0.85 |
-| 12 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool read_file returned an error |
 | 15 | planner | D1/tool | {"confidence": 0.431, "p_actual": 0.656, "margin": 0.51} | action distribution: respond_to_user 0.66, write_file 0.15, db_agent 0.15 (actual: respond_to_user) |
 | 15 | planner | D1/handoff | {"p_delegate": 0.188, "H2": 0.698} | delegate-vs-not split p_delegate=0.19 |
 | 19 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate |
@@ -22,7 +21,7 @@
 | 48 | planner | D1/tool | {"confidence": 0.547, "p_actual": 0.484, "margin": 0.0} | action distribution: policy_checker 0.48, respond_to_user 0.48, db_agent 0.03 (actual: policy_checker) |
 | 48 | planner | D1/handoff | {"p_delegate": 0.515, "H2": 0.999} | delegate-vs-not split p_delegate=0.52 |
 | 54 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate |
-| 59 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate; tool db_agent returned an error |
+| 59 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate |
 | 63 | policy_checker | D1/tool | {"confidence": 0.731, "p_actual": 0.896, "margin": 0.801} | action distribution: think 0.90, read_file 0.09, no_tool 0.01 (actual: think) |
 
 ## Per-module summary
@@ -34,7 +33,7 @@
  },
  "D3": {
   "n_steps": 55,
-  "flagged": 8,
+  "flagged": 7,
   "missing_tool": 7,
   "fabricated_arg": 0,
   "tool_error": 2

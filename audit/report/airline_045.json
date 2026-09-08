@@ -32,18 +32,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
-  },
-  {
-   "step": 6,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
   },
   {
    "step": 9,
@@ -73,18 +62,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
-  },
-  {
-   "step": 11,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
   },
   {
    "step": 17,
@@ -121,18 +99,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
-  },
-  {
-   "step": 22,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
   },
   {
    "step": 26,
@@ -143,18 +110,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
-  },
-  {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
   },
   {
    "step": 30,
@@ -183,18 +139,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=delta_user_123; tool get_user_details returned an error"
-  },
-  {
-   "step": 32,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: get_user_details.user_id=delta_user_123"
   },
   {
    "step": 38,
@@ -293,51 +238,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_reservation_details.reservation_id=8JX2WO; tool get_reservation_details returned an error"
-  },
-  {
-   "step": 60,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool get_user_details returned an error"
-  },
-  {
-   "step": 61,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
-  },
-  {
-   "step": 65,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool get_user_details returned an error"
-  },
-  {
-   "step": 66,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: get_reservation_details.reservation_id=8JX2WO"
   },
   {
    "step": 69,
@@ -359,7 +260,7 @@
   },
   "D3": {
    "n_steps": 54,
-   "flagged": 19,
+   "flagged": 10,
    "missing_tool": 4,
    "fabricated_arg": 6,
    "tool_error": 15

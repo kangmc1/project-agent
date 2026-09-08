@@ -59,17 +59,6 @@
    "evidence": "action distribution: write_file 0.87, think 0.12, no_tool 0.01 (actual: write_file)"
   },
   {
-   "step": 22,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool policy_checker returned an error"
-  },
-  {
    "step": 27,
    "agent": "db_agent",
    "module": "D1",
@@ -170,7 +159,7 @@
   },
   "D3": {
    "n_steps": 48,
-   "flagged": 3,
+   "flagged": 2,
    "missing_tool": 2,
    "fabricated_arg": 0,
    "tool_error": 1

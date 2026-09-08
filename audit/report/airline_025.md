@@ -2,7 +2,6 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 7 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool read_file returned an error |
 | 9 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 10 | planner | D1/handoff | {"p_delegate": 0.269, "H2": 0.839} | delegate-vs-not split p_delegate=0.27 |
 | 13 | planner | D1/tool | {"confidence": 0.535, "p_actual": 0.48, "margin": 0.0} | action distribution: db_agent 0.48, respond_to_user 0.48, read_file 0.04 (actual: db_agent) |
@@ -10,17 +9,12 @@
 | 21 | policy_checker | D1/tool | {"confidence": 0.462, "p_actual": 0.559, "margin": 0.131} | action distribution: think 0.56, no_tool 0.43, read_file 0.01 (actual: think) |
 | 27 | db_agent | D1/tool | {"confidence": 0.757, "p_actual": 0.553, "margin": 0.107} | action distribution: search_onestop_flight 0.55, no_tool 0.45, search_direct_flight 0.00 (actual: search_onestop_flight) |
 | 31 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["booking_failed", "booking_operation_failed", "hat011", "hat083", "sara_doe_496"], "altered": ["final_answer", "user_id", "verdict"]} | db_agent report->planner: missing ['booking_failed', 'booking_operation_failed', 'hat011'] altered ['final_answer', 'user_id', 'verdict'] |
-| 32 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": true} | argument never given: book_reservation.user_id=sara_doe_496; tool book_reservation returned an error |
-| 33 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: calculate; tool db_agent returned an error |
-| 37 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool book_reservation returned an error |
+| 32 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": true} | argument never given: book_reservation.user_id=sara_doe_496 |
+| 33 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: calculate |
 | 38 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: calculate |
 | 41 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["could you please provide the date for the flight?", "the `book_reservation` function failed because the required parameter `date` was not provided."], "altered": []} | db_agent report->planner: missing ['could you please provide the date for the flight?', 'the `book_reservation` function failed because the required parameter `date` was not provided.'] altered [] |
-| 42 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool book_reservation returned an error |
 | 43 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: calculate |
 | 46 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["aarav_ahmed_6699", "amount parameter", "successfully transferred to a human agent"], "altered": []} | db_agent report->planner: missing ['aarav_ahmed_6699', 'amount parameter', 'successfully transferred to a human agent'] altered [] |
-| 47 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool book_reservation returned an error |
-| 48 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool book_reservation returned an error |
-| 49 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool book_reservation returned an error |
 | 52 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: calculate |
 
 ## Per-module summary
@@ -32,7 +26,7 @@
  },
  "D3": {
   "n_steps": 46,
-  "flagged": 12,
+  "flagged": 6,
   "missing_tool": 5,
   "fabricated_arg": 1,
   "tool_error": 8

@@ -125,28 +125,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.82"
   },
   {
-   "step": 47,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool get_reservation_details returned an error"
-  },
-  {
-   "step": 49,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
-  },
-  {
    "step": 58,
    "agent": "db_agent",
    "module": "D3",
@@ -155,7 +133,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: book_reservation.user_id=sophia_silva_123, book_reservation.airport=SFO, book_reservation.airport=JFK; tool book_reservation returned an error"
+   "evidence": "argument never given: book_reservation.user_id=sophia_silva_123, book_reservation.airport=SFO, book_reservation.airport=JFK"
   },
   {
    "step": 59,
@@ -178,7 +156,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sophia_silva_123; tool get_user_details returned an error"
+   "evidence": "argument never given: get_user_details.user_id=sophia_silva_123"
   },
   {
    "step": 61,
@@ -189,7 +167,7 @@
     "fabricated_arg": false,
     "tool_error": true
    },
-   "evidence": "required but never called: calculate; tool db_agent returned an error"
+   "evidence": "required but never called: calculate"
   },
   {
    "step": 65,
@@ -224,39 +202,6 @@
     "H2": 0.842
    },
    "evidence": "delegate-vs-not split p_delegate=0.27"
-  },
-  {
-   "step": 71,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool book_reservation returned an error"
-  },
-  {
-   "step": 72,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool book_reservation returned an error"
-  },
-  {
-   "step": 73,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool book_reservation returned an error"
   },
   {
    "step": 74,
@@ -297,17 +242,6 @@
    "evidence": "action distribution: book_reservation 0.59, calculate 0.28, search_direct_flight 0.10 (actual: book_reservation)"
   },
   {
-   "step": 76,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool book_reservation returned an error"
-  },
-  {
    "step": 77,
    "agent": "db_agent",
    "module": "D3",
@@ -338,7 +272,7 @@
   },
   "D3": {
    "n_steps": 75,
-   "flagged": 16,
+   "flagged": 10,
    "missing_tool": 8,
    "fabricated_arg": 2,
    "tool_error": 9

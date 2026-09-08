@@ -36,17 +36,6 @@
    "evidence": "action distribution: read_file 0.85, think 0.15, write_file 0.01 (actual: read_file)"
   },
   {
-   "step": 11,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool read_file returned an error"
-  },
-  {
    "step": 12,
    "agent": "policy_checker",
    "module": "D1",
@@ -77,7 +66,7 @@
   },
   "D3": {
    "n_steps": 25,
-   "flagged": 2,
+   "flagged": 1,
    "missing_tool": 0,
    "fabricated_arg": 1,
    "tool_error": 1

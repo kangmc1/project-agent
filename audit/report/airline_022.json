@@ -9,7 +9,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=rossi_123; tool get_user_details returned an error"
+   "evidence": "argument never given: get_user_details.user_id=rossi_123"
   },
   {
    "step": 6,
@@ -20,7 +20,7 @@
     "fabricated_arg": false,
     "tool_error": true
    },
-   "evidence": "required but never called: search_direct_flight/search_onestop_flight; tool db_agent returned an error"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 10,
@@ -31,7 +31,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: get_user_details.user_id=ivan_rossi; tool get_user_details returned an error"
+   "evidence": "argument never given: get_user_details.user_id=ivan_rossi"
   },
   {
    "step": 12,

@@ -1,6 +1,6 @@
 # Detection metrics
 
-- generated: 2026-09-09 06:41:36 KST
+- generated: 2026-09-09 06:49:08 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
@@ -46,12 +46,12 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D3 | planner | airline | 391/391 | 46 | 148 | 0.522 [0.500, 0.554] | 16 | 0.500 [0.500, 0.500] |
 | D3 | planner | aime | 123/123 | 6 | 56 | 0.500 [0.500, 0.500] | 2 | n/a |
 | D3 | planner | all | 514/514 | 52 | 204 | 0.519 [0.500, 0.548] | 18 | 0.500 [0.500, 0.500] |
-| D3 | subagent | airline | 435/435 | 48 | 190 | 0.728 [0.655, 0.801] | 8 | 0.603 [0.457, 0.783] |
-| D3 | subagent | aime | 259/259 | 72 | 36 | 0.674 [0.604, 0.743] | 21 | 0.577 [0.478, 0.673] |
-| D3 | subagent | all | 694/694 | 120 | 226 | 0.677 [0.623, 0.727] | 29 | 0.560 [0.480, 0.647] |
-| D3 | all | airline | 826/826 | 94 | 338 | 0.623 [0.579, 0.673] | 24 | 0.515 [0.459, 0.588] |
-| D3 | all | aime | 382/382 | 78 | 92 | 0.682 [0.625, 0.739] | 23 | 0.592 [0.511, 0.685] |
-| D3 | all | all | 1208/1208 | 172 | 430 | 0.642 [0.605, 0.677] | 47 | 0.544 [0.493, 0.598] |
+| D3 | subagent | airline | 435/435 | 48 | 190 | 0.679 [0.603, 0.747] | 8 | 0.564 [0.434, 0.747] |
+| D3 | subagent | aime | 259/259 | 72 | 36 | 0.562 [0.528, 0.597] | 21 | 0.619 [0.548, 0.714] |
+| D3 | subagent | all | 694/694 | 120 | 226 | 0.582 [0.538, 0.629] | 29 | 0.570 [0.496, 0.654] |
+| D3 | all | airline | 826/826 | 94 | 338 | 0.599 [0.557, 0.646] | 24 | 0.508 [0.460, 0.572] |
+| D3 | all | aime | 382/382 | 78 | 92 | 0.558 [0.526, 0.596] | 23 | 0.609 [0.543, 0.696] |
+| D3 | all | all | 1208/1208 | 172 | 430 | 0.572 [0.540, 0.601] | 47 | 0.548 [0.499, 0.597] |
 | D7_instruction->premise | planner | airline | 105/391 | 21 | 44 | 0.401 [0.254, 0.554] | 7 | 0.349 [0.125, 0.609] |
 | D7_instruction->premise | planner | aime | 66/123 | 3 | 39 | 0.513 [0.128, 0.821] | 0 | n/a |
 | D7_instruction->premise | planner | all | 171/514 | 24 | 83 | 0.388 [0.260, 0.517] | 7 | 0.335 [0.114, 0.608] |
@@ -98,12 +98,12 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | D3 | planner | airline | 31 | 25 | 6 | 0.373 [0.187, 0.540] | 0.373 [0.173, 0.540] |
 | D3 | planner | aime | 31 | 23 | 8 | 0.522 [0.500, 0.565] | 0.522 [0.500, 0.565] |
 | D3 | planner | all | 62 | 48 | 14 | 0.460 [0.353, 0.542] | 0.461 [0.356, 0.542] |
-| D3 | subagent | airline | 31 | 25 | 6 | 0.420 [0.340, 0.480] | 0.613 [0.407, 0.807] |
-| D3 | subagent | aime | 30 | 22 | 8 | 0.500 [0.307, 0.699] | 0.432 [0.207, 0.676] |
-| D3 | subagent | all | 61 | 47 | 14 | 0.483 [0.355, 0.622] | 0.506 [0.355, 0.664] |
-| D3 | all | airline | 31 | 25 | 6 | 0.420 [0.340, 0.480] | 0.653 [0.473, 0.820] |
-| D3 | all | aime | 31 | 23 | 8 | 0.489 [0.299, 0.698] | 0.429 [0.201, 0.669] |
-| D3 | all | all | 62 | 48 | 14 | 0.476 [0.342, 0.629] | 0.515 [0.360, 0.689] |
+| D3 | subagent | airline | 31 | 25 | 6 | 0.503 [0.360, 0.690] | 0.610 [0.353, 0.850] |
+| D3 | subagent | aime | 30 | 22 | 8 | 0.540 [0.347, 0.733] | 0.511 [0.298, 0.727] |
+| D3 | subagent | all | 61 | 47 | 14 | 0.544 [0.405, 0.694] | 0.555 [0.400, 0.715] |
+| D3 | all | airline | 31 | 25 | 6 | 0.420 [0.340, 0.480] | 0.640 [0.420, 0.837] |
+| D3 | all | aime | 31 | 23 | 8 | 0.530 [0.323, 0.720] | 0.508 [0.282, 0.717] |
+| D3 | all | all | 62 | 48 | 14 | 0.501 [0.363, 0.644] | 0.553 [0.397, 0.711] |
 
 ## 3. Decisive-step attribution (failed labeled runs)
 
@@ -144,12 +144,12 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | D3 | planner | airline | 24 | 0.125 | 0.292 | 0.667 |
 | D3 | planner | aime | 23 | 0.043 | 0.522 | 0.087 |
 | D3 | planner | all | 47 | 0.085 | 0.404 | 0.383 |
-| D3 | subagent | airline | 24 | 0.000 | 0.208 | 0.250 |
+| D3 | subagent | airline | 24 | 0.042 | 0.250 | 0.250 |
 | D3 | subagent | aime | 22 | 0.500 | 0.545 | 0.864 |
-| D3 | subagent | all | 46 | 0.239 | 0.370 | 0.543 |
-| D3 | all | airline | 24 | 0.042 | 0.167 | 0.333 |
-| D3 | all | aime | 23 | 0.217 | 0.478 | 0.435 |
-| D3 | all | all | 47 | 0.128 | 0.319 | 0.383 |
+| D3 | subagent | all | 46 | 0.261 | 0.391 | 0.543 |
+| D3 | all | airline | 24 | 0.083 | 0.208 | 0.333 |
+| D3 | all | aime | 23 | 0.217 | 0.478 | 0.391 |
+| D3 | all | all | 47 | 0.149 | 0.340 | 0.362 |
 | D7_instruction->premise | planner | airline | 21 | 0.286 | 0.333 | 0.619 |
 | D7_instruction->premise | planner | aime | 21 | 0.000 | 0.381 | 0.048 |
 | D7_instruction->premise | planner | all | 42 | 0.143 | 0.357 | 0.333 |
@@ -197,11 +197,11 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | D3 | planner | aime | 1e-09 | 0.000 | 0.000 | 6 | 1/23 | 29.0 |
 | D3 | planner | all | 1 | 0.000 | 0.038 | 52 | 2/47 | 24.5 |
 | D3 | subagent | airline | 1 | 0.000 | 0.000 | 48 | 0/24 | n/a |
-| D3 | subagent | aime | 1 | 0.083 | 0.431 | 72 | 9/22 | 0.0 |
+| D3 | subagent | aime | 1 | 0.000 | 0.125 | 72 | 9/22 | 0.0 |
 | D3 | subagent | all | 1 | 0.000 | 0.000 | 120 | 0/46 | n/a |
-| D3 | all | airline | 1 | 0.095 | 0.340 | 94 | 17/24 | 2.0 |
-| D3 | all | aime | 1 | 0.033 | 0.397 | 78 | 9/23 | 0.0 |
-| D3 | all | all | 1 | 0.081 | 0.366 | 172 | 26/47 | 1.5 |
+| D3 | all | airline | 1 | 0.068 | 0.266 | 94 | 16/24 | 2.5 |
+| D3 | all | aime | 1 | 0.000 | 0.115 | 78 | 9/23 | 0.0 |
+| D3 | all | all | 1 | 0.053 | 0.198 | 172 | 25/47 | 2.0 |
 | D7_instruction->premise | planner | airline | 0.8 | 0.091 | 0.190 | 21 | 1/24 | 0.0 |
 | D7_instruction->premise | planner | aime | 0.8889 | 0.077 | 0.000 | 3 | 2/23 | 4.5 |
 | D7_instruction->premise | planner | all | 0.8667 | 0.072 | 0.083 | 24 | 3/47 | 3.0 |
@@ -249,16 +249,16 @@ Intersection = 1296 step(s) scored by all of D1_1-conf, D3.
 | D3 | planner | airline | 46 | 148 | 0.522 [0.500, 0.554] |
 | D3 | planner | aime | 6 | 56 | 0.500 [0.500, 0.500] |
 | D3 | planner | all | 52 | 204 | 0.519 [0.500, 0.548] |
-| D3 | subagent | airline | 48 | 190 | 0.728 [0.655, 0.801] |
-| D3 | subagent | aime | 72 | 36 | 0.674 [0.604, 0.743] |
-| D3 | subagent | all | 120 | 226 | 0.677 [0.623, 0.727] |
-| D3 | all | airline | 94 | 338 | 0.623 [0.579, 0.673] |
-| D3 | all | aime | 78 | 92 | 0.682 [0.625, 0.739] |
-| D3 | all | all | 172 | 430 | 0.642 [0.605, 0.677] |
+| D3 | subagent | airline | 48 | 190 | 0.679 [0.603, 0.747] |
+| D3 | subagent | aime | 72 | 36 | 0.562 [0.528, 0.597] |
+| D3 | subagent | all | 120 | 226 | 0.582 [0.538, 0.629] |
+| D3 | all | airline | 94 | 338 | 0.599 [0.557, 0.646] |
+| D3 | all | aime | 78 | 92 | 0.558 [0.526, 0.596] |
+| D3 | all | all | 172 | 430 | 0.572 [0.540, 0.601] |
 
 ## 7. Any-flag coverage (descriptive)
 
-Of the 172 labeled error steps (decisive + transient), **0.535** (92/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
+Of the 172 labeled error steps (decisive + transient), **0.384** (66/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
 Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D3`=1.0000, `D7_instruction->premise`=0.7500, `D7_report->planner`=1.0000.
 

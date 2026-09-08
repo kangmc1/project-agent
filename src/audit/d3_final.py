@@ -1,14 +1,14 @@
 """D3 — tool-use failure, procedural (user's definition, 2026-09-09 07:00).
 
-For every non-aux step the module returns 1 if ANY of the following holds, else 0:
+For every non-aux step the module returns 1 if EITHER of the following holds, else 0:
   (1) missing_tool   : the subagent ended its handoff without calling a tool family the planner's instruction required
                        (d3_instruction.jsonl, scored at the report step)
   (2) fabricated_arg : a tool call at this step carries an identifier-like argument value the agent was never given
                        (d3_args.jsonl)
-  (3) tool_error     : a tool call at this step returned an error (d3.jsonl check "error")
-Dropped from D3: the utterance->required-tool rule (belongs to the utterance layer / D2), and the empty / schema / repeat /
-ignored log checks (no precision on the labels: repeat and ignored only add false positives). Evidence pointers for the
-per-trace report come from the component files. Output: audit/d3_final.jsonl  Usage: python -m src.audit.d3_final
+The user's definition is exactly (1) OR (2). "Result mishandling" (tool returned an error / ignored / repeated) is NOT part
+of the flag: the user judged it ambiguous; `tool_error` is still recorded per step as a descriptive field so the
+optional variant (1)∪(2)∪(3) can be reported for comparison, but D3 itself does not use it. Also dropped: the
+utterance->required-tool rule (utterance layer) and the empty/schema/repeat/ignored log checks. Output: audit/d3_final.jsonl  Usage: python -m src.audit.d3_final
 """
 from __future__ import annotations
 
@@ -38,7 +38,7 @@ def main() -> None:
                 continue
             steps[(run.name, s["step_id"])] = {"run_id": run.name, "domain": meta.get("domain", run.name.split("_")[0]),
                                                 "step_id": s["step_id"], "agent": s["agent"],
-                                                "missing_tool": False, "fabricated_arg": False, "tool_error": False, "evidence": []}
+                                                "missing_tool": False, "fabricated_arg": False, "tool_error": False, "evidence": [], "tool_error_evidence": []}
     for r in _rows("d3_instruction.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("applicable") and r.get("satisfied") is False:
@@ -52,13 +52,13 @@ def main() -> None:
     for r in _rows("d3.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("kind") == "tool_call" and (r.get("checks") or {}).get("error"):
-            steps[k]["tool_error"] = True
-            steps[k]["evidence"].append(f"tool {r.get('tool')} returned an error")
+            steps[k]["tool_error"] = True  # descriptive only, not in the flag
+            steps[k]["tool_error_evidence"].append(f"tool {r.get('tool')} returned an error")
     n = 0
     with (AUDIT / "d3_final.jsonl").open("w", encoding="utf-8") as f:
         for k in sorted(steps):
             s = steps[k]
-            s["d3"] = 1 if (s["missing_tool"] or s["fabricated_arg"] or s["tool_error"]) else 0
+            s["d3"] = 1 if (s["missing_tool"] or s["fabricated_arg"]) else 0
             n += s["d3"]
             f.write(json.dumps(s, ensure_ascii=False) + "\n")
     print(f"D3 final: {len(steps)} steps, flagged {n} "

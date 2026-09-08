@@ -46,17 +46,6 @@
    "evidence": "argument never given: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
   },
   {
-   "step": 18,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool read_file returned an error"
-  },
-  {
    "step": 24,
    "agent": "db_agent",
    "module": "D3",
@@ -65,18 +54,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
-  },
-  {
-   "step": 25,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
   },
   {
    "step": 29,
@@ -99,18 +77,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
-  },
-  {
-   "step": 30,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
   },
   {
    "step": 31,
@@ -175,18 +142,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
-  },
-  {
-   "step": 36,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
   },
   {
    "step": 37,
@@ -260,18 +216,7 @@
     "fabricated_arg": true,
     "tool_error": true
    },
-   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
-  },
-  {
-   "step": 47,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool db_agent returned an error"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
   }
  ],
  "per_module_summary": {
@@ -281,7 +226,7 @@
   },
   "D3": {
    "n_steps": 42,
-   "flagged": 12,
+   "flagged": 7,
    "missing_tool": 0,
    "fabricated_arg": 7,
    "tool_error": 9

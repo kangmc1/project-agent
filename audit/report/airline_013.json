@@ -53,17 +53,6 @@
    "evidence": "argument never given: respond_to_user.money=121, respond_to_user.money=71"
   },
   {
-   "step": 19,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool update_reservation_flights returned an error"
-  },
-  {
    "step": 23,
    "agent": "db_agent",
    "module": "D3",
@@ -73,17 +62,6 @@
     "tool_error": false
    },
    "evidence": "required but never called: calculate"
-  },
-  {
-   "step": 31,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "missing_tool": false,
-    "fabricated_arg": false,
-    "tool_error": true
-   },
-   "evidence": "tool update_reservation_flights returned an error"
   },
   {
    "step": 33,
@@ -104,7 +82,7 @@
   },
   "D3": {
    "n_steps": 30,
-   "flagged": 6,
+   "flagged": 4,
    "missing_tool": 3,
    "fabricated_arg": 1,
    "tool_error": 2

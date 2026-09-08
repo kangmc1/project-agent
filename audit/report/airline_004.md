@@ -8,7 +8,6 @@
 | 13 | planner | D1/tool | {"confidence": 0.636, "p_actual": 0.677, "margin": 0.357} | action distribution: respond_to_user 0.68, db_agent 0.32, read_file 0.00 (actual: respond_to_user) |
 | 13 | planner | D1/handoff | {"p_delegate": 0.32, "H2": 0.904} | delegate-vs-not split p_delegate=0.32 |
 | 18 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
-| 27 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool update_reservation_baggages returned an error |
 
 ## Per-module summary
 ```
@@ -19,7 +18,7 @@
  },
  "D3": {
   "n_steps": 26,
-  "flagged": 3,
+  "flagged": 2,
   "missing_tool": 2,
   "fabricated_arg": 0,
   "tool_error": 1

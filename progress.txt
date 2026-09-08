@@ -194,3 +194,7 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Final modules in results: D1 (decision), D3 (procedural tool-use failure), D7 (handoff). D2 = design only.
 - 07:15 correction: evidence size is NOT why the 8B judge failed — airline subagent evidence per step: median 744 chars, p90 3,560,
   max 14,887 (search_onestop_flight up to 12k; up to 13 tool msgs per handoff). The judge misreads short evidence too.
+- 07:22 CORRECTION (user objection): I had adopted (1)∪(2)∪tool_error on my own; the user's D3 definition is (1)∪(2) only and
+  they had flagged (3) as ambiguous. Reverted: d3_final flag = missing_tool OR fabricated_arg; tool_error kept as a descriptive
+  field only. Airline subagent: AUROC 0.679 [0.603, 0.747], decisive 0.564; flag recall 0.48, FPR 0.12, precision 0.50;
+  136/1,296 steps flagged. (3) reported only as a measured, not-adopted variant. eval/, reports regenerated.
