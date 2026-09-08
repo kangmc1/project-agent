@@ -27,7 +27,7 @@ Write:
    - `type`
    - `text`: one self-contained sentence a downstream agent must know/respect
    - `key_span`: an EXACT substring copied verbatim from the transcript (or task) that establishes it (10-60 words)
-   - `key_values`: 1-3 distinctive tokens from that span (numbers, ids, names, dates) that must survive any summary
+   - `key_values`: 1-3 distinctive CONCRETE tokens from that span that must survive any summary: numbers, amounts, ids, dates, times, proper names, file/function names. Never generic phrases like "flight times" or "closure dates"; at least one value must contain a digit or a capitalized proper name.
 
 Reply with ONLY a JSON object: {{"task": "...", "transcript": "...", "obligations": [...]}}
 Seed for variety: {seed}"""

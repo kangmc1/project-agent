@@ -54,7 +54,7 @@ def _norm_keep_len(s: str) -> str:
 def _section_of(text: str, pos: int) -> str:
     """Name of the nearest preceding section header (e.g. 'GIVEN OR VERIFIED FACTS', 'open_questions')."""
     head = text[:pos]
-    m = list(re.finditer(r"(?m)^\s*(?:\d+\.\s*)?\**([A-Za-z_ ]{4,40})\**\s*:?\s*$|\"([a-z_]+)\"\s*:\s*\[", head))
+    m = list(re.finditer(r"(?m)^\s*(?:\d+\.\s*)?\**([A-Za-z_ /&\-]{4,60})\**\s*:?\s*$|\"([a-z_]+)\"\s*:\s*\[", head))
     if not m:
         return ""
     g = m[-1]

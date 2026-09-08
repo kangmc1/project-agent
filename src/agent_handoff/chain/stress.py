@@ -87,6 +87,6 @@ def run_stress(llm: LLM, scenario: dict[str, Any], fmt: str = "free", hops: int 
                 new_state = _repair(new_state, fmt, missing)
                 repaired = [o["id"] for o in missing]
                 rep = survival_report(obls, new_state)
-        records.append({"hop": t, "words": len(new_state.split()), "survival": rep, "score": score(rep), "repaired": repaired})
+        records.append({"hop": t, "words": len(new_state.split()), "survival": rep, "score": score(rep), "repaired": repaired, "log": log, "state": new_state})
         state = new_state
     return {"scenario_id": scenario["id"], "domain": scenario["domain"], "format": fmt, "budget": budget, "guard": guard, "hops": records, "final_state": state}
