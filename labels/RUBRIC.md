@@ -62,8 +62,9 @@ Subtags are **descriptive** (used only for analysis); when unsure between halluc
 
 ## Derived step classes (computed by `src/eval/labels.py`)
 
-`decisive` = decisive_step; `transient` = recovered events; `cascade` = steps after decisive_step; `clean` = all other
-labeled-agent steps. Cascade steps are excluded from detection scoring and used only for latency.
+`decisive` = decisive_step; `transient` = recovered events; `cascade` = steps after decisive_step; `error` = other unrecovered
+events (e.g. in successful runs); `clean` = all remaining labeled-agent steps. Cascade steps are excluded from detection scoring
+and used only for latency; positives for 'all errors' = decisive + transient + error.
 
 ## Quality control
 
