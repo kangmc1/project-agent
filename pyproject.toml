@@ -1,0 +1,16 @@
+[project]
+name = "handoffcheck"
+version = "0.1.0"
+description = "Online detection of handoff defects at the send boundary: a coding agent writes a contract test suite per handoff; the message must pass it."
+requires-python = ">=3.11"
+dependencies = ["openai>=1.30", "httpx", "pyarrow", "numpy", "matplotlib", "pytest"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
