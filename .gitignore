@@ -1,2 +1,12 @@
-mission.md
+.claude/
 .omc/
+mission.md
+runs/*
+!runs/index.csv
+!runs/*/
+runs/*/*
+!runs/*/summary.md
+logs/
+*.sqlite
+__pycache__/
+*.pyc

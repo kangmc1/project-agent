@@ -1,0 +1,10 @@
+# Ralph progress — agent-failure-detection (Coxwave v3)
+T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
+
+## 01:52 M1
+- Servers: qwen32b@18001 (TP=2, GPUs 1-2, KV 323k tok), qwen8b@18002 (GPU 3), qwen32b-score@18003 (TP=1, GPU 4, KV 40,160 tok).
+- Gotcha: vLLM flashinfer JIT needs `ninja` on PATH -> serve_common.sh exports math_infer/bin and VLLM_USE_FLASHINFER_SAMPLER=0.
+- Gotcha: `pkill -f '<pattern>'` from the tool shell kills the shell itself if the pattern appears in its command line -> use pgrep with a [b]racket trick.
+- P1 gate: ALL PASS (a-j). transformers 5.x: apply_chat_template(tokenize=True) returns Encoding -> tokenize=False then tok(text).
+- Data: data/tau_task_ids.json, data/aime_ids.json (batch1 = first 15 each). Raw httpx user simulator in src/data/tau_user.py (tests pass).
+- Harness written: capture.py (httpx2 hooks, sqlite tool log, fs snapshots), model.py, tools.py, airline.py, aime.py, run.py, validate.py. Awaiting deepagents_compat.py (probe agent).
