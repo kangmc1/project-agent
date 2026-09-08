@@ -1,0 +1,52 @@
+{
+ "run_id": "airline_044",
+ "batch": 2,
+ "decisive_step": 4,
+ "error_events": [
+  {
+   "step": 4,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "get_reservation_details returned '\"user_id\": \"anya_garcia_5901\" ... \"cabin\": \"economy\", \"passengers\": [Anya Garcia, Raj Jackson], \"total_baggages\": 1, \"nonfree_baggages\": 0'. The db_agent answers 'Membership status: Not specified in the reservation details ... additional tools or data sources may be required' although get_user_details is in its own tool list and the user_id was in the result it just read (profile says membership 'silver'); it also reports the reservation's current bag count as 'Checked baggage allowance: 1 total baggage (0 non-free)', which is not an allowance."
+  },
+  {
+   "step": 11,
+   "agent": "planner",
+   "category": "handoff",
+   "subtag": "handoff_induced",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Delegation 'What is the checked baggage allowance for a gold member flying in economy class?' asserts gold membership as fact although no tool ever returned it (db_agent said membership was unavailable at step 4; the profile says silver) - it is only the customer's guess ('I think I'm a gold member'). The delegation also drops the two passengers (Anya Garcia, Raj Jackson) that the step-3 tool result listed, so the policy_checker answers a per-passenger question."
+  },
+  {
+   "step": 13,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "'As a gold member flying in economy class, you are allowed to bring 3 free checked suitcases.' The policy is per passenger ('3 free checked bag for each economy passenger' for gold) and reservation JMO1MG has two passengers, so even under the unverified gold assumption the total would be 6; the customer asked for the total ('the total number in numeric form'). Correct total is 4 (silver, economy, 2 passengers)."
+  },
+  {
+   "step": 15,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Re-emits the same wrong conclusion into the shared case file: write_file /case_notes.md 'The customer (booking JMO1MG) is a gold member flying in economy class and is allowed 3 free checked suitcases' - membership was never verified (profile: silver) and the per-passenger allowance is not multiplied by the two passengers (rubric 5b: repeated emission labeled individually)."
+  },
+  {
+   "step": 16,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Final statement repeats 'is a gold member flying in economy class and is allowed 3 free checked suitcases' - third emission of the unverified tier and the un-multiplied per-passenger allowance (expected answer: 4)."
+  }
+ ]
+}

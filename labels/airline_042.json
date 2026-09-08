@@ -1,0 +1,61 @@
+{
+  "run_id": "airline_042",
+  "batch": 2,
+  "decisive_step": null,
+  "error_events": [
+    {
+      "step": 6,
+      "agent": "db_agent",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 13,
+      "evidence": "get_reservation_details returned '\"created_at\": \"2024-05-02T06:02:56\", ... \"insurance\": \"no\"', but the report sent back for the instruction 'provide the passenger name, flight details, and cancellation policy applicable to this reservation' lists passengers/flights and then says 'Cancellation policy: Not explicitly provided in the reservation details' without the insurance flag or the booking date — the two facts that decide cancellability. The planner therefore asks the customer for the insurance status at step 9 instead of using the record; db_agent reports 'Travel insurance status: Not linked' at step 13."
+    },
+    {
+      "step": 11,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 13,
+      "evidence": "Instruction 'Process the cancellation for reservation ID 3RK2T9. Confirm that travel insurance is linked to this reservation and initiate the refund process.' orders a database write on the customer's unverified claim: the only policy verdict so far is the step-8 'VERDICT: need_info', the record says insurance 'no', and created_at 2024-05-02 is outside the 24-hour window (policy current time 2024-05-15 15:00). Policy: 'the agent must make sure the rules apply before calling the API!'. The db_agent checks and refuses at step 13."
+    },
+    {
+      "step": 16,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Instruction 'If not found, provide instructions for the customer to upload proof of purchase or contact a human agent for verification' invents a remedy no tool or policy provides: there is no proof-of-purchase channel anywhere in the airline policy or the tool set, and the policy states 'You should not provide any information, knowledge, or procedures not provided by the user or available tools.'"
+    },
+    {
+      "step": 18,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Upload proof of purchase for travel insurance via the customer portal' — a 'customer portal' appears in no tool result and in no policy clause; the db_agent's own tool output for this step is only get_reservation_details with '\"insurance\": \"no\"'. It extends the planner's step-16 instruction with a named channel that does not exist."
+    },
+    {
+      "step": 19,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Tells the customer 'you can either upload proof of your travel insurance purchase via the customer portal or I can transfer you to a human agent' — re-emission of the fabricated portal procedure to the user (repeat labeled individually per rubric 5b); no tool or policy clause supports it."
+    },
+    {
+      "step": 21,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'You can access the customer portal at [www.airline.com/customer-portal] ... log in with your account details, navigate to the 'Manage Reservations' section, and select the option to upload proof of travel insurance.' A URL and a navigation flow invented wholesale; nothing in the policy or any tool result mentions a portal, a login, or an upload feature."
+    }
+  ]
+}

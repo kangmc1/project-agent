@@ -1,0 +1,16 @@
+{
+  "run_id": "aime_025",
+  "batch": 2,
+  "decisive_step": null,
+  "error_events": [
+    {
+      "step": 2,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 5,
+      "evidence": "The solver stalls in a self-repeating loop: from 'Step 4' to 'Step 16' it alternates two blocks verbatim -- 'Use the Power of a Point with A ... 9m*200 = 8m*225, 1800m = 1800m. This is always true, so no new information.' and 'Use the Power of a Point with D ... DB*DC = 0. This is not possible unless D is the point of tangency ... We already used this.' -- and is cut off (finish_reason='length', 2048 completion tokens) with no final integer, although the planner asked for 'the final integer answer and the key equations used'. It also asserts the false premise 'the power of D is zero: DB*DC = 0' (DB*DC is not the power of D with respect to omega). Recovered at steps 4-5, where the verifier derives k^2 = (765000 - 30600m)/1224, enumerates BC in {340,255,170,85} with run_python and reports 850 (the gold answer), submitted at step 6."
+    }
+  ]
+}

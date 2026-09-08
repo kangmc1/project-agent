@@ -1,0 +1,25 @@
+{
+  "run_id": "airline_029",
+  "batch": 2,
+  "decisive_step": 12,
+  "error_events": [
+    {
+      "step": 7,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Report says \"Reservation '4XGCCM' has 1 passenger and upcoming flights: HAT116 IAH->ORD on 2024-05-03 ... HAT279 JFK->IAH on 2024-05-04\"; every segment of 4XGCCM is dated 2024-05-03/2024-05-04, i.e. already flown at the environment's current time 2024-05-15 15:00 EST (policy header), so it is not an 'upcoming' reservation. The passenger-count filter itself is right (only UDMOP1 and 4XGCCM have one passenger in the seven get_reservation_details results); only the 'upcoming' determination is unsupported."
+    },
+    {
+      "step": 12,
+      "agent": "planner",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Delegates `db_agent({\"instruction\": \"Cancel the reservations UDMOP1 and 4XGCCM for user ID 'amelia_davis_8890'.\"})` without ever calling `policy_checker` (that agent is never invoked in this run) and without asking the customer the reason for cancellation. Cancel-flight policy: UDMOP1 is cabin basic_economy with insurance 'no' and created_at 2024-05-09T11:34:16 (outside the 24-hour window), so it cannot be cancelled; 4XGCCM's segments are dated 2024-05-03/04 and are already flown, for which the policy says the agent 'cannot help and transfer is needed'. Both cancel_reservation writes are absent from the task's gold action list and the run scores reward 0.0."
+    }
+  ]
+}

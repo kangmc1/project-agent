@@ -1,0 +1,457 @@
+{
+  "run_id": "aime_023",
+  "batch": 2,
+  "decisive_step": 2,
+  "error_events": [
+    {
+      "step": 2,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Solver prompt: 'You MUST call run_python at least once, and you MUST verify your final integer with a run_python computation before stating it. ... Finish with exactly one line: FINAL ANSWER: <integer>.' Step 2 makes no tool call at all: it hand-computes a made-up 'Length of angle bisector = 2*250*25/(2*250+25) = 23.81' style trial-and-error and is cut off by the length cap mid-sentence ('... = 13750/575 = 23.91 / This'), returning no FINAL ANSWER to the planner."
+    },
+    {
+      "step": 4,
+      "agent": "verifier",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The verifier's answer degenerates into verbatim repetition of the same paragraph ('The incenter divides the angle bisectors in the ratio of the adjacent sides. In an isosceles triangle, the incenter lies on the altitude from B to AC, and the distances AI and IC can be expressed in terms of the triangle's geometry.') until the length cap; it never calls run_python and never emits a FINAL ANSWER, so no independent check of the solver exists."
+    },
+    {
+      "step": 5,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Re-solve delegation is exactly 'Re-solve the AIME problem with the objection from the verifier: The solution is incomplete and lacks a clear derivation of the incenter distances and the final answer. Please provide a complete solution...' — the problem statement carried in the step-1/step-3 instructions (isosceles AB = BC, perimeters of ABC and AIC in ratio 125:6, integer sides, minimum AB) is dropped entirely, and the solver at step 6 substitutes a different problem."
+    },
+    {
+      "step": 6,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Restates premises that appear nowhere in the trace: 'A triangle ABC has integer side lengths and a perimeter of 150. ... The distances from the incenter I to the vertices A, B, and C are given as IA = 15, IB = 16, and IC = 17. ... find the area of triangle ABC.' The actual task (step-1 instruction) is the isosceles 125:6 perimeter-ratio problem asking for the minimum AB; every later step works on the invented problem."
+    },
+    {
+      "step": 7,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'The system of equations has been solved, and the solution for the side lengths a, b, and c is: a = 30, b = 40, c = 80' although the step-6 run_python returned {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} — the code ends in a bare `solution` expression and printed nothing. The invented triple is not even a triangle (30 + 40 < 80), which the Heron call in the same step immediately hits as 'ValueError: math domain error'."
+    },
+    {
+      "step": 8,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "After 'ValueError: math domain error' the solver concludes 'these side lengths do not form a valid triangle ... Let's re-examine the system of equations' and then re-issues the byte-identical 308-char sympy call from step 6 (same md5), which had already returned empty stdout; nothing in the code is changed, starting the 43-step loop."
+    },
+    {
+      "step": 9,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 1/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 10,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 2/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 11,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 3/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 12,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 4/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 13,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 5/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 14,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 6/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 15,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 7/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 16,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 8/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 17,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 9/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 18,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 10/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 19,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 11/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 20,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 12/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 21,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 13/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 22,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 14/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 23,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 15/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 24,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 16/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 25,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 17/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 26,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 18/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 27,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 19/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 28,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 20/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 29,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 21/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 30,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 22/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 31,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 23/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 32,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 24/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 33,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 25/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 34,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 26/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 35,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 27/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 36,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 28/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 37,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 29/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 38,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 30/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 39,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 31/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 40,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 32/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 41,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 33/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 42,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 34/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 43,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 35/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 44,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 36/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 45,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 37/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 46,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 38/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 47,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 39/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 48,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 40/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 49,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 41/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 50,
+      "agent": "solver",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Loop repetition 42/43: after another {\"exit_code\": 0, \"stdout\": \"\", \"stderr\": \"\"} result the solver re-emits the fabricated 'a = 30, b = 40, c = 80' and re-issues the byte-identical 308-char sympy call `solve((eq1, eq2, eq3), (a, b, c))` first sent at step 6 (identical md5), with no change to the code and no print statement added. Each repetition labeled individually per rubric 5b."
+    },
+    {
+      "step": 51,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Final solver report (step budget exhausted, no tool call) once more states 'the solution for the side lengths a, b, and c is: a = 30, b = 40, c = 80' and concedes 'these side lengths do not form a valid triangle', with no FINAL ANSWER line; the values were never produced by any run_python output (all stdout were empty)."
+    },
+    {
+      "step": 52,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The solver report the planner receives contains no 'FINAL ANSWER' and explicitly says the numbers 'do not form a valid triangle'; the planner nevertheless calls submit_answer({\"answer\": 30}), lifting the side length a = 30 of the fabricated perimeter-150 / IA=15,IB=16,IC=17 problem as the answer to the 125:6 isosceles problem (gold 245)."
+    }
+  ]
+}

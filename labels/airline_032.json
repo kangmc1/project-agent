@@ -1,0 +1,205 @@
+{
+ "run_id": "airline_032",
+ "batch": 2,
+ "decisive_step": 71,
+ "error_events": [
+  {
+   "step": 10,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 23,
+   "evidence": "After listing the five reservation ids at step 6 (['NM1VX1','KC18K6','S61CZX','H8Q05L','WUNA5K']) the db_agent checks only four and hands back 'Reservation H8Q05L does not match ... Next step: Retrieve details for the next reservation in the list' without ever calling get_reservation_details('WUNA5K') - the one reservation holding the May 10 ORD->PHL flight (found only at step 23, after two more full sweeps)."
+  },
+  {
+   "step": 11,
+   "agent": "planner",
+   "category": "handoff",
+   "subtag": "handoff_induced",
+   "recovered": true,
+   "recovery_step": 23,
+   "evidence": "Delegation 'Retrieve the next reservation for user sophia_silva_7557 to identify the correct flight details for May 10' carries no reservation id and does not say which ids the previous db_agent call already checked; the fresh db_agent restarts from get_user_details and re-reads NM1VX1 and KC18K6 (steps 13-15), which were already retrieved at steps 6-7."
+  },
+  {
+   "step": 32,
+   "agent": "planner",
+   "category": "handoff",
+   "subtag": "handoff_induced",
+   "recovered": true,
+   "recovery_step": 57,
+   "evidence": "The customer at step 31 asked for a NEW booking ('please book the same flight HAT271 from ORD to PHL on May 26. I'd like to add another passenger, Kevin Smith'); the planner instead asks the policy_checker whether 'adding an additional passenger (Kevin Smith ...) to an existing booking for flight HAT271 on May 26 is allowed', turning a new booking into a modification of WUNA5K and producing 'VERDICT: not_allowed - the number of passengers in a reservation cannot be modified'."
+  },
+  {
+   "step": 36,
+   "agent": "planner",
+   "category": "handoff",
+   "subtag": "handoff_induced",
+   "recovered": true,
+   "recovery_step": 57,
+   "evidence": "Emits the mis-framed verdict to the customer - 'according to airline policy, we cannot add additional passengers to an existing reservation. However, I can assist you in creating a new reservation for Kevin Smith' - and proposes splitting the party into two bookings. The policy's 'cannot modify the number of passengers' clause governs modifications; a new reservation may carry up to five passengers ('Each reservation can have at most five passengers'), which is what the ground-truth booking does."
+  },
+  {
+   "step": 40,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "'Our policy does not specify restrictions on seat selection, so I can proceed with booking an aisle and a middle seat for both you and Kevin Smith ... I will confirm the seat availability' - no available tool selects or reports seats (book_reservation takes only flight_number/date per flight), and the policy_checker had just returned 'VERDICT: need_info - The policy does not specify whether booking specific seats ... is allowed'. The invented capability is carried into the booking arguments at steps 58 and 76 ('seat': 'aisle,middle')."
+  },
+  {
+   "step": 42,
+   "agent": "planner",
+   "category": "handoff",
+   "subtag": "handoff_induced",
+   "recovered": true,
+   "recovery_step": 52,
+   "evidence": "Delegation 'Create a new reservation for Kevin Smith (born April 12, 2001) for flight HAT271 on May 26 ... Also, assign an aisle and a middle seat for both Sophia Silva and Kevin Smith' omits the user id sophia_silva_7557 (given by the customer at step 3 and used by the planner at steps 4/11/16/25) and the ORD->PHL origin and destination, and names one passenger while asking for two seats; the db_agent consequently searches with the flight number split into origin/destination."
+  },
+  {
+   "step": 43,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 53,
+   "evidence": "search_direct_flight({'origin': 'HAT', 'destination': '271', 'date': '2024-05-26'}) splits the flight number HAT271 into an airport pair; the tool returns []. The correct call, search_direct_flight(ORD, PHL, 2024-05-26) at step 53, returns HAT271 as available."
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 53,
+   "evidence": "Repeats the same origin='HAT' / destination='271' arguments with search_onestop_flight and again reads the empty list as evidence about flight HAT271: 'No one-stop flights found for flight HAT271 on May 26 ... there are no available flights for the specified criteria'."
+  },
+  {
+   "step": 47,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 53,
+   "evidence": "Wrong tool for the question 'Verify the availability of flight HAT271 on May 26': calls get_reservation_details({'reservation_id': 'HAT271'}) with a flight number as a reservation id; result 'Error: user not found'."
+  },
+  {
+   "step": 48,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 53,
+   "evidence": "After that error it re-issues the byte-identical search_direct_flight({'origin': 'HAT', 'destination': '271', 'date': '2024-05-26'}) from step 43 and reports 'No direct flights were found between origin \"HAT\" and destination \"271\"', which is then relayed to the customer as HAT271 being unavailable."
+  },
+  {
+   "step": 58,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": "hallucination_like",
+   "recovered": true,
+   "recovery_step": 64,
+   "evidence": "book_reservation is called with invented arguments: user_id 'sophia_silva_123' (record: sophia_silva_7557, given at step 3), origin 'SFO' / destination 'JFK' (record: ORD->PHL), flight_type 'round_trip' (customer confirmed one-way at step 41), total_baggages 2 (customer wants none), passengers given as {'name','age':30/35} (Sophia's dob is 1957-10-05) and payment_methods [{'card_number': '1234567890123456', 'cvv': '123'}], a card in no record. Result: 'Error: user not found'."
+  },
+  {
+   "step": 60,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 64,
+   "evidence": "Re-uses the invented id instead of asking for the real one: get_user_details({'user_id': 'sophia_silva_123'}) -> 'Error: user not found'; it then tells the planner 'the user does not exist ... or create a new user profile for Sophia Silva', an operation no tool provides."
+  },
+  {
+   "step": 62,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": true,
+   "recovery_step": 64,
+   "evidence": "'It seems there was an issue with the user ID for Sophia Silva. The user ID sophia_silva_123 could not be found ... Could you confirm the correct user ID ... or would you like me to create a new user profile for her?' - the customer gave sophia_silva_7557 at step 3 and the planner itself used that id in its delegations at steps 4, 11, 16 and 25 (no summarization occurred in this run); it accepts the subagent's invented id as the customer's and offers profile creation, which no tool supports."
+  },
+  {
+   "step": 65,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": true,
+   "recovery_step": 70,
+   "evidence": "Given the correct user id in the planner's instruction, the db_agent again calls search_direct_flight({'origin': 'HAT', 'destination': '271', 'date': '2024-05-26'}) - byte-identical to steps 43 and 48 - instead of ORD->PHL, gets [] and reports 'No direct flights found for the given criteria', which ends the HAT271 booking attempt."
+  },
+  {
+   "step": 71,
+   "agent": "db_agent",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "In the same message the db_agent lists 'Flight HAT271 ... Available Economy Seats: 3 ... Economy Price: $174' and then concludes 'Only Flight HAT289 has enough economy seats available for two passengers', which contradicts its own list (3 >= 2; 2 x $174 = $348, inside the customer's $500 cap and exactly the ground-truth booking). It books HAT289 instead, with flight_type 'direct' (not one_way/round_trip) and payment_id 'credit_card_7815826', which is absent from the profile returned at step 5 (certificate_8045380 $500, certificate_3887113 $150, credit_card_4196779, gift_card_5094406 $274). The requested flight HAT271 is never returned to."
+  },
+  {
+   "step": 73,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Misreads the tool error and loops: 'The book_reservation function failed due to an unexpected `amount` parameter. I will now correct the request and remove the `amount` parameter' - the result was \"Error: 'amount'\", a missing key (each payment_methods entry needs payment_id AND amount) - and then re-sends the byte-identical call from step 72 (identical arguments), producing the identical error."
+  },
+  {
+   "step": 74,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Third emission of the same misreading ('still failing due to an unexpected `amount` parameter ... I will remove it and resubmit'), and the delegation ends with no tool call and no booking."
+  },
+  {
+   "step": 76,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "book_reservation({'origin': 'HAT', 'destination': '289', 'flight_type': 'round_trip', flights: [{'flight_number': 'HAT289', 'date': '2024-05-26', 'seat': 'aisle,middle'}], payment_methods: [{'type': 'credit_card', 'card_number': '**** **** **** 1234'}], 'insurance': 'none'}) - flight number split into origin/destination again, round_trip although the customer confirmed one-way at step 41, and a masked card that appears in no record. Result: \"Error: 'payment_id'\"."
+  },
+  {
+   "step": 77,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "'The booking failed because the required parameter payment_id was missing. Please provide a valid payment ID' - the db_agent never calls get_user_details('sophia_silva_7557') although the id is in the planner's instruction and the tool is in its list; that profile holds certificate_8045380 ($500), gift_card_5094406 ($274) and credit_card_4196779, i.e. exactly the payment id the call needed (ground truth pays with certificate_8045380 $348). This unresolved lookup is what ends the episode unbooked."
+  },
+  {
+   "step": 80,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "'If you don't have a payment ID, we can create a new one for you. Would you like me to assist you in setting up a new payment method?' - no tool creates payment methods and the policy states 'All payment methods must already be in user profile for safety reasons'; the customer's profile already contained four."
+  },
+  {
+   "step": 82,
+   "agent": "planner",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Delegates an operation no tool provides: 'Create a new payment method for user sophia_silva_7557. Generate a new payment ID and prompt for the necessary payment details' - db_agent answers at step 83 'None of the available functions can be used to create a new payment method'. The planner never asks for the payment methods already in the profile."
+  },
+  {
+   "step": 84,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "'you can add a new payment method through our website or mobile app by navigating to the Payment Methods section in your account' - a procedure that appears in no tool result and in no policy clause, contrary to 'You should not provide any information, knowledge, or procedures not provided by the user or available tools'. The customer pauses the case on this advice and the episode ends with no reservation created."
+  }
+ ]
+}

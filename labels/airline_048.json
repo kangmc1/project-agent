@@ -1,0 +1,43 @@
+{
+  "run_id": "airline_048",
+  "batch": 2,
+  "decisive_step": 9,
+  "error_events": [
+    {
+      "step": 9,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Tells the customer \"You will need to cancel your current reservation and book a new flight if you wish to travel on different dates.\" The step-8 policy_checker answer contained only 'VERDICT: not_allowed' for the date change and said nothing about cancelling and rebooking; the planner's own prompt forbids inventing policy rules. The remedy it invents is itself barred: EUJUY6's first two segments (HAT238, HAT290) are dated 2024-05-14, already flown at the current time 2024-05-15 15:00 EST, and the policy says 'The agent can only cancel the whole trip that is not flown. If any of the segments are already used, the agent cannot help and transfer is needed.' The customer only asks to cancel (step 10) because of this suggestion."
+    },
+    {
+      "step": 11,
+      "agent": "planner",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Delegates `db_agent({\"instruction\": \"Cancel the reservation with ID EUJUY6 and provide confirmation of the cancellation.\"})` without any policy_checker call about cancellation (the only policy question asked, at step 7, was about changing the date). The resulting cancel_reservation on a partially flown trip mutates the database; the gold action list for the task contains get_reservation_details only, and the run scores reward 0.0."
+    },
+    {
+      "step": 16,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 20,
+      "evidence": "Delegates \"Search for available flights for the new dates (two days later than the original) for the same route (ORD to LAS round trip) and passenger details\" without the original dates, although the planner had them from step 4/5 (2024-05-14 outbound, 2024-05-16 return); the db_agent answers at step 17 \"original date not provided ... Please provide the original flight date so I can proceed.\" Recovered at step 20, where the planner re-delegates with explicit dates 2024-05-16 / 2024-05-18 and the three passenger names."
+    },
+    {
+      "step": 24,
+      "agent": "planner",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The final planner turn emits the call as literal assistant text — content starts \"<tool_call>\\n{\\\"name\\\": \\\"respond_to_user\\\", \\\"arguments\\\": {...\" with tool_calls empty and finish_reason 'length' — so no respond_to_user call is made, the customer never receives the flight options, and the episode terminates on this turn."
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+{
+  "run_id": "airline_046",
+  "batch": 2,
+  "decisive_step": 15,
+  "error_events": [
+    {
+      "step": 9,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "search_direct_flight({\"origin\": \"SFO\", \"destination\": \"JFK\", \"date\": \"2024-05-15\"}) is byte-identical to the call already made at step 5, which returned \"[]\"; it returns \"[]\" again. The db_agent had also already run search_onestop_flight for the same route and date at step 6 (also \"[]\"), so no new information could be obtained. Needless repetition of a call whose result was already in the record."
+    },
+    {
+      "step": 11,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "\"I found that there are no direct flights for your requested date. However, I can look for flights with one stopover. Would you like me to proceed with this option?\" The db_agent report the planner received at step 7 says \"No one-stop flights were found from San Francisco (SFO) to New York (JFK) on May 15th, 2024.\" The planner offers the customer an option its own subagent had already reported as unavailable, dropping the one-stop finding from the step-7 report and relaying only the step-10 \"no direct flights\" line."
+    },
+    {
+      "step": 15,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Find the last reservation with three passengers.\"}) carries no user id and no reservation id. Every read tool the db_agent has requires one (get_user_details(user_id) / get_reservation_details(reservation_id)); there is no way to search reservations by passenger count. The customer had just said at step 14 \"It was my last reservation, but I can't remember the ID\", and the planner had asked only for \"your reservation ID or any other details\" at step 13 — it never asked for the user id, which its own work method (\"gather identifying details (user id, reservation id)\") puts first and which it does not ask for until step 23. This is the first delegation on the delayed-flight thread that no database tool could execute, and the reservation is never identified for the remaining 53 steps."
+    },
+    {
+      "step": 16,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({\"user_id\": \"sara_doe_496\"}) — the id \"sara_doe_496\" appears nowhere in the planner instruction (\"Find the last reservation with three passengers.\") or in any customer turn; it is invented. The tool returns \"Error: user not found\". The db_agent prompt states \"Do not invent data.\""
+    },
+    {
+      "step": 20,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for recent reservations with three passengers and a delayed flight.\"}) re-issues the id-less lookup after the step-17 report (\"Error: User \\\"sara_doe_496\\\" not found. No reservation details could be retrieved.\"). Still no user id or reservation id, and no db tool can filter reservations by passenger count or delay status. Repeat of the step-15 defect."
+    },
+    {
+      "step": 21,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({\"user_id\": \"sara_doe_496\"}) a second time. The step's own preamble says \"I will use the get_user_details function to retrieve user details and their reservations\" although no user id exists anywhere in the instruction or the conversation; the same fabricated id was already rejected with \"Error: user not found\" at step 16, and it is rejected again."
+    },
+    {
+      "step": 22,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "\"The provided user ID \\\"sara_doe_496\\\" was not found in the database.\" No user id was provided: the planner instruction at step 20 is \"Search for recent reservations with three passengers and a delayed flight\", and the customer had said at step 19 \"I don't have the reservation ID handy\". The report attributes the db_agent's own fabricated id to the caller, which is what leads the planner to tell the customer at step 62 that \"the user ID associated with the reservation might not be in our system\"."
+    },
+    {
+      "step": 25,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for recent delayed flights with three passengers without a specific user ID.\"}) — the planner now explicitly instructs a reservation search \"without a specific user ID\", after two failed id-less attempts (steps 15 and 20). The db_agent answers at step 26 \"None of the available functions can be used to search for recent delayed flights with three passengers without a specific user ID.\""
+    },
+    {
+      "step": 29,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for a delayed flight on the 8th of last month with three passengers.\"}) re-issues the same impossible lookup immediately after the db_agent stated at step 26 that \"None of the available functions can be used to search for recent delayed flights with three passengers without a specific user ID\". Still no user id or reservation id; the db_agent replies at step 30 that it cannot search without origin and destination."
+    },
+    {
+      "step": 33,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for a delayed flight from SFO to JFK on the 8th of last month with three passengers.\"}) — a route and date are finally supplied, but the target is still a past reservation and no id accompanies it. search_direct_flight returns currently bookable flights, not reservations or delay history, so the request remains unexecutable; the call at step 34 returns \"[]\"."
+    },
+    {
+      "step": 38,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for a delayed flight from SFO to JFK on the 8th of last month with three passengers and retrieve the reservation details.\"}) repeats the step-33 instruction with \"and retrieve the reservation details\" appended, although the SFO-JFK / 2024-04-08 search had already returned \"[]\" at step 34 and no db tool can retrieve a reservation without its id."
+    },
+    {
+      "step": 39,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "search_direct_flight({\"origin\": \"SFO\", \"destination\": \"JFK\", \"date\": \"2024-04-08\"}) repeats the identical call made at step 34, which had already returned \"[]\"; it returns \"[]\" again."
+    },
+    {
+      "step": 44,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for flight DL142 operated by Delta from SFO to JFK on April 8th and retrieve the reservation details for three passengers.\"}). The planner had solicited exactly this information from the customer at step 42 (\"Could you please provide any additional details such as the flight number or the airline you traveled with?\"), but no db_agent tool takes a flight number or an airline as a lookup key, and the reservation still has no id. Both search_direct_flight and search_onestop_flight for SFO-JFK on 2024-04-08 had already returned \"[]\" at steps 34, 39 and 40."
+    },
+    {
+      "step": 45,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "search_direct_flight({\"origin\": \"SFO\", \"destination\": \"JFK\", \"date\": \"2024-04-08\"}) for the third time (steps 34, 39, 45), returning \"[]\" again; the step never attempts the flight number DL142 it was asked about and never states that no tool can look up a flight by number, reporting only \"The search for direct flights from SFO to JFK on April 8th returned no results.\""
+    },
+    {
+      "step": 49,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for flight DL142 operated by Delta from SFO to LGA on April 8th and retrieve the reservation details for three passengers.\"}) — the step-44 instruction re-issued with the destination swapped, still keyed on a flight number and airline that no database tool accepts and still with no reservation id or user id."
+    },
+    {
+      "step": 54,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for any Delta flight from SFO to New York (JFK or LGA) in early April with three passengers and a delay.\"}) — an open-ended date range (\"early April\") and a delay filter, neither of which any db tool supports; the db_agent silently narrows it to a single guessed date, 2024-04-05, at step 55."
+    },
+    {
+      "step": 59,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Search for a Delta reservation with three passengers, including a passenger named Sarah, for a morning flight from SFO to New York (JFK or LGA) on April 8th or 9th, 2024, with a delay.\"}) — the tenth reservation lookup issued without a user id or reservation id, now keyed on a passenger first name, which no tool accepts. The db_agent responds by inventing a user id again at step 60."
+    },
+    {
+      "step": 60,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({\"user_id\": \"sara_doe_496\"}) a third time (steps 16, 21, 60), after the identical call had already returned \"Error: user not found\" twice. The id is absent from the step-59 instruction (which names only a passenger \"Sarah\") and from every customer turn; it returns \"Error: user not found\" again."
+    },
+    {
+      "step": 64,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "\"I recommend reaching out to Delta's customer service directly for further assistance.\" The customer said at step 12 \"I had a recent reservation with you all\" — the planner is the airline's own service agent — and no db_agent or policy_checker output in the run mentions Delta or any third-party carrier; \"Delta\" comes only from the customer's own recollection at step 43. The planner also never consulted policy_checker about the delay complaint and never asked db_agent to transfer the case to a human agent, closing the case with no lookup, no compensation and no escalation."
+    },
+    {
+      "step": 66,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "\"You can contact Delta's customer service at 1-800-221-1212 or visit their website at https://www.delta.com for further assistance.\" The phone number and URL come from no tool result — the planner's only tools are read_file, write_file, policy_checker, db_agent and respond_to_user, and none was called for contact details — and its system prompt states \"Never invent reservation details, prices, or policy rules.\" This fabricated referral is the final action of the episode."
+    }
+  ]
+}

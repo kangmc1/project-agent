@@ -1,0 +1,25 @@
+{
+  "run_id": "airline_037",
+  "batch": 2,
+  "decisive_step": null,
+  "error_events": [
+    {
+      "step": 4,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Find all reservations for flight HAT045 and Gold members.\"}) carries no user id and no reservation id, and asks for a lookup by flight number and membership tier that none of the database tools supports — the db_agent says so verbatim at step 5: 'None of the available functions can directly search for reservations by flight number or membership status.' The customer had just declined at step 3 ('I don't have my reservation ID on me right now'), and the planner's work method is to 'gather identifying details (user id, reservation id) via respond_to_user' first; it asked for the id once at step 2 and never again. The delegation converts an unanswered identification question into an impossible database task."
+    },
+    {
+      "step": 5,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "transfer_to_human_agents({\"summary\": \"The user is requesting to find all reservations for flight HAT045 and Gold members. The available tools do not support this query...\"}) is fired on the db_agent's own initiative. The customer never asked for a human agent — her only turns (steps 1 and 3) ask the agent to look into delayed flight HAT045 and say 'Can you look up my flight HAT045 and see what's going on?' — and the transfer tool is reserved for requests that cannot be handled with the available actions or that the user explicitly escalates. The db_agent's brief is to 'Report back exactly what the tools returned ... and clearly state anything that failed or was not found'; the correct report was that no tool can search by flight number and that a user id is required. The transfer result is what ends the episode at step 7 with the delay complaint and any compensation unaddressed."
+    }
+  ]
+}

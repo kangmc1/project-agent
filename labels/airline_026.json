@@ -1,0 +1,43 @@
+{
+  "run_id": "airline_026",
+  "batch": 2,
+  "decisive_step": 4,
+  "error_events": [
+    {
+      "step": 4,
+      "agent": "planner",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({\"instruction\": \"Cancel the reservations with IDs IFOYYZ and NQNU5R for user aarav_ahmed_6699.\"}) is issued without ever calling policy_checker — the planner does use that agent for the upgrade at steps 10 and 14, but never for the cancellations — and without asking the customer for a reason for cancellation. The cancel_reservation record returned at step 5 shows IFOYYZ is \"cabin\": \"basic_economy\", \"insurance\": \"no\", \"created_at\": \"2024-05-12T00:14:30\", i.e. booked more than 24 hours earlier and with no insurance, so under the cancellation policy (all reservations may be cancelled within 24h of booking or if the airline cancelled the flight; otherwise basic economy cannot be cancelled, economy only with insurance and a qualifying reason, business always) it was not cancellable. Only NQNU5R (\"cabin\": \"business\") was. The irreversible write goes through at step 5 and is never undone."
+    },
+    {
+      "step": 20,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 29,
+      "evidence": "'HAT268: $430 - $136 = $294; HAT010: $412 - $109 = $303; Total price difference: $294 + $303 = $597. The total price difference for upgrading reservation M20IZO from economy to business class is $597.' That is the per-passenger difference. The get_reservation_details result read at step 17 lists two passengers ('Aarav Ahmed' and 'Daiki Li') and \"payment_history\": [{\"payment_id\": \"credit_card_4959530\", \"amount\": 490}] — 490 = (136 + 109) x 2 — so the total the customer would owe is $1194, which is exactly what the update_reservation_flights result at step 28 charges (\"payment_id\": \"credit_card_9074831\", \"amount\": 1194). The $597 figure is quoted to the customer at step 22 and is the amount she authorises at step 23, while $1194 is taken. Corrected only after the fact, at step 29."
+    },
+    {
+      "step": 21,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 29,
+      "evidence": "Repeat of the step-20 figure: the report returned to the planner is 'The total price difference for upgrading reservation M20IZO from economy to business class is $597', again ignoring the two passengers listed in the step-17 get_reservation_details result and the $490 (= 245 x 2) already in payment_history. This is the emission the planner reads and passes to the customer at step 22."
+    },
+    {
+      "step": 26,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": true,
+      "recovery_step": 28,
+      "evidence": "update_reservation_flights({\"reservation_id\": \"M20IZO\", \"cabin\": \"business\", ..., \"payment_id\": \"credit_card_7334\"}) invents a payment id out of the last four digits the customer gave at step 23; no get_user_details had been run, and the step's own premise bullets call it 'Payment method: Credit card ending in 7334'. The tool returns 'Error: payment method not found'. The same call also passes the current economy fares (\"price\": 136 and \"price\": 109) while requesting \"cabin\": \"business\". Recovered at step 28, after get_user_details returned \"credit_card_9074831\": {\"source\": \"credit_card\", \"brand\": \"mastercard\", \"last_four\": \"7334\"}."
+    }
+  ]
+}

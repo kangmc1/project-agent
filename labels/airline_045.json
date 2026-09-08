@@ -1,0 +1,205 @@
+{
+  "run_id": "airline_045",
+  "batch": 2,
+  "decisive_step": 4,
+  "error_events": [
+    {
+      "step": 4,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent({'instruction': 'Find the last reservation made by the customer and return its ID and details.'}) is issued with no user id and no reservation id after the customer said at step 3 'It's the last reservation I made, but I can't remember the ID.' No db tool can execute it: get_user_details takes a user id, get_reservation_details takes a reservation id, and there is no reservation-search tool. db_agent answered by inventing 'sara_doe_496' (step 5) -> 'Error: user not found'. The reservation is never identified in the whole 71-step run (reward 0.0)."
+    },
+    {
+      "step": 5,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "After restating 'No specific user ID or reservation ID provided', db_agent nevertheless calls get_user_details({'user_id': 'sara_doe_496'}). 'sara_doe_496' appears nowhere in the customer turns or in any tool result -- it is the placeholder from the tool's own parameter description (\"The user id, such as 'sara_doe_496'\"). Tool result: 'Error: user not found'."
+    },
+    {
+      "step": 9,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Re-issue of the unexecutable delegation: 'Search for a reservation with 3 passengers that matches the customer's description and return its ID and details.' -- still no user id or reservation id, and no db tool searches reservations by passenger count; the identical instruction shape had already failed at steps 5-6 with 'Error: user not found' (rubric 5b)."
+    },
+    {
+      "step": 10,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Second emission of the fabricated id: get_user_details({'user_id': 'sara_doe_496'}) repeated verbatim after the same 'Error: user not found' at step 5, although the instruction supplies only a passenger count."
+    },
+    {
+      "step": 16,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Search for a reservation with 2 passengers that matches the customer's description and return its ID and details.' -- third id-less delegation; db_agent replies at step 17 'I need more specific details to search for a reservation, such as the user ID, flight details, or reservation ID', confirming the instruction cannot be executed with the available tools."
+    },
+    {
+      "step": 20,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Verbatim re-issue of the step-9 instruction ('Search for a reservation with 3 passengers that matches the customer's description ...') after db_agent had explicitly asked for a user id or reservation id at step 17; no identifier is added (rubric 5b)."
+    },
+    {
+      "step": 21,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Third emission of get_user_details({'user_id': 'sara_doe_496'}) -- the tool-description placeholder id -- after two identical 'Error: user not found' results (steps 5, 10)."
+    },
+    {
+      "step": 25,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Search for a reservation with 3 passengers, traveling from Chicago to Miami around mid-October, and return its ID and details.' -- the new route detail does not make the lookup executable: no db tool retrieves reservations by route or date, and the instruction still carries no user id or reservation id."
+    },
+    {
+      "step": 26,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Fourth emission of get_user_details({'user_id': 'sara_doe_496'}) after three identical 'Error: user not found' results; the instruction mentions no user id at all."
+    },
+    {
+      "step": 30,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami around mid-October, and return its ID and details.' -- still id-less; the added carrier name is not a queryable field in any db tool (all flights in this database are 'HAT' flights)."
+    },
+    {
+      "step": 31,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({'user_id': 'delta_user_123'}) -- a newly invented id that appears in no customer turn and no tool result; db_agent also asserts premises the customer never gave ('The origin is Chicago (ORD) ... The date is around mid-October (e.g., 2024-10-15)'). Tool result: 'Error: user not found'."
+    },
+    {
+      "step": 35,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on October 15th on flight Delta 452, and return its ID and details.' -- a reservation lookup by flight number, which no db tool supports; still no user id or reservation id after five failed lookups."
+    },
+    {
+      "step": 41,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Same unexecutable instruction re-issued with only the date changed ('... on October 16th on flight Delta 452 ...'), after db_agent had answered at steps 36-38 with empty flight-availability searches rather than a reservation (rubric 5b)."
+    },
+    {
+      "step": 47,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Same unexecutable instruction re-issued with only the flight number changed ('... on mid-October on flight Delta 457 ...'); no identifier that any db tool accepts is ever added."
+    },
+    {
+      "step": 49,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "From a single empty search_direct_flight(ORD->MIA, 2024-10-15) result, db_agent concludes 'This means the reservation for flight Delta 457 could not be located or does not exist in the database.' search_direct_flight returns flight availability, not reservations, so an empty list cannot support a claim about the customer's reservation; the one-stop search was not run this time either."
+    },
+    {
+      "step": 52,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Search for a United reservation with 3 passengers, traveling from Chicago to Miami in mid-October on flight United 123, and return its ID and details.' -- again a reservation lookup with no user id or reservation id; db_agent responded by calling get_reservation_details on a fabricated id (step 53)."
+    },
+    {
+      "step": 53,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_reservation_details({'reservation_id': '8JX2WO'}) -- '8JX2WO' is the placeholder from the tool's parameter description (\"The reservation id, such as '8JX2WO'\") and was never mentioned by the customer or returned by any tool; result 'Error: user not found'."
+    },
+    {
+      "step": 55,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The planner tells the customer 'I couldn't find a reservation for United flight 123 from Chicago to Miami in mid-October. It seems this reservation might not exist in our database.' db_agent's step-54 report says only 'The reservation ID \"8JX2WO\" could not be found' -- it never searched for United 123; the report is altered into a negative finding about the customer's flight."
+    },
+    {
+      "step": 59,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Retrieve the reservation history for the email address noah_muller_9847@example.com and return the details.' -- no db tool looks a user up by email; get_user_details requires a user id (\"such as 'sara_doe_496'\"), and the planner had promised the customer at step 57 that it could 'help you access your booking history' from the email. db_agent consequently passed the whole email string as user_id (step 60)."
+    },
+    {
+      "step": 60,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({'user_id': 'noah_muller_9847@example.com'}) -- the parameter is a user id in the form 'sara_doe_496', not an email address; the call returns 'Error: user not found' and db_agent reports 'The user with the email address noah_muller_9847@example.com was not found' without retrying the id form 'noah_muller_9847' implied by the local part. This was the only identifier the customer ever supplied that matches the database's id format."
+    },
+    {
+      "step": 64,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Retrieve the reservation history for the email address noahmuller9847@example.com and return the details.' -- the same email-based lookup re-issued after step 60/61 had already shown that get_user_details cannot take an email; no user-id form is proposed (rubric 5b)."
+    },
+    {
+      "step": 65,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({'user_id': 'noahmuller9847@example.com'}) -- second identical misuse of the user_id parameter with an email address after the same 'Error: user not found' at step 60; again no attempt at an id of the documented form."
+    }
+  ]
+}

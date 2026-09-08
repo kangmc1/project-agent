@@ -40,3 +40,21 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   visible in planner snapshot, tool rows attributed per agent. aime_000: ok, success, 8 steps, all checks pass.
 - Batch 1 started 02:16 with --parallel 4 (logs/batch1.log). Expect ~60-90 min.
 - D2/D7/D9/extract/index/summarize modules delivered by agents (synthetic-tested); eval scripts agent still running.
+
+## 02:24 batch 1 at 11/30 — early-terminating runs are genuine agent failures (keep)
+- aime_005: planner emitted '<tool_call>...' as plain content (hermes parse failed, likely LaTeX/JSON escaping) -> 1 step, no submission. Tool-use failure (malformed call).
+- airline_008/009: db_agent immediately called transfer_to_human_agents (tau-bench terminate tool) for a gift-card/certificate balance
+  question it could have answered via get_user_details -> reward 0. Tool misuse / over-escalation.
+- aime_003: planner replied 'Submitted 16241.' without calling submit_answer and skipped verifier -> claimed action never taken.
+- Success so far 2/11 (AIME 2, 4). Expect low success rates; P9 min-n rule (success<3 or failure<3 -> trace AUROC 'not computable') may trigger per domain.
+- Extractor fix: atomic-fact prompt de-biased (was forcing 'reservation_id' keys); D7 diff now value-based.
+
+## 02:50 batch 1 done (30/30, 02:43); batch 2 running; D1 definition corrected; labeling started
+- Batch 1: airline 3/15 success, AIME 5/15 success (incl. smoke dupes: aime 5/18, airline 3/17). Both domains >=3 successes -> trace AUROC computable.
+- D1 definition fix: decision position = where the executor emitted <tool_call> (prefix + its own preceding generated text, e.g.
+  subagent premise declarations; offset up to ~900 tokens). Old prefix-start scoring archived as audit/d1_prefix_start_DEPRECATED.jsonl.
+  Candidate ids = encode('<tool_call>\n{"name": "<name>') (special-token boundary, no prefix dependence). Template check now aligns on gen token ids.
+- Real 7-trace check (old definition): distribution-level equivalence 89.8% (<95%) -> would trigger m2 planner-only policy; re-check with the new definition running on all 30 batch-1 traces.
+- Labeling: 6 opus subagents x 5 runs (blind to audit/), RUBRIC + LABELER_PROMPT.
+- 02:50 D1 check crashed on aime_008 step 13: planner called `run_python`, a tool it was never given (hallucinated tool name).
+  Fix: hallucinated actual is added to the candidate set and flagged actual_not_in_A. Re-running --check.

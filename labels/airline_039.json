@@ -1,0 +1,25 @@
+{
+  "run_id": "airline_039",
+  "batch": 2,
+  "decisive_step": 8,
+  "error_events": [
+    {
+      "step": 7,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "policy_checker is given \"cancellation of a one-way flight with confirmation number H8Q05L ... basic economy class, and includes travel insurance\" — the delegation omits the reason for cancellation (never asked; cancel-flight policy: 'The agent must first obtain the user id, the reservation id, and the reason for cancellation') and omits created_at 2024-05-03T15:12:00, which the step-4 db_agent report and /case_notes.md contained and which decides the 24-hour rule."
+    },
+    {
+      "step": 8,
+      "agent": "policy_checker",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Quotes the clause 'basic economy or economy flights can be cancelled only if travel insurance is bought and the condition is met' and then drops the second conjunct: 'Since the reservation includes travel insurance, the cancellation is allowed. VERDICT: allowed'. The insurance condition is defined in the policy as 'full refund if the user needs to cancel the flight given health or weather reasons'; no reason was supplied (the customer's actual reason is a friend's birthday), so the supported verdict is need_info/not_allowed. This verdict is what the planner acts on at step 11, and the resulting cancel_reservation write is absent from the gold action list (reward 0.0)."
+    }
+  ]
+}

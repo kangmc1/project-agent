@@ -1,0 +1,61 @@
+{
+  "run_id": "aime_017",
+  "batch": 2,
+  "decisive_step": 2,
+  "error_events": [
+    {
+      "step": 1,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner prompt: 'Send the full problem to solver'. The step-1 solver instruction reproduces only the prose and strips the entire [asy] block of the user problem (the grid drawing plus the red example path (0,0)--(0,1)--(2,1)--(2,0)--(3,1)--(3,0)--...--(8,0)--(10,0)--(10,1)), while keeping the now-dangling sentence 'One such path from A to B is shown by the thick line segments in the figure.' The dropped figure is exactly what shows the bug traversing vertical segments downward; the solver at step 2 then assumes 'The bug cannot move left or down.'"
+    },
+    {
+      "step": 2,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'The bug cannot move left or down' and the recurrence f(i,j) = f(i,j-1) + f(i-1,j) + f(i-1,j-1) contradict the problem's only direction constraint as given in the step-1 instruction: 'never moving from right to left along a horizontal or diagonal segment' (vertical segments carry no direction restriction). The resulting monotone lattice-path DP returns N = 20; the gold answer sqrt(N) = 243 requires N = 59049."
+    },
+    {
+      "step": 3,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'$\\sqrt{N} = \\sqrt{20} = 4$' followed by 'FINAL ANSWER: 4'. sqrt(20) = 4.472..., not 4; the 4 in the run_python stdout '20\\n4\\n' is int(N**0.5) truncation from the step-2 code. The solver never notices that N = 20 is not a perfect square although the problem ('Find sqrt(N)') guarantees it is."
+    },
+    {
+      "step": 4,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The verifier delegation repeats the step-1 omission: the [asy] figure is again stripped from the problem text sent to the verifier (repeat labeled individually per rubric 5b). The verifier at step 5 consequently assumes the same false constraint, 'The bug can only move forward (right or up)'."
+    },
+    {
+      "step": 5,
+      "agent": "verifier",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'The bug can only move forward (right or up) and cannot revisit any segment' contradicts the constraint it was given, which forbids right-to-left motion only on horizontal and diagonal segments. Its DP (dp[1][j] = dp[1][j-1] + dp[0][j] + dp[0][j-1]) reproduces the solver's model rather than checking it independently, and returns the same N = 20."
+    },
+    {
+      "step": 6,
+      "agent": "verifier",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'The result is $N = 20$, and $\\sqrt{N} = 4$' / 'FINAL ANSWER: 4' repeats the sqrt(20) = 4 arithmetic error (the printed 4 is int(N**0.5) from its own code). The verifier confirms the solver's 4, so the planner submits it at step 7."
+    }
+  ]
+}

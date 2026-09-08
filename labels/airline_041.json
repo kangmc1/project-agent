@@ -1,0 +1,34 @@
+{
+  "run_id": "airline_041",
+  "batch": 2,
+  "decisive_step": 5,
+  "error_events": [
+    {
+      "step": 5,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Tells policy_checker 'The reservation was made 10 hours ago', asserting the customer's step-1 claim as established fact, although the db_agent report the planner had just received at step 4 states 'Created At: 2024-05-02T06:02:56' (13 days before the environment date 2024-05-15), 'Cabin Class: basic_economy' and 'Insurance: no'. None of those three record fields is passed to the checker; the record makes this cancellation not allowed (basic economy, outside the 24-hour window, no insurance, flights not cancelled by the airline)."
+    },
+    {
+      "step": 6,
+      "agent": "policy_checker",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'The reservation was made within the 24-hour window for cancellations, which allows for a full refund regardless of the cabin class or other conditions ... VERDICT: allowed - Policy clause 5.3' contradicts the get_reservation_details result of step 3 (created_at 2024-05-02T06:02:56, cabin basic_economy, insurance no). The checker was never given the booking record or the cabin and, instead of returning need_info as it does elsewhere, explicitly dismissed 'the cabin class or other conditions' it did not have, and cited a clause number that does not exist in the policy. (Ambiguous with handoff_induced: the false 10-hours premise was supplied by the planner at step 5.)"
+    },
+    {
+      "step": 7,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Instructs db_agent to 'Cancel the reservation with confirmation number 3RK2T9 and process a full refund. The reservation is eligible for a full refund under policy clause 5.3' - an irreversible write ordered on a verdict the planner's own step-4 record contradicts (basic_economy, insurance no, created 2024-05-02T06:02:56). The cancellation goes through at step 8 and is the graded wrong action (reward 0.0); the planner also never confirms the discrepancy with the customer."
+    }
+  ]
+}

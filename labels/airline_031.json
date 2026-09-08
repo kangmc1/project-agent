@@ -1,0 +1,61 @@
+{
+  "run_id": "airline_031",
+  "batch": 2,
+  "decisive_step": null,
+  "error_events": [
+    {
+      "step": 11,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 20,
+      "evidence": "The policy delegation is only 'Check if the cancellation of a one-way Basic Economy flight is allowed under the airline's policy', although db_agent had just reported at step 10 'Reservation ID: D1EW9B ... Created At: 2024-05-04T07:38:29 ... Insurance: No'. The policy_checker (which its own prompt says 'cannot access the database') answers at step 12 'The user has not provided the booking date or confirmation that the airline cancelled the flight. Additionally, the user has not provided a reservation ID or user ID'."
+    },
+    {
+      "step": 12,
+      "agent": "policy_checker",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 22,
+      "evidence": "Emits a definitive 'VERDICT: not_allowed' on premises it declares insufficient in the same message ('The user has not provided the booking date...'), and states the rule as 'Basic Economy flights can only be cancelled within 24 hours of booking or if the airline cancels the flight', dropping the policy's third ground — 'basic economy or economy flights can be cancelled only if travel insurance is bought and the condition is met' — which the same agent restores at step 22. The verdict happens to be right for D1EW9B (insurance 'no'), but not on the reasoning given."
+    },
+    {
+      "step": 15,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": true,
+      "recovery_step": 19,
+      "evidence": "'our system does not currently indicate that you are a Silver member' — no membership lookup had been made at that point (the step-10 db_agent report contains no membership field) and the claim is false: get_user_details returns '\"membership\": \"silver\"', as db_agent reports at step 19 ('Membership: silver')."
+    },
+    {
+      "step": 31,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 39,
+      "evidence": "Delegates 'Check if the cancellation of a multi-leg flight (Reservation ID 9HBUV8) is allowed under the airline's policy' to the policy_checker with no cabin, booking date, insurance status or segment status, to an agent whose prompt states 'You cannot access the database'. Result at steps 34/35: 'VERDICT: need_info — ... The status of the flight segments is required'; the planner has to query db_agent at step 36 and re-ask at step 39."
+    },
+    {
+      "step": 39,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 46,
+      "evidence": "The re-delegation supplies the dates ('flights are scheduled for May 17, 2024, and the reservation was made on May 12, 2024') but omits 'Insurance: yes', which db_agent had just reported at step 38 from get_reservation_details('9HBUV8'). The policy_checker at step 42 answers 'VERDICT: need_info — ... Need to confirm if the user has travel insurance', costing another db_agent round trip (steps 43-45) before step 46 finally passes it."
+    },
+    {
+      "step": 45,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The report ends with a literal, unexecuted tool call printed as message text: '<tool_call>\\n{\"name\": \"write_file\", \"arguments\": {\"file_path\": \"/case_notes.md\", \"content\": ...}}\\n</tool_call>'. No write_file result follows, so the case-notes entry its prompt requires was never written and raw tool-call syntax was returned to the planner as part of the answer."
+    }
+  ]
+}

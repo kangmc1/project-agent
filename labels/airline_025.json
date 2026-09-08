@@ -1,0 +1,106 @@
+{
+  "run_id": "airline_025",
+  "batch": 2,
+  "decisive_step": 28,
+  "error_events": [
+    {
+      "step": 28,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent reports 'The second cheapest economy class option is the flight combination HAT083 (JFK to SEA) and HAT011 (SEA to SFO) with a total economy class price of $137 + $177 = $314'. The tool results it is reading give economy prices: search_direct_flight -> HAT023 $163; search_onestop_flight -> HAT069+HAT258 $290, HAT069+HAT011 $300, HAT083+HAT258 $304, HAT083+HAT011 $314, HAT069+HAT274 $321, HAT083+HAT107 $331, HAT083+HAT274 $335. The second cheapest is $290 (HAT069+HAT258); $314 is the fifth cheapest. The same message also states 'Found 6 one-stop flight options' where search_onestop_flight returned 7. The customer accepted this itinerary at step 30 and every later booking attempt (steps 32-49) uses HAT083+HAT011/$314; never corrected."
+    },
+    {
+      "step": 31,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 36,
+      "evidence": "Booking delegation 'Book the second cheapest economy class option for flight from JFK to SFO on May 24, which is the combination of flights HAT083 ... with a total price of $314' carries no user id, although the customer gave 'My user ID is aarav_ahmed_6699' at step 3 and it was already used at step 4; it also carries no passenger details, payment method, baggage count or insurance choice (policy 'Book flight': 'The agent must first obtain the user id ... collect the first name, last name, and date of birth for each passenger ... All payment methods must already be in user profile'). db_agent filled the gap by inventing 'sara_doe_496' and book_reservation returned 'Error: user not found'. The user id is supplied on re-delegation at step 36 (the payment method never is)."
+    },
+    {
+      "step": 32,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": true,
+      "recovery_step": 37,
+      "evidence": "book_reservation({'user_id': 'sara_doe_496', 'flight_type': 'round_trip', 'passengers': [{'first_name': 'John', 'last_name': 'Doe', 'age': 30}], 'payment_methods': [{'type': 'credit_card', 'card_number': '1234567890123456', 'expiration_date': '12/25', 'cvv': '123'}], 'total_baggages': 2, 'nonfree_baggages': 1}) -- none of these values occur in any customer turn or tool result: 'sara_doe_496' is the placeholder from the get_user_details tool description, 'John Doe' contradicts the known customer Aarav Ahmed, a raw card number contradicts 'All payment methods must already be in user profile', and the requested trip JFK->SFO on one date is not a round_trip. Tool returned 'Error: user not found'. Corrected at step 37, which uses aarav_ahmed_6699 and passenger Aarav Ahmed."
+    },
+    {
+      "step": 37,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "book_reservation payment_methods=[{'payment_id': 'credit_card_123456', 'amount': 314}] -- this invocation calls no get_user_details, and no tool result anywhere in the run contains 'credit_card_123456' (the profile fetched at step 5 lists credit_card_9074831, credit_card_4959530 and certificate_9645872). The same call omits the required per-flight 'date' although the instruction says 'from JFK to SFO on May 24', so the tool returns \"Error: 'date'\"; passengers also carry 'age': 30 instead of the dob the policy requires. The fabricated payment id is never replaced by a real one."
+    },
+    {
+      "step": 38,
+      "agent": "db_agent",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 48,
+      "evidence": "db_agent reports back 'The book_reservation function failed because the required parameter date was not provided. I will now request the date for the booking to proceed. Would you please provide the date for the flight?' -- the date was in the planner's instruction it restated at step 37 ('from JFK to SFO on May 24'); it was missing only from db_agent's own arguments. It supplies '2024-05-24' itself at step 48."
+    },
+    {
+      "step": 42,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Byte-identical re-issue of the step-37 book_reservation call (same flights[] without 'date', same invented payment_id 'credit_card_123456') after the identical \"Error: 'date'\", with no change to the arguments; the tool returns \"Error: 'date'\" again (rubric 5b: repeated emissions labeled individually)."
+    },
+    {
+      "step": 43,
+      "agent": "db_agent",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 48,
+      "evidence": "Second emission of the step-38 claim: 'The book_reservation function failed because the required parameter date was not provided ... Could you please provide the date for the flight?' although the planner's step-41 instruction again reads 'from JFK to SFO on May 24'. Resolved only at step 48 where db_agent adds date '2024-05-24' itself."
+    },
+    {
+      "step": 47,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Third book_reservation call still omitting the per-flight 'date' given in the instruction ('on May 24'), and payment_methods has now degraded to [{'payment_id': 'credit_card_123456789'}] -- the 'amount' key present at steps 37/42 was dropped and the payment id changed to another value absent from every tool result. Tool returns \"Error: 'date'\"."
+    },
+    {
+      "step": 48,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The dates are finally supplied, but payment_methods=[{'payment_id': 'credit_card_123456789'}] still has no 'amount' and the id is invented (the profile read at step 5 has credit_card_9074831 / credit_card_4959530 / certificate_9645872); the tool returns \"Error: 'amount'\". db_agent misreads the error at step 49 as 'an unexpected parameter amount being referenced. Since no additional information is required for booking' and never calls get_user_details."
+    },
+    {
+      "step": 49,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Byte-identical re-issue of the step-48 book_reservation call after the same \"Error: 'amount'\" -- the missing 'amount' field is not added and the invented payment id is unchanged; the tool returns \"Error: 'amount'\" again (rubric 5b)."
+    },
+    {
+      "step": 51,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "transfer_to_human_agents({'summary': \"Issue with booking reservation for user 'aarav_ahmed_6699' due to an error related to the 'amount' parameter.\"}) ends the episode with no reservation booked. The tool's own description restricts it: 'Only transfer if the user explicitly asks for a human agent, or if the user's issue cannot be resolved by the agent with the available tools' (policy: 'transfer ... if and only if the request cannot be handled within the scope of your actions'); the customer never asked for a human (steps 30/40/45 all say to proceed with the booking) and the failures were caused solely by db_agent's own malformed payment_methods argument, which a get_user_details lookup plus an 'amount' field would have fixed."
+    }
+  ]
+}
