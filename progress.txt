@@ -208,3 +208,9 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Final airline subagent: recall 0.33 (16/48), FPR 0.07, precision 0.55, tool-scope recall 10/26, decisive 1/8,
   AUROC 0.632 [0.565, 0.705]. Flags 116/1,296 (missing_tool 64, fabricated_arg 52). The initial 0.68 had 6 TPs flagged for
   the wrong reason and 21 regex FPs; the honest number is 0.63.
+- 07:50 proposal (fork): D3 rewritten as ONE procedural module (1)∪(2) with the 07:40 numbers (airline subagent AUROC 0.632
+  [0.565, 0.705], flag recall 0.33 / FPR 0.07 / precision 0.55, decisive 1/8; 116/1,296 flags); §3.3 diagram+text, §1.2, §4.1.4
+  (flag-level evaluation, why per-rule AUROC was wrong), glossary, 핵심 결과, §4.2.2 (single D3 row + 구성 이력/변형 table incl.
+  regex-fix disclosure and the two rejected variants), §4.2.3–4.2.12, §4.3, 한계, A.19 rewritten; D2 restored as 설계만·결과
+  미사용 in §3.3 (diagram 발언 층 row + paragraph), 한계 bullet with the 8B pilot numbers, A.20 added. any-flag ratio dropped
+  from §4.2.10 (D3 p90 threshold degenerates to 0 → 172/172 artifact). check_docs --proposal/--skeleton OK; table columns consistent.
