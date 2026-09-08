@@ -1,4 +1,6 @@
-# 진행 정리 (2026-09-08 17:25)
+# 진행 정리 (2026-09-08 18:15)
+
+> 2026-09-08 17:55 세팅 오류 발견(출처가 모든 역할에 공유): 실험 전부 중단, 결과 전부 폐기. 시스템 정의는 `docs/SETUP.md`가 기준.
 
 ## 1. 지금까지 한 것 (자산)
 | 구분 | 내용 | 위치 |
@@ -7,14 +9,14 @@
 | 조사 | 관련 연구 5영역 + 빈틈 2차 검증 + 산업 배치 + 실패 빈도 + 실무 사고 + 연구 미해결 과제 | `docs/related_work/` |
 | 합성 시나리오 | task + 대화록 + typed 의무 8개(핵심 값), 규칙 검증. 20개, 생성 계속 | `src/agent_handoff/scenarios/`, `data/scenarios/scenarios.jsonl` |
 | 규칙 매처 | 보존/변조/소실/승격, judge 불필요. 검증: 삭제 100%, 변조 97%, 승격 55%(자유)/100%(JSON) | `src/agent_handoff/matching.py`, `scripts/validate_matcher.py` |
-| 워크플로우 | 폐쇄형 오케스트레이터-워커, 행동=에이전트 선택(logprob 분포), 가시성/포맷/가드/폭, 압축 JSD | `src/agent_handoff/workflow/` |
+| 워크플로우 | 사적 출처(Researcher만 열람) 오케스트레이터-워커, 행동=에이전트 선택(logprob 분포), 가시성/포맷/가드/폭, 압축 JSD | `src/agent_handoff/workflow/` |
 | 체인 스트레스 | 압축만 K회 반복 | `src/agent_handoff/chain/stress.py` |
 | LLM judge | 비교군용 계약 검사기·holistic judge (시나리오에 적용 예정) | `src/agent_handoff/detectors/` |
 | 실행 중 | 워크플로우 그리드(20×2×2×2), 체인 그리드, 시나리오 생성 | `results/raw/` |
 
 ## 2. 결정한 것
 1. 주제: handoff 안정성 — 정보가 역할 경계와 압축을 거치며 얼마나 깨지는가를 시스템 속성으로 수치화. 정답 by construction.
-2. 데이터: 합성 시나리오(폐쇄형, world 없음, 같은 모델). 외부 실행 기록은 쓰지 않음(2026-09-08 17:10 결정).
+2. 데이터: 합성 시나리오(대화록은 Researcher만 읽는 사적 출처, 외부 도구·world 없음, 같은 모델). 외부 실행 기록은 쓰지 않음(2026-09-08 17:10 결정).
 3. 판정: 규칙 매처. LLM judge는 비교군.
 4. 행동: 에이전트 선택 4지선다. 분포는 logprobs로 직접.
 5. D3: 정책 벡터 선형 프로브. 은닉 상태 프로브는 시간 남으면.
@@ -23,9 +25,9 @@
 ## 3. 우리 시스템에서 handoff의 구체 정의
 | 경계 | 송신 → 수신 | 넘어가는 것 | 수신자가 보는 것 | 재는 것 | 변수 |
 |---|---|---|---|---|---|
-| B1 지시 | Orchestrator → Agent | (action_type, target, instruction) | shared: 초기 대화록 + 보고 전부 / summary: state만 | (B2·B3에서 결과로 관측) | 가시성 |
-| B2 반환 | Agent → Orchestrator | report | 다음 라운드 입력(최근 보고 4개 + 이력) | 보고 속 날조 값, Verifier 판정 | 폭 |
-| B3 압축 | Orchestrator(t) → 팀(t+1) | 새 state (free \| json) | 이후 모든 에이전트의 유일한 문맥 | 의무 보존/변조/소실/승격, 단어 수, 정책 JSD, 가드 복구 | 예산, 포맷, 가드 |
+| B1 지시 | Orchestrator → Agent | (action_type, target, instruction) | shared: state + 마지막 압축 이후 보고 / summary: state만. **Researcher만 출처 원문을 추가로 봄** | (B2·B3에서 결과로 관측) | 가시성 |
+| B2 반환 | Researcher → 팀 | report | 다음 라운드 입력(최근 보고 4개 + 이력) | **획득**(출처의 의무가 보고에 처음 등장), 보고 속 날조 값, Verifier의 근거 없는 PASS | 폭 |
+| B3 압축 | Orchestrator(t) → 팀(t+1) | 새 state (free \| json) | 이후 모든 에이전트의 유일한 문맥(출처 제외) | 압축 직전 갖고 있던 항목 대비 손실률, 정책 JSD, 가드 복구 | 예산, 포맷, 가드 |
 | B4 최종 | Orchestrator → 사용자 | final | 사용자 | 제약 보존, 금지 위반, 승격, 날조 | — |
 - 프로브 라벨: 각 B3에서 손실 여부. 입력: 직전 라운드의 정책 벡터·엔트로피·라운드·단어 수·JSD.
 

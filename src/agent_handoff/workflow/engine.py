@@ -1,11 +1,17 @@
-"""Closed-book multi-agent workflow engine.
+"""Multi-agent workflow engine with a private source (no external tools, no world simulation).
+
+Information asymmetry: the scenario transcript is the SOURCE MATERIAL, readable ONLY by the Researcher.
+The Orchestrator, Executor and Verifier never see it; facts enter the team only through Researcher reports
+(B2, the return boundary), then have to survive compression (B3) and reach the final deliverable (B4).
+Constraints/prohibitions that are stated in the task are visible to everyone from the start.
 
 One scenario run = rounds of (Orchestrator decides action -> agent acts -> report appended), with
 context compression when the transcript exceeds a word budget, and a final deliverable.
 
 Variables:
-  visibility : "shared" (agents see initial transcript + all reports so far, or the compressed state after
-               a compression) | "summary" (agents see only the current state + instruction)
+  visibility : "shared" (agents see the current state + all reports since the last compression)
+               | "summary" (agents see only the current state + instruction). The Researcher additionally
+               always sees the private source.
   fmt        : compression format "free" | "json"
   budget     : word budget that triggers compression of the transcript
   guard      : re-insert seeded obligations missing from a compressed state (boundary checker)
@@ -89,11 +95,14 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
     """team: optional subset of role slots selected at B0 (e.g. ["Researcher","Executor"]); the action space is restricted to it."""
     AGENTS = [a for a in R.AGENTS if (team is None or a in team)] or list(R.AGENTS)
     task, obls, initial = scenario["task"], scenario["obligations"], scenario["transcript"]
-    state = initial               # the orchestrator's handoff state (initially the raw transcript)
-    transcript = [initial]        # what accumulates between compressions
+    source = initial              # private source material: only the Researcher can read it
+    state = "(nothing established yet; facts must be obtained from the Researcher, who alone can read the source material)"
+    transcript = [state]          # what accumulates between compressions (the source is NOT part of it)
     reports: list[dict] = []
     log = []
     n_compressions = 0
+    in_task = {o["id"] for o in obls if survival_report(obls, task).get(o["id"]) == "preserved"}
+    acquired: set[str] = set(in_task)   # obligations that have entered the team's shared context at least once
     for r in range(1, rounds + 1):
         # ---- orchestrator decision (structured action) ----
         rep_txt = "\n\n".join(f"[{x['agent']}] {x['report']}" for x in reports[-4:]) or "(none yet)"
@@ -142,19 +151,23 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
             agent = AGENTS[0]
         # ---- agent turn ----
         if visibility == "shared":
-            visible = "CONTEXT (shared transcript):\n" + "\n\n".join(transcript) + ("\n\nREPORTS SO FAR:\n" + "\n\n".join(f"[{x['agent']}] {x['report']}" for x in reports) if reports else "")
+            visible = "HANDOFF STATE FROM ORCHESTRATOR:\n" + state + ("\n\nREPORTS SO FAR (since the last compression):\n" + "\n\n".join(f"[{x['agent']}] {x['report']}" for x in reports) if reports else "")
         else:
             visible = "HANDOFF STATE FROM ORCHESTRATOR:\n" + state
         batch = []
         for (ag, at, tg, ins) in dispatch:
-            rep_i = llm.chat(R.AGENT_SYSTEM[ag], R.AGENT_TURN.format(task=task, visible_context=visible, action_type=at, target=tg, instruction=ins), thinking=False, max_tokens=600, temperature=temperature)
+            vis_i = visible + ("\n\nSOURCE MATERIAL (private: only you can read this; the rest of the team sees only what you report):\n" + source if ag == "Researcher" else "")
+            rep_i = llm.chat(R.AGENT_SYSTEM[ag], R.AGENT_TURN.format(task=task, visible_context=vis_i, action_type=at, target=tg, instruction=ins), thinking=False, max_tokens=600, temperature=temperature)
             batch.append((ag, ins, rep_i))
         for (ag, ins, rep_i) in batch:  # fan-in: all reports land at once
             reports.append({"round": r, "agent": ag, "report": rep_i})
             transcript.append(f"[Orchestrator -> {ag}] {ins}\n[{ag}] {rep_i}")
+            if ag == "Researcher":  # B2: what crossed the return boundary from the private source
+                acquired |= {k for k, v in survival_report(obls, rep_i).items() if v == "preserved"}
         agent, instr, report = batch[0]
         entry["report_agent"] = agent; entry["report"] = report; entry["reports_all"] = [{"agent": b[0], "report": b[2]} for b in batch]
         entry["fabricated_in_report"] = sorted(set(v for b in batch for v in _fabricated_values(b[2], initial, task)))
+        entry["acquired"] = sorted(acquired)
         verdicts = [("APPROVE" if "VERDICT: APPROVE" in b[2].upper() else "REVISE" if "VERDICT: REVISE" in b[2].upper() else None) for b in batch if b[0] == "Verifier"]
         entry["verdict"] = next((v for v in verdicts if v), None)
         # fan-in conflict: two parallel reports give different numbers for the same seeded item
@@ -173,9 +186,12 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
         if words > budget:
             tmpl = COMPRESS_JSON if fmt == "json" else COMPRESS_FREE
             new_state = llm.chat("You are a precise orchestrator.", tmpl.format(task=task, state=state, log="\n\n".join(transcript[1:]) if len(transcript) > 1 else "(none)", budget=max(120, budget // 3)), thinking=False, max_tokens=1400, temperature=0.0)
+            # what the team actually had before compressing (task + reports since the last compression): the B3 loss is measured against this,
+            # and the guard may only re-insert items that were present here (it must never leak never-acquired ground truth past the Researcher)
+            had = survival_report(obls, task + "\n\n" + "\n\n".join(transcript))
             rep = survival_report(obls, new_state); repaired = []
             if guard:
-                missing = [o for o in obls if rep.get(o["id"]) in ("absent", "altered", "promoted")]
+                missing = [o for o in obls if had.get(o["id"]) == "preserved" and rep.get(o["id"]) in ("absent", "altered", "promoted")]
                 if missing:
                     new_state = _repair(new_state, fmt, missing); repaired = [o["id"] for o in missing]; rep = survival_report(obls, new_state)
             # decision divergence: would the orchestrator decide differently from the compressed state than from the full transcript?
@@ -186,7 +202,10 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
             _, pa, ha = choose(llm, R.ORCH_SYSTEM, q_after + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all2) + ".", choices_all2)
             state = new_state; transcript = [state]; n_compressions += 1
             reports = []  # originals are gone after compression: only the compressed state survives (no leak to agents or to the orchestrator's recent-report window)
+            had_ids = [o["id"] for o in obls if had.get(o["id"]) == "preserved"]
+            lost_ids = [i for i in had_ids if rep.get(i) in ("absent", "altered", "promoted")]
             entry["compression"] = {"n": n_compressions, "words_before": words, "words_after": len(state.split()), "survival": rep, "score": score(rep), "repaired": repaired,
+                                    "had_before": had, "n_had": len(had_ids), "lost_ids": lost_ids, "b3_loss_rate": (len(lost_ids) / len(had_ids)) if had_ids else None,
                                     "policy_before": pb, "policy_after": pa, "entropy_before": hb, "entropy_after": ha, "decision_jsd": _jsd(pb, pa)}
         entry["state_survival"] = survival_report(obls, state) if entry.get("compression") else None
         log.append(entry)
@@ -200,6 +219,10 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
         "prohibitions_total": sum(1 for o in obls if o["type"] == "prohibition"),
         "open_promoted_in_final": sum(1 for o in obls if o["type"] == "open_question" and final_rep[o["id"]] == "promoted"),
         "fabricated_in_final": _fabricated_values(final, initial, task),
+        # B2 acquisition vs. transit loss: an obligation absent from the final either never entered the team or was lost after entering
+        "in_task": sorted(in_task), "acquired": sorted(acquired), "n_acquired": len(acquired), "n_obligations": len(obls),
+        "never_acquired": sorted(o["id"] for o in obls if o["id"] not in acquired),
+        "lost_after_acquired": sorted(o["id"] for o in obls if o["id"] in acquired and final_rep[o["id"]] in ("absent", "altered")),
     }
     return {"scenario_id": scenario["id"], "domain": scenario["domain"], "visibility": visibility, "format": fmt, "budget": budget, "guard": guard, "width": width,
             "rounds_run": len(log), "n_compressions": n_compressions, "log": log, "final": final, "final_survival": final_rep, "final_score": score(final_rep), "checks": checks,

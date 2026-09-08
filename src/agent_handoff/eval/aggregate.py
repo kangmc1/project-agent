@@ -50,6 +50,10 @@ def workflow_table(rows):
             "prohibition_violation_rate": statistics.mean(r["checks"]["prohibitions_violated"] / max(1, r["checks"]["prohibitions_total"]) for r in rs),
             "fabricated_final_mean": statistics.mean(len(r["checks"]["fabricated_in_final"]) for r in rs),
             "compressions_mean": statistics.mean(r["n_compressions"] for r in rs),
+            # B2 acquisition (entered the team via task or Researcher reports) and transit loss (acquired but absent/altered in the final)
+            "acquired_rate": statistics.mean(r["checks"]["n_acquired"] / max(1, r["checks"]["n_obligations"]) for r in rs if "n_acquired" in r["checks"]) if any("n_acquired" in r["checks"] for r in rs) else None,
+            "transit_loss_rate": statistics.mean(len(r["checks"]["lost_after_acquired"]) / max(1, r["checks"]["n_acquired"]) for r in rs if "n_acquired" in r["checks"]) if any("n_acquired" in r["checks"] for r in rs) else None,
+            "b3_loss_rate_mean": statistics.mean(c["b3_loss_rate"] for c in comp if c.get("b3_loss_rate") is not None) if any(c.get("b3_loss_rate") is not None for c in comp) else None,
             "compression_preserved_mean": statistics.mean(c["score"]["preserved"] for c in comp) if comp else None,
             "compression_promoted_mean": statistics.mean(c["score"]["promoted"] for c in comp) if comp else None,
             "jsd_mean": statistics.mean(c.get("decision_jsd", 0.0) for c in comp) if comp else None,
@@ -74,7 +78,10 @@ def compression_events(rows):
                            "p_researcher": p.get("Researcher", 0), "p_executor": p.get("Executor", 0), "p_verifier": p.get("Verifier", 0), "p_finish": p.get("finish", 0),
                            "entropy": e.get("entropy_agent", 0), "margin": ps[0] - ps[1], "words_before": c["words_before"], "jsd": c.get("decision_jsd", 0.0),
                            "entropy_before": c.get("entropy_before"), "entropy_after": c.get("entropy_after"),
-                           "preserved": c["score"]["preserved"], "promoted": c["score"]["promoted"], "loss": int(c["score"]["preserved"] < 1.0 or c["score"]["promoted"] > 0)})
+                           "preserved": c["score"]["preserved"], "promoted": c["score"]["promoted"],
+                           "n_had": c.get("n_had"), "b3_loss_rate": c.get("b3_loss_rate"),
+                           # loss label = at least one item the team HAD before compressing is absent/altered/promoted afterwards
+                           "loss": int(bool(c.get("lost_ids"))) if "lost_ids" in c else int(c["score"]["preserved"] < 1.0 or c["score"]["promoted"] > 0)})
             prev = e
     return ev
 

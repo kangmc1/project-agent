@@ -1,4 +1,4 @@
-"""Run the closed-book multi-agent workflow over scenarios × variables. Output: results/raw/workflow_<tag>.jsonl"""
+"""Run the private-source multi-agent workflow over scenarios × variables. Output: results/raw/workflow_<tag>.jsonl"""
 import argparse, json, itertools, time
 from pathlib import Path
 from agent_handoff.llm import LLM
