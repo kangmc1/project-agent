@@ -1,66 +1,6 @@
 {
  "flags": [
   {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=12, numeric=1000"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=81, numeric=12"
-  },
-  {
-   "step": 7,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #5: repeat"
-  },
-  {
-   "step": 7,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=12"
-  },
-  {
-   "step": 11,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #8: repeat"
-  },
-  {
-   "step": 12,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=49, numeric=25, numeric=121"
-  },
-  {
    "step": 13,
    "agent": "planner",
    "module": "D1",
@@ -102,19 +42,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 10,
-   "utterances": 10,
-   "checks": {
-    "repeat": 2
-   }
+   "n_steps": 15,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 4,
-   "n_values": 13,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -127,6 +62,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

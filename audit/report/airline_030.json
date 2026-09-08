@@ -1,6 +1,17 @@
 {
  "flags": [
   {
+   "step": 7,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
    "step": 10,
    "agent": "planner",
    "module": "D1",
@@ -47,27 +58,6 @@
    "evidence": "action distribution: think 0.84, no_tool 0.16, read_file 0.00 (actual: think)"
   },
   {
-   "step": 13,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #13: empty"
-  },
-  {
-   "step": 13,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
-  },
-  {
    "step": 14,
    "agent": "policy_checker",
    "module": "D1",
@@ -78,57 +68,6 @@
     "margin": 0.159
    },
    "evidence": "action distribution: think 0.40, read_file 0.25, write_file 0.25 (actual: think)"
-  },
-  {
-   "step": 14,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #14: empty"
-  },
-  {
-   "step": 14,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
-  },
-  {
-   "step": 15,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #16: repeat"
-  },
-  {
-   "step": 20,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
   }
  ],
  "per_module_summary": {
@@ -137,20 +76,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 20,
-   "utterances": 12,
-   "checks": {
-    "empty": 2,
-    "repeat": 1
-   }
+   "n_steps": 20,
+   "flagged": 1,
+   "missing_tool": 1,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 10
-  },
-  "D3_args": {
-   "n_steps": 11,
-   "n_values": 26,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -163,6 +96,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

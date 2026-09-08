@@ -4,30 +4,20 @@
 |---|---|---|---|---|
 | 2 | planner | D1/tool | {"confidence": 0.629, "p_actual": 0.622, "margin": 0.245} | action distribution: db_agent 0.62, respond_to_user 0.38, no_tool 0.00 (actual: db_agent) |
 | 2 | planner | D1/handoff | {"p_delegate": 0.622, "H2": 0.956} | delegate-vs-not split p_delegate=0.62 |
+| 4 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 11 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["hxdubj", "reservation id hxdubj is associated with the user", "verified booking code association", "yara_garcia_1905"], "altered": []} | db_agent report->planner: missing ['hxdubj', 'reservation id hxdubj is associated with the user', 'verified booking code association'] altered [] |
-| 16 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT072, reservation_id=HAT180 |
 | 20 | db_agent | D1/tool | {"confidence": 0.65, "p_actual": 0.553, "margin": 0.217} | action distribution: get_reservation_details 0.55, calculate 0.34, no_tool 0.09 (actual: get_reservation_details) |
-| 20 | db_agent | D3 | {"checks": ["error"], "tool": "get_reservation_details"} | tool get_reservation_details call #12: error |
-| 20 | db_agent | D3 | {"checks": ["error"], "tool": "get_reservation_details"} | tool get_reservation_details call #13: error |
-| 21 | db_agent | D3 | {"checks": ["error"], "tool": "read_file"} | tool read_file call #14: error |
-| 23 | planner | D3 | {"checks": ["error"], "tool": "db_agent"} | tool db_agent call #16: error |
+| 20 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool get_reservation_details returned an error; tool get_reservation_details returned an error |
+| 21 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool read_file returned an error |
+| 23 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate; tool db_agent returned an error |
 | 24 | planner | D1/tool | {"confidence": 0.581, "p_actual": 0.495, "margin": 0.0} | action distribution: db_agent 0.49, respond_to_user 0.49, no_tool 0.01 (actual: respond_to_user) |
 | 24 | planner | D1/handoff | {"p_delegate": 0.496, "H2": 1.0} | delegate-vs-not split p_delegate=0.50 |
-| 27 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #18: repeat |
-| 28 | db_agent | D3 | {"checks": ["repeat"], "tool": "search_direct_flight"} | tool search_direct_flight call #19: repeat |
-| 28 | db_agent | D3 | {"checks": ["repeat"], "tool": "search_direct_flight"} | tool search_direct_flight call #20: repeat |
-| 29 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
 | 30 | planner | D1/handoff | {"p_delegate": 0.904, "H2": 0.456} | delegate-vs-not split p_delegate=0.90 |
-| 31 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #22: repeat |
+| 32 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate |
 | 35 | planner | D1/tool | {"confidence": 0.649, "p_actual": 0.679, "margin": 0.358} | action distribution: db_agent 0.68, policy_checker 0.32, no_tool 0.00 (actual: db_agent) |
-| 36 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #25: repeat |
-| 37 | db_agent | D3 | {"checks": ["repeat"], "tool": "search_direct_flight"} | tool search_direct_flight call #26: repeat |
-| 37 | db_agent | D3 | {"checks": ["repeat"], "tool": "search_direct_flight"} | tool search_direct_flight call #27: repeat |
-| 38 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
-| 39 | db_agent | D3 | {"checks": ["error"], "tool": "update_reservation_baggages"} | tool update_reservation_baggages call #29: error |
-| 39 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
-| 40 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
-| 41 | planner | D3/arguments | {"ungrounded_ratio": 0.125} | argument values never given to the agent: respond_to_user.money=539 |
+| 39 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": false, "tool_error": true} | tool update_reservation_baggages returned an error |
+| 40 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: calculate |
+| 41 | planner | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": false} | argument never given: respond_to_user.money=539 |
 | 44 | policy_checker | D1/tool | {"confidence": 0.624, "p_actual": 0.835, "margin": 0.69} | action distribution: write_file 0.83, think 0.15, read_file 0.02 (actual: write_file) |
 | 48 | planner | D1/tool | {"confidence": 0.566, "p_actual": 0.726, "margin": 0.543} | action distribution: respond_to_user 0.73, policy_checker 0.18, db_agent 0.09 (actual: respond_to_user) |
 | 48 | planner | D1/handoff | {"p_delegate": 0.27, "H2": 0.842} | delegate-vs-not split p_delegate=0.27 |
@@ -44,22 +34,16 @@
   "method": "stepwise"
  },
  "D3": {
-  "tool_calls": 37,
-  "utterances": 20,
-  "checks": {
-   "error": 5,
-   "repeat": 7
-  }
+  "n_steps": 43,
+  "flagged": 8,
+  "missing_tool": 4,
+  "fabricated_arg": 1,
+  "tool_error": 4
  },
  "D7": {
   "n_handoffs": 18
- },
- "D3_args": {
-  "n_steps": 16,
-  "n_values": 104,
-  "n_ungrounded": 1
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3": "procedural flag (no threshold)"}`

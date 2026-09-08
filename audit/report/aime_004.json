@@ -28,9 +28,11 @@
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: numeric=945, numeric=220, numeric=770, numeric=2285, numeric=3175"
+   "evidence": "required but never called: run_python"
   }
  ],
  "per_module_summary": {
@@ -39,17 +41,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 6,
-   "utterances": 5,
-   "checks": {}
+   "n_steps": 10,
+   "flagged": 1,
+   "missing_tool": 1,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 1,
-   "n_values": 1,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -62,6 +61,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

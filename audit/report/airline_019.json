@@ -32,25 +32,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "read_file"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool read_file call #2: error, ignored"
+   "evidence": "tool read_file returned an error"
   },
   {
-   "step": 7,
-   "agent": "planner",
+   "step": 6,
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "read_file"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool read_file call #5: repeat"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 8,
@@ -71,21 +68,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 5,
-   "utterances": 3,
-   "checks": {
-    "error": 1,
-    "ignored": 1,
-    "repeat": 1
-   }
+   "n_steps": 7,
+   "flagged": 2,
+   "missing_tool": 1,
+   "fabricated_arg": 0,
+   "tool_error": 1
   },
   "D7": {
    "n_handoffs": 2
-  },
-  "D3_args": {
-   "n_steps": 2,
-   "n_values": 2,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -98,6 +88,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

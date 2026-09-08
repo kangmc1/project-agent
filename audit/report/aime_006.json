@@ -15,24 +15,6 @@
     ]
    },
    "evidence": "solver report->planner: missing ['441'] altered ['final_answer']"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=1013, numeric=10, numeric=2026, numeric=100, numeric=80"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=1013, numeric=10, numeric=100, numeric=80, numeric=400"
   }
  ],
  "per_module_summary": {
@@ -41,17 +23,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 5,
-   "utterances": 4,
-   "checks": {}
+   "n_steps": 8,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 4
-  },
-  "D3_args": {
-   "n_steps": 1,
-   "n_values": 1,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -64,6 +43,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

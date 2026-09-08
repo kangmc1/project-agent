@@ -28,7 +28,7 @@ from .metrics import labeled_steps, load_items, pct_thresholds
 
 OFFSETS = list(range(-3, 6))
 D1 = "D1_1-conf"
-D2 = "D3_args"  # second series: D3 rule 3 ungrounded-argument ratio (was D2 unsupported before D2 was removed)
+D2 = "D3"  # second series: procedural D3 flag rate
 
 
 def anchors(root: str | Path, index: dict) -> tuple[list[tuple[str, int, int | None]], list[tuple[str, int]]]:
@@ -84,7 +84,7 @@ def draw_panel(ax, prof, title: str, n_anchor: int) -> None:
     ax.set_ylabel("mean 1 - confidence (D1)", color="tab:blue")
     ax.tick_params(axis="y", labelcolor="tab:blue")
     ax2 = ax.twinx()
-    ax2.set_ylabel("mean ungrounded-arg ratio (D3 rule 3)", color="tab:orange")
+    ax2.set_ylabel("D3 flag rate", color="tab:orange")
     ax2.tick_params(axis="y", labelcolor="tab:orange")
     for name, axis, color, marker in ((D1, ax, "tab:blue", "o"), (D2, ax2, "tab:orange", "s")):
         d = prof.get(name) or {}

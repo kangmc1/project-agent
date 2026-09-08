@@ -28,31 +28,11 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #2: error"
-  },
-  {
-   "step": 5,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT039, flight_no=HAT039"
-  },
-  {
-   "step": 5,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=ethan_martin_123"
+   "evidence": "argument never given: get_user_details.user_id=ethan_martin_123; tool get_user_details returned an error"
   },
   {
    "step": 6,
@@ -71,37 +51,33 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool get_reservation_details call #3: error"
+   "evidence": "tool get_reservation_details returned an error"
   },
   {
    "step": 7,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #4: error, ignored"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight; tool db_agent returned an error"
   },
   {
    "step": 11,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool get_reservation_details call #6: error"
+   "evidence": "tool get_reservation_details returned an error"
   },
   {
    "step": 12,
@@ -117,16 +93,14 @@
   },
   {
    "step": 13,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #8: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 14,
@@ -141,40 +115,37 @@
    "evidence": "action distribution: respond_to_user 0.59, read_file 0.36, write_file 0.05 (actual: respond_to_user)"
   },
   {
-   "step": 22,
+   "step": 18,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool get_user_details call #13: error, repeat"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 22,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 1.0
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=ethan_martin_123"
+   "evidence": "argument never given: get_user_details.user_id=ethan_martin_123; tool get_user_details returned an error"
   },
   {
    "step": 23,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #14: error, ignored"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight; tool db_agent returned an error"
   },
   {
    "step": 29,
@@ -195,21 +166,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 18,
-   "utterances": 8,
-   "checks": {
-    "error": 7,
-    "ignored": 3,
-    "repeat": 1
-   }
+   "n_steps": 23,
+   "flagged": 8,
+   "missing_tool": 3,
+   "fabricated_arg": 2,
+   "tool_error": 7
   },
   "D7": {
    "n_handoffs": 8
-  },
-  "D3_args": {
-   "n_steps": 10,
-   "n_values": 19,
-   "n_ungrounded": 2
   }
  },
  "coverage": {},
@@ -222,6 +186,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

@@ -13,6 +13,17 @@
    "evidence": "action distribution: db_agent 0.55, policy_checker 0.43, read_file 0.01 (actual: db_agent)"
   },
   {
+   "step": 6,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: cancel_reservation, search_direct_flight/search_onestop_flight"
+  },
+  {
    "step": 7,
    "agent": "planner",
    "module": "D7",
@@ -28,15 +39,6 @@
     "altered": []
    },
    "evidence": "policy_checker report->planner: missing ['5 to 7 business days', 'cancellations are allowed only if travel insurance is bought and the condition is met', 'eligible for a refund if travel insurance is purchased and cancellation is due to health reasons'] altered []"
-  },
-  {
-   "step": 8,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
   },
   {
    "step": 11,
@@ -56,28 +58,15 @@
    "evidence": "db_agent report->planner: missing ['3rk2t9', 'cannot proceed with a refund as there is no travel insurance linked to this reservation.', 'n/a'] altered []"
   },
   {
-   "step": 12,
+   "step": 13,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool get_reservation_details call #6: repeat"
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #9: repeat"
+   "evidence": "required but never called: cancel_reservation"
   },
   {
    "step": 21,
@@ -97,19 +86,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 13,
-   "utterances": 8,
-   "checks": {
-    "repeat": 2
-   }
+   "n_steps": 18,
+   "flagged": 2,
+   "missing_tool": 2,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 8
-  },
-  "D3_args": {
-   "n_steps": 6,
-   "n_values": 6,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -122,6 +106,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

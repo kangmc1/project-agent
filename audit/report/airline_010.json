@@ -27,114 +27,56 @@
    "step": 15,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.333
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=PDX"
+   "evidence": "argument never given: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=PDX"
   },
   {
    "step": 16,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT041"
-  },
-  {
-   "step": 16,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.167
-   },
-   "evidence": "argument values never given to the agent: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT083, reservation_id=HAT023, reservation_id=HAT069"
+   "evidence": "argument never given: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
   },
   {
    "step": 18,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "read_file"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool read_file call #19: error, ignored"
-  },
-  {
-   "step": 18,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT276, reservation_id=HAT100, reservation_id=HAT041, reservation_id=HAT012, reservation_id=HAT069"
-  },
-  {
-   "step": 20,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT276, reservation_id=HAT069, money=106"
+   "evidence": "tool read_file returned an error"
   },
   {
    "step": 24,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "book_reservation"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool book_reservation call #23: error"
-  },
-  {
-   "step": 24,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.273
-   },
-   "evidence": "argument values never given to the agent: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
-  },
-  {
-   "step": 25,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
-   },
-   "evidence": "tool db_agent call #24: error, ignored"
+   "evidence": "argument never given: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
   },
   {
    "step": 25,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "claims without prior tool evidence: user_id=sara_doe_496"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 29,
@@ -153,35 +95,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "book_reservation"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool book_reservation call #26: error"
-  },
-  {
-   "step": 29,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.182
-   },
-   "evidence": "argument values never given to the agent: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
   },
   {
    "step": 30,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #27: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 31,
@@ -205,30 +134,6 @@
     "margin": 0.227
    },
    "evidence": "action distribution: get_reservation_details 0.58, search_direct_flight 0.35, no_tool 0.06 (actual: search_direct_flight)"
-  },
-  {
-   "step": 32,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #28: repeat"
-  },
-  {
-   "step": 32,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #29: repeat"
   },
   {
    "step": 34,
@@ -266,37 +171,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "book_reservation"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool book_reservation call #31: error, repeat"
-  },
-  {
-   "step": 35,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.182
-   },
-   "evidence": "argument values never given to the agent: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
   },
   {
    "step": 36,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #32: error, repeat, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 37,
@@ -326,136 +216,11 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "tool search_direct_flight call #34: repeat"
-  },
-  {
-   "step": 40,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #35: repeat"
-  },
-  {
-   "step": 40,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #36: repeat"
-  },
-  {
-   "step": 40,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #37: repeat"
-  },
-  {
-   "step": 40,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #38: repeat"
-  },
-  {
-   "step": 40,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #39: repeat"
-  },
-  {
-   "step": 40,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.333
-   },
-   "evidence": "argument values never given to the agent: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=LAX, search_direct_flight.airport=SFO"
-  },
-  {
-   "step": 41,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #40: repeat"
-  },
-  {
-   "step": 41,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #41: repeat"
-  },
-  {
-   "step": 41,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #42: repeat"
-  },
-  {
-   "step": 41,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT023, reservation_id=HAT083, reservation_id=HAT041"
-  },
-  {
-   "step": 42,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT100, reservation_id=HAT041, reservation_id=HAT012, reservation_id=HAT089, reservation_id=HAT228"
+   "evidence": "argument never given: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=LAX"
   },
   {
    "step": 45,
@@ -491,35 +256,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "book_reservation"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool book_reservation call #45: error"
-  },
-  {
-   "step": 46,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.182
-   },
-   "evidence": "argument values never given to the agent: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; tool book_reservation returned an error"
   },
   {
    "step": 47,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #46: error, ignored"
+   "evidence": "tool db_agent returned an error"
   }
  ],
  "per_module_summary": {
@@ -528,21 +280,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 48,
-   "utterances": 20,
-   "checks": {
-    "error": 9,
-    "ignored": 5,
-    "repeat": 13
-   }
+   "n_steps": 42,
+   "flagged": 12,
+   "missing_tool": 0,
+   "fabricated_arg": 7,
+   "tool_error": 9
   },
   "D7": {
    "n_handoffs": 18
-  },
-  "D3_args": {
-   "n_steps": 23,
-   "n_values": 149,
-   "n_ungrounded": 21
   }
  },
  "coverage": {},
@@ -555,6 +300,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

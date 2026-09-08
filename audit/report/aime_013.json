@@ -1,127 +1,19 @@
 {
- "flags": [
-  {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=501"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #2: repeat"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=501"
-  },
-  {
-   "step": 4,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #3: repeat"
-  },
-  {
-   "step": 4,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=11, numeric=501"
-  },
-  {
-   "step": 5,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #4: repeat"
-  },
-  {
-   "step": 5,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=14, numeric=12, numeric=13, numeric=501"
-  },
-  {
-   "step": 6,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #5: repeat"
-  },
-  {
-   "step": 6,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=16, numeric=15, numeric=501, numeric=17"
-  },
-  {
-   "step": 7,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=19, numeric=18, numeric=20, numeric=501"
-  }
- ],
+ "flags": [],
  "per_module_summary": {
   "D1": {
    "n_scored": 11,
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 8,
-   "utterances": 8,
-   "checks": {
-    "repeat": 4
-   }
+   "n_steps": 11,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 4
-  },
-  "D3_args": {
-   "n_steps": 2,
-   "n_values": 6,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -134,6 +26,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

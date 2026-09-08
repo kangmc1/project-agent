@@ -21,58 +21,15 @@
    "evidence": "solver report->planner: missing ['184', '189', '492 + 184√5'] altered ['final_answer']"
   },
   {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=800, numeric=92, numeric=616, numeric=308, numeric=184"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=189, numeric=492, numeric=72, numeric=184, numeric=368"
-  },
-  {
-   "step": 4,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: final_answer=189, numeric=184, numeric=492"
-  },
-  {
-   "step": 6,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=984, numeric=700, numeric=497"
-  },
-  {
-   "step": 7,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: final_answer=497, numeric=700"
-  },
-  {
    "step": 9,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: numeric=189, numeric=200, numeric=497, numeric=77"
+   "evidence": "required but never called: run_python"
   }
  ],
  "per_module_summary": {
@@ -81,17 +38,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 7,
-   "utterances": 6,
-   "checks": {}
+   "n_steps": 11,
+   "flagged": 1,
+   "missing_tool": 1,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 4,
-   "n_values": 7,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -104,6 +58,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

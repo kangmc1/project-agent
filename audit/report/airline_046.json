@@ -4,43 +4,34 @@
    "step": 5,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.333
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-05-15"
+   "evidence": "argument never given: search_direct_flight.date=2024-05-15"
   },
   {
    "step": 6,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.333
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: search_onestop_flight.date=2024-05-15"
+   "evidence": "argument never given: search_onestop_flight.date=2024-05-15"
   },
   {
    "step": 9,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "tool search_direct_flight call #5: repeat"
-  },
-  {
-   "step": 9,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.333
-   },
-   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-05-15"
+   "evidence": "argument never given: search_direct_flight.date=2024-05-15"
   },
   {
    "step": 15,
@@ -64,35 +55,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #9: error"
-  },
-  {
-   "step": 16,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 17,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #10: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 20,
@@ -128,35 +106,44 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #12: error, repeat"
-  },
-  {
-   "step": 21,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 22,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "db_agent"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #13: error"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight; tool db_agent returned an error"
+  },
+  {
+   "step": 26,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
+   "step": 30,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 34,
@@ -174,33 +161,23 @@
    "step": 34,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.333
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-04-08"
+   "evidence": "argument never given: search_direct_flight.date=2024-04-08"
   },
   {
    "step": 39,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "tool search_direct_flight call #22: repeat"
-  },
-  {
-   "step": 39,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.333
-   },
-   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-04-08"
+   "evidence": "argument never given: search_direct_flight.date=2024-04-08"
   },
   {
    "step": 40,
@@ -218,33 +195,56 @@
    "step": 40,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.333
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: search_onestop_flight.date=2024-04-08"
+   "evidence": "argument never given: search_onestop_flight.date=2024-04-08"
   },
   {
-   "step": 45,
+   "step": 41,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool search_direct_flight call #26: repeat"
+   "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 46,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 51,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: get_reservation_details/get_user_details"
   },
   {
    "step": 55,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.333
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-04-05, search_direct_flight.date=2024-04-05"
+   "evidence": "argument never given: search_direct_flight.date=2024-04-05, search_direct_flight.date=2024-04-05"
   },
   {
    "step": 59,
@@ -281,36 +281,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #36: error, repeat"
-  },
-  {
-   "step": 60,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 61,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #37: error, ignored"
+   "evidence": "tool db_agent returned an error"
   }
  ],
  "per_module_summary": {
@@ -319,21 +305,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 40,
-   "utterances": 4,
-   "checks": {
-    "repeat": 5,
-    "error": 6,
-    "ignored": 2
-   }
+   "n_steps": 52,
+   "flagged": 18,
+   "missing_tool": 6,
+   "fabricated_arg": 10,
+   "tool_error": 6
   },
   "D7": {
    "n_handoffs": 24
-  },
-  "D3_args": {
-   "n_steps": 12,
-   "n_values": 33,
-   "n_ungrounded": 11
   }
  },
  "coverage": {},
@@ -346,6 +325,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

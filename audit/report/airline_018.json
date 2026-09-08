@@ -13,35 +13,15 @@
    "evidence": "action distribution: think 0.91, no_tool 0.09, read_file 0.01 (actual: think)"
   },
   {
-   "step": 6,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #3: empty"
-  },
-  {
-   "step": 6,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15"
-  },
-  {
    "step": 10,
    "agent": "planner",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.5
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: policy_checker.user_id=amelia_rossi_1247"
+   "evidence": "argument never given: policy_checker.user_id=amelia_rossi_1247"
   },
   {
    "step": 11,
@@ -60,22 +40,11 @@
    "agent": "policy_checker",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "read_file"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool read_file call #6: error, ignored"
-  },
-  {
-   "step": 11,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: user_id=amelia_rossi_1247, date=2024-05-15, cancel="
+   "evidence": "tool read_file returned an error"
   },
   {
    "step": 12,
@@ -90,45 +59,6 @@
    "evidence": "action distribution: write_file 0.59, no_tool 0.34, think 0.06 (actual: write_file)"
   },
   {
-   "step": 13,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: user_id=amelia_rossi_1247, date=2024-05-15, cancel="
-  },
-  {
-   "step": 15,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #9: repeat"
-  },
-  {
-   "step": 18,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: user_id=amelia_rossi_1247, date=2024-05-15, cancel="
-  },
-  {
-   "step": 22,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
-  },
-  {
    "step": 25,
    "agent": "planner",
    "module": "D1",
@@ -138,18 +68,6 @@
     "H2": 0.695
    },
    "evidence": "delegate-vs-not split p_delegate=0.19"
-  },
-  {
-   "step": 26,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "respond_to_user"
-   },
-   "evidence": "tool respond_to_user call #15: error"
   }
  ],
  "per_module_summary": {
@@ -158,22 +76,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 18,
-   "utterances": 9,
-   "checks": {
-    "empty": 1,
-    "error": 2,
-    "ignored": 1,
-    "repeat": 1
-   }
+   "n_steps": 25,
+   "flagged": 2,
+   "missing_tool": 0,
+   "fabricated_arg": 1,
+   "tool_error": 1
   },
   "D7": {
    "n_handoffs": 12
-  },
-  "D3_args": {
-   "n_steps": 11,
-   "n_values": 13,
-   "n_ungrounded": 1
   }
  },
  "coverage": {},
@@ -186,6 +96,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

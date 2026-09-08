@@ -15,15 +15,6 @@
    "evidence": "solver report->planner: missing ['276'] altered []"
   },
   {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=10"
-  },
-  {
    "step": 4,
    "agent": "planner",
    "module": "D7",
@@ -36,15 +27,6 @@
     "altered": []
    },
    "evidence": "verifier report->planner: missing ['391'] altered []"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=10"
   }
  ],
  "per_module_summary": {
@@ -53,17 +35,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 7,
-   "utterances": 6,
-   "checks": {}
+   "n_steps": 11,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 1,
-   "n_values": 1,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -76,6 +55,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

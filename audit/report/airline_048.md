@@ -2,10 +2,9 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 4 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: money=306 |
+| 4 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 5 | planner | D1/handoff | {"p_delegate": 0.269, "H2": 0.84} | delegate-vs-not split p_delegate=0.27 |
-| 23 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT102, reservation_id=HAT093, reservation_id=HAT229, reservation_id=HAT147, reservation_id=HAT131 |
-| 24 | planner | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT102, reservation_id=HAT093, reservation_id=HAT229, reservation_id=HAT147, reservation_id=HAT131 |
+| 17 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: search_direct_flight/search_onestop_flight |
 
 ## Per-module summary
 ```
@@ -15,19 +14,16 @@
   "method": "stepwise"
  },
  "D3": {
-  "tool_calls": 15,
-  "utterances": 6,
-  "checks": {}
+  "n_steps": 19,
+  "flagged": 2,
+  "missing_tool": 2,
+  "fabricated_arg": 0,
+  "tool_error": 0
  },
  "D7": {
   "n_handoffs": 10
- },
- "D3_args": {
-  "n_steps": 8,
-  "n_values": 48,
-  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3": "procedural flag (no threshold)"}`

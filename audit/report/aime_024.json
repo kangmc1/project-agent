@@ -29,24 +29,6 @@
    "evidence": "action distribution: no_tool 0.64, run_python 0.36, write_file 0.00 (actual: run_python)"
   },
   {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=99, numeric=99999, numeric=9999, numeric=999"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: final_answer=111"
-  },
-  {
    "step": 5,
    "agent": "verifier",
    "module": "D1",
@@ -57,15 +39,6 @@
     "margin": 0.612
    },
    "evidence": "action distribution: run_python 0.81, no_tool 0.19, read_file 0.00 (actual: run_python)"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=99, numeric=9999, numeric=999"
   },
   {
    "step": 7,
@@ -79,15 +52,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.82"
   },
   {
-   "step": 8,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=9999, numeric=999"
-  },
-  {
    "step": 9,
    "agent": "solver",
    "module": "D1",
@@ -98,78 +62,6 @@
     "margin": 0.079
    },
    "evidence": "action distribution: run_python 0.54, no_tool 0.46, write_file 0.00 (actual: run_python)"
-  },
-  {
-   "step": 9,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #6: repeat"
-  },
-  {
-   "step": 9,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=999, numeric=9999"
-  },
-  {
-   "step": 10,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #7: repeat"
-  },
-  {
-   "step": 10,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=999, numeric=9999"
-  },
-  {
-   "step": 11,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #8: repeat"
-  },
-  {
-   "step": 11,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=999, numeric=9999"
-  },
-  {
-   "step": 12,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=999, numeric=9999"
   }
  ],
  "per_module_summary": {
@@ -178,19 +70,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 10,
-   "utterances": 9,
-   "checks": {
-    "repeat": 3
-   }
+   "n_steps": 14,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 4,
-   "n_values": 7,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -203,6 +90,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

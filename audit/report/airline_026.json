@@ -13,15 +13,6 @@
    "evidence": "action distribution: db_agent 0.56, policy_checker 0.44, read_file 0.00 (actual: db_agent)"
   },
   {
-   "step": 5,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: user_id=aarav_ahmed_6699"
-  },
-  {
    "step": 10,
    "agent": "planner",
    "module": "D1",
@@ -32,15 +23,6 @@
     "margin": 0.339
    },
    "evidence": "action distribution: policy_checker 0.64, db_agent 0.30, respond_to_user 0.05 (actual: policy_checker)"
-  },
-  {
-   "step": 11,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=M20IZO"
   },
   {
    "step": 18,
@@ -55,83 +37,26 @@
    "evidence": "action distribution: search_direct_flight 0.82, calculate 0.12, search_onestop_flight 0.04 (actual: search_direct_flight)"
   },
   {
-   "step": 18,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=245"
-  },
-  {
-   "step": 20,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=294, money=597, money=303"
-  },
-  {
    "step": 21,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: money=597"
-  },
-  {
-   "step": 25,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #16: repeat"
-  },
-  {
-   "step": 25,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=597"
+   "evidence": "required but never called: calculate"
   },
   {
    "step": 26,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "update_reservation_flights"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool update_reservation_flights call #17: error"
-  },
-  {
-   "step": 26,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=597"
-  },
-  {
-   "step": 26,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 0.1
-   },
-   "evidence": "argument values never given to the agent: update_reservation_flights.user_id=credit_card_7334"
+   "evidence": "argument never given: update_reservation_flights.user_id=credit_card_7334; tool update_reservation_flights returned an error"
   },
   {
    "step": 27,
@@ -146,24 +71,6 @@
    "evidence": "action distribution: no_tool 0.60, get_user_details 0.39, transfer_to_human_agents 0.00 (actual: get_user_details)"
   },
   {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=597"
-  },
-  {
-   "step": 28,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=597"
-  },
-  {
    "step": 29,
    "agent": "db_agent",
    "module": "D1",
@@ -174,24 +81,6 @@
     "margin": 0.367
    },
    "evidence": "action distribution: no_tool 0.63, read_file 0.27, write_file 0.10 (actual: read_file)"
-  },
-  {
-   "step": 29,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=597"
-  },
-  {
-   "step": 30,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: money=597"
   }
  ],
  "per_module_summary": {
@@ -200,20 +89,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 23,
-   "utterances": 16,
-   "checks": {
-    "repeat": 1,
-    "error": 1
-   }
+   "n_steps": 28,
+   "flagged": 2,
+   "missing_tool": 1,
+   "fabricated_arg": 1,
+   "tool_error": 1
   },
   "D7": {
    "n_handoffs": 10
-  },
-  "D3_args": {
-   "n_steps": 16,
-   "n_values": 41,
-   "n_ungrounded": 1
   }
  },
  "coverage": {},
@@ -226,6 +109,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

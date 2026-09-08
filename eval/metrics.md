@@ -1,10 +1,10 @@
 # Detection metrics
 
-- generated: 2026-09-09 06:23:42 KST
+- generated: 2026-09-09 06:39:53 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
-- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D3_args, D3_instruction, D3_unsatisfied, D7_instruction->premise, D7_report->planner
+- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2_judge, D3, D7_instruction->premise, D7_report->planner
 - bootstrap: 1000 stratified resamples, seed 0; AUROC is `n/a` when n_pos < 3 or n_neg < 3.
 
 ## 1. Step-level AUROC
@@ -43,27 +43,18 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D1_handoff | planner | airline | 391/391 | 46 | 148 | 0.579 [0.493, 0.667] | 16 | 0.552 [0.430, 0.685] |
 | D1_handoff | planner | aime | 123/123 | 6 | 56 | 0.518 [0.241, 0.795] | 2 | n/a |
 | D1_handoff | planner | all | 514/514 | 52 | 204 | 0.610 [0.524, 0.685] | 18 | 0.559 [0.411, 0.684] |
-| D3_args | planner | airline | 172/391 | 27 | 82 | 0.537 [0.500, 0.593] | 6 | 0.500 [0.500, 0.500] |
-| D3_args | planner | aime | 68/123 | 2 | 34 | n/a | 0 | n/a |
-| D3_args | planner | all | 240/514 | 29 | 116 | 0.534 [0.500, 0.586] | 6 | 0.500 [0.500, 0.500] |
-| D3_args | subagent | airline | 203/435 | 24 | 89 | 0.677 [0.578, 0.781] | 1 | n/a |
-| D3_args | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
-| D3_args | subagent | all | 203/694 | 24 | 89 | 0.677 [0.578, 0.781] | 1 | n/a |
-| D3_args | all | airline | 375/826 | 51 | 171 | 0.602 [0.547, 0.657] | 7 | 0.494 [0.485, 0.500] |
-| D3_args | all | aime | 68/382 | 2 | 34 | n/a | 0 | n/a |
-| D3_args | all | all | 443/1208 | 53 | 205 | 0.599 [0.545, 0.656] | 7 | 0.495 [0.488, 0.500] |
-| D3_instruction | subagent | airline | 127/435 | 18 | 45 | 0.656 [0.533, 0.767] | 5 | 0.467 [0.256, 0.711] |
-| D3_instruction | subagent | aime | 70/259 | 22 | 11 | 0.705 [0.614, 0.795] | 9 | 0.778 [0.611, 0.944] |
-| D3_instruction | subagent | all | 197/694 | 40 | 56 | 0.600 [0.496, 0.689] | 14 | 0.562 [0.428, 0.705] |
-| D3_unsatisfied | planner | airline | 17/391 | 1 | 4 | n/a | 1 | n/a |
-| D3_unsatisfied | planner | aime | 1/123 | 0 | 1 | n/a | 0 | n/a |
-| D3_unsatisfied | planner | all | 18/514 | 1 | 5 | n/a | 1 | n/a |
-| D3_unsatisfied | subagent | airline | 329/435 | 40 | 162 | 0.548 [0.467, 0.624] | 7 | 0.659 [0.457, 0.830] |
-| D3_unsatisfied | subagent | aime | 220/259 | 69 | 34 | 0.445 [0.350, 0.555] | 20 | 0.646 [0.528, 0.759] |
-| D3_unsatisfied | subagent | all | 549/694 | 109 | 196 | 0.553 [0.497, 0.609] | 27 | 0.736 [0.646, 0.816] |
-| D3_unsatisfied | all | airline | 346/826 | 41 | 166 | 0.541 [0.459, 0.617] | 8 | 0.620 [0.445, 0.802] |
-| D3_unsatisfied | all | aime | 221/382 | 69 | 35 | 0.453 [0.359, 0.560] | 20 | 0.654 [0.539, 0.775] |
-| D3_unsatisfied | all | all | 567/1208 | 110 | 201 | 0.550 [0.493, 0.610] | 28 | 0.721 [0.637, 0.799] |
+| D2_judge | subagent | airline | 253/435 | 31 | 110 | 0.473 [0.383, 0.567] | 6 | 0.305 [0.259, 0.350] |
+| D2_judge | subagent | aime | 165/259 | 43 | 16 | 0.522 [0.397, 0.640] | 5 | 0.487 [0.344, 0.700] |
+| D2_judge | subagent | all | 418/694 | 74 | 126 | 0.458 [0.393, 0.523] | 11 | 0.359 [0.286, 0.468] |
+| D3 | planner | airline | 391/391 | 46 | 148 | 0.522 [0.500, 0.554] | 16 | 0.500 [0.500, 0.500] |
+| D3 | planner | aime | 123/123 | 6 | 56 | 0.500 [0.500, 0.500] | 2 | n/a |
+| D3 | planner | all | 514/514 | 52 | 204 | 0.519 [0.500, 0.548] | 18 | 0.500 [0.500, 0.500] |
+| D3 | subagent | airline | 435/435 | 48 | 190 | 0.728 [0.655, 0.801] | 8 | 0.603 [0.457, 0.783] |
+| D3 | subagent | aime | 259/259 | 72 | 36 | 0.674 [0.604, 0.743] | 21 | 0.577 [0.478, 0.673] |
+| D3 | subagent | all | 694/694 | 120 | 226 | 0.677 [0.623, 0.727] | 29 | 0.560 [0.480, 0.647] |
+| D3 | all | airline | 826/826 | 94 | 338 | 0.623 [0.579, 0.673] | 24 | 0.515 [0.459, 0.588] |
+| D3 | all | aime | 382/382 | 78 | 92 | 0.682 [0.625, 0.739] | 23 | 0.592 [0.511, 0.685] |
+| D3 | all | all | 1208/1208 | 172 | 430 | 0.642 [0.605, 0.677] | 47 | 0.544 [0.493, 0.598] |
 | D7_instruction->premise | planner | airline | 105/391 | 21 | 44 | 0.401 [0.254, 0.554] | 7 | 0.349 [0.125, 0.609] |
 | D7_instruction->premise | planner | aime | 66/123 | 3 | 39 | 0.513 [0.128, 0.821] | 0 | n/a |
 | D7_instruction->premise | planner | all | 171/514 | 24 | 83 | 0.388 [0.260, 0.517] | 7 | 0.335 [0.114, 0.608] |
@@ -107,14 +98,17 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | D1_handoff | planner | airline | 31 | 25 | 6 | 0.673 [0.507, 0.840] | 0.467 [0.240, 0.693] |
 | D1_handoff | planner | aime | 31 | 23 | 8 | 0.630 [0.380, 0.842] | 0.679 [0.424, 0.891] |
 | D1_handoff | planner | all | 62 | 48 | 14 | 0.635 [0.463, 0.783] | 0.582 [0.402, 0.746] |
-| D3_args | planner | airline | 1 | 1 | 0 | not computable (success=0, failure=1) | not computable (success=0, failure=1) |
-| D3_args | planner | aime | 5 | 4 | 1 | not computable (success=1, failure=4) | not computable (success=1, failure=4) |
-| D3_args | planner | all | 6 | 5 | 1 | not computable (success=1, failure=5) | not computable (success=1, failure=5) |
-| D3_unsatisfied | subagent | airline | 19 | 13 | 6 | 0.506 [0.346, 0.712] | 0.372 [0.090, 0.679] |
-| D3_unsatisfied | subagent | aime | 26 | 18 | 8 | 0.444 [0.361, 0.500] | 0.622 [0.409, 0.823] |
-| D3_unsatisfied | subagent | all | 45 | 31 | 14 | 0.471 [0.387, 0.575] | 0.479 [0.298, 0.658] |
-| D3_unsatisfied | all | aime | 2 | 1 | 1 | not computable (success=1, failure=1) | not computable (success=1, failure=1) |
-| D3_unsatisfied | all | all | 2 | 1 | 1 | not computable (success=1, failure=1) | not computable (success=1, failure=1) |
+| D2_judge | subagent | aime | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
+| D2_judge | subagent | all | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
+| D3 | planner | airline | 31 | 25 | 6 | 0.373 [0.187, 0.540] | 0.373 [0.173, 0.540] |
+| D3 | planner | aime | 31 | 23 | 8 | 0.522 [0.500, 0.565] | 0.522 [0.500, 0.565] |
+| D3 | planner | all | 62 | 48 | 14 | 0.460 [0.353, 0.542] | 0.461 [0.356, 0.542] |
+| D3 | subagent | airline | 31 | 25 | 6 | 0.420 [0.340, 0.480] | 0.613 [0.407, 0.807] |
+| D3 | subagent | aime | 30 | 22 | 8 | 0.500 [0.307, 0.699] | 0.432 [0.207, 0.676] |
+| D3 | subagent | all | 61 | 47 | 14 | 0.483 [0.355, 0.622] | 0.506 [0.355, 0.664] |
+| D3 | all | airline | 31 | 25 | 6 | 0.420 [0.340, 0.480] | 0.653 [0.473, 0.820] |
+| D3 | all | aime | 31 | 23 | 8 | 0.489 [0.299, 0.698] | 0.429 [0.201, 0.669] |
+| D3 | all | all | 62 | 48 | 14 | 0.476 [0.342, 0.629] | 0.515 [0.360, 0.689] |
 
 ## 3. Decisive-step attribution (failed labeled runs)
 
@@ -152,25 +146,18 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | D1_handoff | planner | airline | 24 | 0.208 | 0.292 | 0.667 |
 | D1_handoff | planner | aime | 23 | 0.043 | 0.304 | 0.087 |
 | D1_handoff | planner | all | 47 | 0.128 | 0.298 | 0.383 |
-| D3_args | planner | airline | 19 | 0.105 | 0.105 | 0.579 |
-| D3_args | planner | aime | 21 | 0.000 | 0.429 | 0.048 |
-| D3_args | planner | all | 40 | 0.050 | 0.275 | 0.300 |
-| D3_args | subagent | airline | 22 | 0.000 | 0.273 | 0.273 |
-| D3_args | subagent | all | 22 | 0.000 | 0.273 | 0.273 |
-| D3_args | all | airline | 22 | 0.045 | 0.227 | 0.545 |
-| D3_args | all | aime | 21 | 0.000 | 0.429 | 0.048 |
-| D3_args | all | all | 43 | 0.023 | 0.326 | 0.302 |
-| D3_instruction | subagent | airline | 24 | 0.083 | 0.125 | 0.250 |
-| D3_instruction | subagent | aime | 22 | 0.318 | 0.545 | 0.864 |
-| D3_instruction | subagent | all | 46 | 0.196 | 0.326 | 0.543 |
-| D3_unsatisfied | planner | airline | 13 | 0.077 | 0.077 | 0.615 |
-| D3_unsatisfied | planner | all | 13 | 0.077 | 0.077 | 0.615 |
-| D3_unsatisfied | subagent | airline | 21 | 0.048 | 0.286 | 0.190 |
-| D3_unsatisfied | subagent | aime | 22 | 0.591 | 0.727 | 0.955 |
-| D3_unsatisfied | subagent | all | 43 | 0.326 | 0.512 | 0.581 |
-| D3_unsatisfied | all | airline | 21 | 0.048 | 0.143 | 0.286 |
-| D3_unsatisfied | all | aime | 22 | 0.591 | 0.727 | 0.955 |
-| D3_unsatisfied | all | all | 43 | 0.326 | 0.442 | 0.628 |
+| D2_judge | subagent | airline | 24 | 0.042 | 0.083 | 0.250 |
+| D2_judge | subagent | aime | 21 | 0.095 | 0.524 | 0.714 |
+| D2_judge | subagent | all | 45 | 0.067 | 0.289 | 0.467 |
+| D3 | planner | airline | 24 | 0.125 | 0.292 | 0.667 |
+| D3 | planner | aime | 23 | 0.043 | 0.522 | 0.087 |
+| D3 | planner | all | 47 | 0.085 | 0.404 | 0.383 |
+| D3 | subagent | airline | 24 | 0.000 | 0.208 | 0.250 |
+| D3 | subagent | aime | 22 | 0.500 | 0.545 | 0.864 |
+| D3 | subagent | all | 46 | 0.239 | 0.370 | 0.543 |
+| D3 | all | airline | 24 | 0.042 | 0.167 | 0.333 |
+| D3 | all | aime | 23 | 0.217 | 0.478 | 0.435 |
+| D3 | all | all | 47 | 0.128 | 0.319 | 0.383 |
 | D7_instruction->premise | planner | airline | 21 | 0.286 | 0.333 | 0.619 |
 | D7_instruction->premise | planner | aime | 21 | 0.000 | 0.381 | 0.048 |
 | D7_instruction->premise | planner | all | 42 | 0.143 | 0.357 | 0.333 |
@@ -214,25 +201,18 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | D1_handoff | planner | airline | 0.7041 | 0.095 | 0.065 | 46 | 8/24 | 5.5 |
 | D1_handoff | planner | aime | 0.0853 | 0.089 | 0.333 | 6 | 10/23 | 4.5 |
 | D1_handoff | planner | all | 0.6846 | 0.098 | 0.096 | 52 | 14/47 | 3.5 |
-| D3_args | planner | airline | 0.2857 | 0.000 | 0.074 | 27 | 0/24 | n/a |
-| D3_args | planner | aime | 1e-09 | 0.000 | 0.000 | 2 | 1/23 | 29.0 |
-| D3_args | planner | all | 0.2857 | 0.000 | 0.069 | 29 | 1/47 | 29.0 |
-| D3_args | subagent | airline | 0.1 | 0.022 | 0.375 | 24 | 9/24 | 3.0 |
-| D3_args | subagent | all | 0.1 | 0.022 | 0.375 | 24 | 9/46 | 3.0 |
-| D3_args | all | airline | 0.1 | 0.012 | 0.216 | 51 | 10/24 | 3.0 |
-| D3_args | all | aime | 1e-09 | 0.000 | 0.000 | 2 | 1/23 | 29.0 |
-| D3_args | all | all | 0.1 | 0.010 | 0.208 | 53 | 11/47 | 3.0 |
-| D3_instruction | subagent | airline | 1 | 0.000 | 0.000 | 18 | 0/24 | n/a |
-| D3_instruction | subagent | aime | 1 | 0.000 | 0.409 | 22 | 9/22 | 0.0 |
-| D3_instruction | subagent | all | 1 | 0.000 | 0.000 | 40 | 0/46 | n/a |
-| D3_unsatisfied | planner | airline | 1 | 0.000 | 0.000 | 1 | 0/24 | n/a |
-| D3_unsatisfied | planner | all | 1 | 0.000 | 0.000 | 1 | 0/47 | n/a |
-| D3_unsatisfied | subagent | airline | 1 | 0.000 | 0.000 | 40 | 0/24 | n/a |
-| D3_unsatisfied | subagent | aime | 1 | 0.000 | 0.000 | 69 | 0/22 | n/a |
-| D3_unsatisfied | subagent | all | 1 | 0.000 | 0.000 | 109 | 0/46 | n/a |
-| D3_unsatisfied | all | airline | 1 | 0.000 | 0.000 | 41 | 0/24 | n/a |
-| D3_unsatisfied | all | aime | 1 | 0.000 | 0.000 | 69 | 0/23 | n/a |
-| D3_unsatisfied | all | all | 1 | 0.000 | 0.000 | 110 | 0/47 | n/a |
+| D2_judge | subagent | airline | 0.6667 | 0.055 | 0.032 | 31 | 2/24 | 12.0 |
+| D2_judge | subagent | aime | 0.5 | 0.062 | 0.070 | 43 | 3/22 | 3.0 |
+| D2_judge | subagent | all | 0.6667 | 0.056 | 0.027 | 74 | 2/46 | 12.0 |
+| D3 | planner | airline | 1 | 0.000 | 0.043 | 46 | 1/24 | 20.0 |
+| D3 | planner | aime | 1e-09 | 0.000 | 0.000 | 6 | 1/23 | 29.0 |
+| D3 | planner | all | 1 | 0.000 | 0.038 | 52 | 2/47 | 24.5 |
+| D3 | subagent | airline | 1 | 0.000 | 0.000 | 48 | 0/24 | n/a |
+| D3 | subagent | aime | 1 | 0.083 | 0.431 | 72 | 9/22 | 0.0 |
+| D3 | subagent | all | 1 | 0.000 | 0.000 | 120 | 0/46 | n/a |
+| D3 | all | airline | 1 | 0.095 | 0.340 | 94 | 17/24 | 2.0 |
+| D3 | all | aime | 1 | 0.033 | 0.397 | 78 | 9/23 | 0.0 |
+| D3 | all | all | 1 | 0.081 | 0.366 | 172 | 26/47 | 1.5 |
 | D7_instruction->premise | planner | airline | 0.8 | 0.091 | 0.190 | 21 | 1/24 | 0.0 |
 | D7_instruction->premise | planner | aime | 0.8889 | 0.077 | 0.000 | 3 | 2/23 | 4.5 |
 | D7_instruction->premise | planner | all | 0.8667 | 0.072 | 0.083 | 24 | 3/47 | 3.0 |
@@ -264,32 +244,32 @@ Population = every labeled non-aux step (cascade included); positive = a labeled
 
 ## 6. Matched sub-table (steps scored by D1 AND D3)
 
-Intersection = 600 step(s) scored by all of D1_1-conf, D3_unsatisfied.
+Intersection = 1296 step(s) scored by all of D1_1-conf, D3.
 
 | item | role | domain | n_pos | n_neg | AUROC all errors [95% CI] |
 |---|---|---|---|---|---|
-| D1_1-conf | planner | airline | 1 | 4 | n/a |
-| D1_1-conf | planner | aime | 0 | 1 | n/a |
-| D1_1-conf | planner | all | 1 | 5 | n/a |
-| D1_1-conf | subagent | airline | 40 | 162 | 0.567 [0.455, 0.675] |
-| D1_1-conf | subagent | aime | 69 | 34 | 0.563 [0.448, 0.677] |
-| D1_1-conf | subagent | all | 109 | 196 | 0.563 [0.494, 0.626] |
-| D1_1-conf | all | airline | 41 | 166 | 0.581 [0.472, 0.681] |
-| D1_1-conf | all | aime | 69 | 35 | 0.562 [0.448, 0.676] |
-| D1_1-conf | all | all | 110 | 201 | 0.573 [0.506, 0.633] |
-| D3_unsatisfied | planner | airline | 1 | 4 | n/a |
-| D3_unsatisfied | planner | aime | 0 | 1 | n/a |
-| D3_unsatisfied | planner | all | 1 | 5 | n/a |
-| D3_unsatisfied | subagent | airline | 40 | 162 | 0.548 [0.467, 0.624] |
-| D3_unsatisfied | subagent | aime | 69 | 34 | 0.445 [0.350, 0.555] |
-| D3_unsatisfied | subagent | all | 109 | 196 | 0.553 [0.497, 0.609] |
-| D3_unsatisfied | all | airline | 41 | 166 | 0.541 [0.459, 0.617] |
-| D3_unsatisfied | all | aime | 69 | 35 | 0.453 [0.359, 0.560] |
-| D3_unsatisfied | all | all | 110 | 201 | 0.550 [0.493, 0.610] |
+| D1_1-conf | planner | airline | 46 | 148 | 0.616 [0.530, 0.702] |
+| D1_1-conf | planner | aime | 6 | 56 | 0.610 [0.318, 0.881] |
+| D1_1-conf | planner | all | 52 | 204 | 0.667 [0.590, 0.741] |
+| D1_1-conf | subagent | airline | 48 | 190 | 0.539 [0.439, 0.629] |
+| D1_1-conf | subagent | aime | 72 | 36 | 0.534 [0.415, 0.651] |
+| D1_1-conf | subagent | all | 120 | 226 | 0.540 [0.477, 0.603] |
+| D1_1-conf | all | airline | 94 | 338 | 0.583 [0.516, 0.645] |
+| D1_1-conf | all | aime | 78 | 92 | 0.544 [0.456, 0.639] |
+| D1_1-conf | all | all | 172 | 430 | 0.538 [0.489, 0.586] |
+| D3 | planner | airline | 46 | 148 | 0.522 [0.500, 0.554] |
+| D3 | planner | aime | 6 | 56 | 0.500 [0.500, 0.500] |
+| D3 | planner | all | 52 | 204 | 0.519 [0.500, 0.548] |
+| D3 | subagent | airline | 48 | 190 | 0.728 [0.655, 0.801] |
+| D3 | subagent | aime | 72 | 36 | 0.674 [0.604, 0.743] |
+| D3 | subagent | all | 120 | 226 | 0.677 [0.623, 0.727] |
+| D3 | all | airline | 94 | 338 | 0.623 [0.579, 0.673] |
+| D3 | all | aime | 78 | 92 | 0.682 [0.625, 0.739] |
+| D3 | all | all | 172 | 430 | 0.642 [0.605, 0.677] |
 
 ## 7. Any-flag coverage (descriptive)
 
-Of the 172 labeled error steps (decisive + transient), **0.680** (117/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
+Of the 172 labeled error steps (decisive + transient), **0.552** (95/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
-Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D3_args`=0.0000, `D3_instruction`=1.0000, `D3_unsatisfied`=1.0000, `D7_instruction->premise`=0.7500, `D7_report->planner`=1.0000.
+Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2_judge`=0.4000, `D3`=1.0000, `D7_instruction->premise`=0.7500, `D7_report->planner`=1.0000.
 

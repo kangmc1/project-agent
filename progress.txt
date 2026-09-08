@@ -180,3 +180,15 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   updated; appendix A.18 records the deletion; §4.2 renumbered (subtag 4.2.10, system report 4.2.11, AIME 보조 4.2.12).
   The reasoning-error layer (values right, conclusion wrong) is now stated as uncovered. check_docs OK.
 - 06:45 scoring server qwen32b-score@18003 (GPU 4) shut down at user's instruction; no vLLM servers of ours remain. All D1/D3/D7 outputs final.
+
+## 2026-09-09 07:10 KST — D3 made procedural (user's definition); D2 kept as design only
+- User: per-rule AUROC was the wrong evaluation for binary checks; D3 = 1 if (1) required tool never called OR (2) fabricated
+  argument [OR (3) tool returned an error], else 0. Variants measured on airline subagent (48 pos / 190 neg):
+  (1)∪(2): recall 0.48, FPR 0.12, precision 0.50, AUROC 0.68; +tool_error: recall 0.62, FPR 0.17, precision 0.48, AUROC 0.728
+  [0.655, 0.801], decisive recall 3/8; +ignored: no gain; +repeat: FPR 0.31. Adopted (1)∪(2)∪tool_error. Utterance->required-
+  tool rule and empty/schema/repeat/ignored checks dropped from D3. src/audit/d3_final.py -> audit/d3_final.jsonl; metrics item
+  "D3" (single). report.py flags = procedural D3 with evidence strings.
+- D2: user decision "개념만 남겨두자, 안 쓰는 걸로". 8B judge pilot (467 steps) was not usable: airline AUROC 0.47, flagged-step
+  precision 17%, clean steps flagged 39%; AIME precision 75% / recall 21%. Output archived audit/_removed/d2_judge_8b_pilot.jsonl;
+  module parked in src/audit/unused/d2_judge.py. 32B judge rerun cancelled; all vLLM servers shut down (GPUs 1-4 free).
+- Final modules in results: D1 (decision), D3 (procedural tool-use failure), D7 (handoff). D2 = design only.

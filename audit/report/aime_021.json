@@ -5,30 +5,11 @@
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #1: error"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=39, numeric=1089, numeric=33"
-  },
-  {
-   "step": 4,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: final_answer=74, numeric=39"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 5,
@@ -47,36 +28,6 @@
     "altered": []
    },
    "evidence": "verifier report->planner: missing ['(x - 4)^2 + (1/2x^2 - 4x - 33)^2 = r^2', '0', '2y = x^2 - 8x + 12'] altered []"
-  },
-  {
-   "step": 6,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=39"
-  },
-  {
-   "step": 7,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "run_python"
-   },
-   "evidence": "tool run_python call #5: repeat"
-  },
-  {
-   "step": 9,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=39"
   },
   {
    "step": 10,
@@ -120,20 +71,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 10,
-   "utterances": 5,
-   "checks": {
-    "error": 1,
-    "repeat": 1
-   }
+   "n_steps": 14,
+   "flagged": 1,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 1
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 3,
-   "n_values": 3,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -146,6 +91,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

@@ -28,35 +28,22 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #2: error"
-  },
-  {
-   "step": 5,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 6,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #3: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 9,
@@ -82,36 +69,33 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #5: error, repeat"
-  },
-  {
-   "step": 10,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 11,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #6: error, ignored"
+   "evidence": "tool db_agent returned an error"
+  },
+  {
+   "step": 17,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: get_reservation_details/get_user_details"
   },
   {
    "step": 20,
@@ -133,73 +117,44 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #11: error, repeat"
-  },
-  {
-   "step": 21,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 22,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #12: error, repeat, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 26,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #14: error, repeat"
-  },
-  {
-   "step": 26,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 27,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #15: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 30,
@@ -224,44 +179,33 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #17: error"
-  },
-  {
-   "step": 31,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-10-15"
-  },
-  {
-   "step": 31,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=delta_user_123"
+   "evidence": "argument never given: get_user_details.user_id=delta_user_123; tool get_user_details returned an error"
   },
   {
    "step": 32,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #18: error, ignored"
+   "evidence": "tool db_agent returned an error"
+  },
+  {
+   "step": 38,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: get_reservation_details/get_user_details"
   },
   {
    "step": 43,
@@ -276,6 +220,17 @@
    "evidence": "action distribution: search_onestop_flight 0.63, no_tool 0.37, transfer_to_human_agents 0.00 (actual: search_onestop_flight)"
   },
   {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
    "step": 48,
    "agent": "db_agent",
    "module": "D1",
@@ -288,16 +243,15 @@
    "evidence": "action distribution: search_direct_flight 0.79, get_reservation_details 0.17, no_tool 0.03 (actual: search_direct_flight)"
   },
   {
-   "step": 48,
+   "step": 49,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool search_direct_flight call #28: repeat"
+   "evidence": "required but never called: get_reservation_details/get_user_details"
   },
   {
    "step": 52,
@@ -335,72 +289,55 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_reservation_details call #31: error"
-  },
-  {
-   "step": 53,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_reservation_details.reservation_id=8JX2WO"
+   "evidence": "argument never given: get_reservation_details.reservation_id=8JX2WO; tool get_reservation_details returned an error"
   },
   {
    "step": 60,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #35: error"
+   "evidence": "tool get_user_details returned an error"
   },
   {
    "step": 61,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #36: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 65,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #38: error"
+   "evidence": "tool get_user_details returned an error"
   },
   {
    "step": 66,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #39: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 69,
@@ -421,21 +358,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 41,
-   "utterances": 6,
-   "checks": {
-    "error": 15,
-    "ignored": 7,
-    "repeat": 5
-   }
+   "n_steps": 54,
+   "flagged": 19,
+   "missing_tool": 4,
+   "fabricated_arg": 6,
+   "tool_error": 15
   },
   "D7": {
    "n_handoffs": 24
-  },
-  "D3_args": {
-   "n_steps": 15,
-   "n_values": 26,
-   "n_ungrounded": 6
   }
  },
  "coverage": {},
@@ -448,6 +378,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

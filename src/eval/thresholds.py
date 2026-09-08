@@ -22,7 +22,7 @@ from .labels import load_index, non_aux_steps
 from .metrics import (DOMAIN_SCOPES, ROLE_SCOPES, Item, applicable, cell_rows, d7_report_to_planner,
                       labeled_steps, load_items)
 
-WANTED = ("D1_1-conf", "D3_args", "D7_report->planner")
+WANTED = ("D1_1-conf", "D3", "D7_report->planner")
 
 
 def pool_scores(item: Item, roles: set[str], domains: set[str] | None, index, root) -> np.ndarray:

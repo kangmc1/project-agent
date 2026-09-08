@@ -83,23 +83,9 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if role == "planner" and h2 is not None:
             d1_hand.scores[k] = h2
 
-    d3a = add("D3_args", note="ungrounded ratio of identifier-like tool-call argument values at the step (tool-call layer)")
-    for r in read_jsonl(audit / "d3_args.jsonl"):
-        v = _num(r.get("ungrounded_ratio"))
-        if v is not None:
-            d3a.scores[(r["run_id"], int(r["step_id"]))] = v
-    d3i = add("D3_instruction", roles=("subagent",), note="instruction->action coverage: required tool family never called in the handoff (score at the report step)")
-    for r in read_jsonl(audit / "d3_instruction.jsonl"):
-        if r.get("applicable"):
-            d3i.scores[(r["run_id"], int(r["step_id"]))] = 1.0 if r.get("satisfied") is False else 0.0
-    d3 = add("D3_unsatisfied", note="any utterance at the step with satisfied=false")
-    utter: dict[tuple[str, int], bool] = {}
-    for r in read_jsonl(audit / "d3.jsonl"):
-        if r.get("kind") != "utterance":
-            continue
-        k = (r["run_id"], int(r["step_id"]))
-        utter[k] = utter.get(k, False) or (r.get("satisfied") is False)
-    d3.scores = {k: (1.0 if v else 0.0) for k, v in utter.items()}
+    d3 = add("D3", note="procedural tool-use failure: 1 if required tool never called OR fabricated argument OR tool returned error, else 0 (every non-aux step)")
+    for r in read_jsonl(audit / "d3_final.jsonl"):
+        d3.scores[(r["run_id"], int(r["step_id"]))] = float(r.get("d3", 0))
 
     by_dir: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)
     for r in read_jsonl(audit / "d7.jsonl"):
@@ -519,10 +505,10 @@ def section_tool_checks(rep: Report, rows, flags, root) -> None:
 def section_matched(rep: Report, items, rows) -> None:
     rep.line("## 6. Matched sub-table (steps scored by D1 AND D3)")
     rep.line()
-    names = [n for n in ("D1_1-conf", "D3_unsatisfied") if n in items]
+    names = [n for n in ("D1_1-conf", "D3") if n in items]
     if len(names) < 2:
         rep.line("_(needs D1 and D3; missing " + ", ".join(
-            n for n in ("D1_1-conf", "D3_unsatisfied") if n not in items) + ")_")
+            n for n in ("D1_1-conf", "D3") if n not in items) + ")_")
         rep.line()
         return
     keys = set(items[names[0]].scores)

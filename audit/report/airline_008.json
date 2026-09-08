@@ -1,14 +1,28 @@
 {
- "flags": [],
+ "flags": [
+  {
+   "step": 4,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: send_certificate"
+  }
+ ],
  "per_module_summary": {
   "D1": {
    "n_scored": 4,
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 2,
-   "utterances": 0,
-   "checks": {}
+   "n_steps": 4,
+   "flagged": 1,
+   "missing_tool": 1,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 2
@@ -24,6 +38,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

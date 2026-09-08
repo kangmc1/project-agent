@@ -11,24 +11,6 @@
     "margin": 0.383
    },
    "evidence": "action distribution: run_python 0.69, no_tool 0.31, read_file 0.00 (actual: run_python)"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=10, numeric=28, numeric=14, numeric=18"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=10, numeric=28"
   }
  ],
  "per_module_summary": {
@@ -37,17 +19,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 4,
-   "utterances": 4,
-   "checks": {}
+   "n_steps": 7,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 4
-  },
-  "D3_args": {
-   "n_steps": 2,
-   "n_values": 4,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -60,6 +39,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

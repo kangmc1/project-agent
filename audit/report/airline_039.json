@@ -51,15 +51,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.22"
   },
   {
-   "step": 8,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
    "step": 11,
    "agent": "planner",
    "module": "D7",
@@ -111,18 +102,6 @@
     "margin": 0.342
    },
    "evidence": "action distribution: read_file 0.65, respond_to_user 0.31, write_file 0.04 (actual: read_file)"
-  },
-  {
-   "step": 15,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "read_file"
-   },
-   "evidence": "tool read_file call #10: repeat"
   }
  ],
  "per_module_summary": {
@@ -131,19 +110,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 11,
-   "utterances": 8,
-   "checks": {
-    "repeat": 1
-   }
+   "n_steps": 15,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 6,
-   "n_values": 7,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -156,6 +130,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

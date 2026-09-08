@@ -15,42 +15,6 @@
    "evidence": "solver report->planner: missing ['26'] altered []"
   },
   {
-   "step": 2,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=42124"
-  },
-  {
-   "step": 6,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=26"
-  },
-  {
-   "step": 7,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: final_answer=26"
-  },
-  {
-   "step": 9,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=42124"
-  },
-  {
    "step": 11,
    "agent": "planner",
    "module": "D7",
@@ -71,21 +35,11 @@
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #9: error"
-  },
-  {
-   "step": 12,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=12321, numeric=26, numeric=121"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 13,
@@ -104,298 +58,253 @@
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #10: error"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 14,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #11: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 15,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #12: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 16,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #13: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 17,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #14: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 18,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #15: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 19,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #16: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 20,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #17: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 21,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #18: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 22,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #19: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 23,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #20: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 24,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #21: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 25,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #22: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 26,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #23: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 27,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #24: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 28,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #25: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 29,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #26: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 30,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #27: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 31,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #28: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 32,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #29: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 33,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #30: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 34,
    "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "run_python"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool run_python call #31: error, repeat"
+   "evidence": "tool run_python returned an error"
   },
   {
    "step": 35,
-   "agent": "planner",
+   "agent": "solver",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "solver"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool solver call #32: error, ignored"
+   "evidence": "tool solver returned an error"
   },
   {
    "step": 36,
@@ -427,21 +336,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 33,
-   "utterances": 31,
-   "checks": {
-    "error": 24,
-    "repeat": 21,
-    "ignored": 1
-   }
+   "n_steps": 37,
+   "flagged": 24,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 24
   },
   "D7": {
    "n_handoffs": 6
-  },
-  "D3_args": {
-   "n_steps": 4,
-   "n_values": 9,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -454,6 +356,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

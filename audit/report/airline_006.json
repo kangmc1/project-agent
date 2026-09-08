@@ -32,70 +32,44 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #2: error"
-  },
-  {
-   "step": 5,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; tool get_user_details returned an error"
   },
   {
    "step": 6,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #3: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 10,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #5: error"
-  },
-  {
-   "step": 10,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; tool get_user_details returned an error"
   },
   {
    "step": 11,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "db_agent"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #6: error, ignored"
+   "evidence": "tool db_agent returned an error"
   },
   {
    "step": 14,
@@ -123,23 +97,11 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #8: error, repeat"
-  },
-  {
-   "step": 15,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; tool get_user_details returned an error"
   },
   {
    "step": 19,
@@ -181,55 +143,33 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #11: error, repeat"
-  },
-  {
-   "step": 20,
-   "agent": "db_agent",
-   "module": "D3",
-   "layer": "arguments",
-   "signal": {
-    "ungrounded_ratio": 1.0
-   },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; tool get_user_details returned an error"
   },
   {
    "step": 25,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error",
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": true
    },
-   "evidence": "tool get_user_details call #14: error, repeat"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; tool get_user_details returned an error"
   },
   {
-   "step": 25,
+   "step": 26,
    "agent": "db_agent",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 1.0
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
-  },
-  {
-   "step": 37,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: refund="
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   }
  ],
  "per_module_summary": {
@@ -238,21 +178,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 20,
-   "utterances": 2,
-   "checks": {
-    "error": 7,
-    "ignored": 2,
-    "repeat": 3
-   }
+   "n_steps": 27,
+   "flagged": 8,
+   "missing_tool": 1,
+   "fabricated_arg": 5,
+   "tool_error": 7
   },
   "D7": {
    "n_handoffs": 12
-  },
-  "D3_args": {
-   "n_steps": 5,
-   "n_values": 5,
-   "n_ungrounded": 5
   }
  },
  "coverage": {},
@@ -265,6 +198,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

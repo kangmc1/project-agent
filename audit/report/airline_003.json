@@ -28,6 +28,17 @@
    "evidence": "action distribution: no_tool 0.57, write_file 0.38, read_file 0.05 (actual: write_file)"
   },
   {
+   "step": 8,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
    "step": 10,
    "agent": "planner",
    "module": "D1",
@@ -70,36 +81,6 @@
    "evidence": "action distribution: no_tool 0.62, think 0.37, read_file 0.01 (actual: think)"
   },
   {
-   "step": 11,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #13: empty"
-  },
-  {
-   "step": 11,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15"
-  },
-  {
-   "step": 12,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15"
-  },
-  {
    "step": 17,
    "agent": "planner",
    "module": "D1",
@@ -123,49 +104,37 @@
    "evidence": "delegate-vs-not split p_delegate=0.27"
   },
   {
-   "step": 20,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #18: repeat"
-  },
-  {
    "step": 22,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "update_reservation_flights"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool update_reservation_flights call #20: error"
-  },
-  {
-   "step": 22,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT175, reservation_id=HAT290, update_baggages="
+   "evidence": "tool update_reservation_flights returned an error"
   },
   {
    "step": 23,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "update_reservation_flights"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool update_reservation_flights call #21: error"
+   "evidence": "tool update_reservation_flights returned an error"
+  },
+  {
+   "step": 24,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: update_reservation_baggages"
   },
   {
    "step": 25,
@@ -186,18 +155,6 @@
    "evidence": "db_agent report->planner: missing ['04:00', '1', '13:00'] altered []"
   },
   {
-   "step": 26,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #23: repeat"
-  },
-  {
    "step": 29,
    "agent": "db_agent",
    "module": "D1",
@@ -210,6 +167,17 @@
    "evidence": "action distribution: write_file 0.37, no_tool 0.32, read_file 0.18 (actual: write_file)"
   },
   {
+   "step": 30,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
    "step": 31,
    "agent": "planner",
    "module": "D1",
@@ -220,18 +188,6 @@
     "margin": 0.12
    },
    "evidence": "action distribution: read_file 0.55, respond_to_user 0.43, no_tool 0.02 (actual: read_file)"
-  },
-  {
-   "step": 31,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "read_file"
-   },
-   "evidence": "tool read_file call #28: repeat"
   }
  ],
  "per_module_summary": {
@@ -240,21 +196,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 29,
-   "utterances": 16,
-   "checks": {
-    "empty": 1,
-    "repeat": 3,
-    "error": 2
-   }
+   "n_steps": 29,
+   "flagged": 5,
+   "missing_tool": 3,
+   "fabricated_arg": 0,
+   "tool_error": 2
   },
   "D7": {
    "n_handoffs": 10
-  },
-  "D3_args": {
-   "n_steps": 14,
-   "n_values": 68,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -267,6 +216,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

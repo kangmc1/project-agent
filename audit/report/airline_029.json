@@ -21,9 +21,11 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: update_passengers="
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 10,
@@ -71,18 +73,6 @@
     "margin": 0.245
    },
    "evidence": "action distribution: read_file 0.62, write_file 0.38, think 0.00 (actual: read_file)"
-  },
-  {
-   "step": 14,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "read_file"
-   },
-   "evidence": "tool read_file call #16: repeat"
   }
  ],
  "per_module_summary": {
@@ -91,19 +81,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 19,
-   "utterances": 8,
-   "checks": {
-    "repeat": 1
-   }
+   "n_steps": 15,
+   "flagged": 1,
+   "missing_tool": 1,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 4
-  },
-  "D3_args": {
-   "n_steps": 7,
-   "n_values": 18,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -116,6 +101,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

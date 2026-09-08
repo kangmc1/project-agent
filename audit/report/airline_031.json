@@ -24,25 +24,15 @@
    "evidence": "action distribution: get_reservation_details 0.62, no_tool 0.38, cancel_reservation 0.00 (actual: get_reservation_details)"
   },
   {
-   "step": 12,
-   "agent": "policy_checker",
+   "step": 10,
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
-  },
-  {
-   "step": 14,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "respond_to_user"
-   },
-   "evidence": "tool respond_to_user call #9: error"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 15,
@@ -57,18 +47,6 @@
    "evidence": "action distribution: respond_to_user 0.78, write_file 0.17, policy_checker 0.04 (actual: respond_to_user)"
   },
   {
-   "step": 18,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_user_details"
-   },
-   "evidence": "tool get_user_details call #11: repeat"
-  },
-  {
    "step": 21,
    "agent": "policy_checker",
    "module": "D1",
@@ -81,47 +59,15 @@
    "evidence": "action distribution: write_file 0.87, think 0.12, no_tool 0.01 (actual: write_file)"
   },
   {
-   "step": 21,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
-   "step": 22,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "error",
-     "ignored"
-    ],
-    "tool": "policy_checker"
-   },
-   "evidence": "tool policy_checker call #14: error, ignored"
-  },
-  {
    "step": 22,
    "agent": "policy_checker",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
-   "step": 26,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_user_details"
-   },
-   "evidence": "tool get_user_details call #16: repeat"
+   "evidence": "tool policy_checker returned an error"
   },
   {
    "step": 27,
@@ -136,54 +82,6 @@
    "evidence": "action distribution: get_reservation_details 0.60, no_tool 0.40, book_reservation 0.00 (actual: get_reservation_details)"
   },
   {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #17: repeat"
-  },
-  {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #18: repeat"
-  },
-  {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #19: repeat"
-  },
-  {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #20: repeat"
-  },
-  {
    "step": 32,
    "agent": "policy_checker",
    "module": "D1",
@@ -194,27 +92,6 @@
     "margin": 0.075
    },
    "evidence": "action distribution: think 0.45, no_tool 0.38, read_file 0.17 (actual: think)"
-  },
-  {
-   "step": 32,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #25: empty"
-  },
-  {
-   "step": 32,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15"
   },
   {
    "step": 33,
@@ -229,18 +106,6 @@
    "evidence": "action distribution: think 0.47, no_tool 0.31, read_file 0.22 (actual: think)"
   },
   {
-   "step": 33,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #26: empty"
-  },
-  {
    "step": 34,
    "agent": "policy_checker",
    "module": "D1",
@@ -251,27 +116,6 @@
     "margin": 0.115
    },
    "evidence": "action distribution: write_file 0.52, think 0.41, read_file 0.07 (actual: write_file)"
-  },
-  {
-   "step": 34,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: date=2024-05-15"
-  },
-  {
-   "step": 37,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #29: repeat"
   },
   {
    "step": 40,
@@ -286,55 +130,15 @@
    "evidence": "action distribution: think 0.78, write_file 0.17, no_tool 0.03 (actual: think)"
   },
   {
-   "step": 40,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "empty"
-    ],
-    "tool": "think"
-   },
-   "evidence": "tool think call #31: empty"
-  },
-  {
-   "step": 40,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
-   "step": 41,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
-   "step": 42,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
-   "step": 44,
+   "step": 45,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool get_reservation_details call #34: repeat"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 46,
@@ -348,15 +152,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.78"
   },
   {
-   "step": 47,
-   "agent": "policy_checker",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: cancel="
-  },
-  {
    "step": 48,
    "agent": "planner",
    "module": "D1",
@@ -366,15 +161,6 @@
     "H2": 0.765
    },
    "evidence": "delegate-vs-not split p_delegate=0.22"
-  },
-  {
-   "step": 56,
-   "agent": "planner",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: book="
   }
  ],
  "per_module_summary": {
@@ -383,22 +169,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 41,
-   "utterances": 25,
-   "checks": {
-    "error": 2,
-    "repeat": 8,
-    "ignored": 1,
-    "empty": 3
-   }
+   "n_steps": 48,
+   "flagged": 3,
+   "missing_tool": 2,
+   "fabricated_arg": 0,
+   "tool_error": 1
   },
   "D7": {
    "n_handoffs": 22
-  },
-  "D3_args": {
-   "n_steps": 23,
-   "n_values": 37,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -411,6 +189,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

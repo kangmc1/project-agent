@@ -33,6 +33,17 @@
    "evidence": "action distribution: get_reservation_details 0.65, write_file 0.18, read_file 0.11 (actual: get_reservation_details)"
   },
   {
+   "step": 10,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
    "step": 13,
    "agent": "planner",
    "module": "D1",
@@ -56,88 +67,26 @@
    "evidence": "delegate-vs-not split p_delegate=0.32"
   },
   {
-   "step": 16,
+   "step": 18,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_user_details"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool get_user_details call #10: repeat"
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #11: repeat"
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #12: repeat"
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #13: repeat"
-  },
-  {
-   "step": 17,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #14: repeat"
-  },
-  {
-   "step": 26,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #19: repeat"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
    "step": 27,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "update_reservation_baggages"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool update_reservation_baggages call #21: error"
+   "evidence": "tool update_reservation_baggages returned an error"
   }
  ],
  "per_module_summary": {
@@ -146,20 +95,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 25,
-   "utterances": 13,
-   "checks": {
-    "repeat": 6,
-    "error": 1
-   }
+   "n_steps": 26,
+   "flagged": 3,
+   "missing_tool": 2,
+   "fabricated_arg": 0,
+   "tool_error": 1
   },
   "D7": {
    "n_handoffs": 8
-  },
-  "D3_args": {
-   "n_steps": 14,
-   "n_values": 32,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -172,6 +115,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

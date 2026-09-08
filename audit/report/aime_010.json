@@ -15,24 +15,6 @@
     "altered": []
    },
    "evidence": "solver report->planner: missing ['168', '8.125', '84'] altered []"
-  },
-  {
-   "step": 4,
-   "agent": "solver",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: final_answer=168, numeric=90"
-  },
-  {
-   "step": 8,
-   "agent": "verifier",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: numeric=168"
   }
  ],
  "per_module_summary": {
@@ -41,17 +23,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 7,
-   "utterances": 6,
-   "checks": {}
+   "n_steps": 10,
+   "flagged": 0,
+   "missing_tool": 0,
+   "fabricated_arg": 0,
+   "tool_error": 0
   },
   "D7": {
    "n_handoffs": 4
-  },
-  "D3_args": {
-   "n_steps": 1,
-   "n_values": 1,
-   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -64,6 +43,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }

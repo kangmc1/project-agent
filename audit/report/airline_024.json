@@ -24,6 +24,17 @@
    "evidence": "delegate-vs-not split p_delegate=0.62"
   },
   {
+   "step": 4,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
+   },
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
    "step": 11,
    "agent": "planner",
    "module": "D7",
@@ -39,15 +50,6 @@
     "altered": []
    },
    "evidence": "db_agent report->planner: missing ['hxdubj', 'reservation id hxdubj is associated with the user', 'verified booking code association'] altered []"
-  },
-  {
-   "step": 16,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT072, reservation_id=HAT180"
   },
   {
    "step": 20,
@@ -66,48 +68,33 @@
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool get_reservation_details call #12: error"
-  },
-  {
-   "step": 20,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #13: error"
+   "evidence": "tool get_reservation_details returned an error; tool get_reservation_details returned an error"
   },
   {
    "step": 21,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "read_file"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool read_file call #14: error"
+   "evidence": "tool read_file returned an error"
   },
   {
    "step": 23,
-   "agent": "planner",
+   "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "db_agent"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool db_agent call #16: error"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate; tool db_agent returned an error"
   },
   {
    "step": 24,
@@ -133,51 +120,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.50"
   },
   {
-   "step": 27,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #18: repeat"
-  },
-  {
-   "step": 28,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #19: repeat"
-  },
-  {
-   "step": 28,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #20: repeat"
-  },
-  {
-   "step": 29,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
-  },
-  {
    "step": 30,
    "agent": "planner",
    "module": "D1",
@@ -189,16 +131,15 @@
    "evidence": "delegate-vs-not split p_delegate=0.90"
   },
   {
-   "step": 31,
+   "step": 32,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "tool get_reservation_details call #22: repeat"
+   "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate"
   },
   {
    "step": 35,
@@ -213,89 +154,37 @@
    "evidence": "action distribution: db_agent 0.68, policy_checker 0.32, no_tool 0.00 (actual: db_agent)"
   },
   {
-   "step": 36,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "get_reservation_details"
-   },
-   "evidence": "tool get_reservation_details call #25: repeat"
-  },
-  {
-   "step": 37,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #26: repeat"
-  },
-  {
-   "step": 37,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "checks": [
-     "repeat"
-    ],
-    "tool": "search_direct_flight"
-   },
-   "evidence": "tool search_direct_flight call #27: repeat"
-  },
-  {
-   "step": 38,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
-  },
-  {
    "step": 39,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "checks": [
-     "error"
-    ],
-    "tool": "update_reservation_baggages"
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_error": true
    },
-   "evidence": "tool update_reservation_baggages call #29: error"
-  },
-  {
-   "step": 39,
-   "agent": "db_agent",
-   "module": "D3",
-   "signal": {
-    "satisfied": false
-   },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+   "evidence": "tool update_reservation_baggages returned an error"
   },
   {
    "step": 40,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
-    "satisfied": false
+    "missing_tool": true,
+    "fabricated_arg": false,
+    "tool_error": false
    },
-   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+   "evidence": "required but never called: calculate"
   },
   {
    "step": 41,
    "agent": "planner",
    "module": "D3",
-   "layer": "arguments",
    "signal": {
-    "ungrounded_ratio": 0.125
+    "missing_tool": false,
+    "fabricated_arg": true,
+    "tool_error": false
    },
-   "evidence": "argument values never given to the agent: respond_to_user.money=539"
+   "evidence": "argument never given: respond_to_user.money=539"
   },
   {
    "step": 44,
@@ -386,20 +275,14 @@
    "method": "stepwise"
   },
   "D3": {
-   "tool_calls": 37,
-   "utterances": 20,
-   "checks": {
-    "error": 5,
-    "repeat": 7
-   }
+   "n_steps": 43,
+   "flagged": 8,
+   "missing_tool": 4,
+   "fabricated_arg": 1,
+   "tool_error": 4
   },
   "D7": {
    "n_handoffs": 18
-  },
-  "D3_args": {
-   "n_steps": 16,
-   "n_values": 104,
-   "n_ungrounded": 1
   }
  },
  "coverage": {},
@@ -412,6 +295,6 @@
   },
   "D1_handoff": 0.4560107138530137,
   "D7": 1.0,
-  "D3_args": "any ungrounded value"
+  "D3": "procedural flag (no threshold)"
  }
 }
