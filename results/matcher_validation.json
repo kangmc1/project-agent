@@ -1,41 +1,40 @@
 {
  "free|keep": {
-  "preserved": 48,
-  "altered": 20,
-  "promoted": 3,
-  "absent": 1
+  "preserved": 50,
+  "altered": 19,
+  "absent": 1,
+  "promoted": 2
  },
  "free|drop": {
-  "altered": 20,
-  "preserved": 21,
-  "absent": 7
+  "absent": 50
  },
  "free|alter": {
-  "preserved": 18,
-  "altered": 17
+  "altered": 32,
+  "absent": 2,
+  "preserved": 1
  },
  "free|promote": {
-  "preserved": 7,
-  "altered": 1,
-  "promoted": 1
+  "absent": 2,
+  "promoted": 6,
+  "preserved": 3
  },
  "json|keep": {
-  "preserved": 48,
-  "altered": 19,
+  "preserved": 50,
+  "altered": 17,
   "absent": 1,
   "promoted": 4
  },
  "json|drop": {
-  "preserved": 26,
-  "altered": 18,
-  "absent": 4
+  "preserved": 16,
+  "altered": 16,
+  "absent": 18
  },
  "json|alter": {
-  "preserved": 21,
-  "altered": 15
+  "altered": 35,
+  "absent": 2,
+  "preserved": 1
  },
  "json|promote": {
-  "promoted": 2,
-  "preserved": 2
+  "promoted": 4
  }
 }

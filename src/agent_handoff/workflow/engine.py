@@ -67,6 +67,12 @@ def _violates(text: str, key_values: list[str]) -> bool:
     return False
 
 
+def _jsd(p: dict[str, float], q: dict[str, float]) -> float:
+    keys = set(p) | set(q); m = {k: 0.5 * (p.get(k, 0.0) + q.get(k, 0.0)) for k in keys}
+    def kl(a, b): return sum(a.get(k, 0.0) * math.log2(a.get(k, 0.0) / b[k]) for k in keys if a.get(k, 0.0) > 0 and b[k] > 0)
+    return round(0.5 * kl(p, m) + 0.5 * kl(q, m), 4)
+
+
 def _fabricated_values(text: str, initial: str, task: str) -> list[str]:
     """Number-like tokens in `text` that appear nowhere in the initial transcript/task (proxy for invented facts)."""
     src = (initial + " " + task).lower()
@@ -79,7 +85,7 @@ def _fabricated_values(text: str, initial: str, task: str) -> list[str]:
 
 
 def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility: str = "shared", fmt: str = "free",
-                 budget: int = 400, guard: bool = False, k_samples: int = 0, temperature: float = 0.3) -> dict[str, Any]:
+                 budget: int = 400, guard: bool = False, k_samples: int = 0, temperature: float = 0.3, width: int = 1) -> dict[str, Any]:
     task, obls, initial = scenario["task"], scenario["obligations"], scenario["transcript"]
     state = initial               # the orchestrator's handoff state (initially the raw transcript)
     transcript = [initial]        # what accumulates between compressions
@@ -119,7 +125,14 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
         unavailable = [e["action"]["target"] for e in log if any(k in (e.get("report") or "").upper() for k in ("UNAVAILABLE", "MISSING:")) and e["action"]["next_agent"] == "Researcher"]
         if agent == "Researcher" and any(_sim(target, u) >= 0.5 for u in unavailable):
             masked = (masked or "") + "+unavailable_redirect"; agent = "Executor"; atype = "draft_action"; instr = "Draft the deliverable with the information available; mark '" + target + "' explicitly as unverified."
-        entry = {"round": r, "action": {"next_agent": agent, "action_type": atype, "target": target, "instruction": instr},
+        dispatch = [(agent, atype, target, instr)]
+        if width > 1 and agent != "finish":
+            extra = llm.chat_json(R.ORCH_SYSTEM, ctx + f"\n\nDecided primary action: {agent} / {atype} / {target}. You may dispatch up to {width-1} ADDITIONAL agents in parallel this round on DIFFERENT items (they cannot see each other's work). Reply ONLY with {{\"parallel\": [{{\"agent\": \"Researcher|Executor|Verifier\", \"action_type\": \"...\", \"target\": \"...\", \"instruction\": \"...\"}}]}} (empty list if nothing useful).", thinking=False, max_tokens=500, temperature=0.0)
+            for x in (extra.get("parallel", []) if isinstance(extra, dict) else [])[: width - 1]:
+                if isinstance(x, dict) and x.get("agent") in R.AGENTS:
+                    at2 = x.get("action_type") if x.get("action_type") in R.ACTIONS_FOR[x["agent"]] else R.ACTIONS_FOR[x["agent"]][0]
+                    dispatch.append((x["agent"], at2, str(x.get("target", "")), str(x.get("instruction", ""))))
+        entry = {"round": r, "action": {"next_agent": agent, "action_type": atype, "target": target, "instruction": instr}, "parallel": [{"agent": d[0], "action_type": d[1], "target": d[2]} for d in dispatch[1:]],
                  "p_agent": p_agent, "entropy_agent": ent_agent, "p_type": p_type, "entropy_type": ent_type, "assessment": assess, "masked": masked}
         if agent == "finish" or atype == "finish":
             entry["finished"] = True; log.append(entry); break
@@ -130,12 +143,29 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
             visible = "CONTEXT (shared transcript):\n" + "\n\n".join(transcript) + ("\n\nREPORTS SO FAR:\n" + "\n\n".join(f"[{x['agent']}] {x['report']}" for x in reports) if reports else "")
         else:
             visible = "HANDOFF STATE FROM ORCHESTRATOR:\n" + state
-        report = llm.chat(R.AGENT_SYSTEM[agent], R.AGENT_TURN.format(task=task, visible_context=visible, action_type=atype, target=target, instruction=instr), thinking=False, max_tokens=600, temperature=temperature)
-        reports.append({"round": r, "agent": agent, "report": report})
-        transcript.append(f"[Orchestrator -> {agent}] {instr}\n[{agent}] {report}")
-        entry["report_agent"] = agent; entry["report"] = report
-        entry["fabricated_in_report"] = _fabricated_values(report, initial, task)
-        entry["verdict"] = ("APPROVE" if "VERDICT: APPROVE" in report.upper() else "REVISE" if "VERDICT: REVISE" in report.upper() else None) if agent == "Verifier" else None
+        batch = []
+        for (ag, at, tg, ins) in dispatch:
+            rep_i = llm.chat(R.AGENT_SYSTEM[ag], R.AGENT_TURN.format(task=task, visible_context=visible, action_type=at, target=tg, instruction=ins), thinking=False, max_tokens=600, temperature=temperature)
+            batch.append((ag, ins, rep_i))
+        for (ag, ins, rep_i) in batch:  # fan-in: all reports land at once
+            reports.append({"round": r, "agent": ag, "report": rep_i})
+            transcript.append(f"[Orchestrator -> {ag}] {ins}\n[{ag}] {rep_i}")
+        agent, instr, report = batch[0]
+        entry["report_agent"] = agent; entry["report"] = report; entry["reports_all"] = [{"agent": b[0], "report": b[2]} for b in batch]
+        entry["fabricated_in_report"] = sorted(set(v for b in batch for v in _fabricated_values(b[2], initial, task)))
+        verdicts = [("APPROVE" if "VERDICT: APPROVE" in b[2].upper() else "REVISE" if "VERDICT: REVISE" in b[2].upper() else None) for b in batch if b[0] == "Verifier"]
+        entry["verdict"] = next((v for v in verdicts if v), None)
+        # fan-in conflict: two parallel reports give different numbers for the same seeded item
+        if len(batch) > 1:
+            conflicts = []
+            for o in obls:
+                vals_by_report = []
+                for b in batch:
+                    nums = set(m for m in re.findall(r"\$?\d[\d,.:/-]*\d", b[2]) if any(_present(v, b[2]) for v in o["key_values"]))
+                    if nums: vals_by_report.append(nums)
+                if len(vals_by_report) > 1 and any(a != c for a in vals_by_report for c in vals_by_report):
+                    conflicts.append(o["id"])
+            entry["fanin_conflicts"] = conflicts
         # ---- compression boundary ----
         words = sum(len(t.split()) for t in transcript)
         if words > budget:
@@ -146,8 +176,15 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
                 missing = [o for o in obls if rep.get(o["id"]) in ("absent", "altered", "promoted")]
                 if missing:
                     new_state = _repair(new_state, fmt, missing); repaired = [o["id"] for o in missing]; rep = survival_report(obls, new_state)
+            # decision divergence: would the orchestrator decide differently from the compressed state than from the full transcript?
+            choices_all2 = list(R.AGENTS) + ["finish"]
+            q_before = R.ORCH_DECIDE.format(task=task, state="\n\n".join(transcript), reports=rep_txt, history=hist_txt, r=r + 1, rounds=rounds)
+            q_after = R.ORCH_DECIDE.format(task=task, state=new_state, reports=rep_txt, history=hist_txt, r=r + 1, rounds=rounds)
+            _, pb, hb = choose(llm, R.ORCH_SYSTEM, q_before + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all2) + ".", choices_all2)
+            _, pa, ha = choose(llm, R.ORCH_SYSTEM, q_after + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all2) + ".", choices_all2)
             state = new_state; transcript = [state]; n_compressions += 1
-            entry["compression"] = {"n": n_compressions, "words_before": words, "words_after": len(state.split()), "survival": rep, "score": score(rep), "repaired": repaired}
+            entry["compression"] = {"n": n_compressions, "words_before": words, "words_after": len(state.split()), "survival": rep, "score": score(rep), "repaired": repaired,
+                                    "policy_before": pb, "policy_after": pa, "entropy_before": hb, "entropy_after": ha, "decision_jsd": _jsd(pb, pa)}
         entry["state_survival"] = survival_report(obls, state) if entry.get("compression") else None
         log.append(entry)
     final = llm.chat(R.ORCH_SYSTEM.replace("Reply with ONLY a JSON object.", "Reply in plain text."), R.ORCH_FINAL.format(task=task, state=state), thinking=False, max_tokens=400, temperature=0.0)
@@ -161,6 +198,6 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
         "open_promoted_in_final": sum(1 for o in obls if o["type"] == "open_question" and final_rep[o["id"]] == "promoted"),
         "fabricated_in_final": _fabricated_values(final, initial, task),
     }
-    return {"scenario_id": scenario["id"], "domain": scenario["domain"], "visibility": visibility, "format": fmt, "budget": budget, "guard": guard,
+    return {"scenario_id": scenario["id"], "domain": scenario["domain"], "visibility": visibility, "format": fmt, "budget": budget, "guard": guard, "width": width,
             "rounds_run": len(log), "n_compressions": n_compressions, "log": log, "final": final, "final_survival": final_rep, "final_score": score(final_rep), "checks": checks,
             "verifier_revise": sum(1 for e in log if e.get("verdict") == "REVISE"), "verifier_approve": sum(1 for e in log if e.get("verdict") == "APPROVE")}
