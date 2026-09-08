@@ -74,8 +74,8 @@ system-level aggregate `audit/system_report.md` (per agent role, per handoff edg
 ## Reproduce
 
 ```bash
-# 0. envs: conda `math_infer` (vLLM 0.9.2) for the servers, `agentbench` (py3.11) for everything else
-pip install -r requirements.txt                       # inside agentbench
+# 0. envs: conda `math_infer` (vLLM 0.9.2) for the servers, `agent_failure_trace` (py3.11) for everything else
+pip install -r requirements.txt                       # inside agent_failure_trace
 # 1. servers (GPUs 1-4 only)
 bash scripts/serve_qwen32b.sh &        # executor  Qwen3-32B TP=2, GPUs 1-2, :18001
 bash scripts/serve_qwen8b.sh &         # extractor Qwen3-8B,        GPU 3,   :18002

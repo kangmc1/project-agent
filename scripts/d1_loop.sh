@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Resumable D1 full-scoring loop (planner-first, serial). Runs until 13:00 KST or logs/STOP_D1 exists.
 cd /home/kangmc1/project-agent
-source /home/kangmc1/miniforge3/etc/profile.d/conda.sh && conda activate agentbench
+source /home/kangmc1/miniforge3/etc/profile.d/conda.sh && conda activate agent_failure_trace
 until [ -f audit/d1_check.json ]; do sleep 20; done
 echo "check ready $(date): policy=$(python3 -c "import json;print(json.load(open('audit/d1_check.json'))['policy'])")"
 while [ ! -f logs/STOP_D1 ]; do

@@ -418,7 +418,7 @@ def probe_wrapper(rep: Report) -> None:
 
 def probe_dead_editables(rep: Report) -> None:
     """(4) Dead editable installs must be gone."""
-    dead = ["agentbench", "agent-handoff", "handoffbench", "handoffcheck"]
+    dead = ["agent_failure_trace", "agent-handoff", "handoffbench", "handoffcheck"]
     rows = []
     for pkg in dead:
         proc = subprocess.run(

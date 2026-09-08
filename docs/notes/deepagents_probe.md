@@ -53,7 +53,7 @@ Note: `tool.invoke({...})` called **directly** does NOT inject the runtime (`Typ
 
 ## Dead editable installs
 
-- `pip show agentbench` -> exit 1 (absent)
+- `pip show agent_failure_trace` -> exit 1 (absent)
 - `pip show agent-handoff` -> exit 1 (absent)
 - `pip show handoffbench` -> exit 1 (absent)
 - `pip show handoffcheck` -> exit 1 (absent)

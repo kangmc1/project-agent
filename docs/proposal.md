@@ -544,10 +544,10 @@ Align류 운영 솔루션(성공·실패가 섞인 대량의 에이전트 로그
 
 ## 부록 B. 재현
 
-환경: 서버는 conda `math_infer`(vLLM 0.9.2), 나머지는 conda `agentbench`(Python 3.11, `requirements.txt`). **GPU는 1–4번만** 사용하며 포트는 18001–18003이다. 전체 절차는 README의 "Reproduce" 블록과 같다.
+환경: 서버는 conda `math_infer`(vLLM 0.9.2), 나머지는 conda `agent_failure_trace`(Python 3.11, `requirements.txt`). **GPU는 1–4번만** 사용하며 포트는 18001–18003이다. 전체 절차는 README의 "Reproduce" 블록과 같다.
 
 ```bash
-# 0. 설치 (agentbench 환경)
+# 0. 설치 (agent_failure_trace 환경)
 pip install -r requirements.txt
 # 1. 서버 3대 (GPU 1-4)
 bash scripts/serve_qwen32b.sh & bash scripts/serve_qwen8b.sh & bash scripts/serve_qwen32b_score.sh &
