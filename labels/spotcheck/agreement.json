@@ -1,0 +1,76 @@
+{
+ "rows": [
+  {
+   "run": "airline_002",
+   "decisive_A": 19,
+   "decisive_B": 19,
+   "decisive_exact": true,
+   "decisive_within1": true,
+   "n_events_A": 11,
+   "n_events_B": 6,
+   "step_jaccard": 0.5454545454545454,
+   "step+cat_jaccard": 0.5454545454545454
+  },
+  {
+   "run": "airline_013",
+   "decisive_A": null,
+   "decisive_B": null,
+   "decisive_exact": true,
+   "decisive_within1": true,
+   "n_events_A": 6,
+   "n_events_B": 2,
+   "step_jaccard": 0.3333333333333333,
+   "step+cat_jaccard": 0.3333333333333333
+  },
+  {
+   "run": "airline_021",
+   "decisive_A": null,
+   "decisive_B": null,
+   "decisive_exact": true,
+   "decisive_within1": true,
+   "n_events_A": 1,
+   "n_events_B": 0,
+   "step_jaccard": 0.0,
+   "step+cat_jaccard": 0.0
+  },
+  {
+   "run": "aime_003",
+   "decisive_A": 2,
+   "decisive_B": 2,
+   "decisive_exact": true,
+   "decisive_within1": true,
+   "n_events_A": 2,
+   "n_events_B": 2,
+   "step_jaccard": 1.0,
+   "step+cat_jaccard": 1.0
+  },
+  {
+   "run": "aime_008",
+   "decisive_A": null,
+   "decisive_B": null,
+   "decisive_exact": true,
+   "decisive_within1": true,
+   "n_events_A": 4,
+   "n_events_B": 2,
+   "step_jaccard": 0.5,
+   "step+cat_jaccard": 0.5
+  },
+  {
+   "run": "aime_012",
+   "decisive_A": 2,
+   "decisive_B": 2,
+   "decisive_exact": true,
+   "decisive_within1": true,
+   "n_events_A": 3,
+   "n_events_B": 3,
+   "step_jaccard": 1.0,
+   "step+cat_jaccard": 1.0
+  }
+ ],
+ "summary": {
+  "decisive_exact_rate": 1.0,
+  "decisive_within1_rate": 1.0,
+  "mean_step_jaccard": 0.5631313131313131,
+  "mean_step_cat_jaccard": 0.5631313131313131
+ }
+}

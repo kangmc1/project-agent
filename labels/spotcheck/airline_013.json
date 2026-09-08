@@ -1,0 +1,25 @@
+{
+ "run_id": "airline_013",
+ "batch": 1,
+ "decisive_step": null,
+ "error_events": [
+  {
+   "step": 15,
+   "agent": "planner",
+   "category": "handoff",
+   "subtag": "handoff_induced",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "policy_checker returned at step 14: 'VERDICT: not_allowed | need_info — <Modify flight policy: Basic economy flights cannot be modified.>'. The planner told the customer 'you can upgrade to Economy and proceed with the change', i.e. the opposite of the verdict, and added 'a $50 change fee will apply' — no change fee exists in the policy (the only $50 figure is extra baggage). The $71 = $125-$54 difference also ignores that XEWRD9 has 2 passengers. The change would also have altered the reservation destination (DFW -> LAS), which Modify flight forbids."
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Instructed only to confirm/verify the reservation state, it re-issued the identical update_reservation_flights call from step 19 (same flight list including HAT030 on 2024-05-13) and got the identical 'Error: flight HAT030 not available on date 2024-05-13'. The failing argument was already known from step 19 and nothing was changed before retrying."
+  }
+ ]
+}

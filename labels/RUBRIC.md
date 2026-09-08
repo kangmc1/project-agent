@@ -52,6 +52,11 @@ Subtags are **descriptive** (used only for analysis); when unsure between halluc
 4. `decisive_step` = first unrecovered event on the path to the final failure. Successful runs may have only recovered
    (transient) events.
 5. Do not label stylistic issues, verbosity, or harmless extra tool calls. Do not label the customer's mistakes.
+5b. **Repeats count.** If an erroneous claim, value or call is emitted again in a later step (a loop of identical failing tool
+   calls, the same fabricated fare quoted twice, a corrupted instruction re-issued), label each such step as its own event
+   (usually `recovered=false`; only the first unrecovered one can be `decisive_step`). Downstream steps that merely *relay* a
+   subagent's erroneous report verbatim are not labeled unless they alter it. Rationale: every step where the wrong content is
+   emitted is a step where a detector should fire. (Convention fixed 2026-09-09 03:05 after the spot check.)
 6. If a failed run has no identifiable erroneous step (e.g. environment/tool-server error), set `decisive_step: null`
    and record `"category": "tool"` events only where actually observed.
 

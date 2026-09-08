@@ -1,0 +1,25 @@
+{
+ "run_id": "aime_003",
+ "batch": 1,
+ "decisive_step": 2,
+ "error_events": [
+  {
+   "step": 2,
+   "agent": "solver",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "States 'The region T is the set of points P on the disk such that the distance from the center of the disk to P is at most 158', dropping the fact that the sphere's centre sits 42 above the disk. The containment condition is sqrt(d^2+42^2) <= 200-42 = 158, i.e. d^2 <= 158^2-42^2 = 23200, giving ratio 23200/40000 = 29/50 and p+q = 79 (gold). The step instead computes 158^2/200^2 = 6241/10000 -> 16241."
+  },
+  {
+   "step": 5,
+   "agent": "planner",
+   "category": "tool",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Final planner message is 'Submitted 16241.' but no submit_answer call appears anywhere in the run and the header records 'submitted: None'. The planner asserted a tool outcome that never occurred; the required submit_answer call was never made."
+  }
+ ]
+}

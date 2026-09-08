@@ -1,0 +1,61 @@
+{
+ "run_id": "airline_002",
+ "batch": 1,
+ "decisive_step": 19,
+ "error_events": [
+  {
+   "step": 19,
+   "agent": "db_agent",
+   "category": "tool",
+   "subtag": null,
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Instruction was 'retrieve the current business class price and the economy class price for the same flight'. The db_agent called only get_reservation_details (x5) and answered 'Economy Class Price: Not available in the provided data' for all five reservations; search_direct_flight / search_onestop_flight, which return per-cabin prices ('prices': {basic_economy, economy, business}) and are available to this agent, were never called. This unlooked-up 'unavailable' claim is repeated at steps 28/40/59 and is never corrected, so the savings figure the customer asked for is never obtainable."
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": true,
+   "recovery_step": 28,
+   "evidence": "Reports 'Flight 1: MCO to BOS (HAT028) - Economy class price: $1859', '$1679', '$537', ... — these are exactly the business fares returned by get_reservation_details, and step 19 had just said economy prices were absent from the data. No tool returned any economy price. Contradicted at step 28 ('economy class prices are not available'), and the planner did not relay the fabricated numbers at step 24."
+  },
+  {
+   "step": 33,
+   "agent": "policy_checker",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Adds 'The policy does not allow refunds for cabin class changes, as the user must pay the difference if downgrading or upgrading.' The quoted clause only says 'Cabin changes require the user to pay for the difference between their current cabin and the new cabin class'; nothing forbids refunding a negative difference for a business->economy downgrade (and Modify flight/Payment says the agent should ask for the 'payment or refund method'). This unsupported addition is what turns the customer's savings request into 'you must pay'."
+  },
+  {
+   "step": 36,
+   "agent": "planner",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "Tells the customer 'the airline does not issue a refund for the unused business class portion. Instead, you pay for the economy class ticket, and the difference between the two prices is typically retained by the airline.' No policy clause or tool result states this; the policy explicitly forbids providing information not in the policy or tools."
+  },
+  {
+   "step": 54,
+   "agent": "db_agent",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": true,
+   "recovery_step": 59,
+   "evidence": "'Here are the retrieved economy class prices for the requested reservations' followed by the business fares ($1859, $1679, $537, $996, ...) copied from get_reservation_details; again only get_reservation_details was called. Relayed to the customer at step 55 as 'economy class prices are the same as business class prices'; retracted at step 59 ('Economy class price not found for this reservation')."
+  },
+  {
+   "step": 64,
+   "agent": "policy_checker",
+   "category": "reasoning_stability",
+   "subtag": "hallucination_like",
+   "recovered": false,
+   "recovery_step": null,
+   "evidence": "After a think() call that returned nothing, states the premises 'User ID: 123456' and 'Travel insurance: not purchased for any of the reservations' — the user is omar_davis_3817 and the policy_checker has no database access — and concludes 'VERDICT: not_allowed', although the Cancel flight clause says 'business flights can always be cancelled. The rules are strict regardless of the membership status' and all five reservations are business. Fabricated premises plus a misapplied clause (ambiguous between hallucination_like and reasoning_like)."
+  }
+ ]
+}

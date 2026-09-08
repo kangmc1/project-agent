@@ -89,3 +89,8 @@ stay `recovered: false` but are not made decisive.
   db_agent reports the tool's business fares faithfully and the "upgrade cost" framing comes from the planner's
   own instruction; planner turns that relay a subagent report without altering it (airline_006 step 7,
   airline_017 steps 33/38/44); aime_013 step 2, the first brute-force attempt that timed out.
+
+## Spot check (main-session independent annotator, 6 runs) — 2026-09-09 03:05
+decisive_step exact agreement 6/6 (100%); event-step Jaccard 0.56 (second annotator's events were a strict subset: did not
+label repeated emissions / downstream uses). Resolution: RUBRIC §5b fixes the recall-oriented convention (repeats count);
+batch-1 labels kept as is; batch 2 labeled under the same rule. Files: labels/spotcheck/*.json, agreement.json.

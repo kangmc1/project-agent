@@ -1,0 +1,25 @@
+{
+ "run_id": "aime_008",
+ "batch": 1,
+ "decisive_step": null,
+ "error_events": [
+  {
+   "step": 3,
+   "agent": "solver",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": true,
+   "recovery_step": 9,
+   "evidence": "Derives the correct conditions (a+b even, b+d odd) but then counts '162 valid (a,b) pairs x 162 valid (b,d) pairs x 18 values of c', treating b as two independent variables. The joint count over (a,b,d) is 9*9*9 + 9*9*9 = 1458, so N = 1458*18 = 26244, which is what the verifier's brute-force enumeration returns at step 8; 162*162*18 = 472392 is a double count. Corrected when the verifier reports 26244 -> 244 at step 9 and the planner submits 244."
+  },
+  {
+   "step": 7,
+   "agent": "verifier",
+   "category": "reasoning_stability",
+   "subtag": "reasoning_like",
+   "recovered": true,
+   "recovery_step": 8,
+   "evidence": "Premise bullet 'A divisor of 17017^17 must be of the form 17017^k for 0 <= k <= 17' is false — divisors are 7^a*11^b*13^c*17^d with independent exponents, as the same agent writes at step 8 ('Any positive integer divisor ... can be written in the form d = 7^a x 11^b x 13^c x 17^d'). Self-corrected in the next step, so transient."
+  }
+ ]
+}
