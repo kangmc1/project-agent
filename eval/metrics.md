@@ -1,6 +1,6 @@
 # Detection metrics
 
-- generated: 2026-09-09 07:19:49 KST
+- generated: 2026-09-09 07:21:43 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
@@ -58,6 +58,22 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D7_report->planner | planner | airline | 161/391 | 31 | 66 | 0.590 [0.470, 0.716] | 11 | 0.598 [0.399, 0.775] |
 | D7_report->planner | planner | aime | 68/123 | 3 | 41 | 0.715 [0.537, 0.866] | 0 | n/a |
 | D7_report->planner | planner | all | 229/514 | 34 | 107 | 0.579 [0.476, 0.687] | 11 | 0.566 [0.392, 0.737] |
+
+## 1b. Flag-level metrics for binary items (precision / recall / F1)
+
+Same population as §1 (labeled runs, cascade excluded). A step is flagged when its score is 1. F1 = 2PR/(P+R); FPR = flagged clean / clean. `decisive recall` = flagged decisive steps / decisive steps.
+
+| item | role | domain | n_pos | n_neg | TP | FP | precision | recall | F1 | FPR | decisive recall |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| D3 | planner | airline | 46 | 148 | 2 | 0 | 1.000 | 0.043 | 0.083 | 0.000 | 0/16 |
+| D3 | planner | aime | 6 | 56 | 0 | 0 | n/a | 0.000 | n/a | 0.000 | 0/2 |
+| D3 | planner | all | 52 | 204 | 2 | 0 | 1.000 | 0.038 | 0.074 | 0.000 | 0/18 |
+| D3 | subagent | airline | 48 | 190 | 23 | 14 | 0.622 | 0.479 | 0.541 | 0.074 | 2/8 |
+| D3 | subagent | aime | 72 | 36 | 30 | 3 | 0.909 | 0.417 | 0.571 | 0.083 | 5/21 |
+| D3 | subagent | all | 120 | 226 | 53 | 17 | 0.757 | 0.442 | 0.558 | 0.075 | 7/29 |
+| D3 | all | airline | 94 | 338 | 25 | 14 | 0.641 | 0.266 | 0.376 | 0.041 | 2/24 |
+| D3 | all | aime | 78 | 92 | 30 | 3 | 0.909 | 0.385 | 0.541 | 0.033 | 5/23 |
+| D3 | all | all | 172 | 430 | 55 | 17 | 0.764 | 0.320 | 0.451 | 0.040 | 7/47 |
 
 ## 2. Trace-level AUROC (positives = runs with success=false)
 

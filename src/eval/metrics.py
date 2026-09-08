@@ -304,6 +304,50 @@ def section_step_auroc(rep: Report, items, rows: list[StepRow]) -> None:
                "AUROC all errors [95% CI]", "n_pos(dec)", "AUROC decisive [95% CI]"], out)
 
 
+def section_flag_metrics(rep: Report, items, rows: list[StepRow]) -> None:
+    """Flag-level metrics for BINARY items (scores in {0,1}): precision / recall / F1 / FPR at the flag, plus decisive recall.
+    AUROC is the wrong summary for a 0/1 module (it equals (recall + 1 - FPR)/2); this table is the primary one for D3."""
+    rep.line("## 1b. Flag-level metrics for binary items (precision / recall / F1)")
+    rep.line()
+    rep.line("Same population as §1 (labeled runs, cascade excluded). A step is flagged when its score is 1. "
+             "F1 = 2PR/(P+R); FPR = flagged clean / clean. `decisive recall` = flagged decisive steps / decisive steps.")
+    rep.line()
+    out = []
+    for name, item in items.items():
+        vals = set(item.scores.values())
+        if not vals or not vals <= {0.0, 1.0}:
+            continue
+        for role in ROLE_SCOPES:
+            for domain in DOMAIN_SCOPES:
+                ap = applicable(item, role, domain)
+                if ap is None:
+                    continue
+                roles, domains = ap
+                scope = cell_rows(rows, roles, domains)
+                scored = [(r, item.scores[(r.run_id, r.step_id)]) for r in scope if (r.run_id, r.step_id) in item.scores]
+                usable = [(r, sc) for r, sc in scored if r.cls != "cascade"]
+                pos = [sc for r, sc in usable if r.cls in ("decisive", "transient", "error")]
+                neg = [sc for r, sc in usable if r.cls == "clean"]
+                dec = [sc for r, sc in usable if r.cls == "decisive"]
+                if len(pos) < 3 or len(neg) < 3:
+                    continue
+                tp, fp, fn = sum(pos), sum(neg), len(pos) - sum(pos)
+                prec = tp / (tp + fp) if tp + fp else None
+                rec = tp / len(pos)
+                f1 = (2 * prec * rec / (prec + rec)) if prec is not None and (prec + rec) > 0 else None
+                fpr = fp / len(neg)
+                out.append([name, role, domain, len(pos), len(neg), int(tp), int(fp), fmt(prec), fmt(rec), fmt(f1), fmt(fpr),
+                            f"{int(sum(dec))}/{len(dec)}" if dec else "n/a"])
+                for metric, val in (("precision", prec), ("recall", rec), ("f1", f1), ("fpr", fpr)):
+                    rep.rec(section="flag_metrics", item=name, role=role, domain=domain, metric=metric,
+                            value="" if val is None else round(val, 4), n_pos=len(pos), n_neg=len(neg))
+    if out:
+        rep.table(["item", "role", "domain", "n_pos", "n_neg", "TP", "FP", "precision", "recall", "F1", "FPR", "decisive recall"], out)
+    else:
+        rep.line("_(no binary items)_")
+        rep.line()
+
+
 def trace_population(item: Item, roles: set[str], domains: set[str] | None, index, root) -> list[tuple[str, bool, float, float]]:
     """[(run_id, failed, max_score, mean_score)] for runs with >= 80% item coverage of the role scope."""
     pop = []
@@ -599,6 +643,7 @@ def build_report(root: str | Path = ".") -> Report:
         rep.line()
 
     section_step_auroc(rep, items, rows)
+    section_flag_metrics(rep, items, rows)
     section_trace_auroc(rep, items, index, root)
     section_attribution(rep, items, rows, index, root)
     section_threshold_latency(rep, items, rows, index, root)
