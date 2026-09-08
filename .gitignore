@@ -1,7 +1,6 @@
-# assignment text & local tool state (not for public repo)
+# local-only
 mission.md
 .omc/
-PLAN.md
 
 # python
 __pycache__/
@@ -10,9 +9,6 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 
-# large / generated
+# generated
 results/raw/
 *.log
-
-# external datasets (downloaded, not redistributed here)
-data/external/
