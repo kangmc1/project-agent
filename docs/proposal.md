@@ -1,7 +1,7 @@
 # 안정성 기반 멀티에이전트 실패 탐지: 실행 모델의 logprob과 기록 대조로 handoff·도구·추론 실패를 사후 감사하는 파이프라인
 
 > 콕스웨이브 AI 리서치 및 제품화 엔지니어 직무과제 제출 문서 (2026-09-09)
-> 코드: https://github.com/kangmc1/project-agent · 발표 슬라이드: `docs/slides.html`
+> 코드: https://github.com/kangmc1/project-agent · README: `README.md` · 타임라인: `docs/notes/timeline.md`
 
 ## 0. 한 문장 요약
 
