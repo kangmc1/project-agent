@@ -1,3 +1,7 @@
+# NOTE (2026-09-09 08:25 KST): module numbering was changed at 08:15 — D1 결정 분포, D2 행동 근거성 (entries below written before 08:15 call it D3),
+# D3 handoff 충실도 (below: D7), D4 근거 의존 판정, design only (below: D2 utterance grounding / D2 judge). D9 was deleted.
+# This file is a chronological working log and is NOT rewritten; docs/proposal.md, README and eval outputs use the new numbering only.
+
 # Ralph progress — agent-failure-detection (Coxwave v3)
 T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 
