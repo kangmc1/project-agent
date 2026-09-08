@@ -1,0 +1,225 @@
+<title>Handoff Contract Review</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F5F7F6; --panel:#FFFFFF; --panel2:#EEF2F1; --ink:#1B2624; --muted:#5E6B69; --line:#D6DEDC;
+  --accent:#1D6F7A; --accent-soft:#DDEEF0; --sender:#9A5B00; --sender-soft:#F7ECD8; --receiver:#5A46A8; --receiver-soft:#E8E3F6;
+  --ok:#2C7A55; --ok-soft:#DFF0E7; --warn:#B23A3A; --warn-soft:#F6E0E0; --focus:#1D6F7A;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace; --sans:"IBM Plex Sans KR","Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#121918; --panel:#1A2322; --panel2:#202B2A; --ink:#E6ECEA; --muted:#9AA8A5; --line:#2E3B39;
+  --accent:#5FB3BE; --accent-soft:#183237; --sender:#E0A24A; --sender-soft:#3A2C12; --receiver:#A796E8; --receiver-soft:#2A2340;
+  --ok:#6CC59A; --ok-soft:#15302A; --warn:#E07A7A; --warn-soft:#3B1E1E; --focus:#5FB3BE; }}
+:root[data-theme="dark"]{
+  --bg:#121918; --panel:#1A2322; --panel2:#202B2A; --ink:#E6ECEA; --muted:#9AA8A5; --line:#2E3B39;
+  --accent:#5FB3BE; --accent-soft:#183237; --sender:#E0A24A; --sender-soft:#3A2C12; --receiver:#A796E8; --receiver-soft:#2A2340;
+  --ok:#6CC59A; --ok-soft:#15302A; --warn:#E07A7A; --warn-soft:#3B1E1E; --focus:#5FB3BE; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;height:100vh;display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+header{display:flex;align-items:center;gap:18px;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--panel)}
+header h1{font-size:16px;font-weight:600;margin:0;letter-spacing:.01em}
+header .meta{color:var(--muted);font-size:12px}
+.progress{margin-left:auto;display:flex;align-items:center;gap:10px;font-variant-numeric:tabular-nums}
+.bar{width:180px;height:8px;background:var(--panel2);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);width:0}
+.save{font-size:12px;color:var(--muted);min-width:110px;text-align:right}
+main{display:grid;grid-template-columns:270px minmax(0,1fr) 430px;height:100%;min-height:0}
+nav{border-right:1px solid var(--line);overflow-y:auto;background:var(--panel)}
+nav .grp{padding:10px 12px 4px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);position:sticky;top:0;background:var(--panel)}
+nav button{display:flex;gap:8px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:7px 12px;font:inherit;color:var(--ink);cursor:pointer;border-left:3px solid transparent}
+nav button:hover{background:var(--panel2)} nav button.cur{background:var(--accent-soft);border-left-color:var(--accent)}
+nav button .n{font-family:var(--mono);font-size:11px;color:var(--muted);width:22px;font-variant-numeric:tabular-nums}
+nav button .t{flex:1;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chip{font-size:10.5px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.chip.role-at_error,.chip.role-reset_at_reset_summary{background:var(--sender-soft);color:var(--sender);border-color:transparent}
+.chip.role-reset_before_reset{background:var(--receiver-soft);color:var(--receiver);border-color:transparent}
+.chip.role-pre_error_control{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+section.read{overflow-y:auto;padding:16px 22px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.card h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0;padding:8px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.card h2 .len{margin-left:auto;font-family:var(--mono);font-size:11px;letter-spacing:0;text-transform:none}
+.card pre{margin:0;padding:12px;font-family:var(--mono);font-size:12px;line-height:1.5;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto}
+.card.artifact{border-color:var(--accent)} .card.artifact h2{color:var(--accent);background:var(--accent-soft)}
+.task{font-size:15px;font-weight:500;line-height:1.45;text-wrap:balance}
+.task small{display:block;font-weight:400;color:var(--muted);font-size:12px;margin-top:4px}
+details summary{cursor:pointer;color:var(--muted);font-size:12px;padding:8px 12px}
+details pre{max-height:none}
+aside{border-left:1px solid var(--line);overflow-y:auto;padding:14px;background:var(--panel);display:flex;flex-direction:column;gap:14px}
+aside h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px}
+table.ob{width:100%;border-collapse:collapse;font-size:12px}
+table.ob td{padding:5px 4px;border-top:1px solid var(--line);vertical-align:top}
+table.ob input[type=text],table.ob textarea{width:100%;font:inherit;font-size:12px;border:1px solid transparent;background:transparent;color:var(--ink);padding:2px 4px;resize:vertical}
+table.ob textarea{min-height:38px}
+table.ob input:focus,table.ob textarea:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--focus);outline-offset:1px;border-radius:3px}
+select{font:inherit;font-size:12px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:2px 4px;max-width:100%}
+select.absent,select.corrupted,select.violated{color:var(--warn);font-weight:600} select.weakened{color:var(--sender);font-weight:600}
+.otype{font-family:var(--mono);font-size:10.5px;color:var(--muted)}
+.faults{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px}
+.faults label{display:flex;gap:6px;align-items:flex-start;font-size:12px;padding:3px 4px;border-radius:4px}
+.faults label.s{background:var(--sender-soft)} .faults label.r{background:var(--receiver-soft)}
+.faults label b{font-family:var(--mono);font-weight:500}
+.radio{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px}
+.radio label{display:flex;gap:5px;align-items:center}
+textarea.note{width:100%;min-height:64px;font:inherit;font-size:12px;border:1px solid var(--line);border-radius:4px;background:var(--panel2);color:var(--ink);padding:6px;resize:vertical}
+.btns{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+button.pri{background:var(--ok);color:#fff;border:0;border-radius:5px;padding:8px 14px;font:inherit;font-weight:600;cursor:pointer}
+button.sec{background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:5px;padding:7px 12px;font:inherit;cursor:pointer}
+button.tiny{background:none;border:1px solid var(--line);border-radius:4px;color:var(--muted);font:inherit;font-size:11px;padding:1px 6px;cursor:pointer}
+.hint{font-size:11.5px;color:var(--muted);line-height:1.45}
+.claims{font-size:12px;background:var(--sender-soft);border-radius:4px;padding:6px 8px}
+.claims div{margin:2px 0}
+.kbd{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:3px;padding:0 4px;color:var(--muted)}
+@media (max-width:1100px){main{grid-template-columns:220px minmax(0,1fr)} aside{grid-column:1/-1;border-left:0;border-top:1px solid var(--line)} body{overflow:auto;height:auto}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <h1>Handoff Contract Review</h1>
+  <span class="meta">A층 파일럿 · TraceElephant / Magentic-One · 초안 생성 __BUILT__</span>
+  <span class="meta"><span class="kbd">j</span>/<span class="kbd">k</span> 다음/이전 · <span class="kbd">⌘/Ctrl+Enter</span> 확인 완료</span>
+  <div class="progress"><span id="prog">0 / 0 확인</span><div class="bar"><i id="bar"></i></div></div>
+  <span class="save" id="save">연결 중…</span>
+</header>
+<main>
+  <nav id="nav"></nav>
+  <section class="read" id="read"></section>
+  <aside id="form"></aside>
+</main>
+
+<script>
+const DATA = /*__DATA__*/;
+const FAULTS = [
+  ["S1","sender_drop","필요한 의무가 산출물에서 소실","s"],
+  ["S2","sender_weaken","의무가 약화되어 전달 (must→may, 조건 일부 탈락)","s"],
+  ["S3","sender_corrupt","틀린/미검증 내용이 사실로 전달","s"],
+  ["S4","sender_wrong_recipient","능력이 맞지 않는 수신자 선택","s"],
+  ["S5","sender_unnecessary","불필요·우회 handoff","s"],
+  ["R1","receiver_ignore","산출물에 있는 의무를 수신자가 무시","r"],
+  ["R2","receiver_deviate","지시와 다른 행동 / 범위 이탈","r"],
+  ["R3","receiver_false_report","결과를 과장·날조해 보고","r"],
+  ["N0","none","결함 없음",""],
+];
+const SURV = ["preserved","weakened","absent","corrupted","n/a"];
+const ADH = ["honored","violated","n/a"];
+const OTYPES = ["constraint","fact","open_question","goal","prohibition"];
+const ROLE_KO = {at_error:"결정적 실수 = 이 handoff", in_segment:"실수가 수신 구간 안", pre_error_control:"실수 훨씬 이전 (대조군)", reset_at_reset_summary:"재계획 · 실수가 요약 단계", reset_before_reset:"재계획 · 실수가 reset 이전", reset_after_reset:"재계획 · 실수가 reset 이후"};
+
+let db = null, cur = 0, labels = {}, saveTimer = null;
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+function freshLabel(it){
+  const d = it.draft;
+  return { handoff_id: it.id, layer: it.layer, role: it.role, status: "draft",
+    obligations: d.obligations.map(o => ({...o})), faults: d.faults.length ? [...d.faults] : ["N0"],
+    responsibility: d.responsibility || "none", causal: "unclear", note: "", updated_at: null };
+}
+function label(i){ const it = DATA[i]; if (!labels[it.id]) labels[it.id] = freshLabel(it); return labels[it.id]; }
+
+function renderNav(){
+  const nav = $("#nav"); nav.innerHTML = "";
+  let grp = null;
+  DATA.forEach((it, i) => {
+    const g = it.layer === "reset" ? "재계획 handoff (context reset)" : "지시 handoff (instruction)";
+    if (g !== grp){ grp = g; const d = document.createElement("div"); d.className = "grp"; d.textContent = g; nav.appendChild(d); }
+    const b = document.createElement("button"); b.className = i === cur ? "cur" : "";
+    const st = label(i).status === "confirmed";
+    b.innerHTML = `<span class="n">${i+1}</span><span class="t">${esc(it.task.slice(0,60))}</span><span class="chip ${st?"ok":""}">${st?"확인":"초안"}</span>`;
+    b.onclick = () => go(i); nav.appendChild(b);
+  });
+  const done = DATA.filter((it,i) => label(i).status === "confirmed").length;
+  $("#prog").textContent = `${done} / ${DATA.length} 확인`; $("#bar").style.width = (100*done/DATA.length) + "%";
+}
+
+function renderRead(){
+  const it = DATA[cur];
+  $("#read").innerHTML = `
+    <div class="task">${esc(it.task)}<small>${esc(it.layer === "reset" ? "재계획 handoff" : "지시 handoff")} · 수신자 ${esc(it.receiver)} · step ${esc(it.step)} · 정답 ${esc(it.ground_truth)} <span class="chip role-${esc(it.role)}">${esc(ROLE_KO[it.role]||it.role)}</span></small></div>
+    <div class="card artifact"><h2>산출물 (송신자가 넘긴 것) <span class="len">${it.artifact.length.toLocaleString()} chars</span></h2><pre>${esc(it.artifact)}</pre></div>
+    <div class="card"><h2>수신자 행동 (그 다음에 일어난 일) <span class="len">${it.receiver_behavior.length.toLocaleString()} chars</span></h2><pre>${esc(it.receiver_behavior)}</pre></div>
+    <div class="card"><details><summary>송신자 문맥 (산출물을 만들 때 본 것) · ${it.sender_context.length.toLocaleString()} chars · 펼치기</summary><pre>${esc(it.sender_context)}</pre></details></div>
+    <div class="card"><details><summary>참고: TraceElephant 원 주석 (결정적 실수) · 라벨을 먼저 정한 뒤 펼치세요</summary><pre>${esc(it.te_note)}</pre></details></div>`;
+  $("#read").scrollTop = 0;
+}
+
+function renderForm(){
+  const it = DATA[cur], L = label(cur), d = it.draft;
+  const obRows = L.obligations.map((o, k) => `
+    <tr data-k="${k}">
+      <td style="width:92px"><select class="otype" data-f="type">${OTYPES.map(t=>`<option ${o.type===t?"selected":""}>${t}</option>`).join("")}</select></td>
+      <td><textarea data-f="text">${esc(o.text)}</textarea></td>
+      <td style="width:96px"><select data-f="survival" class="${esc(o.survival)}">${SURV.map(t=>`<option ${o.survival===t?"selected":""}>${t}</option>`).join("")}</select><br>
+          <select data-f="adherence" class="${esc(o.adherence)}" style="margin-top:3px">${ADH.map(t=>`<option ${o.adherence===t?"selected":""}>${t}</option>`).join("")}</select></td>
+      <td style="width:22px"><button class="tiny" data-del="${k}" title="삭제">×</button></td>
+    </tr>`).join("");
+  const claims = d.claims && d.claims.length ? `<div class="claims"><b>초안이 미검증/모순으로 본 산출물 주장</b>${d.claims.map(c=>`<div>[${esc(c.status)}] ${esc(c.claim)}</div>`).join("")}</div>` : "";
+  $("#form").innerHTML = `
+    ${d.has_draft ? "" : `<div class="hint" style="color:var(--warn)">이 항목은 아직 LLM 초안이 없습니다. 직접 채워 주세요.</div>`}
+    <div><h3>의무 (obligations) · 생존 / 이행</h3>
+      <div class="hint">위: 산출물에서의 생존 (preserved · weakened · absent · corrupted · n/a) · 아래: 수신자의 이행 (honored · violated · n/a). 문장은 바로 고칠 수 있습니다.</div>
+      <table class="ob"><tbody id="obs">${obRows}</tbody></table>
+      <div class="btns" style="margin-top:6px"><button class="sec" id="addob">+ 의무 추가</button></div>
+      ${claims}</div>
+    <div><h3>handoff 결함 (다중 선택)</h3>
+      <div class="faults">${FAULTS.map(([c,n,desc,cls])=>`<label class="${cls}"><input type="checkbox" data-fault="${c}" ${L.faults.includes(c)?"checked":""}><span><b>${c}</b> ${esc(desc)}</span></label>`).join("")}</div></div>
+    <div><h3>책임</h3><div class="radio">${["sender","receiver","both","none"].map(v=>`<label><input type="radio" name="resp" value="${v}" ${L.responsibility===v?"checked":""}>${v}</label>`).join("")}</div></div>
+    <div><h3>이 결함이 과제 실패로 이어졌는가</h3><div class="radio">${[["caused_failure","유발"],["contributed","기여"],["no_effect","영향 없음"],["unclear","불명"]].map(([v,t])=>`<label><input type="radio" name="causal" value="${v}" ${L.causal===v?"checked":""}>${t}</label>`).join("")}</div></div>
+    <div><h3>메모</h3><textarea class="note" id="note" placeholder="근거, 애매한 점, 초안이 놓친 것">${esc(L.note)}</textarea>
+      ${d.notes ? `<div class="hint">초안 메모: ${esc(d.notes)}</div>` : ""}</div>
+    <div class="btns"><button class="pri" id="confirm">${L.status==="confirmed"?"✓ 확인됨 (다시 저장)":"확인 완료"}</button><button class="sec" id="undo">초안으로 되돌리기</button><button class="sec" id="copy">전체 JSON 복사</button></div>`;
+  const form = $("#form");
+  form.querySelectorAll("#obs [data-f]").forEach(el => el.addEventListener("input", e => {
+    const k = +el.closest("tr").dataset.k, f = el.dataset.f; L.obligations[k][f] = el.value; if (el.tagName==="SELECT") el.className = el.value; markDirty();
+  }));
+  form.querySelectorAll("[data-del]").forEach(b => b.onclick = () => { L.obligations.splice(+b.dataset.del,1); markDirty(); renderForm(); });
+  $("#addob").onclick = () => { L.obligations.push({id:"o"+(L.obligations.length+1), type:"fact", text:"", survival:"preserved", adherence:"n/a"}); markDirty(); renderForm(); form.querySelector("#obs tr:last-child textarea").focus(); };
+  form.querySelectorAll("[data-fault]").forEach(cb => cb.onchange = () => {
+    let f = new Set(L.faults); cb.checked ? f.add(cb.dataset.fault) : f.delete(cb.dataset.fault);
+    if (cb.dataset.fault === "N0" && cb.checked) f = new Set(["N0"]); else if (cb.checked) f.delete("N0");
+    L.faults = [...f]; if (!L.faults.length) L.faults = ["N0"];
+    const s = L.faults.some(x=>x[0]==="S"), r = L.faults.some(x=>x[0]==="R");
+    L.responsibility = s&&r ? "both" : s ? "sender" : r ? "receiver" : "none"; markDirty(); renderForm();
+  });
+  form.querySelectorAll("[name=resp]").forEach(r => r.onchange = () => { L.responsibility = r.value; markDirty(); });
+  form.querySelectorAll("[name=causal]").forEach(r => r.onchange = () => { L.causal = r.value; markDirty(); });
+  $("#note").addEventListener("input", e => { L.note = e.target.value; markDirty(); });
+  $("#confirm").onclick = confirm;
+  $("#undo").onclick = () => { if (window.confirm("이 항목의 수정을 버리고 LLM 초안으로 되돌릴까요?")) { labels[it.id] = freshLabel(it); markDirty(); renderForm(); } };
+  $("#copy").onclick = async () => { await navigator.clipboard.writeText(JSON.stringify(labels, null, 1)); flash("JSON을 클립보드에 복사했습니다"); };
+}
+
+function confirm(){ const L = label(cur); L.status = "confirmed"; markDirty(true); renderNav(); renderForm(); }
+function flash(t){ $("#save").textContent = t; }
+function markDirty(now){
+  const L = label(cur); L.updated_at = new Date().toISOString();
+  clearTimeout(saveTimer); flash("저장 대기…");
+  saveTimer = setTimeout(() => persist(L), now ? 0 : 700);
+}
+async function persist(L){
+  if (!db){ try { localStorage.setItem("hcr:"+L.handoff_id, JSON.stringify(L)); } catch(e){} flash("로컬에만 저장됨 (db 없음)"); return; }
+  try { await db.doc("labels/"+L.handoff_id).set(L); flash("저장됨 " + new Date().toLocaleTimeString("ko-KR",{hour:"2-digit",minute:"2-digit"})); }
+  catch(e){ flash("저장 실패: " + (e.code||e.message)); }
+}
+function go(i){ cur = Math.max(0, Math.min(DATA.length-1, i)); renderNav(); renderRead(); renderForm(); }
+document.addEventListener("keydown", e => {
+  const tag = document.activeElement.tagName;
+  if ((e.metaKey||e.ctrlKey) && e.key === "Enter"){ e.preventDefault(); confirm(); go(cur+1); return; }
+  if (tag === "TEXTAREA" || tag === "INPUT" || tag === "SELECT") return;
+  if (e.key === "j") go(cur+1); if (e.key === "k") go(cur-1);
+});
+
+(async function init(){
+  // local fallback first so the page works without db
+  DATA.forEach(it => { try { const s = localStorage.getItem("hcr:"+it.id); if (s) labels[it.id] = JSON.parse(s); } catch(e){} });
+  go(0);
+  db = await claude.use("db");
+  if (!db){ flash("db 없음 · 로컬 저장만"); return; }
+  try {
+    const snap = await db.collection("labels").get();
+    snap.docs.forEach(d => { const v = d.data(); if (v && v.handoff_id) labels[v.handoff_id] = v; });
+    flash("db 연결됨 · " + snap.size + "개 불러옴"); go(cur);
+  } catch(e){ flash("db 읽기 실패: " + (e.code||e.message)); }
+})();
+</script>

@@ -66,7 +66,7 @@ for i, inj in enumerate(injs):
             if inj["op"] == "none":
                 hit = any(fl in ("S1", "S2", "S3") for fl in res.get("faults", []))
             else:
-                hit = match(items, inj["target_line"], a.thr) or (inj["modified_line"] and match(items, inj["modified_line"], a.thr))
+                hit = bool(match(items, inj["target_line"], a.thr) or (inj["modified_line"] and match(items, inj["modified_line"], a.thr)))
         score[d][(inj["op"], "hit" if hit else "miss")] += 1
         rec = {"injection_id": inj["injection_id"], "op": inj["op"], "detector": d, "hit": hit, "error": err, "target_line": inj["target_line"], "modified_line": inj["modified_line"],
                "result": res, "seconds": round(time.time() - t0, 1), "render_stats": stats}
