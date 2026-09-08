@@ -38,6 +38,11 @@ def check_proposal() -> list[str]:
 
 
 def check_slides() -> list[str]:
+    # slides dropped by user decision (2026-09-09 07:40): written submission only
+    return []
+
+
+def _check_slides_legacy() -> list[str]:
     p = Path("docs/slides.html")
     if not p.exists():
         return ["docs/slides.html missing"]
