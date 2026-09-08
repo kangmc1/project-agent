@@ -1,0 +1,34 @@
+{
+  "run_id": "aime_012",
+  "batch": 1,
+  "decisive_step": 2,
+  "error_events": [
+    {
+      "step": 2,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Solver assumes the second tangent plane is parallel to P ('Let the equation of plane T be z = k'), derives k = 0 from every sphere (i.e. T = P, contradicting the premise that T is a second plane), then asserts an invented relation 'the total distance between the two planes is 1 + 2 + 3 + r = 6 + r' and solves 2r = 6 + r -> r = 6, m+n = 7 (gold answer 161). The correct D = (42/13, 124/39) it had just computed is never used. Its run_python check only re-prints the hard-coded result ('r = 6; m = r; n = 1; print(m+n)' -> stdout '7'), so nothing is verified."
+    },
+    {
+      "step": 5,
+      "agent": "verifier",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Verifier reports the reflection of the centroid (2, 4/3) over BC as D = (42/13, 832/351); its own expression reduces to (104/27) / (13/9) = 8/3, and the correct reflection is (42/13, 124/39) (the value the solver derived at step 2 from 2x + 3y - 12 = 0), so the y-coordinate is wrong twice over. The step also ran to the token limit (finish_reason 'length') mid-equation with no run_python call and no 'FINAL ANSWER' line, contrary to its instruction to verify the final integer with run_python."
+    },
+    {
+      "step": 6,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner calls submit_answer({\"answer\": 7}) although the verifier report it received breaks off mid-formula ('\\frac{|a \\cdot 0 + b \\cdot 4 + c') with no FINAL ANSWER and no statement about the solver's 7; an incomplete verification is used as if it endorsed the solver's answer, and no re-verification is requested."
+    }
+  ]
+}

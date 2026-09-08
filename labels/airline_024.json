@@ -1,0 +1,61 @@
+{
+  "run_id": "airline_024",
+  "batch": 1,
+  "decisive_step": 19,
+  "error_events": [
+    {
+      "step": 19,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Instruction to db_agent 'Calculate the total cost for upgrading to business class for flights HAT072 and HAT278, and add 2 checked bags for each flight' doubles the customer's request - at step 18 she said 'For both flights, I want to upgrade to business class and add 2 checked bags' (2 bags for the trip). The 'for each flight' wording is repeated verbatim in the delegations at steps 30 and 35 and is never corrected; it becomes update_reservation_baggages(total_baggages=4) at step 39, so the reservation could never reach the requested 2 bags. The same instruction also omits reservation HXDUBJ / user yara_garcia_1905, which is why db_agent queried the flight numbers as reservation ids at step 20."
+    },
+    {
+      "step": 20,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": true,
+      "recovery_step": 27,
+      "evidence": "get_reservation_details({\"reservation_id\": \"HAT072\"}) and get_reservation_details({\"reservation_id\": \"HAT278\"}) pass flight numbers as reservation ids; both return 'Error: user not found'. Corrected at step 27, where the reservation is fetched with the correct id HXDUBJ."
+    },
+    {
+      "step": 32,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 38,
+      "evidence": "'The requested flights HAT072 and HAT278 are not part of the reservation HXDUBJ. The reservation includes flights HAT085, HAT023, and HAT278' contradicts itself and the get_reservation_details result it just read, which lists HAT278 (SFO->IAH, 2024-05-22) among the reservation's flights. Instead of pricing the business upgrade it was asked for, the step returns a clarification request, so the customer's step-18 question about the total cost is still unanswered when the write is executed. Worked around after the customer re-explained at step 34 and the flights were updated at step 38."
+    },
+    {
+      "step": 39,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "update_reservation_baggages({\"reservation_id\": \"HXDUBJ\", \"total_baggages\": 4, \"nonfree_baggages\": 4, \"payment_id\": \"gift_card_6941833\"}): the customer asked for 2 checked bags, and per policy a gold member (get_user_details at step 12: 'membership': 'gold') gets 3 free checked bags for a business passenger, so for the single passenger Yara Garcia the correct call is total_baggages 2 / nonfree_baggages 0. Billing 4 x $50 returned 'Error: gift card balance is not enough' (gift_card_6941833 held $152 and $36 had just been charged), and no baggage was ever added to the reservation."
+    },
+    {
+      "step": 41,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'Outbound flight replaced with HAT072 on May 19th (Business class at $282). Return flight replaced with HAT278 on May 21st (Business class at $257). The total cost for the flight upgrades is $539, and an additional $36 has been added to your gift card payment.' The db_agent report it is answering says 'Flights updated to HAT072 and HAT278; cabin class remains economy; $36 added to gift card payment', and the update_reservation_flights result shows \"cabin\": \"economy\" with a single new payment of $36. The planner turns 'cabin remains economy' into a completed business upgrade and presents $539 (the sum of the new ticket prices) as a cost, which also misrepresents the change against the customer's stated $200 budget."
+    },
+    {
+      "step": 48,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'I will escalate your request to a supervisor to see if there is any flexibility in applying your insurance coverage' (repeated at step 50 'I'll let the supervisor know and will update you shortly' and step 52 'I'll handle the escalation and reach out to you as soon as I have an update'). The planner's tools are read_file, write_file, policy_checker, db_agent and respond_to_user - no supervisor or human-transfer path exists - and the policy allows transfer 'if and only if the request cannot be handled within the scope of your actions', while the policy_checker had already answered the question at step 45. The promised follow-up cannot happen, and the conversation closes with the business upgrade unrecorded and the checked bags never added."
+    }
+  ]
+}

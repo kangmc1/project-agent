@@ -1,0 +1,34 @@
+{
+  "run_id": "aime_011",
+  "batch": 1,
+  "decisive_step": 2,
+  "error_events": [
+    {
+      "step": 2,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Solver asserts 'If we can achieve the maximum difference of 63 for each of these 112 pairs, the maximum possible value of M would be M_max = 112 x 63' and calls run_python('M_max = 112 * 63') -> 7056. The 63 = 64-1 gap can be realised by at most one adjacent pair, so 112x63 is an unattainable upper bound, not the maximum; nothing in the record exhibits an arrangement reaching it (gold M mod 1000 = 896, so M != 7056)."
+    },
+    {
+      "step": 5,
+      "agent": "verifier",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Verifier's independent check was emitted as raw text '<tool_call>\\n{\"name\": \"run_python\", \"arguments\": {\"code\": \"import numpy as np ... M % 1000 ...\"}}\\n</tool_call>' (steps.jsonl step 5 has tool_calls == []), so the python check never ran and the message ends with no VERDICT line; the planner received an analysis that neither confirms nor refutes 7056/56."
+    },
+    {
+      "step": 6,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner called submit_answer({\"answer\": 56}) treating the step-5 verifier return as confirmation, although that verifier report contains no verdict and stops at 'Let's implement this in Python.'; the planner never re-asked the verifier or noticed the missing check. Submitted 56 vs gold 896."
+    }
+  ]
+}

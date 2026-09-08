@@ -1,0 +1,16 @@
+{
+  "run_id": "aime_005",
+  "batch": 1,
+  "decisive_step": 1,
+  "error_events": [
+    {
+      "step": 1,
+      "agent": "planner",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Step 1 emitted the delegation as raw assistant text '<tool_call>\\n{\"name\": \"solver\", \"arguments\": {\"instruction\": \"A plane contains points A and B with AB = 1 ...\"}}\\n</tool_call>' instead of a function call; steps.jsonl step 1 shows tool_calls == [] so no solver was ever invoked. The episode ended after this single step with submitted=None vs gold 65."
+    }
+  ]
+}

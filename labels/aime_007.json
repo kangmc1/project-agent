@@ -1,0 +1,19 @@
+{
+  "run_id": "aime_007",
+  "batch": 1,
+  "decisive_step": 2,
+  "error_events": [
+    {"step": 2, "agent": "solver", "category": "reasoning_stability", "subtag": "reasoning_like",
+     "recovered": false, "recovery_step": null,
+     "evidence": "Enumerates the cycle types of S_6 with all cycle lengths dividing 6 but omits the type (3,2,1) (a 3-cycle + a 2-cycle + a fixed point, 120 permutations); its list stops at 7 types and the sum 'N = 120 + 40 + 15 + 40 + 45 + 15 + 1' (run_python -> 276) is short of the correct 396. Premises (divisors of 6 are 1,2,3,6) are correct, so this is a faulty enumeration, not a fabricated fact."},
+    {"step": 5, "agent": "verifier", "category": "reasoning_stability", "subtag": "reasoning_like",
+     "recovered": false, "recovery_step": null,
+     "evidence": "Independent solution includes an invalid structure 'Case 3: One 4-cycle and one 2-cycle ... Total: 15 x 6 = 90' although lcm(4,2)=4 does not divide 6 (contradicting its own premise 'the permutation must be composed of cycles whose lengths divide 6'), miscounts two 3-cycles as 20 (correct 40) and two 2-cycles + two 1-cycles as 90 (correct 45), and also omits (3,2,1); run_python returns 391 vs the correct 396."},
+    {"step": 7, "agent": "planner", "category": "handoff", "subtag": "handoff_induced",
+     "recovered": false, "recovery_step": null,
+     "evidence": "System procedure says 'If they disagree, re-delegate to `solver` with the verifier's objection', and the solver tool states 'It sees only this text'. The instruction sent is 'Re-evaluate the problem and your solution in light of the verifier's objection. The problem is: ...' and contains neither the verifier's answer 391 nor its case breakdown nor the solver's own 276 solution, so the solver re-derived from scratch with no objection to reconcile."},
+    {"step": 8, "agent": "solver", "category": "reasoning_stability", "subtag": "reasoning_like",
+     "recovered": false, "recovery_step": null,
+     "evidence": "Claims the valid cycle structures are only 1^6, 2+1^4, 3+1^3, 6 and 3+2+1, dropping (2,2,1,1)=45, (2,2,2)=15 and (3,3)=40 which it had itself counted at step 2; sum '1 + 15 + 40 + 120 + 120' (run_python -> 296) is the value submitted, vs the gold answer 396."}
+  ]
+}

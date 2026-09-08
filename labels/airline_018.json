@@ -1,0 +1,34 @@
+{
+  "run_id": "airline_018",
+  "batch": 1,
+  "decisive_step": null,
+  "error_events": [
+    {
+      "step": 5,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 17,
+      "evidence": "Planner asked policy_checker only 'Check if the cancellation of flights for reservation ID SI5UKW is allowed under the airline's policy', dropping the facts db_agent had just reported at step 4 ('Cabin: basic_economy', 'Created At: 2024-05-11T00:08:57', 'Insurance: no'). policy_checker answered at step 7 'VERDICT: need_info — The user ID and reason for cancellation are requir...' and listed booking date, cabin class and insurance status as missing. The planner only supplied those values at step 17."
+    },
+    {
+      "step": 10,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "The customer said at step 9 'My user ID is amelia_rossi_1297' and get_reservation_details had returned \"user_id\": \"amelia_rossi_1297\" (step 3 tool result, restated in db_agent's step 4 report). The planner's instruction to policy_checker says 'with user ID amelia_rossi_1247'. The corrupted id was then restated by policy_checker at steps 11, 13 and 18 and re-emitted by the planner at step 17; it was never corrected. It happened to be inert because no lookup used it (all db calls keyed on reservation SI5UKW)."
+    },
+    {
+      "step": 30,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner told the customer 'Your case has been escalated to a supervisor for review, and your contact information has been provided. They will be in touch with you directly' (after promising the same at step 27). The planner's tools are read_file, write_file, policy_checker, db_agent, respond_to_user — there is no escalation/transfer action, the only thing done was write_file to /case_notes.md at step 29, and the policy contains no supervisor-callback procedure ('You should not provide any information, knowledge, or procedures not provided by the user or available tools'). No record supports a supervisor having received the case or the contact details."
+    }
+  ]
+}

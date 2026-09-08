@@ -1,0 +1,61 @@
+{
+  "run_id": "airline_013",
+  "batch": 1,
+  "decisive_step": null,
+  "error_events": [
+    {
+      "step": 15,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "policy_checker had just returned (step 14) 'VERDICT: not_allowed | need_info — <Modify flight policy: Basic economy flights cannot be modified.>'; the planner told the customer 'changes to Basic Economy flights are not permitted. However, you can upgrade to Economy and proceed with the change', which inverts the verdict (the policy allows a cabin change only 'without changing the flights'). It also invented 'a $50 change fee will apply for modifying your flight' — no change fee exists in the policy ($50 is the extra-checked-bag charge) and policy_checker mentioned only the price difference — and quoted the difference as '$71 ($125 - $54)' although the reservation has two passengers (James Lee and Mason Lopez in get_reservation_details, step 3)."
+    },
+    {
+      "step": 17,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner instructed db_agent({'instruction': \"Modify the reservation with ID XEWRD9 by replacing Flight 3 (HAT252) with Flight HAT052 (ATL to LAS). Upgrade the ticket to Economy class and apply the total cost of $121 ...\"}), a database write that contradicts the step-14 verdict 'not_allowed' and the policy clauses 'Basic economy flights cannot be modified' and 'Other reservations can be modified without changing the origin, destination, and trip type' (the reservation's ATL->DFW leg becomes ATL->LAS); the $121 carries the fabricated $50 fee from step 15."
+    },
+    {
+      "step": 19,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "update_reservation_flights args contain '{\"origin\": \"LAS\", \"destination\": \"LAX\", \"flight_number\": \"HAT124\", \"date\": \"2024-05-21\", \"price\": 96}' — HAT124 is a DFW->LAX flight in the reservation returned by get_reservation_details and no search result shows HAT124 flying LAS->LAX; the ATL->LAS leg is also priced at 121 (the planner's invented total) instead of the economy price 125 returned by search_direct_flight at step 8."
+    },
+    {
+      "step": 20,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 29,
+      "evidence": "After 'Error: flight HAT030 not available on date 2024-05-13' the db_agent concluded 'Action Required: Find an alternative flight for the first segment (LAX to ORD)' and spent steps 20-26 searching LAX->ORD replacements, a segment the customer never asked to change (step 1: change the ATL leg; the LAX->ORD leg is dated 2024-05-13, before the current time 2024-05-15) instead of reporting the failed write to the planner. Corrected after the customer's step-28 statement 'I only need help with the initial flight from ATL to LAS', which the planner accepted at step 29."
+    },
+    {
+      "step": 29,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": true,
+      "recovery_step": 33,
+      "evidence": "Instruction to db_agent asserts a false premise: 'Confirm that the reservation with ID XEWRD9 has been successfully updated to replace Flight 3 (HAT252) with Flight HAT052 (ATL to LAS) in Economy class, and verify that the total cost of $121 has been applied' — the db_agent had reported at step 20 'Error: Flight HAT030 is not available on 2024-05-13' and no update ever succeeded. Corrected at step 33 when db_agent reported 'The reservation update for ID XEWRD9 could not be completed'."
+    },
+    {
+      "step": 31,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Asked to verify and return the reservation details, db_agent re-issued the byte-identical update_reservation_flights call from step 19 (same four legs including 'HAT030 ... 2024-05-13', same payment_id gift_card_4643416) that had already returned 'Error: flight HAT030 not available on date 2024-05-13', and received the same error."
+    }
+  ]
+}

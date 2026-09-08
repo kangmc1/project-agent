@@ -1,0 +1,61 @@
+{
+  "run_id": "airline_022",
+  "batch": 1,
+  "decisive_step": 4,
+  "error_events": [
+    {
+      "step": 4,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner delegated db_agent({'instruction': \"Search for a reservation with last name 'Rossi' and flight date 'May 21' departing from EWR.\"}) with no user id or reservation id, after the customer said at step 3 'I don't have the reservation ID with me right now'. The planner's own brief requires it to 'gather identifying details (user id, reservation id)' and to give db_agent 'which tool, which ids/values'; db_agent's tool set (get_user_details, get_reservation_details, ...) has no search-by-name tool, so the delegated lookup was impossible, and the planner never asked the customer for a user id at steps 7 or 13."
+    },
+    {
+      "step": 5,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent called get_user_details({'user_id': 'rossi_123'}); no id 'rossi_123' appears in the planner instruction or in any customer turn (the customer gave only the last name 'Rossi'), and its own brief says 'Do not invent data'. Tool returned 'Error: user not found'."
+    },
+    {
+      "step": 6,
+      "agent": "db_agent",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Report to the planner reads 'The user with the last name Rossi and user ID rossi_123 was not found. No reservation details could be retrieved for the specified criteria.' The only record is a failed lookup of a self-invented id; the report converts that into a general no-reservation finding and never states that the id was fabricated or that a real user id is required. The planner relayed it at step 7 as 'I couldn't find a reservation for Rossi departing from EWR on May 21.'"
+    },
+    {
+      "step": 9,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "After the customer supplied only a first name ('The name on the reservation might be Ivan Rossi'), the planner repeated the same id-less delegation: db_agent({'instruction': \"Search for a reservation with last name 'Rossi', first name 'Ivan', and flight date 'May 21' departing from EWR.\"}) — still no user id / reservation id, and still no tool that can search by name."
+    },
+    {
+      "step": 10,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "db_agent called get_user_details({'user_id': 'ivan_rossi'}); the id was invented again (the customer only gave the name 'Ivan Rossi') and the tool returned 'Error: user not found'."
+    },
+    {
+      "step": 11,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "With the instruction 'Search for a reservation ...', db_agent instead called transfer_to_human_agents({'summary': \"The user with the name 'Ivan Rossi' could not be found in the system ...\"}) — an escalation the planner never requested and the customer never agreed to, taken after two lookups with fabricated ids rather than asking for the real user id. Result 'Transfer successful'; the conversation ended at step 13 with reward 0.0."
+    }
+  ]
+}

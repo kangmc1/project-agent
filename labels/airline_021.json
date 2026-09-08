@@ -1,0 +1,10 @@
+{
+  "run_id": "airline_021",
+  "batch": 1,
+  "decisive_step": null,
+  "error_events": [
+    {"step": 9, "agent": "db_agent", "category": "handoff", "subtag": "handoff_induced",
+     "recovered": true, "recovery_step": 10,
+     "evidence": "Final report to the planner is only 'The reservation details for the user have been successfully appended to the file /case_notes.md' — it drops every value get_reservation_details returned at step 6 (reservation DF89BM, cabin basic_economy, JFK-ORD HAT079 / ORD-DTW HAT020 on 2024-05-17, prices 63/78/53), contrary to the db_agent instruction 'Report back exactly what the tools returned (ids, prices, dates, statuses)'. Planner recovered the data by reading /case_notes.md at step 10."}
+  ]
+}

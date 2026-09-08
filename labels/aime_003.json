@@ -1,0 +1,25 @@
+{
+  "run_id": "aime_003",
+  "batch": 1,
+  "decisive_step": 2,
+  "error_events": [
+    {
+      "step": 2,
+      "agent": "solver",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Solver correctly derived 'the distance from the center of the hemisphere to the center of the sphere must be at most 200 - 42 = 158', then silently replaced that 3-D distance with a horizontal one: 'The region T is the set of points P on the disk such that the distance from the center of the disk to P is at most 158 ... a smaller circle of radius 158'. The sphere of radius 42 rests on the disk, so its center is 42 above the disk plane and the condition on the horizontal distance r is sqrt(r^2 + 42^2) <= 158, i.e. r^2 <= 158^2 - 42^2 = 24964 - 1764 = 23200, giving 23200/40000 = 29/50 and p+q = 79 (the gold answer). Dropping the 42 height yields the 158^2/200^2 = 6241/10000 chain and the wrong 16241 that steps 3-4 carry forward."
+    },
+    {
+      "step": 5,
+      "agent": "planner",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Planner's final line 'Submitted 16241.' asserts a submission that never occurred: step 5 has no tool_calls, no submit_answer appears anywhere in the trace, and the run header records 'submitted: None'. The planner also skipped procedure step 2 entirely ('Send the full problem (NOT the solver's answer) to verifier and ask for an independent solution and final integer') — no verifier step exists — and ignored that 16241 falls outside the answer range its own system prompt states ('the answer is an integer 0-999')."
+    }
+  ]
+}

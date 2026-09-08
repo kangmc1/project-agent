@@ -1,0 +1,70 @@
+{
+  "run_id": "airline_016",
+  "batch": 1,
+  "decisive_step": 18,
+  "error_events": [
+    {
+      "step": 5,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": true,
+      "recovery_step": 17,
+      "evidence": "get_user_details({\"user_id\": \"ethan_martin_123\"}) - the id is fabricated: the customer had given only 'my name is Ethan Martin and my flight is HAT039' (step 3) and the planner's instruction (step 4) contains no user id. Result: 'Error: user not found'. Corrected at step 17, where the real id ethan_martin_2396 returns the profile."
+    },
+    {
+      "step": 6,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": null,
+      "recovered": true,
+      "recovery_step": 17,
+      "evidence": "get_reservation_details({\"reservation_id\": \"HAT039\"}) passes the flight number as a reservation id (the customer's words were 'my flight is HAT039'); result 'Error: user not found'. Superseded by the successful lookup path at step 17."
+    },
+    {
+      "step": 7,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": true,
+      "recovery_step": 17,
+      "evidence": "Report 'The reservation with the ID HAT039 could not be found in the system. Additionally, the user Ethan Martin was not found. Since no valid reservation or user details were found, no further action can be taken' draws a conclusion about the real customer from two lookups made with invented/mistyped keys (ethan_martin_123, HAT039); no identifier the customer actually supplied was ever tested, and 'need the user id or reservation id' is never reported. The planner passed this on at step 8. Corrected at step 17 when ethan_martin_2396 was found."
+    },
+    {
+      "step": 18,
+      "agent": "db_agent",
+      "category": "reasoning_stability",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'None of the reservations listed for the user ethan_martin_2396 match the flight number HAT039' is stated after a single get_user_details call whose result contains only reservation ids ['GXWCPN','DQST39','BSSSM3','RVQC22','P824NH','3HE6QG','NTIRXF','HG8X9P','M61CQM'] and no flight numbers; get_reservation_details was never called on any of the nine reservations, so no record supports the claim. This unchecked negative ended the search for the delayed HAT039 booking and is the reason the delay complaint/compensation was never handled."
+    },
+    {
+      "step": 21,
+      "agent": "planner",
+      "category": "handoff",
+      "subtag": "handoff_induced",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "Delegation 'Search for a reservation with the passenger name Ethan Martin, flight number HAT039, and departure city Atlanta (ATL)' omits the user id ethan_martin_2396 that the customer gave at step 15 and that db_agent used successfully at step 17, against the planner's own instructions ('give it precise instructions: which tool, which ids/values'). The db_agent's context is opened fresh for each delegation (its step-22 request contains only the system prompt and this instruction), so it had no id to work with."
+    },
+    {
+      "step": 22,
+      "agent": "db_agent",
+      "category": "tool",
+      "subtag": "hallucination_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "get_user_details({\"user_id\": \"ethan_martin_123\"}) again invokes a user id that appears in no customer turn, planner instruction or tool result, instead of reporting that no id was supplied (there is no name-search tool); result 'Error: user not found'."
+    },
+    {
+      "step": 24,
+      "agent": "planner",
+      "category": "reasoning_stability",
+      "subtag": "reasoning_like",
+      "recovered": false,
+      "recovery_step": null,
+      "evidence": "'we couldn't find a user named Ethan Martin in our system with the details you provided' contradicts the record the planner itself held: at step 17 get_user_details('ethan_martin_2396') returned Ethan Martin's full profile (silver member, nine reservations), which the planner cited to the customer at step 19. It accepted the step-23 report built on the fabricated id ethan_martin_123 over its own established fact."
+    }
+  ]
+}

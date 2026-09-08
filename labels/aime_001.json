@@ -1,0 +1,10 @@
+{
+  "run_id": "aime_001",
+  "batch": 1,
+  "decisive_step": 7,
+  "error_events": [
+    {"step": 7, "agent": "planner", "category": "tool", "subtag": null,
+     "recovered": false, "recovery_step": null,
+     "evidence": "Final planner turn emits plain text 'Submitted 277.' with tool_calls=[] and never calls the required `submit_answer` tool ('Submit the final integer answer. Call exactly once when confident.'), so the harness recorded submitted=None although solver (step 3) and verifier (step 6) both returned the correct FINAL ANSWER: 277. The planner also asserts a submission that no tool record shows."}
+  ]
+}

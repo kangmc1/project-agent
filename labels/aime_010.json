@@ -1,0 +1,13 @@
+{
+  "run_id": "aime_010",
+  "batch": 1,
+  "decisive_step": 4,
+  "error_events": [
+    {"step": 4, "agent": "solver", "category": "reasoning_stability", "subtag": "reasoning_like",
+     "recovered": false, "recovery_step": null,
+     "evidence": "'since the rotation is by 90 degrees ... the hexagon is symmetric. The area of the hexagon is twice the area of triangle ABC: 2 x 84 = 168'. Nothing in the record supports this: the only run_python results are Heron area 84 (step 2) and R = 8.125 (step 3); no coordinates of A', B', C' and no rotation angle were ever computed, and the '90 degrees' rotation is asserted, not derived. Gold answer is 156, submitted 168."},
+    {"step": 8, "agent": "verifier", "category": "reasoning_stability", "subtag": "reasoning_like",
+     "recovered": false, "recovery_step": null,
+     "evidence": "Independent verification repeats the same unsupported step: 'the area of the hexagon is twice the area of triangle ABC, because the rotated triangle A'B'C' is congruent to ABC and the two triangles do not overlap' -> 2 x 84 = 168. Hexagon AA'CC'BB' is not the union of the two triangles; the non-overlap claim is asserted with no computation (its own run_python calls only produced 84 and 8.125). This false agreement is what let the planner submit 168 at step 9 (gold 156)."}
+  ]
+}
