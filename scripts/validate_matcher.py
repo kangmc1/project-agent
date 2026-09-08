@@ -37,27 +37,29 @@ for sc in scs:
         # edits on items that survived the base compression
         for o in obls:
             if base[o["id"]] != "preserved": continue
-            ln = line_of(state, o["key_values"])
-            if not ln: continue
-            # drop
-            st = state.replace(ln, "", 1); conf[(fmt, "drop")][survival_report(obls, st)[o["id"]]] += 1
-            # alter a number if present
+            items = [ln for ln in _items(state) if any(_present(v, ln) for v in o["key_values"])]
+            if not items: continue
+            # drop: remove EVERY line/item that mentions any key value
+            st = state
+            for ln in items: st = st.replace(ln, "")
+            conf[(fmt, "drop")][survival_report(obls, st)[o["id"]]] += 1
+            # alter: change one digit of a numeric key value in ALL its occurrences
             nums = [v for v in o["key_values"] if re.search(r"\d", v)]
             if nums:
                 v = nums[0]; nv = re.sub(r"\d", lambda m: str((int(m.group(0)) + 3) % 10), v, count=1)
-                st = state.replace(ln, ln.replace(v, nv), 1); conf[(fmt, "alter")][survival_report(obls, st)[o["id"]]] += 1
-            # promote open questions
+                st = re.sub(re.escape(v), nv, state, flags=re.I); conf[(fmt, "alter")][survival_report(obls, st)[o["id"]]] += 1
+            # promote: remove all hedged mentions, add one asserted statement in the verified section / with status verified
             if o["type"] == "open_question":
+                st = state
+                for ln in items: st = st.replace(ln, "")
+                assertion = o["text"].rstrip("?").replace("Are ", "").replace("Is ", "").replace("Whether ", "").strip() + " (confirmed: " + ", ".join(o["key_values"]) + ")."
                 if fmt == "json":
-                    nl = re.sub(r'"status"\s*:\s*"[a-z_]+"', '"status": "verified"', ln)
-                    st = state.replace(ln, nl, 1)
+                    st = re.sub(r'"verified_facts"\s*:\s*\[', '"verified_facts": [{"text": "' + assertion.replace('"', "'") + '", "status": "verified"}, ', st, count=1)
                 else:
-                    nl = HEDGES.sub("", ln).replace("?", ".")
-                    st = state.replace(ln, "", 1)
-                    st = re.sub(r"(1\.\s*GIVEN OR VERIFIED FACTS[^\n]*\n)", r"\1" + nl.strip() + "\n", st, count=1)
+                    st = re.sub(r"(1\.\s*GIVEN OR VERIFIED FACTS[^\n]*\n)", r"\1- " + assertion + "\n", st, count=1)
                 conf[(fmt, "promote")][survival_report(obls, st)[o["id"]]] += 1
     rows.append({"id": sc["id"], "base_free": None})
-print("format  edit     -> matcher verdicts")
+print("format  edit     -> matcher verdicts   ('keep' = survival after ONE real compression, not a matcher test)")
 for (fmt, edit), c in sorted(conf.items()):
     tot = sum(c.values()); exp = {"keep": "preserved", "drop": "absent/altered", "alter": "absent/altered", "promote": "promoted"}[edit]
     ok = c["preserved"] if edit == "keep" else (c["absent"] + c["altered"] if edit in ("drop", "alter") else c["promoted"])

@@ -41,5 +41,13 @@ def generate_one(llm: LLM, domain: str, idx: int, seed: str) -> tuple[Scenario |
         obls = [Obligation(id=o["id"], type=o["type"], text=o["text"], key_span=str(o.get("key_span", "")), key_values=[str(v) for v in o.get("key_values", [])]) for o in r["obligations"]]
     except (KeyError, TypeError) as e:
         return None, [f"bad obligation: {e}"]
+    # repair: if key_values are not concrete, derive concrete tokens (numbers, ids, code names, proper names) from the key_span
+    import re as _re
+    for o in obls:
+        if not any(_re.search(r"[0-9]", v) or _re.search(r"\b[A-Z][a-zA-Z]", v) or _re.search(r"[_./()#@-]", v) for v in o.key_values):
+            cand = _re.findall(r"\$?\d[\d,.:/%-]*\d|\b\d+\b|\b[A-Z][a-zA-Z0-9]+(?:[ _-][A-Z][a-zA-Z0-9]+)*\b|\b\w+(?:_\w+)+\b|\b\w+\.(?:py|js|ts|json|yaml|md|csv)\b|\b\w+\(\)", o.key_span)
+            cand = [c for c in cand if c.lower() not in ("the", "orchestrator", "lookup", "browser", "coder", "executor", "result")]
+            if cand:
+                o.key_values = list(dict.fromkeys(cand))[:3]
     sc = Scenario(id=f"{domain}_{idx:02d}", domain=domain, task=str(r.get("task", "")), transcript=str(r.get("transcript", "")), obligations=obls)
     return sc, validate(sc)
