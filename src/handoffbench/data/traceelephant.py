@@ -157,7 +157,13 @@ def extract_magentic_handoffs(run: Run) -> list[Handoff]:
             report = [m for m in new_msgs[:-1] if str(m.get("role", "")) not in ("MagenticOneOrchestrator", "Orchestrator")]
         else:
             report = []
-        report = [{"role": m.get("role"), "content": (m.get("content") if isinstance(m.get("content"), str) else json.dumps(m.get("content"), ensure_ascii=False))[:6000]} for m in report]
+        def _txt(c):
+            if isinstance(c, str):
+                return c
+            if isinstance(c, list):  # multimodal parts: keep text only
+                return "\n".join(p.get("text", "") for p in c if isinstance(p, dict) and p.get("type") == "text")
+            return json.dumps(c, ensure_ascii=False)
+        report = [{"role": m.get("role"), "content": _txt(m.get("content"))[:6000]} for m in report]
         step_id = int(s["step_id"])
         seg_end = int(run.steps[j_end]["step_id"]) if j_end < len(run.steps) else int(run.steps[-1]["step_id"]) + 1
         ms = run.mistake_step
