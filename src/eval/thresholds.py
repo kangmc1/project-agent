@@ -86,7 +86,7 @@ def build(root: str | Path = ".") -> list[str]:
                 roles, domains = ap
                 scope = [r for r in cell_rows(rows, roles, domains) if r.cls != "cascade"]
                 scored = [(r, item.scores[(r.run_id, r.step_id)]) for r in scope if (r.run_id, r.step_id) in item.scores]
-                pos = np.array([s for r, s in scored if r.cls in ("decisive", "transient")], dtype=float)
+                pos = np.array([s for r, s in scored if r.cls in ("decisive", "transient", "error")], dtype=float)
                 neg = np.array([s for r, s in scored if r.cls == "clean"], dtype=float)
                 if len(pos) < 1 or len(neg) < 3:
                     continue

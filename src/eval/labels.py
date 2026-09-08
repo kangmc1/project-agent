@@ -27,7 +27,7 @@ AUX_AGENTS = {"user_sim", "summarizer"}
 SUBAGENTS = {"policy_checker", "db_agent", "solver", "verifier"}
 CATEGORIES = {"handoff", "tool", "reasoning_stability"}
 SUBTAGS = {"hallucination_like", "reasoning_like", "handoff_induced", "compression_induced"}
-CLASSES = ("decisive", "transient", "cascade", "clean")
+CLASSES = ("decisive", "transient", "error", "cascade", "clean")
 
 _HEAD_RE = re.compile(r'^\{\s*"step_id"\s*:\s*(\d+)\s*,\s*"agent"\s*:\s*"([^"]*)"')
 _STEPS_CACHE: dict[str, list[tuple[int, str]]] = {}
@@ -140,7 +140,9 @@ def derive_step_classes(run_id: str, root: str | Path = ".") -> dict[int, str]:
     if lab is None:
         return {}
     decisive = lab.get("decisive_step")
-    transient = {int(e["step"]) for e in (lab.get("error_events") or []) if e.get("recovered")}
+    events = lab.get("error_events") or []
+    transient = {int(e["step"]) for e in events if e.get("recovered")}
+    unrecovered = {int(e["step"]) for e in events if not e.get("recovered")}
     out: dict[int, str] = {}
     for step_id, _agent, _role in non_aux_steps(Path(root) / "runs" / run_id):
         if decisive is not None and step_id == int(decisive):
@@ -149,6 +151,8 @@ def derive_step_classes(run_id: str, root: str | Path = ".") -> dict[int, str]:
             out[step_id] = "transient"
         elif decisive is not None and step_id > int(decisive):
             out[step_id] = "cascade"
+        elif step_id in unrecovered:
+            out[step_id] = "error"  # unrecovered, non-decisive error (e.g. in a successful run) -> positive, never clean
         else:
             out[step_id] = "clean"
     return out

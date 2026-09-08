@@ -128,7 +128,10 @@ def score_decision(dp: dict, method: str) -> tuple[dict | None, str | None]:
     if len(prefix) > MAX_PREFIX:
         return None, "prefix_too_long"
     logps: dict[str, float] = {}
-    for a in dp["A"]:
+    names = list(dp["A"])
+    if dp["actual"] not in names:  # the model called a tool it was not given (hallucinated tool name) -> score it too
+        names.append(dp["actual"])
+    for a in names:
         if a == "no_tool":
             logps[a] = no_tool_logp(prefix)
         else:
@@ -136,6 +139,7 @@ def score_decision(dp: dict, method: str) -> tuple[dict | None, str | None]:
             logps[a] = method2_logp(prefix, c) if method == "m2" else stepwise_logp(prefix, c)
     rec = finalize(dp, logps, method)
     rec["decision_offset"] = offset
+    rec["actual_not_in_A"] = dp["actual"] not in dp["A"]
     return rec, None
 
 
@@ -236,13 +240,13 @@ def cmd_check(runs_dir: Path, n_points: int = 100, batch: int | None = 1) -> dic
         dp = dp_index[(r["run_id"], r["step_id"])]
         prefix, _, _ = decision_prefix(dp)
         logps_m2 = {}
-        for a in dp["A"]:
+        for a in r["A"]:
             logps_m2[a] = r["logp"][a] if a == "no_tool" else method2_logp(prefix, cand_ids(a))
             if a != "no_tool":
                 logp_diffs.append(abs(logps_m2[a] - r["logp"][a]))
         rec_m2 = finalize(dp, logps_m2, "m2")
         dist_diffs.append({"run_id": r["run_id"], "step_id": r["step_id"], "role": r["role"],
-                           "max_abs_dp": max(abs(rec_m2["dist"][a] - r["dist"][a]) for a in dp["A"]),
+                           "max_abs_dp": max(abs(rec_m2["dist"][a] - r["dist"][a]) for a in r["A"]),
                            "d_confidence": abs(rec_m2["confidence"] - r["confidence"]), "d_p_actual": abs(rec_m2["p_actual"] - r["p_actual"])})
     confs = [r["confidence"] for r in recs]
     margins = [r["margin"] for r in recs]

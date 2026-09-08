@@ -2,7 +2,7 @@
 
 Populations
   step-level  : labeled runs only, non-aux steps, item score non-NA, cascade steps EXCLUDED.
-                positives = {decisive, transient} ("all errors") and separately {decisive}; negatives = clean.
+                positives = {decisive, transient, error(unrecovered non-decisive)} ("all errors") and separately {decisive}; negatives = clean.
   trace-level : every run in runs/index.csv whose item coverage is >= 80% of that run's non-aux steps in the
                 role scope; positives = runs with success=false (index).
   ties        : AUROC is rank based with average ranks; CI = 1000 stratified bootstrap resamples, seed 0.
@@ -303,7 +303,7 @@ def section_step_auroc(rep: Report, items, rows: list[StepRow]) -> None:
                 n_scored = len(scored)
                 usable = [(r, s) for r, s in scored if r.cls != "cascade"]
                 neg = np.array([s for r, s in usable if r.cls == "clean"], dtype=float)
-                pos_all = np.array([s for r, s in usable if r.cls in ("decisive", "transient")], dtype=float)
+                pos_all = np.array([s for r, s in usable if r.cls in ("decisive", "transient", "error")], dtype=float)
                 pos_dec = np.array([s for r, s in usable if r.cls == "decisive"], dtype=float)
                 a_all = auroc_ci(pos_all, neg)
                 a_dec = auroc_ci(pos_dec, neg)
@@ -441,7 +441,7 @@ def section_threshold_latency(rep: Report, items, rows, index, root) -> None:
                 scope = cell_rows(rows, roles, domains)
                 scored = [(r, item.scores[(r.run_id, r.step_id)]) for r in scope if (r.run_id, r.step_id) in item.scores]
                 clean = np.array([s for r, s in scored if r.cls == "clean"], dtype=float)
-                pos = np.array([s for r, s in scored if r.cls in ("decisive", "transient")], dtype=float)
+                pos = np.array([s for r, s in scored if r.cls in ("decisive", "transient", "error")], dtype=float)
                 if len(clean) < 3 or len(pos) == 0:
                     continue
                 thr = threshold_at_fpr(clean, pos, 0.10)
@@ -544,7 +544,7 @@ def section_matched(rep: Report, items, rows) -> None:
                     continue
                 neg = np.array([item.scores[(r.run_id, r.step_id)] for r in scope if r.cls == "clean"], dtype=float)
                 pos = np.array([item.scores[(r.run_id, r.step_id)] for r in scope
-                                if r.cls in ("decisive", "transient")], dtype=float)
+                                if r.cls in ("decisive", "transient", "error")], dtype=float)
                 res = auroc_ci(pos, neg)
                 out.append([name, role, domain, len(pos), len(neg), fmt_auc(res)])
                 _auc_csv(rep, "matched", name, role, domain, "auroc_all_errors", res, len(pos), len(neg),
@@ -566,7 +566,7 @@ def section_any_flag(rep: Report, items, rows) -> None:
     rep.line("## 7. Any-flag coverage (descriptive)")
     rep.line()
     thr = pct_thresholds(items, rows, 90.0)
-    err = [r for r in rows if r.cls in ("decisive", "transient")]
+    err = [r for r in rows if r.cls in ("decisive", "transient", "error")]
     hit = 0
     for r in err:
         k = (r.run_id, r.step_id)
