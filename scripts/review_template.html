@@ -79,6 +79,7 @@ button.tiny{background:none;border:1px solid var(--line);border-radius:4px;color
   <h1>Handoff Contract Review</h1>
   <span class="meta">A층 파일럿 · TraceElephant / Magentic-One · 초안 생성 __BUILT__</span>
   <span class="meta"><span class="kbd">j</span>/<span class="kbd">k</span> 다음/이전 · <span class="kbd">⌘/Ctrl+Enter</span> 확인 완료</span>
+  <button class="sec" id="kobtn" style="padding:4px 10px;font-size:12px" title="한글 번역/요약 보기 (원문은 접힌 채 유지)">한글 보기: 끔</button>
   <div class="progress"><span id="prog">0 / 0 확인</span><div class="bar"><i id="bar"></i></div></div>
   <span class="save" id="save">연결 중…</span>
 </header>
@@ -106,7 +107,8 @@ const ADH = ["honored","violated","n/a"];
 const OTYPES = ["constraint","fact","open_question","goal","prohibition"];
 const ROLE_KO = {at_error:"결정적 실수 = 이 handoff", in_segment:"실수가 수신 구간 안", pre_error_control:"실수 훨씬 이전 (대조군)", reset_at_reset_summary:"재계획 · 실수가 요약 단계", reset_before_reset:"재계획 · 실수가 reset 이전", reset_after_reset:"재계획 · 실수가 reset 이후"};
 
-let db = null, cur = 0, labels = {}, saveTimer = null;
+let db = null, cur = 0, labels = {}, saveTimer = null, KO = false;
+try { KO = localStorage.getItem("hcr:ko") === "1"; } catch(e){}
 const $ = (s, el=document) => el.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
 
@@ -114,7 +116,7 @@ function freshLabel(it){
   const d = it.draft;
   return { handoff_id: it.id, layer: it.layer, role: it.role, status: "draft",
     obligations: d.obligations.map(o => ({...o})), faults: d.faults.length ? [...d.faults] : ["N0"],
-    responsibility: d.responsibility || "none", causal: "unclear", note: "", updated_at: null };
+    responsibility: d.responsibility || "none", causal: "unclear", recognized: "n/a", note: "", updated_at: null };
 }
 function label(i){ const it = DATA[i]; if (!labels[it.id]) labels[it.id] = freshLabel(it); return labels[it.id]; }
 
@@ -126,7 +128,8 @@ function renderNav(){
     if (g !== grp){ grp = g; const d = document.createElement("div"); d.className = "grp"; d.textContent = g; nav.appendChild(d); }
     const b = document.createElement("button"); b.className = i === cur ? "cur" : "";
     const st = label(i).status === "confirmed";
-    b.innerHTML = `<span class="n">${i+1}</span><span class="t">${esc(it.task.slice(0,60))}</span><span class="chip ${st?"ok":""}">${st?"확인":"초안"}</span>`;
+    const tt = KO && it.ko && it.ko.task_ko ? it.ko.task_ko : it.task;
+    b.innerHTML = `<span class="n">${i+1}</span><span class="t">${esc(tt.slice(0,60))}</span>${it.gold?`<span class="chip role-at_error" title="사람 검증 추천 20건">gold</span>`:""}<span class="chip ${st?"ok":""}">${st?"확인":"초안"}</span>`;
     b.onclick = () => go(i); nav.appendChild(b);
   });
   const done = DATA.filter((it,i) => label(i).status === "confirmed").length;
@@ -134,13 +137,17 @@ function renderNav(){
 }
 
 function renderRead(){
-  const it = DATA[cur];
+  const it = DATA[cur], k = it.ko || {};
+  const koOn = KO && k.artifact_ko;
+  const taskT = koOn && k.task_ko ? `${esc(k.task_ko)}<div class="hint" style="margin-top:2px">${esc(it.task)}</div>` : esc(it.task);
+  const artBlock = koOn ? `<pre>${esc(k.artifact_ko)}</pre><details><summary>영어 원문 펼치기</summary><pre>${esc(it.artifact)}</pre></details>` : `<pre>${esc(it.artifact)}</pre>`;
+  const behBlock = koOn && k.behavior_ko ? `<pre>${esc(k.behavior_ko)}</pre><details><summary>영어 원문 기록 펼치기</summary><pre>${esc(it.receiver_behavior)}</pre></details>` : `<pre>${esc(it.receiver_behavior)}</pre>`;
   $("#read").innerHTML = `
-    <div class="task">${esc(it.task)}<small>${esc(it.layer === "reset" ? "재계획 handoff" : "지시 handoff")} · 수신자 ${esc(it.receiver)} · step ${esc(it.step)} · 정답 ${esc(it.ground_truth)} <span class="chip role-${esc(it.role)}">${esc(ROLE_KO[it.role]||it.role)}</span></small></div>
-    <div class="card artifact"><h2>산출물 (송신자가 넘긴 것) <span class="len">${it.artifact.length.toLocaleString()} chars</span></h2><pre>${esc(it.artifact)}</pre></div>
-    <div class="card"><h2>수신자 행동 (그 다음에 일어난 일) <span class="len">${it.receiver_behavior.length.toLocaleString()} chars</span></h2><pre>${esc(it.receiver_behavior)}</pre></div>
-    <div class="card"><details><summary>송신자 문맥 (산출물을 만들 때 본 것) · ${it.sender_context.length.toLocaleString()} chars · 펼치기</summary><pre>${esc(it.sender_context)}</pre></details></div>
-    <div class="card"><details><summary>참고: TraceElephant 원 주석 (결정적 실수) · 라벨을 먼저 정한 뒤 펼치세요</summary><pre>${esc(it.te_note)}</pre></details></div>`;
+    <div class="task">${taskT}<small>${esc(it.layer === "reset" ? "재계획 handoff" : "지시 handoff")} · 수신자 ${esc(it.receiver)} · step ${esc(it.step)} · 정답 ${esc(it.ground_truth)} <span class="chip role-${esc(it.role)}">${esc(ROLE_KO[it.role]||it.role)}</span></small></div>
+    <div class="card artifact"><h2>Handoff 메시지 (오케스트레이터가 보낸 것 = 수신 에이전트의 입력)${koOn?" · 한글 번역":""} <span class="len">${it.artifact.length.toLocaleString()} chars</span></h2>${artBlock}</div>
+    <div class="card"><h2>수신 에이전트 행동 (메시지를 받은 뒤 실제로 한 일과 보고)${koOn&&k.behavior_ko?" · 한글 요약":""} <span class="len">${it.receiver_behavior.length.toLocaleString()} chars</span></h2>${behBlock}</div>
+    <div class="card"><details><summary>송신자 문맥 (오케스트레이터가 메시지를 쓸 때 본 입력 전체) · ${it.sender_context.length.toLocaleString()} chars · 펼치기</summary><pre>${esc(it.sender_context)}</pre></details></div>
+    <div class="card"><details><summary>참고: TraceElephant 원 주석 (연구진이 표시한 결정적 실수 스텝) · 라벨을 먼저 정한 뒤 펼치세요</summary><pre>${esc(it.te_note)}</pre></details></div>`;
   $("#read").scrollTop = 0;
 }
 
@@ -149,22 +156,25 @@ function renderForm(){
   const obRows = L.obligations.map((o, k) => `
     <tr data-k="${k}">
       <td style="width:92px"><select class="otype" data-f="type">${OTYPES.map(t=>`<option ${o.type===t?"selected":""}>${t}</option>`).join("")}</select></td>
-      <td><textarea data-f="text">${esc(o.text)}</textarea></td>
+      <td><textarea data-f="text">${esc(o.text)}</textarea>${KO && it.ko && it.ko.obligations && it.ko.obligations[o.id] ? `<div class="hint">${esc(it.ko.obligations[o.id])}</div>` : ""}</td>
       <td style="width:96px"><select data-f="survival" class="${esc(o.survival)}">${SURV.map(t=>`<option ${o.survival===t?"selected":""}>${t}</option>`).join("")}</select><br>
           <select data-f="adherence" class="${esc(o.adherence)}" style="margin-top:3px">${ADH.map(t=>`<option ${o.adherence===t?"selected":""}>${t}</option>`).join("")}</select></td>
       <td style="width:22px"><button class="tiny" data-del="${k}" title="삭제">×</button></td>
     </tr>`).join("");
-  const claims = d.claims && d.claims.length ? `<div class="claims"><b>초안이 미검증/모순으로 본 산출물 주장</b>${d.claims.map(c=>`<div>[${esc(c.status)}] ${esc(c.claim)}</div>`).join("")}</div>` : "";
+  const claims = d.claims && d.claims.length ? `<div class="claims"><b>초안이 미검증/모순으로 본 메시지 속 주장</b>${d.claims.map(c=>`<div>[${esc(c.status)}] ${esc(c.claim)}</div>`).join("")}</div>` : "";
   $("#form").innerHTML = `
     ${d.has_draft ? "" : `<div class="hint" style="color:var(--warn)">이 항목은 아직 LLM 초안이 없습니다. 직접 채워 주세요.</div>`}
     <div><h3>의무 (obligations) · 생존 / 이행</h3>
-      <div class="hint">위: 산출물에서의 생존 (preserved · weakened · absent · corrupted · n/a) · 아래: 수신자의 이행 (honored · violated · n/a). 문장은 바로 고칠 수 있습니다.</div>
+      <div class="hint">위: handoff 메시지에서의 생존 (preserved · weakened · absent · corrupted · n/a) · 아래: 수신 에이전트의 이행 (honored · violated · n/a). 문장은 바로 고칠 수 있습니다.</div>
       <table class="ob"><tbody id="obs">${obRows}</tbody></table>
       <div class="btns" style="margin-top:6px"><button class="sec" id="addob">+ 의무 추가</button></div>
       ${claims}</div>
     <div><h3>handoff 결함 (다중 선택)</h3>
       <div class="faults">${FAULTS.map(([c,n,desc,cls])=>`<label class="${cls}"><input type="checkbox" data-fault="${c}" ${L.faults.includes(c)?"checked":""}><span><b>${c}</b> ${esc(desc)}</span></label>`).join("")}</div></div>
     <div><h3>책임</h3><div class="radio">${["sender","receiver","both","none"].map(v=>`<label><input type="radio" name="resp" value="${v}" ${L.responsibility===v?"checked":""}>${v}</label>`).join("")}</div></div>
+    <div><h3>빠지거나 변조된 항목을 송신자가 문맥에서 이미 인지하고 있었는가</h3>
+      <div class="hint">S1/S2/S3가 있을 때만. 예 = 알고 있었는데 전달 중 잃음(순수 handoff 실패). 아니오 = 문맥에 있었지만 송신자가 알아채지 못함(압축 시점의 인지 실패).</div>
+      <div class="radio">${[["yes","예"],["no","아니오"],["mixed","항목마다 다름"],["n/a","해당 없음"]].map(([v,t])=>`<label><input type="radio" name="recog" value="${v}" ${(L.recognized||"n/a")===v?"checked":""}>${t}</label>`).join("")}</div></div>
     <div><h3>이 결함이 과제 실패로 이어졌는가</h3><div class="radio">${[["caused_failure","유발"],["contributed","기여"],["no_effect","영향 없음"],["unclear","불명"]].map(([v,t])=>`<label><input type="radio" name="causal" value="${v}" ${L.causal===v?"checked":""}>${t}</label>`).join("")}</div></div>
     <div><h3>메모</h3><textarea class="note" id="note" placeholder="근거, 애매한 점, 초안이 놓친 것">${esc(L.note)}</textarea>
       ${d.notes ? `<div class="hint">초안 메모: ${esc(d.notes)}</div>` : ""}</div>
@@ -184,6 +194,7 @@ function renderForm(){
   });
   form.querySelectorAll("[name=resp]").forEach(r => r.onchange = () => { L.responsibility = r.value; markDirty(); });
   form.querySelectorAll("[name=causal]").forEach(r => r.onchange = () => { L.causal = r.value; markDirty(); });
+  form.querySelectorAll("[name=recog]").forEach(r => r.onchange = () => { L.recognized = r.value; markDirty(); });
   $("#note").addEventListener("input", e => { L.note = e.target.value; markDirty(); });
   $("#confirm").onclick = confirm;
   $("#undo").onclick = () => { if (window.confirm("이 항목의 수정을 버리고 LLM 초안으로 되돌릴까요?")) { labels[it.id] = freshLabel(it); markDirty(); renderForm(); } };
@@ -210,6 +221,8 @@ document.addEventListener("keydown", e => {
   if (e.key === "j") go(cur+1); if (e.key === "k") go(cur-1);
 });
 
+$("#kobtn").onclick = () => { KO = !KO; try { localStorage.setItem("hcr:ko", KO ? "1" : "0"); } catch(e){} $("#kobtn").textContent = "한글 보기: " + (KO ? "켬" : "끔"); go(cur); };
+$("#kobtn").textContent = "한글 보기: " + (KO ? "켬" : "끔");
 (async function init(){
   // local fallback first so the page works without db
   DATA.forEach(it => { try { const s = localStorage.getItem("hcr:"+it.id); if (s) labels[it.id] = JSON.parse(s); } catch(e){} });

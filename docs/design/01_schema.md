@@ -68,3 +68,6 @@ Inv(h) ≡ ∀o ∈ O(C_s) with survival ≠ n/a: survival(o, A) = preserved ∧
 
 ## 6. 문맥 예산
 Qwen3-8B 16k. 유형 I 송신 문맥 중앙값 6,949 토큰(p90 19k), 유형 II reset 직전 중앙값 10,891 토큰(max 36k). 렌더링 시 과제·팀·최신 사실목록·최근 보고 N개 우선, 오래된 보고는 요약/절단. 절단 비율은 기록해 G5 잔여(압축 문맥에서의 탐지 붕괴) 분석에 사용.
+
+## 7. 추가 라벨 (2026-09-08 오후, 파일럿 중 결정)
+- `recognized` ∈ {yes, no, mixed, n/a}: S1/S2/S3가 있을 때, 누락·변조된 항목을 송신자가 문맥에서 **이미 인지**하고 있었는가. yes = 순수 전달 실패(transmission loss), no = 압축 시점에 드러난 인지 실패(non-detection). Constraint Weakening(2608.24569)의 upstream non-detection vs transformation loss 구분과 대응. 결과 분석에서 "handoff 결함 중 순수 전달 실패 비율"을 보고.
