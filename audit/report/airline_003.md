@@ -3,7 +3,6 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 4 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["flight from houston to denver on may 27th", "successfully recorded"], "altered": []} | db_agent report->planner: missing ['flight from houston to denver on may 27th', 'successfully recorded'] altered [] |
-| 6 | db_agent | D2 | {"s": 0.3333333333333333, "unsupported": 0.6666666666666667} | values not found in any prior tool result: ['OI5L9G', 'AQLBTL', 'KA7I60', 'I57WUD', 'OBUT9V', '4BMN53', 'Q0ZF0J'], Find reservation details for a flight from Houston to Denver on May 27th |
 | 7 | db_agent | D1/tool | {"confidence": 0.699, "p_actual": 0.377, "margin": 0.194} | action distribution: no_tool 0.57, write_file 0.38, read_file 0.05 (actual: write_file) |
 | 10 | planner | D1/handoff | {"p_delegate": 0.851, "H2": 0.608} | delegate-vs-not split p_delegate=0.85 |
 | 10 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["2024-05-15 15:00:00 est", "modify_flight_add_checked_bag", "need_info", "unknown"], "altered": ["reservation_id"]} | policy_checker report->planner: missing ['2024-05-15 15:00:00 est', 'modify_flight_add_checked_bag', 'need_info'] altered ['reservation_id'] |
@@ -30,10 +29,6 @@
   "n_scored": 29,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 18,
-  "n_na": 2
- },
  "D3": {
   "tool_calls": 29,
   "utterances": 16,
@@ -45,8 +40,13 @@
  },
  "D7": {
   "n_handoffs": 10
+ },
+ "D3_args": {
+  "n_steps": 14,
+  "n_values": 68,
+  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

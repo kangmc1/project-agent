@@ -74,16 +74,6 @@
   {
    "step": 18,
    "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.3333333333333333,
-    "unsupported": 0.6666666666666667
-   },
-   "evidence": "values not found in any prior tool result: ['NM1VX1', 'KC18K6', 'S61CZX', 'H8Q05L', 'WUNA5K'], Check each reservation for flights on May 10"
-  },
-  {
-   "step": 18,
-   "agent": "db_agent",
    "module": "D3",
    "signal": {
     "checks": [
@@ -92,16 +82,6 @@
     "tool": "get_reservation_details"
    },
    "evidence": "tool get_reservation_details call #13: repeat"
-  },
-  {
-   "step": 19,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.3333333333333333,
-    "unsupported": 0.6666666666666667
-   },
-   "evidence": "values not found in any prior tool result: 'NM1VX1', 1 of 5 reservations checked"
   },
   {
    "step": 19,
@@ -126,16 +106,6 @@
     "tool": "get_reservation_details"
    },
    "evidence": "tool get_reservation_details call #15: repeat"
-  },
-  {
-   "step": 21,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.3333333333333333,
-    "unsupported": 0.6666666666666667
-   },
-   "evidence": "values not found in any prior tool result: 'S61CZX', 3 of 5 reservations checked"
   },
   {
    "step": 21,
@@ -298,6 +268,16 @@
    "evidence": "tool book_reservation call #41: error"
   },
   {
+   "step": 58,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.375
+   },
+   "evidence": "argument values never given to the agent: book_reservation.user_id=sophia_silva_123, book_reservation.airport=SFO, book_reservation.airport=JFK"
+  },
+  {
    "step": 59,
    "agent": "db_agent",
    "module": "D1",
@@ -341,6 +321,16 @@
     "tool": "get_user_details"
    },
    "evidence": "tool get_user_details call #43: error"
+  },
+  {
+   "step": 60,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sophia_silva_123"
   },
   {
    "step": 61,
@@ -505,10 +495,6 @@
    "n_scored": 75,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 48,
-   "n_na": 4
-  },
   "D3": {
    "tool_calls": 60,
    "utterances": 45,
@@ -521,6 +507,11 @@
   },
   "D7": {
    "n_handoffs": 28
+  },
+  "D3_args": {
+   "n_steps": 49,
+   "n_values": 121,
+   "n_ungrounded": 4
   }
  },
  "coverage": {},
@@ -532,8 +523,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

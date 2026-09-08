@@ -37,16 +37,6 @@
   {
    "step": 2,
    "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.25,
-    "unsupported": 0.75
-   },
-   "evidence": "values not found in any prior tool result: 3^7, 2187, 729, computed via computational approach, computed via computational approach"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
    "module": "D3",
    "signal": {
     "satisfied": false
@@ -72,16 +62,6 @@
   {
    "step": 5,
    "agent": "verifier",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: 2187, 729, a_1a_2a_4 + a_2a_3a_5 + a_3a_4a_6 + a_4a_5a_7 + a_5a_6a_1 + a_6a_7a_2 + a_7a_1a_3, divisible by 3"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
    "module": "D3",
    "signal": {
     "satisfied": false
@@ -103,10 +83,6 @@
    "n_scored": 8,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 5,
-   "n_na": 0
-  },
   "D3": {
    "tool_calls": 5,
    "utterances": 4,
@@ -115,8 +91,10 @@
   "D7": {
    "n_handoffs": 4
   },
-  "D9": {
-   "n_steps": 4
+  "D3_args": {
+   "n_steps": 3,
+   "n_values": 3,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -128,8 +106,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

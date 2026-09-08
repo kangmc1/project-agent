@@ -3,16 +3,6 @@
   {
    "step": 2,
    "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.21052631578947367,
-    "unsupported": 0.7894736842105263
-   },
-   "evidence": "values not found in any prior tool result: exactly 4 red marbles, exactly 5 red marbles, find the sum of the five least values of $ n $, hypergeometric distribution, $ P(k) = \\frac{\\binom{r}{k} \\binom{b}{7-k}}{\\binom{n}{7}} $"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
    "module": "D3",
    "signal": {
     "satisfied": false
@@ -39,16 +29,6 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: final_answer=205, numeric=46, numeric=41, numeric=31, numeric=36"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D2",
-   "signal": {
-    "s": 0.05555555555555555,
-    "unsupported": 0.9444444444444444
-   },
-   "evidence": "values not found in any prior tool result: each either red or blue, equals the probability of drawing exactly 5 red marbles, the sum of the five least values of $ n $, given by the hypergeometric distribution, $ P(4) $"
   },
   {
    "step": 5,
@@ -136,10 +116,6 @@
    "n_scored": 10,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 6,
-   "n_na": 0
-  },
   "D3": {
    "tool_calls": 6,
    "utterances": 5,
@@ -148,8 +124,10 @@
   "D7": {
    "n_handoffs": 6
   },
-  "D9": {
-   "n_steps": 6
+  "D3_args": {
+   "n_steps": 4,
+   "n_values": 11,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -161,8 +139,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

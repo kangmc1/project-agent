@@ -40,6 +40,16 @@
    "evidence": "tool get_user_details call #2: error"
   },
   {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+  },
+  {
    "step": 6,
    "agent": "planner",
    "module": "D3",
@@ -63,6 +73,16 @@
     "tool": "get_user_details"
    },
    "evidence": "tool get_user_details call #5: error"
+  },
+  {
+   "step": 10,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
   },
   {
    "step": 11,
@@ -110,6 +130,16 @@
     "tool": "get_user_details"
    },
    "evidence": "tool get_user_details call #8: error, repeat"
+  },
+  {
+   "step": 15,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
   },
   {
    "step": 19,
@@ -160,6 +190,16 @@
    "evidence": "tool get_user_details call #11: error, repeat"
   },
   {
+   "step": 20,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
+  },
+  {
    "step": 25,
    "agent": "db_agent",
    "module": "D3",
@@ -171,6 +211,16 @@
     "tool": "get_user_details"
    },
    "evidence": "tool get_user_details call #14: error, repeat"
+  },
+  {
+   "step": 25,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=aarav_garcia_123"
   },
   {
    "step": 37,
@@ -187,10 +237,6 @@
    "n_scored": 27,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 12,
-   "n_na": 3
-  },
   "D3": {
    "tool_calls": 20,
    "utterances": 2,
@@ -202,6 +248,11 @@
   },
   "D7": {
    "n_handoffs": 12
+  },
+  "D3_args": {
+   "n_steps": 5,
+   "n_values": 5,
+   "n_ungrounded": 5
   }
  },
  "coverage": {},
@@ -213,8 +264,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

@@ -17,50 +17,11 @@
   {
    "step": 2,
    "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.2857142857142857,
-    "unsupported": 0.7142857142857143
-   },
-   "evidence": "values not found in any prior tool result: 4 + 2 + 1 + 2 + 4 = 13, symmetric, 1 to 9, digits 1 through 9, none"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
    "module": "D3",
    "signal": {
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: numeric=42124"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.3,
-    "unsupported": 0.7
-   },
-   "evidence": "values not found in any prior tool result: 2a + 2b + c = 13, abcba, 1 to 9, 2a + 2b, abba"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D9",
-   "signal": {
-    "consistency": 0.0
-   },
-   "evidence": "false equations: {'step_id': 3, 'expr': 'a == 5'}; {'step_id': 3, 'expr': 'b == 3'}; {'step_id': 3, 'expr': 'a == 6'}"
-  },
-  {
-   "step": 5,
-   "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.3333333333333333,
-    "unsupported": 0.6666666666666667
-   },
-   "evidence": "values not found in any prior tool result: 2a + 2b + 2c + 2d + e, abcdeedcba, 1 to 9, abcddcba, 2a + 2b + 2c + 2d"
   },
   {
    "step": 6,
@@ -88,15 +49,6 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: numeric=42124"
-  },
-  {
-   "step": 10,
-   "agent": "verifier",
-   "module": "D9",
-   "signal": {
-    "consistency": 0.0
-   },
-   "evidence": "false equations: {'step_id': 10, 'expr': 'digits_in_palindrome == 2'}; {'step_id': 10, 'expr': 'digits_in_palindrome == 3'}; {'step_id': 10, 'expr': 'digits_in_palindrome == 4'}"
   },
   {
    "step": 11,
@@ -474,10 +426,6 @@
    "n_scored": 37,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 34,
-   "n_na": 24
-  },
   "D3": {
    "tool_calls": 33,
    "utterances": 31,
@@ -490,8 +438,10 @@
   "D7": {
    "n_handoffs": 6
   },
-  "D9": {
-   "n_steps": 31
+  "D3_args": {
+   "n_steps": 4,
+   "n_values": 9,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -503,8 +453,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

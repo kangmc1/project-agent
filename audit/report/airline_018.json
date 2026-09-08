@@ -34,6 +34,16 @@
    "evidence": "claims without prior tool evidence: date=2024-05-15"
   },
   {
+   "step": 10,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.5
+   },
+   "evidence": "argument values never given to the agent: policy_checker.user_id=amelia_rossi_1247"
+  },
+  {
    "step": 11,
    "agent": "policy_checker",
    "module": "D1",
@@ -147,10 +157,6 @@
    "n_scored": 25,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 11,
-   "n_na": 1
-  },
   "D3": {
    "tool_calls": 18,
    "utterances": 9,
@@ -163,6 +169,11 @@
   },
   "D7": {
    "n_handoffs": 12
+  },
+  "D3_args": {
+   "n_steps": 11,
+   "n_values": 13,
+   "n_ungrounded": 1
   }
  },
  "coverage": {},
@@ -174,8 +185,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

@@ -19,6 +19,7 @@
 | 31 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["booking_failed", "booking_operation_failed", "hat011", "hat083", "sara_doe_496"], "altered": ["final_answer", "user_id", "verdict"]} | db_agent report->planner: missing ['booking_failed', 'booking_operation_failed', 'hat011'] altered ['final_answer', 'user_id', 'verdict'] |
 | 32 | db_agent | D3 | {"checks": ["error"], "tool": "book_reservation"} | tool book_reservation call #20: error |
 | 32 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: money=314 |
+| 32 | db_agent | D3/arguments | {"ungrounded_ratio": 0.111} | argument values never given to the agent: book_reservation.user_id=sara_doe_496 |
 | 33 | planner | D3 | {"checks": ["error", "ignored"], "tool": "db_agent"} | tool db_agent call #21: error, ignored |
 | 33 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: user_id=sara_doe_496 |
 | 37 | db_agent | D3 | {"checks": ["error"], "tool": "book_reservation"} | tool book_reservation call #23: error |
@@ -39,10 +40,6 @@
   "n_scored": 46,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 27,
-  "n_na": 4
- },
  "D3": {
   "tool_calls": 35,
   "utterances": 23,
@@ -55,8 +52,13 @@
  },
  "D7": {
   "n_handoffs": 20
+ },
+ "D3_args": {
+  "n_steps": 22,
+  "n_values": 94,
+  "n_ungrounded": 1
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

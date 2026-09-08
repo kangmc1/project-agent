@@ -23,12 +23,11 @@
 | 36 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #25: repeat |
 | 37 | db_agent | D3 | {"checks": ["repeat"], "tool": "search_direct_flight"} | tool search_direct_flight call #26: repeat |
 | 37 | db_agent | D3 | {"checks": ["repeat"], "tool": "search_direct_flight"} | tool search_direct_flight call #27: repeat |
-| 38 | db_agent | D2 | {"s": 0.3076923076923077, "unsupported": 0.6923076923076923} | values not found in any prior tool result: HAT072 (May 19th), HAT278 (May 21st), Update flights, upgrade cabin to business, add 2 checked bags per flight, calculate total cost and fees, Economy cabin, 0 total baggage, 0 non-free baggage |
 | 38 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
-| 39 | db_agent | D2 | {"s": 0.38461538461538464, "unsupported": 0.6153846153846154} | values not found in any prior tool result: HAT072 (May 19th), HAT278 (May 21st), Update flights, upgrade cabin to business, add 2 checked bags per flight, calculate total cost and fees, Economy cabin, 0 total baggage, 0 non-free baggage |
 | 39 | db_agent | D3 | {"checks": ["error"], "tool": "update_reservation_baggages"} | tool update_reservation_baggages call #29: error |
 | 39 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
 | 40 | db_agent | D3 | {"satisfied": false} | claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180 |
+| 41 | planner | D3/arguments | {"ungrounded_ratio": 0.125} | argument values never given to the agent: respond_to_user.money=539 |
 | 44 | policy_checker | D1/tool | {"confidence": 0.624, "p_actual": 0.835, "margin": 0.69} | action distribution: write_file 0.83, think 0.15, read_file 0.02 (actual: write_file) |
 | 48 | planner | D1/tool | {"confidence": 0.566, "p_actual": 0.726, "margin": 0.543} | action distribution: respond_to_user 0.73, policy_checker 0.18, db_agent 0.09 (actual: respond_to_user) |
 | 48 | planner | D1/handoff | {"p_delegate": 0.27, "H2": 0.842} | delegate-vs-not split p_delegate=0.27 |
@@ -44,10 +43,6 @@
   "n_scored": 43,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 24,
-  "n_na": 1
- },
  "D3": {
   "tool_calls": 37,
   "utterances": 20,
@@ -58,8 +53,13 @@
  },
  "D7": {
   "n_handoffs": 18
+ },
+ "D3_args": {
+  "n_steps": 16,
+  "n_values": 104,
+  "n_ungrounded": 1
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

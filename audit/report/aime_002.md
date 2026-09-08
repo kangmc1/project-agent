@@ -3,15 +3,10 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 1 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["26"], "altered": []} | solver report->planner: missing ['26'] altered [] |
-| 2 | solver | D2 | {"s": 0.2857142857142857, "unsupported": 0.7142857142857143} | values not found in any prior tool result: 4 + 2 + 1 + 2 + 4 = 13, symmetric, 1 to 9, digits 1 through 9, none |
 | 2 | solver | D3 | {"satisfied": false} | claims without prior tool evidence: numeric=42124 |
-| 3 | solver | D2 | {"s": 0.3, "unsupported": 0.7} | values not found in any prior tool result: 2a + 2b + c = 13, abcba, 1 to 9, 2a + 2b, abba |
-| 3 | solver | D9 | {"consistency": 0.0} | false equations: {'step_id': 3, 'expr': 'a == 5'}; {'step_id': 3, 'expr': 'b == 3'}; {'step_id': 3, 'expr': 'a == 6'} |
-| 5 | solver | D2 | {"s": 0.3333333333333333, "unsupported": 0.6666666666666667} | values not found in any prior tool result: 2a + 2b + 2c + 2d + e, abcdeedcba, 1 to 9, abcddcba, 2a + 2b + 2c + 2d |
 | 6 | solver | D3 | {"satisfied": false} | claims without prior tool evidence: numeric=26 |
 | 7 | solver | D3 | {"satisfied": false} | claims without prior tool evidence: final_answer=26 |
 | 9 | verifier | D3 | {"satisfied": false} | claims without prior tool evidence: numeric=42124 |
-| 10 | verifier | D9 | {"consistency": 0.0} | false equations: {'step_id': 10, 'expr': 'digits_in_palindrome == 2'}; {'step_id': 10, 'expr': 'digits_in_palindrome == 3'}; {'step_id': 10, 'expr': 'digits_in_palindrome == 4'} |
 | 11 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["ensure that half_length is an integer", "the range function is still being passed a float", "use of 10**(half_length - 1) and 10**half_length when half_length is a float"], "altered": []} | solver report->planner: missing ['ensure that half_length is an integer', 'the range function is still being passed a float', 'use of 10**(half_length - 1) and 10**half_length when half_length is a float'] altered [] |
 | 12 | solver | D3 | {"checks": ["error"], "tool": "run_python"} | tool run_python call #9: error |
 | 12 | solver | D3 | {"satisfied": false} | claims without prior tool evidence: numeric=12321, numeric=26, numeric=121 |
@@ -49,10 +44,6 @@
   "n_scored": 37,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 34,
-  "n_na": 24
- },
  "D3": {
   "tool_calls": 33,
   "utterances": 31,
@@ -65,10 +56,12 @@
  "D7": {
   "n_handoffs": 6
  },
- "D9": {
-  "n_steps": 31
+ "D3_args": {
+  "n_steps": 4,
+  "n_values": 9,
+  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

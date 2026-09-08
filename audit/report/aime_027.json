@@ -3,31 +3,11 @@
   {
    "step": 2,
    "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: 5√10, 5√10, 10, 5√10, 5√10, 18, m/n"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
    "module": "D3",
    "signal": {
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: numeric=10, numeric=100, numeric=25, numeric=18, numeric=225"
-  },
-  {
-   "step": 4,
-   "agent": "verifier",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: two isosceles triangle faces with side lengths 5√10, 5√10, and 10, two isosceles triangle faces with side lengths 5√10, 5√10, and 18, m/n, where m and n are relatively prime positive integers, to be found"
   },
   {
    "step": 4,
@@ -360,16 +340,22 @@
     "H2": 0.997
    },
    "evidence": "delegate-vs-not split p_delegate=0.53"
+  },
+  {
+   "step": 31,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: submit_answer.final_answer=123"
   }
  ],
  "per_module_summary": {
   "D1": {
    "n_scored": 32,
    "method": "stepwise"
-  },
-  "D2": {
-   "n_utterances": 29,
-   "n_na": 26
   },
   "D3": {
    "tool_calls": 29,
@@ -381,8 +367,10 @@
   "D7": {
    "n_handoffs": 4
   },
-  "D9": {
-   "n_steps": 28
+  "D3_args": {
+   "n_steps": 3,
+   "n_values": 7,
+   "n_ungrounded": 1
   }
  },
  "coverage": {},
@@ -394,8 +382,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

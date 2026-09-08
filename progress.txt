@@ -157,3 +157,21 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Eval: subagent airline AUROC 0.677 [0.58,0.78]; flagged steps 8/10 errors (80%) vs 16% base; hallucination_like 23/29 caught;
   recall@FPR10 subagent 0.375 at FPR 0.022. No decisive signal (n_pos 1: decisive steps are report steps). Not applicable to AIME.
 - Registered as D2_args in metrics; thresholds/subtags regenerated. Proposal §3.3, core table, §4.2.2, §4.3, glossary, A.16.
+
+## 2026-09-09 06:30 KST — user decision: AIME is supplementary, not main
+- "수학은 멀티에이전트 테스크에 부적합": AIME planner has few real decisions (6 labeled planner errors), subagent actions forced,
+  cells often opposite to airline. Proposal main text -> airline only; AIME + D9 -> supplementary subsection with rationale.
+- Evidence-dependence pilot (scripts/d2_dep_pilot.py) running on labeled subagent response steps: 3 prefill passes/step
+  (full / tool results withheld / instruction only), output audit/d2_dep_pilot.jsonl.
+- 06:22 logprob dependence pilot ABANDONED at user's instruction (misread proposal); partial output moved to audit/_d2_dep_pilot_ABANDONED.jsonl, script removed. The user's D2 proposal = LLM judge over (evidence, response) -> structured relations: src/audit/d2_judge.py (running).
+- 06:45 proposal restructured (fork): airline = main text (§0, 핵심 결과, §4.2.1–4.2.12, §4.3, 한계); AIME + D9 + pooled cells
+  -> new §4.2.13 보조 실험; §4.2.10 is a pointer; appendix A.17 records the decision. check_docs --proposal/--skeleton OK.
+
+## 2026-09-09 06:35 KST — user decisions: remove D2 and D9; argument groundedness moves into D3
+- "D3랑 D2랑 겹치네, D2 지우자" / "내친김에 D9도 지우고". D2 rule 1 duplicates D3 rule 1; D2 rule 3 (LLM judge, user's proposal)
+  stopped and deleted before producing output; D9 removed. Argument groundedness (was D2 rule 2) is a tool-call-layer check ->
+  now D3 rule 3: src/audit/d3_args.py, audit/d3_args.jsonl, metrics item D3_args (numbers unchanged).
+- Removed: src/audit/d2.py, d9.py, scripts/d9_run.sh; outputs archived under audit/_removed/. metrics/thresholds/recovery/report/
+  system_report updated (matched sub-table = D1∩D3; recovery second series = D3_args; system report column = ungrounded-arg ratio).
+- Detector set is now D1 (decision layer), D3 (tool-call layer: rules 1-3 + log checks), D7 (handoff boundaries).
+  The utterance/reasoning layer ("values right, conclusion wrong") has no detector in this study — stated as the main open item.

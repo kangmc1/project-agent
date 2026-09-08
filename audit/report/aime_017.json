@@ -1,25 +1,6 @@
 {
  "flags": [
   {
-   "step": 2,
-   "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.16666666666666666,
-    "unsupported": 0.8333333333333334
-   },
-   "evidence": "values not found in any prior tool result: from the lower left to the upper right, right along the horizontal segments, up along the vertical segments, diagonally from lower left to upper right, left or down, find the number of such paths N and compute sqrt(N), 1x10 grid of squares"
-  },
-  {
-   "step": 3,
-   "agent": "solver",
-   "module": "D9",
-   "signal": {
-    "consistency": 0.0
-   },
-   "evidence": "false equations: {'step_id': 3, 'expr': 'sqrt(20) == 4'}"
-  },
-  {
    "step": 5,
    "agent": "verifier",
    "module": "D1",
@@ -30,25 +11,12 @@
     "margin": 0.695
    },
    "evidence": "action distribution: run_python 0.85, no_tool 0.15, write_file 0.00 (actual: run_python)"
-  },
-  {
-   "step": 6,
-   "agent": "verifier",
-   "module": "D9",
-   "signal": {
-    "consistency": 0.0
-   },
-   "evidence": "false equations: {'step_id': 6, 'expr': 'sqrt(20) == 4'}"
   }
  ],
  "per_module_summary": {
   "D1": {
    "n_scored": 8,
    "method": "stepwise"
-  },
-  "D2": {
-   "n_utterances": 5,
-   "n_na": 0
   },
   "D3": {
    "tool_calls": 5,
@@ -58,8 +26,10 @@
   "D7": {
    "n_handoffs": 4
   },
-  "D9": {
-   "n_steps": 5
+  "D3_args": {
+   "n_steps": 3,
+   "n_values": 3,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -71,8 +41,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

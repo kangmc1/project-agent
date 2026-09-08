@@ -5,6 +5,7 @@
 | 6 | policy_checker | D1/tool | {"confidence": 0.761, "p_actual": 0.908, "margin": 0.821} | action distribution: think 0.91, no_tool 0.09, read_file 0.01 (actual: think) |
 | 6 | policy_checker | D3 | {"checks": ["empty"], "tool": "think"} | tool think call #3: empty |
 | 6 | policy_checker | D3 | {"satisfied": false} | claims without prior tool evidence: date=2024-05-15 |
+| 10 | planner | D3/arguments | {"ungrounded_ratio": 0.5} | argument values never given to the agent: policy_checker.user_id=amelia_rossi_1247 |
 | 11 | policy_checker | D1/tool | {"confidence": 0.669, "p_actual": 0.846, "margin": 0.699} | action distribution: read_file 0.85, think 0.15, write_file 0.01 (actual: read_file) |
 | 11 | policy_checker | D3 | {"checks": ["error", "ignored"], "tool": "read_file"} | tool read_file call #6: error, ignored |
 | 11 | policy_checker | D3 | {"satisfied": false} | claims without prior tool evidence: user_id=amelia_rossi_1247, date=2024-05-15, cancel= |
@@ -23,10 +24,6 @@
   "n_scored": 25,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 11,
-  "n_na": 1
- },
  "D3": {
   "tool_calls": 18,
   "utterances": 9,
@@ -39,8 +36,13 @@
  },
  "D7": {
   "n_handoffs": 12
+ },
+ "D3_args": {
+  "n_steps": 11,
+  "n_values": 13,
+  "n_ungrounded": 1
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

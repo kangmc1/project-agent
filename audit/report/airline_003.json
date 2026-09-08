@@ -16,16 +16,6 @@
    "evidence": "db_agent report->planner: missing ['flight from houston to denver on may 27th', 'successfully recorded'] altered []"
   },
   {
-   "step": 6,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.3333333333333333,
-    "unsupported": 0.6666666666666667
-   },
-   "evidence": "values not found in any prior tool result: ['OI5L9G', 'AQLBTL', 'KA7I60', 'I57WUD', 'OBUT9V', '4BMN53', 'Q0ZF0J'], Find reservation details for a flight from Houston to Denver on May 27th"
-  },
-  {
    "step": 7,
    "agent": "db_agent",
    "module": "D1",
@@ -249,10 +239,6 @@
    "n_scored": 29,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 18,
-   "n_na": 2
-  },
   "D3": {
    "tool_calls": 29,
    "utterances": 16,
@@ -264,6 +250,11 @@
   },
   "D7": {
    "n_handoffs": 10
+  },
+  "D3_args": {
+   "n_steps": 14,
+   "n_values": 68,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -275,8 +266,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

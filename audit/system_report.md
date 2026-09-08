@@ -6,11 +6,11 @@ Flag thresholds = top 10% of each item's own distribution (per role). `success_r
 
 ### Agents
 
-| agent | decisions | mean conf | low-conf ratio | handoff-layer low | unsupported-claim ratio | tool calls | error | empty | repeat | schema | ignored |
+| agent | decisions | mean conf | low-conf ratio | handoff-layer low | ungrounded-arg ratio | tool calls | error | empty | repeat | schema | ignored |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| planner | 127 | 0.93 | 0.11 | 0.11 | 0.41 | 95 | 0.02 | 0.00 | 0.01 | 0.00 | 0.02 |
-| solver | 180 | 0.97 | 0.12 | - | 0.49 | 137 | 0.18 | 0.00 | 0.63 | 0.00 | 0.00 |
-| verifier | 83 | 0.97 | 0.07 | - | 0.66 | 54 | 0.00 | 0.00 | 0.50 | 0.00 | 0.00 |
+| planner | 127 | 0.93 | 0.11 | 0.11 | 0.01 | 95 | 0.02 | 0.00 | 0.01 | 0.00 | 0.02 |
+| solver | 180 | 0.97 | 0.12 | - | - | 137 | 0.18 | 0.00 | 0.63 | 0.00 | 0.00 |
+| verifier | 83 | 0.97 | 0.07 | - | - | 54 | 0.00 | 0.00 | 0.50 | 0.00 | 0.00 |
 
 ### Handoff edges
 
@@ -40,17 +40,15 @@ Flag thresholds = top 10% of each item's own distribution (per role). `success_r
  "decisions 25+": 0.9715400044569166
 }
 
-### D9 equation consistency: {'n_steps': 280, 'mean_consistency': 0.7792379736057896}
-
 ## airline — 31 runs, success_rate* = 0.1935483870967742
 
 ### Agents
 
-| agent | decisions | mean conf | low-conf ratio | handoff-layer low | unsupported-claim ratio | tool calls | error | empty | repeat | schema | ignored |
+| agent | decisions | mean conf | low-conf ratio | handoff-layer low | ungrounded-arg ratio | tool calls | error | empty | repeat | schema | ignored |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| db_agent | 420 | 0.95 | 0.08 | - | 0.19 | 357 | 0.18 | 0.00 | 0.33 | 0.00 | 0.01 |
-| planner | 431 | 0.90 | 0.10 | 0.10 | 0.06 | 400 | 0.09 | 0.00 | 0.03 | 0.00 | 0.08 |
-| policy_checker | 55 | 0.84 | 0.27 | - | 0.20 | 19 | 0.05 | 0.58 | 0.05 | 0.00 | 0.05 |
+| db_agent | 420 | 0.95 | 0.08 | - | 0.20 | 357 | 0.18 | 0.00 | 0.33 | 0.00 | 0.01 |
+| planner | 431 | 0.90 | 0.10 | 0.10 | 0.04 | 400 | 0.09 | 0.00 | 0.03 | 0.00 | 0.08 |
+| policy_checker | 55 | 0.84 | 0.27 | - | - | 19 | 0.05 | 0.58 | 0.05 | 0.00 | 0.05 |
 
 ### Handoff edges
 

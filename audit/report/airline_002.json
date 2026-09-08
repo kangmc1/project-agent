@@ -12,16 +12,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.85"
   },
   {
-   "step": 7,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: next step: Check next reservation 'LQ940Q'"
-  },
-  {
    "step": 12,
    "agent": "db_agent",
    "module": "D3",
@@ -226,16 +216,6 @@
     "margin": 0.231
    },
    "evidence": "action distribution: no_tool 0.59, write_file 0.36, read_file 0.05 (actual: write_file)"
-  },
-  {
-   "step": 22,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: MCO to BOS (HAT028) - Economy class price: $1859, BOS to CLT (HAT277) - Economy class price: $1679, DEN to PHL (HAT080) - Economy class price: $537, PHL to DEN (HAT076) - Economy class price: $996, DEN to MIA (HAT255) - Economy class price: $1440"
   },
   {
    "step": 24,
@@ -702,10 +682,6 @@
    "n_scored": 55,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 31,
-   "n_na": 9
-  },
   "D3": {
    "tool_calls": 71,
    "utterances": 28,
@@ -718,6 +694,11 @@
   },
   "D7": {
    "n_handoffs": 22
+  },
+  "D3_args": {
+   "n_steps": 28,
+   "n_values": 180,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -729,8 +710,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

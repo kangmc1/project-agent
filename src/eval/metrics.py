@@ -83,19 +83,11 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if role == "planner" and h2 is not None:
             d1_hand.scores[k] = h2
 
-    d2 = add("D2_unsupported", note="unsupported claims (rows with s=null are NA)")
-    for r in read_jsonl(audit / "d2.jsonl"):
-        if r.get("s") is None:
-            continue
-        v = _num(r.get("unsupported"))
-        if v is not None:
-            d2.scores[(r["run_id"], int(r["step_id"]))] = v
-
-    d2a = add("D2_args", note="ungrounded ratio of identifier-like tool-call argument values at the step")
-    for r in read_jsonl(audit / "d2_args.jsonl"):
+    d3a = add("D3_args", note="ungrounded ratio of identifier-like tool-call argument values at the step (tool-call layer)")
+    for r in read_jsonl(audit / "d3_args.jsonl"):
         v = _num(r.get("ungrounded_ratio"))
         if v is not None:
-            d2a.scores[(r["run_id"], int(r["step_id"]))] = v
+            d3a.scores[(r["run_id"], int(r["step_id"]))] = v
     d3i = add("D3_instruction", roles=("subagent",), note="instruction->action coverage: required tool family never called in the handoff (score at the report step)")
     for r in read_jsonl(audit / "d3_instruction.jsonl"):
         if r.get("applicable"):
@@ -119,12 +111,6 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         by_dir[d][k] = max(by_dir[d].get(k, 0.0), 1.0 - f)
     for d in sorted(by_dir):
         add(f"D7_{d}", roles=("planner",), note="1 - fidelity, worst wrapper at the planner step").scores = by_dir[d]
-
-    d9 = add("D9_1-consistency", domains=("aime",), note="1 - consistency (aime only)")
-    for r in read_jsonl(audit / "d9.jsonl"):
-        v = _num(r.get("consistency"))
-        if v is not None:
-            d9.scores[(r["run_id"], int(r["step_id"]))] = 1.0 - v
 
     judge = add("Judge_p_fail", note="Qwen3-8B judge, thinking on, p_fail")
     for r in read_jsonl(audit / "judge.jsonl"):
@@ -531,12 +517,12 @@ def section_tool_checks(rep: Report, rows, flags, root) -> None:
 
 
 def section_matched(rep: Report, items, rows) -> None:
-    rep.line("## 6. Matched sub-table (steps scored by D1 AND D2 AND D3)")
+    rep.line("## 6. Matched sub-table (steps scored by D1 AND D3)")
     rep.line()
-    names = [n for n in ("D1_1-conf", "D2_unsupported", "D3_unsatisfied") if n in items]
+    names = [n for n in ("D1_1-conf", "D3_unsatisfied") if n in items]
     if len(names) < 2:
-        rep.line("_(needs D1, D2 and D3; missing " + ", ".join(
-            n for n in ("D1_1-conf", "D2_unsupported", "D3_unsatisfied") if n not in items) + ")_")
+        rep.line("_(needs D1 and D3; missing " + ", ".join(
+            n for n in ("D1_1-conf", "D3_unsatisfied") if n not in items) + ")_")
         rep.line()
         return
     keys = set(items[names[0]].scores)

@@ -30,6 +30,16 @@
    "evidence": "claims without prior tool evidence: reservation_id=HAT039, reservation_id=HAT218, reservation_id=HAT136, reservation_id=HAT268"
   },
   {
+   "step": 12,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.273
+   },
+   "evidence": "argument values never given to the agent: respond_to_user.money=204, respond_to_user.money=255, respond_to_user.money=261"
+  },
+  {
    "step": 14,
    "agent": "planner",
    "module": "D7",
@@ -67,6 +77,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: user_id=mia_li_123"
+  },
+  {
+   "step": 15,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.25
+   },
+   "evidence": "argument values never given to the agent: book_reservation.user_id=mia_li_123, book_reservation.airport=SFO"
   },
   {
    "step": 16,
@@ -118,6 +138,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.143
+   },
+   "evidence": "argument values never given to the agent: book_reservation.airport=SFO"
   },
   {
    "step": 23,
@@ -175,6 +205,16 @@
    "evidence": "claims without prior tool evidence: reservation_id=HAT218, reservation_id=HAT136"
   },
   {
+   "step": 39,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.25
+   },
+   "evidence": "argument values never given to the agent: respond_to_user.money=261, respond_to_user.money=255"
+  },
+  {
    "step": 42,
    "agent": "db_agent",
    "module": "D3",
@@ -194,6 +234,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 42,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.125
+   },
+   "evidence": "argument values never given to the agent: book_reservation.airport=SFO"
   },
   {
    "step": 43,
@@ -338,6 +388,16 @@
    "evidence": "claims without prior tool evidence: reservation_id=HAT218"
   },
   {
+   "step": 70,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.4
+   },
+   "evidence": "argument values never given to the agent: respond_to_user.money=234, respond_to_user.money=242, respond_to_user.money=315, respond_to_user.money=301"
+  },
+  {
    "step": 73,
    "agent": "db_agent",
    "module": "D3",
@@ -357,6 +417,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 73,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.125
+   },
+   "evidence": "argument values never given to the agent: book_reservation.airport=SFO"
   },
   {
    "step": 74,
@@ -402,6 +472,16 @@
    "evidence": "claims without prior tool evidence: reservation_id=HAT218"
   },
   {
+   "step": 80,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.25
+   },
+   "evidence": "argument values never given to the agent: respond_to_user.money=234, respond_to_user.money=242"
+  },
+  {
    "step": 83,
    "agent": "db_agent",
    "module": "D3",
@@ -422,6 +502,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 83,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.125
+   },
+   "evidence": "argument values never given to the agent: book_reservation.airport=SFO"
   },
   {
    "step": 84,
@@ -603,10 +693,6 @@
    "n_scored": 80,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 41,
-   "n_na": 3
-  },
   "D3": {
    "tool_calls": 63,
    "utterances": 29,
@@ -619,6 +705,11 @@
   },
   "D7": {
    "n_handoffs": 36
+  },
+  "D3_args": {
+   "n_steps": 36,
+   "n_values": 192,
+   "n_ungrounded": 17
   }
  },
  "coverage": {},
@@ -630,8 +721,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

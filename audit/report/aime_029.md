@@ -3,7 +3,6 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 2 | solver | D1/tool | {"confidence": 0.741, "p_actual": 0.884, "margin": 0.768} | action distribution: run_python 0.88, no_tool 0.12, write_file 0.00 (actual: run_python) |
-| 5 | verifier | D2 | {"s": 0.0, "unsupported": 1.0} | values not found in any prior tool result: a ∘ b = a - b if a is odd and b is even. Otherwise, a ∘ b = a + b., The operation is associative in the sense that the result depends on the order of operations, and the sequence must be evaluated step-by-step., a_1 + a_2 + ... + a_n = 12, a_1 ∘ a_2 ∘ ... ∘ a_n = 0, Brute-force approach: iterate over all possible sequences of positive integers a_1, a_2, ..., a_n such that their sum is 12. For each sequence, compute the result of the operation and count the number of sequences for which the result is 0. |
 
 ## Per-module summary
 ```
@@ -11,10 +10,6 @@
  "D1": {
   "n_scored": 8,
   "method": "stepwise"
- },
- "D2": {
-  "n_utterances": 5,
-  "n_na": 1
  },
  "D3": {
   "tool_calls": 5,
@@ -24,10 +19,12 @@
  "D7": {
   "n_handoffs": 4
  },
- "D9": {
-  "n_steps": 4
+ "D3_args": {
+  "n_steps": 1,
+  "n_values": 1,
+  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

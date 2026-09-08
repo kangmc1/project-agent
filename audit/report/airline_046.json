@@ -1,14 +1,24 @@
 {
  "flags": [
   {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-05-15"
+  },
+  {
    "step": 6,
    "agent": "db_agent",
-   "module": "D2",
+   "module": "D3",
+   "layer": "arguments",
    "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
+    "ungrounded_ratio": 0.333
    },
-   "evidence": "values not found in any prior tool result: San Francisco (SFO), New York (JFK), May 15th, 2024"
+   "evidence": "argument values never given to the agent: search_onestop_flight.date=2024-05-15"
   },
   {
    "step": 9,
@@ -21,6 +31,16 @@
     "tool": "search_direct_flight"
    },
    "evidence": "tool search_direct_flight call #5: repeat"
+  },
+  {
+   "step": 9,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-05-15"
   },
   {
    "step": 15,
@@ -50,6 +70,16 @@
     "tool": "get_user_details"
    },
    "evidence": "tool get_user_details call #9: error"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
   },
   {
    "step": 17,
@@ -107,6 +137,16 @@
    "evidence": "tool get_user_details call #12: error, repeat"
   },
   {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+  },
+  {
    "step": 22,
    "agent": "planner",
    "module": "D3",
@@ -131,6 +171,16 @@
    "evidence": "action distribution: search_direct_flight 0.68, search_onestop_flight 0.32, no_tool 0.00 (actual: search_direct_flight)"
   },
   {
+   "step": 34,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-04-08"
+  },
+  {
    "step": 39,
    "agent": "db_agent",
    "module": "D3",
@@ -141,6 +191,16 @@
     "tool": "search_direct_flight"
    },
    "evidence": "tool search_direct_flight call #22: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-04-08"
   },
   {
    "step": 40,
@@ -155,6 +215,16 @@
    "evidence": "action distribution: search_onestop_flight 0.63, no_tool 0.37, transfer_to_human_agents 0.00 (actual: search_onestop_flight)"
   },
   {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_onestop_flight.date=2024-04-08"
+  },
+  {
    "step": 45,
    "agent": "db_agent",
    "module": "D3",
@@ -165,6 +235,16 @@
     "tool": "search_direct_flight"
    },
    "evidence": "tool search_direct_flight call #26: repeat"
+  },
+  {
+   "step": 55,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-04-05, search_direct_flight.date=2024-04-05"
   },
   {
    "step": 59,
@@ -210,6 +290,16 @@
    "evidence": "tool get_user_details call #36: error, repeat"
   },
   {
+   "step": 60,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+  },
+  {
    "step": 61,
    "agent": "planner",
    "module": "D3",
@@ -228,10 +318,6 @@
    "n_scored": 52,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 25,
-   "n_na": 7
-  },
   "D3": {
    "tool_calls": 40,
    "utterances": 4,
@@ -243,6 +329,11 @@
   },
   "D7": {
    "n_handoffs": 24
+  },
+  "D3_args": {
+   "n_steps": 12,
+   "n_values": 33,
+   "n_ungrounded": 11
   }
  },
  "coverage": {},
@@ -254,8 +345,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

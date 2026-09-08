@@ -251,31 +251,11 @@
   {
    "step": 38,
    "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.3076923076923077,
-    "unsupported": 0.6923076923076923
-   },
-   "evidence": "values not found in any prior tool result: HAT072 (May 19th), HAT278 (May 21st), Update flights, upgrade cabin to business, add 2 checked bags per flight, calculate total cost and fees, Economy cabin, 0 total baggage, 0 non-free baggage"
-  },
-  {
-   "step": 38,
-   "agent": "db_agent",
    "module": "D3",
    "signal": {
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
-  },
-  {
-   "step": 39,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.38461538461538464,
-    "unsupported": 0.6153846153846154
-   },
-   "evidence": "values not found in any prior tool result: HAT072 (May 19th), HAT278 (May 21st), Update flights, upgrade cabin to business, add 2 checked bags per flight, calculate total cost and fees, Economy cabin, 0 total baggage, 0 non-free baggage"
   },
   {
    "step": 39,
@@ -306,6 +286,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+  },
+  {
+   "step": 41,
+   "agent": "planner",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.125
+   },
+   "evidence": "argument values never given to the agent: respond_to_user.money=539"
   },
   {
    "step": 44,
@@ -395,10 +385,6 @@
    "n_scored": 43,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 24,
-   "n_na": 1
-  },
   "D3": {
    "tool_calls": 37,
    "utterances": 20,
@@ -409,6 +395,11 @@
   },
   "D7": {
    "n_handoffs": 18
+  },
+  "D3_args": {
+   "n_steps": 16,
+   "n_values": 104,
+   "n_ungrounded": 1
   }
  },
  "coverage": {},
@@ -420,8 +411,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

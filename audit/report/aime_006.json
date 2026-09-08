@@ -19,31 +19,11 @@
   {
    "step": 2,
    "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.11764705882352941,
-    "unsupported": 0.8823529411764706
-   },
-   "evidence": "values not found in any prior tool result: x^{\\log_{2026}x} = (26x)^{20}, \\log_{2026}(x^{\\log_{2026}x}) = \\log_{2026}((26x)^{20}), (\\log_{2026}x)^2 = 20 \\log_{2026}(26x), (\\log_{2026}x)^2 = 20 (\\log_{2026}26 + \\log_{2026}x), y^2 = 20 (\\log_{2026}26 + y)"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
    "module": "D3",
    "signal": {
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: numeric=1013, numeric=10, numeric=2026, numeric=100, numeric=80"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D2",
-   "signal": {
-    "s": 0.058823529411764705,
-    "unsupported": 0.9411764705882353
-   },
-   "evidence": "values not found in any prior tool result: x^{\\log_{2026}x} = (26x)^{20}, \\log_{2026}(x^{\\log_{2026}x}) = \\log_{2026}((26x)^{20}), (\\log_{2026}x)(\\log_{2026}x) = 20 \\log_{2026}(26x), (\\log_{2026}x)^2 = 20 (\\log_{2026}26 + \\log_{2026}x), y = \\log_{2026}x"
   },
   {
    "step": 5,
@@ -60,10 +40,6 @@
    "n_scored": 8,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 5,
-   "n_na": 0
-  },
   "D3": {
    "tool_calls": 5,
    "utterances": 4,
@@ -72,8 +48,10 @@
   "D7": {
    "n_handoffs": 4
   },
-  "D9": {
-   "n_steps": 4
+  "D3_args": {
+   "n_steps": 1,
+   "n_values": 1,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -85,8 +63,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

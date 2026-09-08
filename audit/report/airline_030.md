@@ -14,7 +14,6 @@
 | 15 | policy_checker | D3 | {"satisfied": false} | claims without prior tool evidence: date=2024-05-15, cancel= |
 | 17 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #16: repeat |
 | 20 | policy_checker | D3 | {"satisfied": false} | claims without prior tool evidence: date=2024-05-15, cancel= |
-| 24 | planner | D2 | {"s": 0.0, "unsupported": 1.0} | values not found in any prior tool result: flights on May 17, 2024 (JFK-ORD-PHL) |
 
 ## Per-module summary
 ```
@@ -22,10 +21,6 @@
  "D1": {
   "n_scored": 20,
   "method": "stepwise"
- },
- "D2": {
-  "n_utterances": 12,
-  "n_na": 0
  },
  "D3": {
   "tool_calls": 20,
@@ -37,8 +32,13 @@
  },
  "D7": {
   "n_handoffs": 10
+ },
+ "D3_args": {
+  "n_steps": 11,
+  "n_values": 26,
+  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

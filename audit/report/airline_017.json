@@ -24,16 +24,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.73"
   },
   {
-   "step": 12,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: May 24, 2024, No direct flights were found"
-  },
-  {
    "step": 13,
    "agent": "db_agent",
    "module": "D3",
@@ -64,6 +54,16 @@
    "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
   },
   {
+   "step": 17,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.date=2024-05-01, search_direct_flight.date=2024-05-01"
+  },
+  {
    "step": 18,
    "agent": "db_agent",
    "module": "D3",
@@ -71,6 +71,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_onestop_flight.date=2024-05-01, search_onestop_flight.date=2024-05-01"
   },
   {
    "step": 19,
@@ -272,6 +282,16 @@
    "evidence": "tool get_user_details call #38: error"
   },
   {
+   "step": 52,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=liam_khan_123"
+  },
+  {
    "step": 59,
    "agent": "db_agent",
    "module": "D3",
@@ -331,16 +351,6 @@
    "evidence": "action distribution: search_direct_flight 0.55, no_tool 0.44, update_reservation_flights 0.00 (actual: search_direct_flight)"
   },
   {
-   "step": 64,
-   "agent": "db_agent",
-   "module": "D2",
-   "signal": {
-    "s": 0.3333333333333333,
-    "unsupported": 0.6666666666666667
-   },
-   "evidence": "values not found in any prior tool result: HAT190 (IAH to LAS), HAT047 (LAS to SEA), HAT021 (SEA to JFK), HAT279 (JFK to IAH), 3 (Liam Khan, James Kim, Aarav Lee), 1 (All free), Credit Card (ID: credit_card_7434610)"
-  },
-  {
    "step": 65,
    "agent": "db_agent",
    "module": "D3",
@@ -382,10 +392,6 @@
    "n_scored": 59,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 35,
-   "n_na": 1
-  },
   "D3": {
    "tool_calls": 52,
    "utterances": 27,
@@ -397,6 +403,11 @@
   },
   "D7": {
    "n_handoffs": 22
+  },
+  "D3_args": {
+   "n_steps": 35,
+   "n_values": 148,
+   "n_ungrounded": 5
   }
  },
  "coverage": {},
@@ -408,8 +419,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

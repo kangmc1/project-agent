@@ -1,4 +1,4 @@
-"""D2 rule 2 — groundedness of TOOL-CALL ARGUMENTS (label-free, deterministic).
+"""D3 rule 3 — groundedness of TOOL-CALL ARGUMENTS (formerly D2 rule 2; moved into D3 = tool-call layer, 09-09 06:25) (label-free, deterministic).
 
 Finding (2026-09-09 06:10): 38 of 49 hallucination_like subagent errors had D2 s = 1.0 because the fabricated values were
 not in the utterance but in the arguments of the tool call (e.g. get_user_details(user_id='rossi_123') when the customer
@@ -10,7 +10,7 @@ extraction is needed. Score = fraction of identifier-like argument values that a
 Checked value kinds (tau-bench conventions + AIME): reservation ids, user ids, flight numbers, ISO dates, money, IATA codes
 under origin/destination keys, person names under *name* keys, and the final integer of submit_answer (must appear in a
 prior run_python result). Skipped tools: run_python / file tools / think (code and prose, not claims).
-Output: audit/d2_args.jsonl   Usage: python -m src.audit.d2_args [--runs runs]
+Output: audit/d3_args.jsonl   Usage: python -m src.audit.d3_args [--runs runs]
 """
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ import json
 import re
 from pathlib import Path
 
-from .d2 import _load_run, _norm, _input_text
+import sqlite3
 from .d3_rules import RESERVATION_ID, FLIGHT_NO, MONEY, DATE
 
 USER_ID = re.compile(r"\b[a-z]+(?:_[a-z]+)?_\d{2,5}\b")  # tau-bench first_last_1234; also catches invented 'rossi_123'
@@ -36,6 +36,37 @@ def date_forms(iso: str) -> list[str]:
     return [iso, f"{mon} {di}", f"{mon} {di:02d}", f"{di} {mon}", f"{mon[:3]} {di}", f"{mi}/{di}", f"{mi:02d}/{di:02d}", f"{di}th of {mon}", f"{di}st of {mon}", f"{di}nd of {mon}", f"{di}rd of {mon}"]
 
 AUX = {"user_sim", "summarizer"}
+
+
+def _load_run(run: Path) -> tuple[list[dict], list[dict], dict]:
+    steps = [json.loads(l) for l in (run / "steps.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    meta = json.loads((run / "meta.json").read_text()) if (run / "meta.json").exists() else {}
+    con = sqlite3.connect(str(run / "tool_calls.sqlite"))
+    calls = [dict(zip(["id", "step_id", "agent", "tool", "args_json", "result_json", "status", "latency", "ts"], r))
+             for r in con.execute("SELECT id, step_id, agent, tool, args_json, result_json, status, latency, ts "
+                                   "FROM tool_calls ORDER BY id")]
+    con.close()
+    return steps, calls, meta
+
+
+def _norm(v: str) -> str:
+    return v.replace(",", "").replace("$", "").strip().lower()
+
+
+def _input_text(step: dict) -> str:
+    """Concatenated non-assistant message contents of the request the model saw at this step."""
+    parts = []
+    for m in step.get("request", {}).get("messages") or []:
+        if m.get("role") == "assistant":
+            continue
+        c = m.get("content")
+        if isinstance(c, list):
+            c = " ".join(x.get("text", "") for x in c if isinstance(x, dict))
+        if c:
+            parts.append(str(c))
+    return "\n".join(parts)
+
+
 SKIP_TOOLS = {"run_python", "read_file", "write_file", "edit_file", "think", "ls", "glob", "grep"}
 AUDIT = Path("audit")
 IATA_KEYS = {"origin", "destination", "departure_airport", "arrival_airport"}
@@ -141,10 +172,10 @@ def main() -> None:
     for run in sorted(Path(a.runs).glob("*/")):
         if (run / "steps.jsonl").exists() and (run / "tool_calls.sqlite").exists():
             rows += audit_run(run)
-    with (AUDIT / "d2_args.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d3_args.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print(f"D2-args: steps {len(rows)}, values {sum(r['n_values'] for r in rows)}, "
+    print(f"D3-args: steps {len(rows)}, values {sum(r['n_values'] for r in rows)}, "
           f"ungrounded {sum(r['n_ungrounded'] for r in rows)}, steps with any ungrounded {sum(r['n_ungrounded']>0 for r in rows)}")
 
 

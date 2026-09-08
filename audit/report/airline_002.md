@@ -3,7 +3,6 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 4 | planner | D1/handoff | {"p_delegate": 0.852, "H2": 0.605} | delegate-vs-not split p_delegate=0.85 |
-| 7 | db_agent | D2 | {"s": 0.0, "unsupported": 1.0} | values not found in any prior tool result: next step: Check next reservation 'LQ940Q' |
 | 12 | db_agent | D3 | {"checks": ["error", "ignored"], "tool": "read_file"} | tool read_file call #9: error, ignored |
 | 15 | planner | D1/tool | {"confidence": 0.431, "p_actual": 0.656, "margin": 0.51} | action distribution: respond_to_user 0.66, write_file 0.15, db_agent 0.15 (actual: respond_to_user) |
 | 15 | planner | D1/handoff | {"p_delegate": 0.188, "H2": 0.698} | delegate-vs-not split p_delegate=0.19 |
@@ -21,7 +20,6 @@
 | 21 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #22: repeat |
 | 21 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #23: repeat |
 | 22 | db_agent | D1/tool | {"confidence": 0.708, "p_actual": 0.36, "margin": 0.231} | action distribution: no_tool 0.59, write_file 0.36, read_file 0.05 (actual: write_file) |
-| 22 | db_agent | D2 | {"s": 0.0, "unsupported": 1.0} | values not found in any prior tool result: MCO to BOS (HAT028) - Economy class price: $1859, BOS to CLT (HAT277) - Economy class price: $1679, DEN to PHL (HAT080) - Economy class price: $537, PHL to DEN (HAT076) - Economy class price: $996, DEN to MIA (HAT255) - Economy class price: $1440 |
 | 24 | planner | D1/tool | {"confidence": 0.52, "p_actual": 0.594, "margin": 0.233} | action distribution: respond_to_user 0.59, read_file 0.36, policy_checker 0.03 (actual: respond_to_user) |
 | 27 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #27: repeat |
 | 27 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #28: repeat |
@@ -69,10 +67,6 @@
   "n_scored": 55,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 31,
-  "n_na": 9
- },
  "D3": {
   "tool_calls": 71,
   "utterances": 28,
@@ -85,8 +79,13 @@
  },
  "D7": {
   "n_handoffs": 22
+ },
+ "D3_args": {
+  "n_steps": 28,
+  "n_values": 180,
+  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

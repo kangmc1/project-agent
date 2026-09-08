@@ -7,7 +7,6 @@
 | 13 | planner | D1/tool | {"confidence": 0.636, "p_actual": 0.677, "margin": 0.357} | action distribution: respond_to_user 0.68, db_agent 0.32, read_file 0.00 (actual: respond_to_user) |
 | 13 | planner | D1/handoff | {"p_delegate": 0.32, "H2": 0.904} | delegate-vs-not split p_delegate=0.32 |
 | 16 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_user_details"} | tool get_user_details call #10: repeat |
-| 17 | db_agent | D2 | {"s": 0.0, "unsupported": 1.0} | values not found in any prior tool result: ['UM3OG5', '5RJ7UH', 'FQ8APE', 'QKRY03'], Filter reservations with flights from New York to Chicago |
 | 17 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #11: repeat |
 | 17 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #12: repeat |
 | 17 | db_agent | D3 | {"checks": ["repeat"], "tool": "get_reservation_details"} | tool get_reservation_details call #13: repeat |
@@ -22,10 +21,6 @@
   "n_scored": 26,
   "method": "stepwise"
  },
- "D2": {
-  "n_utterances": 14,
-  "n_na": 1
- },
  "D3": {
   "tool_calls": 25,
   "utterances": 13,
@@ -36,8 +31,13 @@
  },
  "D7": {
   "n_handoffs": 8
+ },
+ "D3_args": {
+  "n_steps": 14,
+  "n_values": 32,
+  "n_ungrounded": 0
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D2": 0.5555555555555556, "D7": 1.0, "D9": 0.9333333333333333}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3_args": "any ungrounded value"}`

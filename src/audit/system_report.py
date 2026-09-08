@@ -18,29 +18,28 @@ WRAPPERS = {"policy_checker", "db_agent", "solver", "verifier"}
 
 
 def build(percentile: int = 10) -> dict:
-    d1, d2, d3, d7, d9 = (_load(f) for f in ("d1.jsonl", "d2.jsonl", "d3.jsonl", "d7.jsonl", "d9.jsonl"))
+    d1, d3, d7, d3a = (_load(f) for f in ("d1.jsonl", "d3.jsonl", "d7.jsonl", "d3_args.jsonl"))
     q = 1 - percentile / 100
     index = {}
     if Path("runs/index.csv").exists():
         for row in csv.DictReader(open("runs/index.csv")):
             index[row["run_id"]] = row
-    domains = sorted({r["domain"] for r in d1} | {r["domain"] for r in d2} | {r["domain"] for r in d3})
+    domains = sorted({r["domain"] for r in d1} | {r["domain"] for r in d3})
     out: dict = {"percentile": percentile, "domains": {}}
     for dom in domains:
         D1 = [r for r in d1 if r["domain"] == dom]
-        D2 = [r for r in d2 if r["domain"] == dom]
+        D3A = [r for r in d3a if r["domain"] == dom]
         D3 = [r for r in d3 if r["domain"] == dom]
         D7 = [r for r in d7 if r["domain"] == dom]
-        D9 = [r for r in d9 if r.get("domain", "aime") == dom]
-        runs = sorted({r["run_id"] for r in D1 + D2 + D3})
+        runs = sorted({r["run_id"] for r in D1 + D3})
         succ = [index[r]["success"] == "True" for r in runs if r in index and index[r]["status"] == "ok"]
         dom_out = {"n_runs": len(runs), "success_rate*": (sum(succ) / len(succ)) if succ else None, "agents": {}, "handoff_edges": {}, "hotspots": [], "confidence_curve": {}}
-        agents = sorted({r["agent"] for r in D1} | {r["agent"] for r in D2} | {r["agent"] for r in D3 if r["kind"] == "tool_call"})
+        agents = sorted({r["agent"] for r in D1} | {r["agent"] for r in D3 if r["kind"] == "tool_call"})
         thr_d1 = {role: _pct([1 - r["confidence"] for r in D1 if r["role"] == role], q) for role in ("planner", "subagent")}
         thr_h = _pct([r["layer2"]["H2"] for r in D1 if r["role"] == "planner"], q)
         for ag in agents:
             a1 = [r for r in D1 if r["agent"] == ag]
-            a2 = [r for r in D2 if r["agent"] == ag and r.get("s") is not None]
+            a2 = [r for r in D3A if r["agent"] == ag]
             a3 = [r for r in D3 if r["agent"] == ag and r["kind"] == "tool_call"]
             role = "planner" if ag == "planner" else "subagent"
             t = thr_d1.get(role)
@@ -53,7 +52,7 @@ def build(percentile: int = 10) -> dict:
                 "low_confidence_ratio": (sum(1 for r in a1 if t is not None and 1 - r["confidence"] >= t) / len(a1)) if a1 else None,
                 "mean_confidence": statistics.fmean(r["confidence"] for r in a1) if a1 else None,
                 "handoff_layer_low_ratio": (sum(1 for r in a1 if thr_h is not None and r["layer2"]["H2"] >= thr_h and r["layer2"]["H2"] > 0) / len(a1)) if (a1 and role == "planner") else None,
-                "unsupported_claim_ratio": (sum(1 for r in a2 if r["unsupported"] > 0) / len(a2)) if a2 else None,
+                "ungrounded_arg_ratio": (sum(1 for r in a2 if r["n_ungrounded"] > 0) / len(a2)) if a2 else None,
                 "tool_calls": len(a3),
                 "tool_check_ratios": {k: (checks[k] / len(a3)) if a3 else None for k in ("error", "empty", "repeat", "schema", "ignored")},
             }
@@ -90,7 +89,6 @@ def build(percentile: int = 10) -> dict:
             for i, c in enumerate(vals):
                 by_idx[min(i // 5, 5)].append(c)
         dom_out["confidence_curve"] = {f"decisions {k*5}-{k*5+4}" if k < 5 else "decisions 25+": statistics.fmean(v) for k, v in sorted(by_idx.items())}
-        dom_out["D9"] = {"n_steps": len(D9), "mean_consistency": statistics.fmean(r["consistency"] for r in D9 if r.get("consistency") is not None) if any(r.get("consistency") is not None for r in D9) else None} if D9 else None
         out["domains"][dom] = dom_out
     return out
 
@@ -99,19 +97,17 @@ def to_md(rep: dict) -> str:
     L = ["# System stability report (label-free)", "", f"Flag thresholds = top {rep['percentile']}% of each item's own distribution (per role). `success_rate*` uses ground truth and is shown for reference only.", ""]
     for dom, d in rep["domains"].items():
         L += [f"## {dom} — {d['n_runs']} runs, success_rate* = {d['success_rate*']}", "", "### Agents", "",
-              "| agent | decisions | mean conf | low-conf ratio | handoff-layer low | unsupported-claim ratio | tool calls | error | empty | repeat | schema | ignored |",
+              "| agent | decisions | mean conf | low-conf ratio | handoff-layer low | ungrounded-arg ratio | tool calls | error | empty | repeat | schema | ignored |",
               "|---|---|---|---|---|---|---|---|---|---|---|---|"]
         for ag, a in d["agents"].items():
             f = lambda x: "-" if x is None else f"{x:.2f}"
             tc = a["tool_check_ratios"]
-            L.append(f"| {ag} | {a['decisions']} | {f(a['mean_confidence'])} | {f(a['low_confidence_ratio'])} | {f(a['handoff_layer_low_ratio'])} | {f(a['unsupported_claim_ratio'])} | {a['tool_calls']} | {f(tc['error'])} | {f(tc['empty'])} | {f(tc['repeat'])} | {f(tc['schema'])} | {f(tc['ignored'])} |")
+            L.append(f"| {ag} | {a['decisions']} | {f(a['mean_confidence'])} | {f(a['low_confidence_ratio'])} | {f(a['handoff_layer_low_ratio'])} | {f(a['ungrounded_arg_ratio'])} | {a['tool_calls']} | {f(tc['error'])} | {f(tc['empty'])} | {f(tc['repeat'])} | {f(tc['schema'])} | {f(tc['ignored'])} |")
         L += ["", "### Handoff edges", "", "| edge | n | mean fidelity | low(<0.8) ratio | top missing | top altered |", "|---|---|---|---|---|---|"]
         for e, v in d["handoff_edges"].items():
             f = lambda x: "-" if x is None else f"{x:.2f}"
             L.append(f"| {e} | {v['n']} | {f(v['mean_fidelity'])} | {f(v['low_fidelity_ratio(<0.8)'])} | {v['top_missing_keys']} | {v['top_altered_keys']} |")
         L += ["", "### Hotspots (top 5)", ""] + [f"- {h[0]} — {h[1]}" for h in d["hotspots"]] + ["", "### Confidence by decision index", "", json.dumps(d["confidence_curve"], indent=1)]
-        if d.get("D9"):
-            L += ["", f"### D9 equation consistency: {d['D9']}"]
         L.append("")
     return "\n".join(L)
 

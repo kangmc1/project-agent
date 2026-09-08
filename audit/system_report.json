@@ -10,7 +10,7 @@
      "low_confidence_ratio": 0.11023622047244094,
      "mean_confidence": 0.9307688630276922,
      "handoff_layer_low_ratio": 0.11023622047244094,
-     "unsupported_claim_ratio": 0.40625,
+     "ungrounded_arg_ratio": 0.014084507042253521,
      "tool_calls": 95,
      "tool_check_ratios": {
       "error": 0.021052631578947368,
@@ -25,7 +25,7 @@
      "low_confidence_ratio": 0.11666666666666667,
      "mean_confidence": 0.9656159313714466,
      "handoff_layer_low_ratio": null,
-     "unsupported_claim_ratio": 0.4931506849315068,
+     "ungrounded_arg_ratio": null,
      "tool_calls": 137,
      "tool_check_ratios": {
       "error": 0.18248175182481752,
@@ -40,7 +40,7 @@
      "low_confidence_ratio": 0.07228915662650602,
      "mean_confidence": 0.9718804953365264,
      "handoff_layer_low_ratio": null,
-     "unsupported_claim_ratio": 0.66,
+     "ungrounded_arg_ratio": null,
      "tool_calls": 54,
      "tool_check_ratios": {
       "error": 0.0,
@@ -202,10 +202,6 @@
     "decisions 15-19": 0.9636136586359234,
     "decisions 20-24": 0.9728598784357543,
     "decisions 25+": 0.9715400044569166
-   },
-   "D9": {
-    "n_steps": 280,
-    "mean_consistency": 0.7792379736057896
    }
   },
   "airline": {
@@ -217,7 +213,7 @@
      "low_confidence_ratio": 0.07857142857142857,
      "mean_confidence": 0.9497259813770386,
      "handoff_layer_low_ratio": null,
-     "unsupported_claim_ratio": 0.19021739130434784,
+     "ungrounded_arg_ratio": 0.1981981981981982,
      "tool_calls": 357,
      "tool_check_ratios": {
       "error": 0.18207282913165265,
@@ -232,7 +228,7 @@
      "low_confidence_ratio": 0.10208816705336426,
      "mean_confidence": 0.9030606213759753,
      "handoff_layer_low_ratio": 0.10208816705336426,
-     "unsupported_claim_ratio": 0.058823529411764705,
+     "ungrounded_arg_ratio": 0.037037037037037035,
      "tool_calls": 400,
      "tool_check_ratios": {
       "error": 0.09,
@@ -247,7 +243,7 @@
      "low_confidence_ratio": 0.2727272727272727,
      "mean_confidence": 0.836848097769988,
      "handoff_layer_low_ratio": null,
-     "unsupported_claim_ratio": 0.20454545454545456,
+     "ungrounded_arg_ratio": null,
      "tool_calls": 19,
      "tool_check_ratios": {
       "error": 0.05263157894736842,
@@ -421,8 +417,7 @@
     "decisions 15-19": 0.9438376917908455,
     "decisions 20-24": 0.924665909271751,
     "decisions 25+": 0.9201804665860982
-   },
-   "D9": null
+   }
   }
  }
 }

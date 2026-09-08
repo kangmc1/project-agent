@@ -31,14 +31,12 @@ def _pct(values: list[float], q: float) -> float | None:
 
 
 def build(percentile: int = 10) -> dict[str, dict]:
-    d1, d2, d3, d7, d9 = (_load(f) for f in ("d1.jsonl", "d2.jsonl", "d3.jsonl", "d7.jsonl", "d9.jsonl"))
+    d1, d3, d7, d3a = (_load(f) for f in ("d1.jsonl", "d3.jsonl", "d7.jsonl", "d3_args.jsonl"))
     q = 1 - percentile / 100
     # label-free thresholds per role
     thr_d1 = {role: _pct([1 - r["confidence"] for r in d1 if r["role"] == role], q) for role in ("planner", "subagent")}
     thr_d1_h = _pct([r["layer2"]["H2"] for r in d1 if r["role"] == "planner"], q)
-    thr_d2 = _pct([r["unsupported"] for r in d2 if r.get("s") is not None], q)
     thr_d7 = _pct([1 - r["fidelity"] for r in d7 if r.get("fidelity") is not None], q)
-    thr_d9 = _pct([1 - r["consistency"] for r in d9 if r.get("consistency") is not None], q)
 
     reports: dict[str, dict] = defaultdict(lambda: {"flags": [], "per_module_summary": {}, "coverage": {}})
     for r in d1:
@@ -55,18 +53,6 @@ def build(percentile: int = 10) -> dict[str, dict]:
             rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D1", "layer": "handoff",
                                  "signal": {"p_delegate": round(r["layer2"]["p_delegate"], 3), "H2": round(r["layer2"]["H2"], 3)},
                                  "evidence": f"delegate-vs-not split p_delegate={r['layer2']['p_delegate']:.2f}"})
-    for r in d2:
-        rep = reports[r["run_id"]]
-        s = rep["per_module_summary"].setdefault("D2", {"n_utterances": 0, "n_na": 0})
-        s["n_utterances"] += 1
-        if r.get("s") is None:
-            s["n_na"] += 1
-            continue
-        if thr_d2 is not None and r["unsupported"] >= thr_d2 and r["unsupported"] > 0:
-            missing = [c for c in r["claims"] if not c.get("found")]
-            rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D2",
-                                 "signal": {"s": r["s"], "unsupported": r["unsupported"]},
-                                 "evidence": "values not found in any prior tool result: " + ", ".join(str(c.get("value")) for c in missing[:5])})
     for r in d3:
         rep = reports[r["run_id"]]
         s = rep["per_module_summary"].setdefault("D3", {"tool_calls": 0, "utterances": 0, "checks": defaultdict(int)})
@@ -91,17 +77,18 @@ def build(percentile: int = 10) -> dict[str, dict]:
             rep["flags"].append({"step": r["planner_step_id"], "agent": "planner", "module": "D7", "direction": r["direction"],
                                  "signal": {"fidelity": r["fidelity"], "missing": r["missing"][:5], "altered": r["altered"]},
                                  "evidence": f"{r['wrapper']} {r['direction']}: missing {r['missing'][:3]} altered {list(r['altered'])[:3]}"})
-    for r in d9:
+    for r in d3a:  # D3 rule 3: fabricated identifier-like tool-call arguments
         rep = reports[r["run_id"]]
-        s = rep["per_module_summary"].setdefault("D9", {"n_steps": 0})
-        s["n_steps"] += 1
-        if r.get("consistency") is not None and thr_d9 is not None and (1 - r["consistency"]) >= thr_d9 and r["consistency"] < 1:
-            rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D9", "signal": {"consistency": r["consistency"]},
-                                 "evidence": "false equations: " + "; ".join(str(x) for x in r["false_pointers"][:3])})
+        s = rep["per_module_summary"].setdefault("D3_args", {"n_steps": 0, "n_values": 0, "n_ungrounded": 0})
+        s["n_steps"] += 1; s["n_values"] += r["n_values"]; s["n_ungrounded"] += r["n_ungrounded"]
+        if r["n_ungrounded"] > 0:
+            rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D3", "layer": "arguments",
+                                 "signal": {"ungrounded_ratio": round(r["ungrounded_ratio"], 3)},
+                                 "evidence": "argument values never given to the agent: " + ", ".join(f"{u['tool']}.{u['kind']}={u['value']}" for u in r["ungrounded"][:5])})
     for rid, rep in reports.items():
         rep["run_id"] = rid
         rep["flags"].sort(key=lambda f: (f["step"], f["module"]))
-        rep["thresholds"] = {"percentile": percentile, "D1": thr_d1, "D1_handoff": thr_d1_h, "D2": thr_d2, "D7": thr_d7, "D9": thr_d9}
+        rep["thresholds"] = {"percentile": percentile, "D1": thr_d1, "D1_handoff": thr_d1_h, "D7": thr_d7, "D3_args": "any ungrounded value"}
         for k, v in rep["per_module_summary"].items():
             if isinstance(v, dict) and "checks" in v:
                 v["checks"] = dict(v["checks"])

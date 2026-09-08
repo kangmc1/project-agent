@@ -24,6 +24,16 @@
    "evidence": "delegate-vs-not split p_delegate=0.44"
   },
   {
+   "step": 15,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=PDX"
+  },
+  {
    "step": 16,
    "agent": "db_agent",
    "module": "D3",
@@ -31,6 +41,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: reservation_id=HAT041"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.167
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
   },
   {
    "step": 17,
@@ -85,6 +105,16 @@
    "evidence": "tool book_reservation call #23: error"
   },
   {
+   "step": 24,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.273
+   },
+   "evidence": "argument values never given to the agent: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+  },
+  {
    "step": 25,
    "agent": "planner",
    "module": "D3",
@@ -129,6 +159,16 @@
     "tool": "book_reservation"
    },
    "evidence": "tool book_reservation call #26: error"
+  },
+  {
+   "step": 29,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.182
+   },
+   "evidence": "argument values never given to the agent: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
   },
   {
    "step": 30,
@@ -233,6 +273,16 @@
     "tool": "book_reservation"
    },
    "evidence": "tool book_reservation call #31: error, repeat"
+  },
+  {
+   "step": 35,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.182
+   },
+   "evidence": "argument values never given to the agent: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
   },
   {
    "step": 36,
@@ -344,6 +394,16 @@
    "evidence": "tool search_direct_flight call #39: repeat"
   },
   {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.333
+   },
+   "evidence": "argument values never given to the agent: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=LAX, search_direct_flight.airport=SFO"
+  },
+  {
    "step": 41,
    "agent": "db_agent",
    "module": "D3",
@@ -439,6 +499,16 @@
    "evidence": "tool book_reservation call #45: error"
   },
   {
+   "step": 46,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 0.182
+   },
+   "evidence": "argument values never given to the agent: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+  },
+  {
    "step": 47,
    "agent": "planner",
    "module": "D3",
@@ -457,10 +527,6 @@
    "n_scored": 42,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 23,
-   "n_na": 2
-  },
   "D3": {
    "tool_calls": 48,
    "utterances": 20,
@@ -472,6 +538,11 @@
   },
   "D7": {
    "n_handoffs": 18
+  },
+  "D3_args": {
+   "n_steps": 23,
+   "n_values": 149,
+   "n_ungrounded": 21
   }
  },
  "coverage": {},
@@ -483,8 +554,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

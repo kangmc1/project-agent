@@ -36,6 +36,16 @@
    "evidence": "tool get_user_details call #2: error"
   },
   {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+  },
+  {
    "step": 6,
    "agent": "planner",
    "module": "D3",
@@ -81,6 +91,16 @@
    "evidence": "tool get_user_details call #5: error, repeat"
   },
   {
+   "step": 10,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+  },
+  {
    "step": 11,
    "agent": "planner",
    "module": "D3",
@@ -122,6 +142,16 @@
    "evidence": "tool get_user_details call #11: error, repeat"
   },
   {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
+  },
+  {
    "step": 22,
    "agent": "planner",
    "module": "D3",
@@ -147,6 +177,16 @@
     "tool": "get_user_details"
    },
    "evidence": "tool get_user_details call #14: error, repeat"
+  },
+  {
+   "step": 26,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=sara_doe_496"
   },
   {
    "step": 27,
@@ -199,6 +239,16 @@
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: date=2024-10-15"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_user_details.user_id=delta_user_123"
   },
   {
    "step": 32,
@@ -293,6 +343,16 @@
    "evidence": "tool get_reservation_details call #31: error"
   },
   {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "layer": "arguments",
+   "signal": {
+    "ungrounded_ratio": 1.0
+   },
+   "evidence": "argument values never given to the agent: get_reservation_details.reservation_id=8JX2WO"
+  },
+  {
    "step": 60,
    "agent": "db_agent",
    "module": "D3",
@@ -360,10 +420,6 @@
    "n_scored": 54,
    "method": "stepwise"
   },
-  "D2": {
-   "n_utterances": 26,
-   "n_na": 8
-  },
   "D3": {
    "tool_calls": 41,
    "utterances": 6,
@@ -375,6 +431,11 @@
   },
   "D7": {
    "n_handoffs": 24
+  },
+  "D3_args": {
+   "n_steps": 15,
+   "n_values": 26,
+   "n_ungrounded": 6
   }
  },
  "coverage": {},
@@ -386,8 +447,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }

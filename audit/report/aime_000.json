@@ -3,16 +3,6 @@
   {
    "step": 2,
    "agent": "solver",
-   "module": "D2",
-   "signal": {
-    "s": 0.0,
-    "unsupported": 1.0
-   },
-   "evidence": "values not found in any prior tool result: r + 2, r + 9, t - 1, t - 2, m/n"
-  },
-  {
-   "step": 2,
-   "agent": "solver",
    "module": "D3",
    "signal": {
     "satisfied": false
@@ -31,40 +21,17 @@
   {
    "step": 5,
    "agent": "verifier",
-   "module": "D2",
-   "signal": {
-    "s": 0.4,
-    "unsupported": 0.6
-   },
-   "evidence": "values not found in any prior tool result: x + 2, x + 9, t - 1, t - 2, m/n"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
    "module": "D3",
    "signal": {
     "satisfied": false
    },
    "evidence": "claims without prior tool evidence: numeric=10, numeric=28"
-  },
-  {
-   "step": 5,
-   "agent": "verifier",
-   "module": "D9",
-   "signal": {
-    "consistency": 0.06666666666666667
-   },
-   "evidence": "false equations: {'step_id': 5, 'expr': 'x * t == (x + 2) * (t - 1)'}; {'step_id': 5, 'expr': 'x * t == (x + 9) * (t - 2)'}; {'step_id': 5, 'expr': 'x == 2 * t - 2'}"
   }
  ],
  "per_module_summary": {
   "D1": {
    "n_scored": 8,
    "method": "stepwise"
-  },
-  "D2": {
-   "n_utterances": 5,
-   "n_na": 0
   },
   "D3": {
    "tool_calls": 5,
@@ -74,8 +41,10 @@
   "D7": {
    "n_handoffs": 4
   },
-  "D9": {
-   "n_steps": 5
+  "D3_args": {
+   "n_steps": 3,
+   "n_values": 5,
+   "n_ungrounded": 0
   }
  },
  "coverage": {},
@@ -87,8 +56,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D2": 0.5555555555555556,
   "D7": 1.0,
-  "D9": 0.9333333333333333
+  "D3_args": "any ungrounded value"
  }
 }
