@@ -1,3 +1,5 @@
+> **상태(2026-09-08 15:45)**: 방향 확정 전 작성. 정의와 스키마는 유효하며 `docs/proposal.md`에서 인용. 연구 주장은 `proposal.md`가 대체함.
+
 # Handoff 계약 스키마와 실패 분류체계 (v1, 2026-09-08)
 
 ## 0. 데이터에서 확인한 handoff의 두 유형 (TraceElephant / Magentic-One, 91 runs)
