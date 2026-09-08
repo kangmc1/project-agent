@@ -22,7 +22,7 @@ from pathlib import Path
 
 import numpy as np
 
-from .labels import (AUX_AGENTS, derive_step_classes, labeled_run_ids, load_index, load_label,
+from .labels import (derive_step_classes, labeled_run_ids, load_index, load_label,
                      load_steps, non_aux_steps, role_of)
 
 D3_CHECKS = ("error", "empty", "repeat", "schema", "ignored")

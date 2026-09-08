@@ -11,7 +11,7 @@ compared for each handoff:
   in what the planner does immediately after (its next step's response.content plus its next tool call's arguments,
   e.g. what it tells the user via respond_to_user).
 
-missing/added/altered are key-level diffs (normalized-value equality); fidelity = |A intersect B, equal| / |A|.
+missing/added are VALUE-level diffs (normalized, containment-tolerant); altered = same key, different value; fidelity = |A values present in B| / |A values|.
 
 Output: audit/d7.jsonl (two rows per handoff).  --stats also writes audit/d7_stats.json.
 Usage: python -m src.audit.d7 [--runs runs] [--run-id ID] [--stats] [--out audit/d7.jsonl]
@@ -111,11 +111,18 @@ def _find_planner_step_id(planner_calls: list[tuple[int, str, dict | None]], too
 
 
 def _diff(a: dict, b: dict) -> tuple[list[str], list[str], list[str], float | None]:
-    missing = sorted(k for k in a if k not in b)
-    added = sorted(k for k in b if k not in a)
-    altered = sorted(k for k in a if k in b and _norm(a[k]) != _norm(b[k]))
-    equal = sum(1 for k in a if k in b and _norm(a[k]) == _norm(b[k]))
-    fidelity = (equal / len(a)) if a else None
+    # value-level comparison (robust to key-naming drift of the 8B extractor): a fact survives the boundary if its
+    # normalized value appears in (or contains) any value on the other side.
+    def _vals(d):
+        return {_norm(v) for v in d.values() if v and _norm(v)}
+    av, bv = _vals(a), _vals(b)
+    def _present(v, pool):
+        return any(v == w or (len(v) >= 3 and (v in w or w in v)) for w in pool)
+    missing = sorted(v for v in av if not _present(v, bv))
+    added = sorted(v for v in bv if not _present(v, av))
+    altered = sorted(k for k in a if k in b and _norm(a[k]) != _norm(b[k]) and not _present(_norm(a[k]), bv))
+    equal = sum(1 for v in av if _present(v, bv))
+    fidelity = (equal / len(av)) if av else None
     return missing, added, altered, fidelity
 
 

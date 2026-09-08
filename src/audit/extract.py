@@ -186,13 +186,14 @@ def extract_claims(text: str) -> list[dict]:
 
 
 _ATOMIC_FACTS_SCHEMA = (
-    "Return a single flat JSON object mapping normalized snake_case keys to string values, one entry per atomic "
-    "fact EXPLICITLY STATED in the text below. Prefer the most specific applicable key name from this vocabulary "
-    "when it applies: reservation_id, total, cabin, passenger, date, flight, verdict, answer. If several facts "
-    "share a concept (e.g. two flights), disambiguate with numeric suffixes (flight_1, flight_2). Every value "
-    "must be a plain string (numbers written as strings too). Do NOT invent a key for a concept that is only "
-    "asked about, requested, or referenced without an accompanying value actually given in the text -- only "
-    "include a key if the text states its value."
+    "Return a single flat JSON object of atomic facts EXPLICITLY STATED in the text below. Each key is a short "
+    "snake_case name that YOU derive from the text to describe what the value is (examples of the style only: "
+    "user_id, origin_city, destination_city, departure_date, cabin_class, flight_number, total_price, refund_amount, "
+    "baggage_count, verdict, final_answer, distance_miles, value_of_x). Include EVERY identifier, code, number, "
+    "amount, date, time, name, cabin, verdict and final answer that the text states; values are short verbatim strings "
+    "(numbers as strings). Use numeric suffixes for repeated concepts (flight_number_1, flight_number_2). Do NOT "
+    "include anything that is only asked about, requested, or missing -- only facts whose value is given in the text. "
+    "Never reuse a key name from these examples unless the text actually contains that fact."
 )
 
 
