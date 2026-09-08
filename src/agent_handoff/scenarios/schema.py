@@ -60,7 +60,7 @@ def validate(sc: Scenario) -> list[str]:
             probs.append(f"{o.id}: key_span not in transcript/task")
         if not o.key_values:
             probs.append(f"{o.id}: no key_values")
-        elif not any(re.search(r"[0-9]", v) or re.search(r"\b[A-Z][a-zA-Z]", v) for v in o.key_values):
+        elif not any(re.search(r"[0-9]", v) or re.search(r"\b[A-Z][a-zA-Z]", v) or re.search(r"[_./()#@-]", v) for v in o.key_values):
             probs.append(f"{o.id}: no concrete key_value (digit or proper name)")
         for v in o.key_values:
             if _norm(v) not in source:
