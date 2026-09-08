@@ -64,7 +64,16 @@
 3. 워크플로우 엔진 + 그리드 러너 (`workflow/`, `scripts/run_workflow.py`)
 4. 체인 스트레스(압축만 K회 반복) (`chain/stress.py`, `scripts/run_stress.py`)
 5. 집계·프로브 (`eval/`)
-6. 로그 계약(D6): 경계 전후 문맥, 도구 호출+원시 결과, 행동 선언+영수증(D1).
+6. 로그 계약(D6) — 워크플로우가 남기는 기록 스키마가 곧 제품 요구사항:
+```
+round      : r, state_id, 대화록 단어 수
+action     : next_agent, action_type, target, instruction, p(선택지별), entropy
+report     : agent, 보고 원문, 날조 후보 값, Verifier 판정
+tool_call  : (도구가 있는 시스템) 도구명, 인자, 원시 결과 전문, 영수증 id   ← 문맥에서 지워도 로그에는 남김
+compression: 전 상태, 후 상태, 포맷, 단어 수, 정책 JSD, (실험에서만) 의무 생존
+final      : 최종 답, 제약·금지·날조 검사
+```
+   실험에서는 JSONL 한 줄/실행이면 충분하고, 프로브는 이 기록에서 학습한다. 시스템마다 에이전트·도구가 다르면 "역할 유형 → 에이전트" 매핑을 레지스트리로 두어 프로브의 역할 슬롯을 재사용한다.
 
 ## 4. 결과 및 평가 (Evaluation & Expected Impact)
 ### 4.1 평가 설계
