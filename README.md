@@ -27,3 +27,10 @@ pip install -e ".[dev]"
 ```
 
 LLM judge uses any OpenAI-compatible endpoint. Default: local vLLM serving Qwen3-8B on port 18001 (see `configs/judge.yaml`).
+
+Start the local judge (GPU 1, port 18001) and verify:
+
+```bash
+bash scripts/start_vllm.sh &      # requires an env with vllm (here: conda env `math_infer`)
+python scripts/smoke_judge.py     # prints JUDGE SMOKE OK
+```

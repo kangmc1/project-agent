@@ -1,5 +1,5 @@
 # LLM judge backend (OpenAI-compatible). Local vLLM by default; no external API key required.
-base_url: "http://localhost:18001/v1"
+base_url: "http://localhost:18001/v1"   # local vLLM (CUDA_VISIBLE_DEVICES=1)
 api_key: "EMPTY"
 model: "qwen3-8b"
 temperature: 0.0
