@@ -48,6 +48,9 @@
 - 압축 k회 뒤 생존율 S(k) = preserved 비율, 반감 압축 횟수 k½, 승격율, 최종 답의 제약 보존·금지 위반·날조율, Verifier REVISE율, 토큰.
 - 판정은 심어 둔 항목의 존재(닫힌 질문)이므로 judge 불필요 → 탐지기 신뢰도 문제를 우회.
 
+### 3.3b 두 설정: 고정 task와 task 미지
+본 실험은 과제와 팀 구성이 고정된 설정이다. 과제 유형을 모르는 설정에서는 시작 시 오케스트레이터가 카탈로그에서 에이전트·스킬 후보군을 선정하고 카탈로그 문구를 문맥에서 제거하는 **B0 선정 handoff**가 추가된다(Captain-Agent의 팀 구성, tool search, Copilot Studio의 분할과 대응). B0에서 필요한 능력이 빠지면 실행 중 복구가 불가능하므로 B3와 같은 종류의 경계이며, 시나리오에 required_capability를 심어 선정 손실률로 측정한다(확장 실험). 실행 중 행동 공간이 고정되므로 §3.5의 분포·프로브가 그대로 적용된다. 이는 §1의 "task-specific / task 판단 모듈 / general" 구분에 대응한다: 고정 task = task-specific, B0 = task 판단 모듈, 역할 슬롯 프로브 = general.
+
 ### 3.4 개입 변수
 - 가시성 (B1): shared vs summary.
 - 압축 포맷 (B3, D2): 자유 서술 vs 구조화 JSON — 키 constraints/verified_facts/open_questions/prohibitions/goal, 값 없으면 `"unverified"`/`"extraction_failed"` 명시.
