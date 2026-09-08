@@ -91,6 +91,10 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if v is not None:
             d2.scores[(r["run_id"], int(r["step_id"]))] = v
 
+    d3i = add("D3_instruction", roles=("subagent",), note="instruction->action coverage: required tool family never called in the handoff (score at the report step)")
+    for r in read_jsonl(audit / "d3_instruction.jsonl"):
+        if r.get("applicable"):
+            d3i.scores[(r["run_id"], int(r["step_id"]))] = 1.0 if r.get("satisfied") is False else 0.0
     d3 = add("D3_unsatisfied", note="any utterance at the step with satisfied=false")
     utter: dict[tuple[str, int], bool] = {}
     for r in read_jsonl(audit / "d3.jsonl"):

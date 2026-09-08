@@ -1,6 +1,6 @@
 # Percentile vs label-optimal thresholds
 
-- generated: 2026-09-09 05:26:33 KST
+- generated: 2026-09-09 05:59:36 KST
 - items: D1_1-conf, D2_unsupported, D7_report->planner, D9_1-consistency
 - percentile pool: every scored step of 62 run(s) in `runs/index.csv`, labeled or not
 - FPR / recall are always measured on labeled steps (cascade excluded); `d recall` / `d FPR` are the gaps to the label-optimal row of the same cell.

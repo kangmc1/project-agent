@@ -140,3 +140,11 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - eval/* regenerated 05:26 with D9. Reports: audit/report/ 62 traces (896 flags), audit/system_report.{md,json}.
 - proposal: §4.2.10 D9 and §4.2.12 system-report example filled; §4.3 D9 sentence; SKELETON marker removed;
   check_docs --proposal and --skeleton pass. 8B server (GPU 3) shut down 05:27; only the scoring server (GPU 4) remains.
+
+## 2026-09-09 06:02 KST — D3 rule 2 (instruction->action coverage) added, post-hoc
+- Finding: subagent no_tool = "report and return" (260/260 followed by planner); no_tool vs tool-call steps have equal label
+  error rate (32%). Question is whether requested work was done before ending. New src/audit/d3_instruction.py: regex
+  instruction -> required tool families (airline db_agent 12 families; AIME solver/verifier -> run_python), scored at the
+  handoff's report step. 260 handoffs, 217 applicable, 84 unsatisfied. Registered as D3_instruction (subagent) in metrics.
+- Step AUROC subagent: AIME 0.705 [0.61,0.80] all / 0.778 [0.61,0.94] decisive (n_pos 9); airline 0.656 / 0.467 (dec n_pos 5);
+  all 0.600 / 0.562. Attribution AIME agent-acc 0.86. Proposal §3.3, §4.2 core table, §4.2.2 rows+text, §4.3, glossary, A.14 updated.
