@@ -1,13 +1,13 @@
-# agent-failure-bench
+# handoffbench
 
-Failure-injection benchmark and step-level detector evaluation pipeline for LLM agent trajectories.
+Benchmark and detectors for failures at agent-to-agent handoffs: what gets dropped, who is responsible, and whether it snowballs into task failure.
 
 > Work in progress — take-home task (2026-09-08 ~ 09-09).
 
 ## Layout
 
 ```
-src/agentbench/
+src/handoffbench/
   env/         mock tools + task templates
   generation/  clean trajectory generator + failure injector
   detectors/   rule-based and LLM-judge detectors

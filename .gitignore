@@ -13,3 +13,6 @@ __pycache__/
 # large / generated
 results/raw/
 *.log
+
+# external datasets (downloaded, not redistributed here)
+data/external/
