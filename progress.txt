@@ -175,3 +175,8 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   system_report updated (matched sub-table = D1∩D3; recovery second series = D3_args; system report column = ungrounded-arg ratio).
 - Detector set is now D1 (decision layer), D3 (tool-call layer: rules 1-3 + log checks), D7 (handoff boundaries).
   The utterance/reasoning layer ("values right, conclusion wrong") has no detector in this study — stated as the main open item.
+- 06:55 proposal (fork): D2 and D9 removed as modules per user (06:25); argument-groundedness kept as D3 규칙 3 (d3_args.py /
+  audit/d3_args.jsonl / D3_args, numbers unchanged); §1.2, §3.3, glossary, 핵심 결과, §4.2.2–4.2.12, §4.3, 한계, §4.4, 부록 B repro
+  updated; appendix A.18 records the deletion; §4.2 renumbered (subtag 4.2.10, system report 4.2.11, AIME 보조 4.2.12).
+  The reasoning-error layer (values right, conclusion wrong) is now stated as uncovered. check_docs OK.
+- 06:45 scoring server qwen32b-score@18003 (GPU 4) shut down at user's instruction; no vLLM servers of ours remain. All D1/D3/D7 outputs final.
