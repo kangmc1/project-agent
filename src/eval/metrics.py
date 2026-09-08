@@ -91,6 +91,11 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if v is not None:
             d2.scores[(r["run_id"], int(r["step_id"]))] = v
 
+    d2a = add("D2_args", note="ungrounded ratio of identifier-like tool-call argument values at the step")
+    for r in read_jsonl(audit / "d2_args.jsonl"):
+        v = _num(r.get("ungrounded_ratio"))
+        if v is not None:
+            d2a.scores[(r["run_id"], int(r["step_id"]))] = v
     d3i = add("D3_instruction", roles=("subagent",), note="instruction->action coverage: required tool family never called in the handoff (score at the report step)")
     for r in read_jsonl(audit / "d3_instruction.jsonl"):
         if r.get("applicable"):

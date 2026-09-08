@@ -148,3 +148,12 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   handoff's report step. 260 handoffs, 217 applicable, 84 unsatisfied. Registered as D3_instruction (subagent) in metrics.
 - Step AUROC subagent: AIME 0.705 [0.61,0.80] all / 0.778 [0.61,0.94] decisive (n_pos 9); airline 0.656 / 0.467 (dec n_pos 5);
   all 0.600 / 0.562. Attribution AIME agent-acc 0.86. Proposal §3.3, §4.2 core table, §4.2.2 rows+text, §4.3, glossary, A.14 updated.
+
+## 2026-09-09 06:20 KST — D2 rule 2 (tool-call argument groundedness) added, post-hoc
+- Diagnosis: 38/49 hallucination_like subagent errors had D2 s=1.0 — fabricated values live in tool-call ARGUMENTS
+  (get_user_details(user_id='rossi_123')), not in the utterance. New src/audit/d2_args.py: identifier-like arg values
+  (reservation/user ids, flight no, ISO date w/ natural forms, money, IATA codes w/ city names, names, submit_answer answer)
+  checked against what the agent was given. 482 steps, 1,635 values, 80 ungrounded (user_id 33, airport 19, money 14, date 12).
+- Eval: subagent airline AUROC 0.677 [0.58,0.78]; flagged steps 8/10 errors (80%) vs 16% base; hallucination_like 23/29 caught;
+  recall@FPR10 subagent 0.375 at FPR 0.022. No decisive signal (n_pos 1: decisive steps are report steps). Not applicable to AIME.
+- Registered as D2_args in metrics; thresholds/subtags regenerated. Proposal §3.3, core table, §4.2.2, §4.3, glossary, A.16.
