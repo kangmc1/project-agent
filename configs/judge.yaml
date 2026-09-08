@@ -1,0 +1,7 @@
+# LLM judge backend (OpenAI-compatible). Local vLLM by default; no external API key required.
+base_url: "http://localhost:18001/v1"
+api_key: "EMPTY"
+model: "qwen3-8b"
+temperature: 0.0
+max_tokens: 2048
+enable_thinking: false

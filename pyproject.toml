@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agentbench"
+version = "0.1.0"
+description = "Failure-injection benchmark and step-level detector evaluation for LLM agent trajectories"
+requires-python = ">=3.11"
+dependencies = [
+  "pydantic>=2",
+  "openai>=1",
+  "pandas",
+  "matplotlib",
+  "pyyaml",
+  "tqdm",
+  "rich",
+  "scikit-learn",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

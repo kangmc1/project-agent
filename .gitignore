@@ -1,0 +1,15 @@
+# assignment text & local tool state (not for public repo)
+mission.md
+.omc/
+PLAN.md
+
+# python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# large / generated
+results/raw/
+*.log
