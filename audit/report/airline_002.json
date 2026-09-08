@@ -41,7 +41,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -102,7 +102,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -125,7 +125,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -160,7 +160,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -182,7 +182,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -216,7 +216,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -227,7 +227,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": true
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate"
   },
@@ -254,7 +254,7 @@
    "flagged": 7,
    "missing_tool": 7,
    "fabricated_arg": 0,
-   "tool_error": 2
+   "tool_call_failed": 0
   },
   "D7": {
    "n_handoffs": 22

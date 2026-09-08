@@ -30,7 +30,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
@@ -53,7 +53,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.date=2024-05-01, search_direct_flight.date=2024-05-01"
   },
@@ -64,7 +64,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: search_onestop_flight.date=2024-05-01, search_onestop_flight.date=2024-05-01"
   },
@@ -75,7 +75,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   },
@@ -110,7 +110,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   },
@@ -139,15 +139,26 @@
    "evidence": "action distribution: get_reservation_details 0.67, search_direct_flight 0.30, search_onestop_flight 0.02 (actual: get_reservation_details)"
   },
   {
+   "step": 47,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: get_reservation_details returned an error"
+  },
+  {
    "step": 52,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=liam_khan_123"
+   "evidence": "argument never given: get_user_details.user_id=liam_khan_123; call failed: get_user_details returned an error"
   },
   {
    "step": 53,
@@ -156,7 +167,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/get_reservation_details"
   },
@@ -203,10 +214,10 @@
   },
   "D3": {
    "n_steps": 59,
-   "flagged": 7,
+   "flagged": 8,
    "missing_tool": 4,
    "fabricated_arg": 3,
-   "tool_error": 3
+   "tool_call_failed": 2
   },
   "D7": {
    "n_handoffs": 22

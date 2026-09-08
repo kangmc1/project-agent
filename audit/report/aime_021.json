@@ -1,6 +1,17 @@
 {
  "flags": [
   {
+   "step": 2,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: run_python returned an error"
+  },
+  {
    "step": 5,
    "agent": "planner",
    "module": "D7",
@@ -61,10 +72,10 @@
   },
   "D3": {
    "n_steps": 14,
-   "flagged": 0,
+   "flagged": 1,
    "missing_tool": 0,
    "fabricated_arg": 0,
-   "tool_error": 1
+   "tool_call_failed": 1
   },
   "D7": {
    "n_handoffs": 6

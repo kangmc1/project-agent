@@ -30,9 +30,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
    "step": 9,
@@ -60,9 +60,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
    "step": 17,
@@ -71,7 +71,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
@@ -97,9 +97,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
    "step": 26,
@@ -108,9 +108,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
    "step": 30,
@@ -137,9 +137,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=delta_user_123"
+   "evidence": "argument never given: get_user_details.user_id=delta_user_123; call failed: get_user_details returned an error"
   },
   {
    "step": 38,
@@ -148,7 +148,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
@@ -171,7 +171,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
@@ -194,7 +194,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
@@ -236,9 +236,31 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_reservation_details.reservation_id=8JX2WO"
+   "evidence": "argument never given: get_reservation_details.reservation_id=8JX2WO; call failed: get_reservation_details returned an error"
+  },
+  {
+   "step": 60,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: get_user_details returned an error"
+  },
+  {
+   "step": 65,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: get_user_details returned an error"
   },
   {
    "step": 69,
@@ -260,10 +282,10 @@
   },
   "D3": {
    "n_steps": 54,
-   "flagged": 10,
+   "flagged": 12,
    "missing_tool": 4,
    "fabricated_arg": 6,
-   "tool_error": 15
+   "tool_call_failed": 8
   },
   "D7": {
    "n_handoffs": 24

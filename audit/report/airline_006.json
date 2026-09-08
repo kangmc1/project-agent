@@ -34,9 +34,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=sara_doe_496"
+   "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
    "step": 10,
@@ -45,9 +45,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; call failed: get_user_details returned an error"
   },
   {
    "step": 14,
@@ -77,9 +77,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; call failed: get_user_details returned an error"
   },
   {
    "step": 19,
@@ -123,9 +123,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; call failed: get_user_details returned an error"
   },
   {
    "step": 25,
@@ -134,9 +134,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123"
+   "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; call failed: get_user_details returned an error"
   },
   {
    "step": 26,
@@ -145,7 +145,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/get_reservation_details"
   }
@@ -160,7 +160,7 @@
    "flagged": 6,
    "missing_tool": 1,
    "fabricated_arg": 5,
-   "tool_error": 7
+   "tool_call_failed": 5
   },
   "D7": {
    "n_handoffs": 12

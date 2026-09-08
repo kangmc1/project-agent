@@ -87,9 +87,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.user_id=sara_doe_496"
+   "evidence": "argument never given: book_reservation.user_id=sara_doe_496; call failed: book_reservation returned an error"
   },
   {
    "step": 33,
@@ -98,9 +98,20 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": true
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
+  },
+  {
+   "step": 37,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
   },
   {
    "step": 38,
@@ -109,7 +120,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   },
@@ -129,13 +140,24 @@
    "evidence": "db_agent report->planner: missing ['could you please provide the date for the flight?', 'the `book_reservation` function failed because the required parameter `date` was not provided.'] altered []"
   },
   {
+   "step": 42,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
+  },
+  {
    "step": 43,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   },
@@ -156,13 +178,46 @@
    "evidence": "db_agent report->planner: missing ['aarav_ahmed_6699', 'amount parameter', 'successfully transferred to a human agent'] altered []"
   },
   {
+   "step": 47,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
+  },
+  {
+   "step": 48,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
+  },
+  {
+   "step": 49,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
+  },
+  {
    "step": 52,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   }
@@ -174,10 +229,10 @@
   },
   "D3": {
    "n_steps": 46,
-   "flagged": 5,
+   "flagged": 10,
    "missing_tool": 4,
    "fabricated_arg": 1,
-   "tool_error": 8
+   "tool_call_failed": 6
   },
   "D7": {
    "n_handoffs": 20

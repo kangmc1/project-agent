@@ -2,9 +2,9 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 5 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": true} | argument never given: get_user_details.user_id=rossi_123 |
-| 6 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": true} | required but never called: search_direct_flight/search_onestop_flight/get_reservation_details |
-| 10 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_error": true} | argument never given: get_user_details.user_id=ivan_rossi |
+| 5 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: get_user_details.user_id=rossi_123; call failed: get_user_details returned an error |
+| 6 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: search_direct_flight/search_onestop_flight/get_reservation_details |
+| 10 | db_agent | D3 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: get_user_details.user_id=ivan_rossi; call failed: get_user_details returned an error |
 
 ## Per-module summary
 ```
@@ -18,7 +18,7 @@
   "flagged": 3,
   "missing_tool": 1,
   "fabricated_arg": 2,
-  "tool_error": 3
+  "tool_call_failed": 2
  },
  "D7": {
   "n_handoffs": 4

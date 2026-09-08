@@ -30,7 +30,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=PDX"
   },
@@ -41,7 +41,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
   },
@@ -52,9 +52,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; call failed: book_reservation returned an error"
   },
   {
    "step": 29,
@@ -75,9 +75,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; call failed: book_reservation returned an error"
   },
   {
    "step": 31,
@@ -140,9 +140,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; call failed: book_reservation returned an error"
   },
   {
    "step": 37,
@@ -174,7 +174,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=LAX"
   },
@@ -214,9 +214,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890"
+   "evidence": "argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; call failed: book_reservation returned an error"
   }
  ],
  "per_module_summary": {
@@ -229,7 +229,7 @@
    "flagged": 7,
    "missing_tool": 0,
    "fabricated_arg": 7,
-   "tool_error": 9
+   "tool_call_failed": 4
   },
   "D7": {
    "n_handoffs": 18

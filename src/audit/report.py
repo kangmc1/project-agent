@@ -55,14 +55,14 @@ def build(percentile: int = 10) -> dict[str, dict]:
                                  "evidence": f"delegate-vs-not split p_delegate={r['layer2']['p_delegate']:.2f}"})
     for r in d3f:  # D3 procedural: required tool never called / fabricated argument / tool returned error
         rep = reports[r["run_id"]]
-        s = rep["per_module_summary"].setdefault("D3", {"n_steps": 0, "flagged": 0, "missing_tool": 0, "fabricated_arg": 0, "tool_error": 0})
+        s = rep["per_module_summary"].setdefault("D3", {"n_steps": 0, "flagged": 0, "missing_tool": 0, "fabricated_arg": 0, "tool_call_failed": 0})
         s["n_steps"] += 1
-        for key in ("missing_tool", "fabricated_arg", "tool_error"):
+        for key in ("missing_tool", "fabricated_arg", "tool_call_failed"):
             s[key] += int(bool(r.get(key)))
         if r.get("d3"):
             s["flagged"] += 1
             rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D3",
-                                 "signal": {k: bool(r.get(k)) for k in ("missing_tool", "fabricated_arg", "tool_error")},
+                                 "signal": {k: bool(r.get(k)) for k in ("missing_tool", "fabricated_arg", "tool_call_failed")},
                                  "evidence": "; ".join(r.get("evidence") or [])[:400]})
     for r in d7:
         rep = reports[r["run_id"]]

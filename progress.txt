@@ -214,3 +214,11 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   regex-fix disclosure and the two rejected variants), §4.2.3–4.2.12, §4.3, 한계, A.19 rewritten; D2 restored as 설계만·결과
   미사용 in §3.3 (diagram 발언 층 row + paragraph), 한계 bullet with the 8B pilot numbers, A.20 added. any-flag ratio dropped
   from §4.2.10 (D3 p90 threshold degenerates to 0 → 172/172 artifact). check_docs --proposal/--skeleton OK; table columns consistent.
+
+## 2026-09-09 07:55 KST — D3 final definition (user): (1) ∪ (2) ∪ (3′) = "action grounding"
+- User: "D3는 (1), (2), (3') 다 쓰는걸로 가자". (3′) = tool call returned an error, excluding file tools (first read_file of the
+  not-yet-created case-notes file fails by design) and wrapper rows. Also user-approved framing: D3 = 행동 근거성 — "이 행동
+  (도구 호출)은 기록이 요구하고 허용한 것인가"; D2 = 발언 근거성 (LLM, design only). Module identity table added to §3.3.
+- Airline subagent (48 pos / 190 neg): recall 0.48 (23/48), FPR 0.07 (14/190), precision 0.62, decisive 2/8,
+  AUROC 0.703 [0.625, 0.778]. Flags 166/1,296 (missing_tool 64, fabricated_arg 52, tool_call_failed 82). (3′) alone:
+  precision 0.93, FPR 0.01. AIME (suppl.): AUROC 0.667, recall 0.42, FPR 0.08, precision 0.91, decisive 5/21.

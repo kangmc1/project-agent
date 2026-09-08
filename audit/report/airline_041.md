@@ -16,7 +16,7 @@
   "flagged": 0,
   "missing_tool": 0,
   "fabricated_arg": 0,
-  "tool_error": 0
+  "tool_call_failed": 0
  },
  "D7": {
   "n_handoffs": 6

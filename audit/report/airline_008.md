@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 4 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: send_certificate |
+| 4 | db_agent | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: send_certificate |
 
 ## Per-module summary
 ```
@@ -16,7 +16,7 @@
   "flagged": 1,
   "missing_tool": 1,
   "fabricated_arg": 0,
-  "tool_error": 0
+  "tool_call_failed": 0
  },
  "D7": {
   "n_handoffs": 2

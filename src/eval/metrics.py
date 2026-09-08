@@ -83,7 +83,7 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if role == "planner" and h2 is not None:
             d1_hand.scores[k] = h2
 
-    d3 = add("D3", note="procedural tool-use failure (user definition): 1 if required tool never called OR fabricated argument, else 0 (every non-aux step)")
+    d3 = add("D3", note="action grounding (user definition): 1 if required tool never called OR fabricated argument OR tool call failed (excl. file/wrapper), else 0 (every non-aux step)")
     for r in read_jsonl(audit / "d3_final.jsonl"):
         d3.scores[(r["run_id"], int(r["step_id"]))] = float(r.get("d3", 0))
 

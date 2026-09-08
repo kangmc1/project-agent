@@ -19,7 +19,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: policy_checker.user_id=amelia_rossi_1247"
   },
@@ -69,7 +69,7 @@
    "flagged": 1,
    "missing_tool": 0,
    "fabricated_arg": 1,
-   "tool_error": 1
+   "tool_call_failed": 0
   },
   "D7": {
    "n_handoffs": 12

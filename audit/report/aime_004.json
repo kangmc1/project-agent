@@ -30,7 +30,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: run_python"
   }
@@ -45,7 +45,7 @@
    "flagged": 1,
    "missing_tool": 1,
    "fabricated_arg": 0,
-   "tool_error": 0
+   "tool_call_failed": 0
   },
   "D7": {
    "n_handoffs": 6

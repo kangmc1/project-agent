@@ -43,7 +43,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   },
@@ -54,9 +54,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: update_reservation_flights.user_id=credit_card_7334"
+   "evidence": "argument never given: update_reservation_flights.user_id=credit_card_7334; call failed: update_reservation_flights returned an error"
   },
   {
    "step": 27,
@@ -93,7 +93,7 @@
    "flagged": 2,
    "missing_tool": 1,
    "fabricated_arg": 1,
-   "tool_error": 1
+   "tool_call_failed": 1
   },
   "D7": {
    "n_handoffs": 10

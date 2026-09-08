@@ -53,13 +53,24 @@
    "evidence": "action distribution: get_reservation_details 0.55, calculate 0.34, no_tool 0.09 (actual: get_reservation_details)"
   },
   {
+   "step": 20,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: get_reservation_details returned an error; call failed: get_reservation_details returned an error"
+  },
+  {
    "step": 23,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": true
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate"
   },
@@ -104,7 +115,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate"
   },
@@ -121,13 +132,24 @@
    "evidence": "action distribution: db_agent 0.68, policy_checker 0.32, no_tool 0.00 (actual: db_agent)"
   },
   {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: update_reservation_baggages returned an error"
+  },
+  {
    "step": 40,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
   },
@@ -138,7 +160,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: respond_to_user.money=539"
   },
@@ -232,10 +254,10 @@
   },
   "D3": {
    "n_steps": 43,
-   "flagged": 4,
+   "flagged": 6,
    "missing_tool": 3,
    "fabricated_arg": 1,
-   "tool_error": 4
+   "tool_call_failed": 2
   },
   "D7": {
    "n_handoffs": 18

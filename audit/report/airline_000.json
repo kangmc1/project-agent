@@ -18,7 +18,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: respond_to_user.money=204, respond_to_user.money=255, respond_to_user.money=261"
   },
@@ -47,9 +47,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.user_id=mia_li_123, book_reservation.airport=SFO"
+   "evidence": "argument never given: book_reservation.user_id=mia_li_123, book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
    "step": 22,
@@ -58,9 +58,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.airport=SFO"
+   "evidence": "argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
    "step": 39,
@@ -69,7 +69,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: respond_to_user.money=261, respond_to_user.money=255"
   },
@@ -80,9 +80,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.airport=SFO"
+   "evidence": "argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
    "step": 43,
@@ -149,7 +149,7 @@
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
@@ -176,7 +176,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: respond_to_user.money=234, respond_to_user.money=242, respond_to_user.money=315, respond_to_user.money=301"
   },
@@ -187,9 +187,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.airport=SFO"
+   "evidence": "argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
    "step": 80,
@@ -198,7 +198,7 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "argument never given: respond_to_user.money=234, respond_to_user.money=242"
   },
@@ -209,9 +209,9 @@
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
-    "tool_error": true
+    "tool_call_failed": true
    },
-   "evidence": "argument never given: book_reservation.airport=SFO"
+   "evidence": "argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
    "step": 87,
@@ -230,6 +230,17 @@
     "altered": []
    },
    "evidence": "db_agent report->planner: missing ['credit_card_7815826', 'failed', 'hat218 + hat039'] altered []"
+  },
+  {
+   "step": 88,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
   },
   {
    "step": 92,
@@ -285,13 +296,35 @@
    "evidence": "action distribution: book_reservation 0.81, get_reservation_details 0.11, no_tool 0.08 (actual: book_reservation)"
   },
   {
+   "step": 94,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
+  },
+  {
+   "step": 95,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": true
+   },
+   "evidence": "call failed: book_reservation returned an error"
+  },
+  {
    "step": 96,
    "agent": "db_agent",
    "module": "D3",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
-    "tool_error": false
+    "tool_call_failed": false
    },
    "evidence": "required but never called: send_certificate"
   },
@@ -315,10 +348,10 @@
   },
   "D3": {
    "n_steps": 80,
-   "flagged": 11,
+   "flagged": 14,
    "missing_tool": 2,
    "fabricated_arg": 9,
-   "tool_error": 15
+   "tool_call_failed": 8
   },
   "D7": {
    "n_handoffs": 36

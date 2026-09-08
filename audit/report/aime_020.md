@@ -7,7 +7,7 @@
 | 7 | planner | D1/tool | {"confidence": 0.612, "p_actual": 0.608, "margin": 0.22} | action distribution: solver 0.61, no_tool 0.39, submit_answer 0.00 (actual: solver) |
 | 7 | planner | D1/handoff | {"p_delegate": 0.608, "H2": 0.966} | delegate-vs-not split p_delegate=0.61 |
 | 7 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["15 = (r - 4) * (b - 2)", "15 = (r - 4) * (n - r - 2)", "32 52 72 92 112", "360", "4"], "altered": []} | solver report->planner: missing ['15 = (r - 4) * (b - 2)', '15 = (r - 4) * (n - r - 2)', '32 52 72 92 112'] altered [] |
-| 8 | solver | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_error": false} | required but never called: run_python |
+| 8 | solver | D3 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary
 ```
@@ -21,7 +21,7 @@
   "flagged": 1,
   "missing_tool": 1,
   "fabricated_arg": 0,
-  "tool_error": 0
+  "tool_call_failed": 0
  },
  "D7": {
   "n_handoffs": 6
