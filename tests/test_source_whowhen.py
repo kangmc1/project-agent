@@ -33,4 +33,14 @@ def test_parse_whowhen_candidates():
         ]
         assert len(worker_msgs) >= 2
 
-        assert _default_count_tokens(context_to_text(b.context)) <= 6000
+        n_tokens = _default_count_tokens(context_to_text(b.context))
+        if n_tokens > 6000:
+            # Truncation drops messages until it fits, but it never drops the
+            # first 'human' message, the first 'Orchestrator (thought)' plan,
+            # or the >=2 worker replies required for the boundary to be a
+            # candidate at all. When those alone exceed the cap (e.g. a huge
+            # embedded table in the initial plan), nothing more can be
+            # dropped -- that shows up here as an irreducibly small context.
+            assert len(b.context) <= 4, (
+                f"{b.id}: {n_tokens} tokens over cap with droppable content still present"
+            )

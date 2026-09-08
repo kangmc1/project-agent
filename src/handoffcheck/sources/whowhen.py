@@ -42,7 +42,11 @@ def _truncate_context(
 
     Always keeps the first 'human' message and the first 'Orchestrator (thought)'
     message (the initial plan), dropping the oldest of the remaining messages
-    until the cap is satisfied (or nothing more can be dropped).
+    until the cap is satisfied (or nothing more can be dropped). The most
+    recent worker replies (up to `_MIN_WORKER_MSGS_BEFORE`) are protected the
+    same way, since a candidate is only ever created when that many worker
+    replies precede the handoff -- truncation must not silently erase the
+    very messages that made the boundary a candidate in the first place.
     """
 
     def fits(ctx: list[dict]) -> bool:
@@ -53,7 +57,9 @@ def _truncate_context(
 
     human_idx = next((i for i, m in enumerate(context) if m.get("role") == "human"), None)
     plan_idx = next((i for i, m in enumerate(context) if m.get("role") == "Orchestrator (thought)"), None)
-    kept = {i for i in (human_idx, plan_idx) if i is not None}
+    worker_idxs = [i for i, m in enumerate(context) if _is_worker_reply(m.get("role") or "")]
+    protected_worker_idxs = worker_idxs[-_MIN_WORKER_MSGS_BEFORE:]
+    kept = {i for i in (human_idx, plan_idx) if i is not None} | set(protected_worker_idxs)
     rest = [i for i in range(len(context)) if i not in kept]
 
     dropped = 0
