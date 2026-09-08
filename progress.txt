@@ -1,3 +1,6 @@
+# NOTE (machine clock 07:38 KST): the "KST" times in entries from ~05:30 onward were typed from memory and run up to ~55 min AHEAD of the
+# machine clock (e.g. the "08:20" renumbering entry = commit 5a50f57 at 07:27). Use `git log --date=format:%H:%M` for exact times.
+
 # NOTE (2026-09-09 08:25 KST): module numbering was changed at 08:15 — D1 결정 분포, D2 행동 근거성 (entries below written before 08:15 call it D3),
 # D3 handoff 충실도 (below: D7), D4 근거 의존 판정, design only (below: D2 utterance grounding / D2 judge). D9 was deleted.
 # This file is a chronological working log and is NOT rewritten; docs/proposal.md, README and eval outputs use the new numbering only.
