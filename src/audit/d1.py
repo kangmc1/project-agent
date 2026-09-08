@@ -105,11 +105,18 @@ def iter_decisions(runs_dir: Path, batch: int | None = None):
             yield {"run_id": run.name, "domain": meta.get("domain", run.name.split("_")[0]), "batch": meta.get("batch"),
                    "step_id": r["step_id"], "agent": r["agent"], "role": "planner" if r["agent"] == "planner" else "subagent",
                    "messages": r["request"]["messages"], "tools": tools, "A": names + ["no_tool"], "actual": actual,
-                   "gen_logprobs": (r["response"].get("logprobs") or {}).get("content"), "A_used": sorted(used | {"no_tool"})}
+                   "gen_logprobs": (r["response"].get("logprobs") or {}).get("content"),
+                   "content": r["response"].get("content"), "A_used": sorted(used | {"no_tool"})}
 
 
 def decision_prefix(dp: dict) -> tuple[list[int], int, list[int] | None]:
-    """(prefix_ids at the decision position, offset = #generated tokens before <tool_call>, gen_ids or None)."""
+    """(prefix_ids at the decision position, offset = #generated tokens before <tool_call>, gen_ids or None).
+
+    The decision position is right before <tool_call>; any text the model generated first is part of the context.
+    The exact token ids come from the run-time `logprobs` record (vLLM 0.9.2's only token-id channel; default on via
+    EXEC_RECORD_TOKENS). If a run was made without it, the recorded `content` is re-tokenized: it equals the generated
+    text byte-for-byte (471/471 checked) and re-encodes to the identical token ids in 99.2% of cases (467/471).
+    """
     tok = tokenizer()
     prefix = encode(render_text(dp["messages"], dp["tools"]))
     gen = dp.get("gen_logprobs")
@@ -120,7 +127,40 @@ def decision_prefix(dp: dict) -> tuple[list[int], int, list[int] | None]:
         if dp["actual"] != "no_tool" and TOOL_CALL_ID in gen_ids:
             offset = gen_ids.index(TOOL_CALL_ID)
             prefix = prefix + gen_ids[:offset]
+    elif dp["actual"] != "no_tool" and dp.get("content"):
+        pre = encode(dp["content"])
+        offset = len(pre)
+        prefix = prefix + pre
     return prefix, offset, gen_ids
+
+
+def _edge_logp(prompt: list[int], t: int) -> float:
+    d = _post({"prompt": prompt, "max_tokens": 1, "logprobs": 1, "allowed_token_ids": [t]})
+    return float(d["choices"][0]["logprobs"]["token_logprobs"][0])
+
+
+def stepwise_shared(prefix: list[int], cands: dict[str, list[int]]) -> dict[str, float]:
+    """Decode-path teacher-forced logp for every candidate, sharing calls on common token prefixes (trie).
+
+    Each remaining call is byte-identical to the unshared stepwise_logp call for that (prompt, token) pair, so the
+    values are the same; only duplicates are removed. The root edge (<tool_call>) doubles as the no_tool probability.
+    """
+    cache: dict[tuple[int, ...], float] = {}
+    out: dict[str, float] = {}
+    for name, c in cands.items():
+        total = 0.0
+        for i, t in enumerate(c):
+            key = tuple(c[: i + 1])
+            if key not in cache:
+                cache[key] = _edge_logp(prefix + c[:i], t)
+            total += cache[key]
+        out[name] = total
+    root = cache.get((TOOL_CALL_ID,))
+    if root is None:
+        root = _edge_logp(prefix, TOOL_CALL_ID)
+    p = min(math.exp(root), 1 - 1e-9)
+    out["no_tool"] = math.log(max(1 - p, 1e-12))
+    return out
 
 
 def score_decision(dp: dict, method: str) -> tuple[dict | None, str | None]:
@@ -131,12 +171,16 @@ def score_decision(dp: dict, method: str) -> tuple[dict | None, str | None]:
     names = list(dp["A"])
     if dp["actual"] not in names:  # the model called a tool it was not given (hallucinated tool name) -> score it too
         names.append(dp["actual"])
-    for a in names:
-        if a == "no_tool":
-            logps[a] = no_tool_logp(prefix)
-        else:
-            c = cand_ids(a)
-            logps[a] = method2_logp(prefix, c) if method == "m2" else stepwise_logp(prefix, c)
+    if method == "stepwise":
+        logps = stepwise_shared(prefix, {a: cand_ids(a) for a in names if a != "no_tool"})
+        if "no_tool" not in names:
+            logps.pop("no_tool")
+    else:
+        for a in names:
+            if a == "no_tool":
+                logps[a] = no_tool_logp(prefix)
+            else:
+                logps[a] = method2_logp(prefix, cand_ids(a))
     rec = finalize(dp, logps, method)
     rec["decision_offset"] = offset
     rec["actual_not_in_A"] = dp["actual"] not in dp["A"]

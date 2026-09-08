@@ -1,0 +1,109 @@
+{
+  "n_traces": 30,
+  "n_decisions": 579,
+  "n_scored": 579,
+  "unscored": {},
+  "offset_gt0_ratio": 0.37132987910189985,
+  "i_template_check": {
+    "n": 436,
+    "aligned_ratio": 1.0,
+    "ratio_within_0.1": 0.9495412844036697,
+    "examples": [
+      {
+        "aligned": true,
+        "offset": 0,
+        "gen_logp": -0.00013040719698409475,
+        "scored_logp": -0.00012146757017461596,
+        "abs_diff": 8.939626809478796e-06
+      },
+      {
+        "aligned": true,
+        "offset": 868,
+        "gen_logp": -0.4524152269477426,
+        "scored_logp": -0.41600638527412315,
+        "abs_diff": 0.03640884167361946
+      },
+      {
+        "aligned": true,
+        "offset": 0,
+        "gen_logp": -0.00013350581786397697,
+        "scored_logp": -0.0001460210762544989,
+        "abs_diff": 1.2515258390521922e-05
+      }
+    ]
+  },
+  "ii_equivalence": {
+    "criterion": "max over candidates |p_stepwise - p_m2| <= 0.01 per decision point",
+    "n_decision_points": 100,
+    "ratio_within_0.01": 0.62,
+    "ratio_within_0.05": 0.8,
+    "max_abs_dp": 0.1653955956793388,
+    "max_d_confidence": 0.09237083081820785,
+    "logp_level": {
+      "n_pairs": 819,
+      "ratio_within_0.01": 0.1623931623931624,
+      "ratio_within_0.15": 0.5421245421245421,
+      "max_abs_diff": 1.063356840933693,
+      "note": "bf16 logit quantization (prefill vs decode rounding) — distribution level is the meaningful criterion"
+    },
+    "examples": [
+      {
+        "run_id": "airline_010",
+        "step_id": 35,
+        "role": "subagent",
+        "max_abs_dp": 0.1653955956793388,
+        "d_confidence": 0.03529876161599832,
+        "d_p_actual": 0.16526829085579553
+      },
+      {
+        "run_id": "airline_010",
+        "step_id": 29,
+        "role": "subagent",
+        "max_abs_dp": 0.1653955389235014,
+        "d_confidence": 0.03529903336708151,
+        "d_p_actual": 0.1652683637967144
+      },
+      {
+        "run_id": "aime_002",
+        "step_id": 36,
+        "role": "planner",
+        "max_abs_dp": 0.14635049110345655,
+        "d_confidence": 0.09237083081820785,
+        "d_p_actual": 0.14635049110345655
+      },
+      {
+        "run_id": "airline_002",
+        "step_id": 48,
+        "role": "planner",
+        "max_abs_dp": 0.12248399721374953,
+        "d_confidence": 0.005630746626868688,
+        "d_p_actual": 0.12248399721374953
+      },
+      {
+        "run_id": "airline_010",
+        "step_id": 32,
+        "role": "subagent",
+        "max_abs_dp": 0.11476153861319338,
+        "d_confidence": 0.008822453945039443,
+        "d_p_actual": 0.11476153861319338
+      }
+    ]
+  },
+  "iii_distribution": {
+    "confidence_sigma": 0.13613670671750225,
+    "confidence_gt_0.99_ratio": 0.6027633851468048,
+    "confidence_T2_gt_0.99_ratio": 0.14162348877374784,
+    "degenerate": false,
+    "margin_quantiles": [
+      0.954758727443044,
+      0.998768535477018,
+      0.999926608427686
+    ]
+  },
+  "iv_throughput": {
+    "seconds": 2598.411865711212,
+    "decisions_per_sec": 0.2228284159414896,
+    "prefix_cache_hit_rate": 0.995282141248717
+  },
+  "policy": "m2_batch1_planner_only"
+}

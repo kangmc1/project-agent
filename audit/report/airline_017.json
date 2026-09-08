@@ -1,0 +1,415 @@
+{
+ "flags": [
+  {
+   "step": 4,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.637,
+    "p_actual": 0.721,
+    "margin": 0.456
+   },
+   "evidence": "action distribution: db_agent 0.72, respond_to_user 0.27, policy_checker 0.01 (actual: db_agent)"
+  },
+  {
+   "step": 4,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.734,
+    "H2": 0.835
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.73"
+  },
+  {
+   "step": 12,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: May 24, 2024, No direct flights were found"
+  },
+  {
+   "step": 13,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT286, reservation_id=HAT112, reservation_id=HAT047, reservation_id=HAT190"
+  },
+  {
+   "step": 17,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.477,
+    "p_actual": 0.37,
+    "margin": 0.146
+   },
+   "evidence": "action distribution: search_direct_flight 0.37, book_reservation 0.22, get_reservation_details 0.22 (actual: search_direct_flight)"
+  },
+  {
+   "step": 17,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 19,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 21,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.557,
+    "p_actual": 0.55,
+    "margin": 0.121
+   },
+   "evidence": "action distribution: read_file 0.55, respond_to_user 0.43, policy_checker 0.01 (actual: read_file)"
+  },
+  {
+   "step": 25,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.621,
+    "p_actual": 0.409,
+    "margin": 0.019
+   },
+   "evidence": "action distribution: no_tool 0.43, search_direct_flight 0.41, get_reservation_details 0.15 (actual: search_direct_flight)"
+  },
+  {
+   "step": 25,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 26,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047, money=121"
+  },
+  {
+   "step": 30,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #22: repeat"
+  },
+  {
+   "step": 30,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: money=100"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_onestop_flight"
+   },
+   "evidence": "tool search_onestop_flight call #23: repeat"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: money=100"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT286, reservation_id=HAT112, reservation_id=HAT047, reservation_id=HAT190, money=120"
+  },
+  {
+   "step": 36,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.69,
+    "p_actual": 0.419,
+    "margin": 0.119
+   },
+   "evidence": "action distribution: get_reservation_details 0.54, calculate 0.42, think 0.02 (actual: calculate)"
+  },
+  {
+   "step": 36,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 37,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT047"
+  },
+  {
+   "step": 41,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: money=100"
+  },
+  {
+   "step": 43,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT286, reservation_id=HAT112, reservation_id=HAT047, reservation_id=HAT190, money=938"
+  },
+  {
+   "step": 47,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.734,
+    "p_actual": 0.674,
+    "margin": 0.377
+   },
+   "evidence": "action distribution: get_reservation_details 0.67, search_direct_flight 0.30, search_onestop_flight 0.02 (actual: get_reservation_details)"
+  },
+  {
+   "step": 47,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #35: error"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #36: error, ignored"
+  },
+  {
+   "step": 52,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #38: error"
+  },
+  {
+   "step": 59,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #43: repeat"
+  },
+  {
+   "step": 62,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.471,
+    "p_actual": 0.559,
+    "margin": 0.22
+   },
+   "evidence": "action distribution: db_agent 0.56, respond_to_user 0.34, write_file 0.10 (actual: db_agent)"
+  },
+  {
+   "step": 62,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.559,
+    "H2": 0.99
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.56"
+  },
+  {
+   "step": 63,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #46: repeat"
+  },
+  {
+   "step": 64,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.752,
+    "p_actual": 0.554,
+    "margin": 0.11
+   },
+   "evidence": "action distribution: search_direct_flight 0.55, no_tool 0.44, update_reservation_flights 0.00 (actual: search_direct_flight)"
+  },
+  {
+   "step": 64,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.3333333333333333,
+    "unsupported": 0.6666666666666667
+   },
+   "evidence": "values not found in any prior tool result: HAT190 (IAH to LAS), HAT047 (LAS to SEA), HAT021 (SEA to JFK), HAT279 (JFK to IAH), 3 (Liam Khan, James Kim, Aarav Lee), 1 (All free), Credit Card (ID: credit_card_7434610)"
+  },
+  {
+   "step": 65,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT112, reservation_id=HAT131"
+  },
+  {
+   "step": 67,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT121, reservation_id=HAT011, reservation_id=HAT278, reservation_id=HAT258"
+  },
+  {
+   "step": 68,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: update_passengers="
+  },
+  {
+   "step": 71,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: money=440"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 59,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 35,
+   "n_na": 1
+  },
+  "D3": {
+   "tool_calls": 52,
+   "utterances": 27,
+   "checks": {
+    "repeat": 4,
+    "error": 3,
+    "ignored": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 22
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_017",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

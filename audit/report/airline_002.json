@@ -1,0 +1,736 @@
+{
+ "flags": [
+  {
+   "step": 4,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.852,
+    "H2": 0.605
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.85"
+  },
+  {
+   "step": 7,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: next step: Check next reservation 'LQ940Q'"
+  },
+  {
+   "step": 12,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #9: error, ignored"
+  },
+  {
+   "step": 15,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.431,
+    "p_actual": 0.656,
+    "margin": 0.51
+   },
+   "evidence": "action distribution: respond_to_user 0.66, write_file 0.15, db_agent 0.15 (actual: respond_to_user)"
+  },
+  {
+   "step": 15,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.188,
+    "H2": 0.698
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.19"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #13: repeat"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #14: repeat"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #15: repeat"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #16: repeat"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #17: repeat"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.399,
+    "p_actual": 0.443,
+    "margin": 0.098
+   },
+   "evidence": "action distribution: db_agent 0.44, respond_to_user 0.34, policy_checker 0.21 (actual: db_agent)"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.652,
+    "H2": 0.932
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.65"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "/case_notes.md",
+     "successfully appended"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['/case_notes.md', 'successfully appended'] altered []"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #19: repeat"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #20: repeat"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #21: repeat"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #22: repeat"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #23: repeat"
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.708,
+    "p_actual": 0.36,
+    "margin": 0.231
+   },
+   "evidence": "action distribution: no_tool 0.59, write_file 0.36, read_file 0.05 (actual: write_file)"
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: MCO to BOS (HAT028) - Economy class price: $1859, BOS to CLT (HAT277) - Economy class price: $1679, DEN to PHL (HAT080) - Economy class price: $537, PHL to DEN (HAT076) - Economy class price: $996, DEN to MIA (HAT255) - Economy class price: $1440"
+  },
+  {
+   "step": 24,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.52,
+    "p_actual": 0.594,
+    "margin": 0.233
+   },
+   "evidence": "action distribution: respond_to_user 0.59, read_file 0.36, policy_checker 0.03 (actual: respond_to_user)"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #27: repeat"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #28: repeat"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #29: repeat"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #30: repeat"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #31: repeat"
+  },
+  {
+   "step": 31,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.504,
+    "p_actual": 0.574,
+    "margin": 0.226
+   },
+   "evidence": "action distribution: policy_checker 0.57, db_agent 0.35, respond_to_user 0.08 (actual: policy_checker)"
+  },
+  {
+   "step": 32,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.327,
+    "p_actual": 0.637,
+    "margin": 0.403
+   },
+   "evidence": "action distribution: read_file 0.64, think 0.23, no_tool 0.12 (actual: read_file)"
+  },
+  {
+   "step": 32,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #34: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #38: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #39: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #40: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #41: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #42: repeat"
+  },
+  {
+   "step": 43,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.814,
+    "H2": 0.692
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.81"
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #45: repeat"
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #46: repeat"
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #47: repeat"
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #48: repeat"
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #49: repeat"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.547,
+    "p_actual": 0.484,
+    "margin": 0.0
+   },
+   "evidence": "action distribution: policy_checker 0.48, respond_to_user 0.48, db_agent 0.03 (actual: policy_checker)"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.515,
+    "H2": 0.999
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.52"
+  },
+  {
+   "step": 49,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #54: repeat"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #55: repeat"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #56: repeat"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #57: repeat"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #58: repeat"
+  },
+  {
+   "step": 56,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "respond_to_user"
+   },
+   "evidence": "tool respond_to_user call #60: error, ignored"
+  },
+  {
+   "step": 58,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #61: repeat"
+  },
+  {
+   "step": 58,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #62: repeat"
+  },
+  {
+   "step": 58,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #63: repeat"
+  },
+  {
+   "step": 58,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #64: repeat"
+  },
+  {
+   "step": 58,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #65: repeat"
+  },
+  {
+   "step": 59,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #66: error, ignored"
+  },
+  {
+   "step": 63,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.731,
+    "p_actual": 0.896,
+    "margin": 0.801
+   },
+   "evidence": "action distribution: think 0.90, read_file 0.09, no_tool 0.01 (actual: think)"
+  },
+  {
+   "step": 63,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "empty"
+    ],
+    "tool": "think"
+   },
+   "evidence": "tool think call #68: empty"
+  },
+  {
+   "step": 63,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15"
+  },
+  {
+   "step": 64,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 55,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 31,
+   "n_na": 9
+  },
+  "D3": {
+   "tool_calls": 71,
+   "utterances": 28,
+   "checks": {
+    "error": 3,
+    "ignored": 3,
+    "repeat": 36,
+    "empty": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 22
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_002",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

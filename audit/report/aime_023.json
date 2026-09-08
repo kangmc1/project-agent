@@ -1,0 +1,712 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=10000, numeric=475, numeric=425, numeric=125, numeric=100"
+  },
+  {
+   "step": 3,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "(2x + y)/2",
+     "125:6",
+     "2x + y",
+     "6/125(2x + y)",
+     "ai + ic + y"
+    ],
+    "altered": []
+   },
+   "evidence": "verifier report->planner: missing ['(2x + y)/2', '125:6', '2x + y'] altered []"
+  },
+  {
+   "step": 4,
+   "agent": "verifier",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=125"
+  },
+  {
+   "step": 5,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.623,
+    "p_actual": 0.673,
+    "margin": 0.355
+   },
+   "evidence": "action distribution: solver 0.67, submit_answer 0.32, verifier 0.01 (actual: solver)"
+  },
+  {
+   "step": 5,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.682,
+    "H2": 0.903
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.68"
+  },
+  {
+   "step": 5,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "instruction->premise",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "incomplete",
+     "missing",
+     "re-solve the aime problem with the objection from the verifier: the solution is incomplete and lacks a clear derivation of the incenter distances and the final answer. please provide a complete solution with the final integer answer and the key equations used."
+    ],
+    "altered": []
+   },
+   "evidence": "solver instruction->premise: missing ['incomplete', 'missing', 're-solve the aime problem with the objection from the verifier: the solution is incomplete and lacks a clear derivation of the incenter distances and the final answer. please provide a complete solution with the final integer answer and the key equations used.'] altered []"
+  },
+  {
+   "step": 6,
+   "agent": "solver",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.749,
+    "p_actual": 0.889,
+    "margin": 0.778
+   },
+   "evidence": "action distribution: run_python 0.89, no_tool 0.11, write_file 0.00 (actual: run_python)"
+  },
+  {
+   "step": 6,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=289, numeric=150, numeric=225, numeric=15, numeric=256"
+  },
+  {
+   "step": 7,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #4: error"
+  },
+  {
+   "step": 7,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=45, numeric=35"
+  },
+  {
+   "step": 8,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #5: repeat"
+  },
+  {
+   "step": 9,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #6: repeat"
+  },
+  {
+   "step": 10,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #7: repeat"
+  },
+  {
+   "step": 11,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #8: repeat"
+  },
+  {
+   "step": 12,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #9: repeat"
+  },
+  {
+   "step": 13,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #10: repeat"
+  },
+  {
+   "step": 14,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #11: repeat"
+  },
+  {
+   "step": 15,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #12: repeat"
+  },
+  {
+   "step": 16,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #13: repeat"
+  },
+  {
+   "step": 17,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #14: repeat"
+  },
+  {
+   "step": 18,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #15: repeat"
+  },
+  {
+   "step": 19,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #16: repeat"
+  },
+  {
+   "step": 20,
+   "agent": "solver",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.543,
+    "p_actual": 0.67,
+    "margin": 0.341
+   },
+   "evidence": "action distribution: run_python 0.67, no_tool 0.33, read_file 0.00 (actual: run_python)"
+  },
+  {
+   "step": 20,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #17: repeat"
+  },
+  {
+   "step": 21,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #18: repeat"
+  },
+  {
+   "step": 22,
+   "agent": "solver",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.513,
+    "p_actual": 0.404,
+    "margin": 0.193
+   },
+   "evidence": "action distribution: no_tool 0.60, run_python 0.40, read_file 0.00 (actual: run_python)"
+  },
+  {
+   "step": 22,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #19: repeat"
+  },
+  {
+   "step": 23,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #20: repeat"
+  },
+  {
+   "step": 24,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #21: repeat"
+  },
+  {
+   "step": 25,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #22: repeat"
+  },
+  {
+   "step": 26,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #23: repeat"
+  },
+  {
+   "step": 27,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #24: repeat"
+  },
+  {
+   "step": 28,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #25: repeat"
+  },
+  {
+   "step": 29,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #26: repeat"
+  },
+  {
+   "step": 30,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #27: repeat"
+  },
+  {
+   "step": 31,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #28: repeat"
+  },
+  {
+   "step": 32,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #29: repeat"
+  },
+  {
+   "step": 33,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #30: repeat"
+  },
+  {
+   "step": 34,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #31: repeat"
+  },
+  {
+   "step": 35,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #32: repeat"
+  },
+  {
+   "step": 36,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #33: repeat"
+  },
+  {
+   "step": 37,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #34: repeat"
+  },
+  {
+   "step": 38,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #35: repeat"
+  },
+  {
+   "step": 39,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #36: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #37: repeat"
+  },
+  {
+   "step": 41,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #38: repeat"
+  },
+  {
+   "step": 42,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #39: repeat"
+  },
+  {
+   "step": 43,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #40: repeat"
+  },
+  {
+   "step": 44,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #41: repeat"
+  },
+  {
+   "step": 45,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #42: repeat"
+  },
+  {
+   "step": 46,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #43: repeat"
+  },
+  {
+   "step": 47,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #44: repeat"
+  },
+  {
+   "step": 48,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #45: repeat"
+  },
+  {
+   "step": 49,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #46: repeat"
+  },
+  {
+   "step": 50,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #47: repeat"
+  },
+  {
+   "step": 51,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "solver"
+   },
+   "evidence": "tool solver call #48: error, ignored"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 53,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 49,
+   "n_na": 0
+  },
+  "D3": {
+   "tool_calls": 49,
+   "utterances": 48,
+   "checks": {
+    "error": 2,
+    "repeat": 43,
+    "ignored": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 6
+  },
+  "D9": {
+   "n_steps": 49
+  }
+ },
+ "coverage": {},
+ "run_id": "aime_023",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

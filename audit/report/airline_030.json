@@ -1,0 +1,178 @@
+{
+ "flags": [
+  {
+   "step": 10,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.121,
+    "H2": 0.531
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.12"
+  },
+  {
+   "step": 12,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.534,
+    "p_actual": 0.685,
+    "margin": 0.488
+   },
+   "evidence": "action distribution: policy_checker 0.68, db_agent 0.20, respond_to_user 0.12 (actual: policy_checker)"
+  },
+  {
+   "step": 12,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.881,
+    "H2": 0.528
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.88"
+  },
+  {
+   "step": 13,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.673,
+    "p_actual": 0.84,
+    "margin": 0.683
+   },
+   "evidence": "action distribution: think 0.84, no_tool 0.16, read_file 0.00 (actual: think)"
+  },
+  {
+   "step": 13,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "empty"
+    ],
+    "tool": "think"
+   },
+   "evidence": "tool think call #13: empty"
+  },
+  {
+   "step": 13,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
+  },
+  {
+   "step": 14,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.068,
+    "p_actual": 0.404,
+    "margin": 0.159
+   },
+   "evidence": "action distribution: think 0.40, read_file 0.25, write_file 0.25 (actual: think)"
+  },
+  {
+   "step": 14,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "empty"
+    ],
+    "tool": "think"
+   },
+   "evidence": "tool think call #14: empty"
+  },
+  {
+   "step": 14,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
+  },
+  {
+   "step": 15,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
+  },
+  {
+   "step": 17,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #16: repeat"
+  },
+  {
+   "step": 20,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
+  },
+  {
+   "step": 24,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: flights on May 17, 2024 (JFK-ORD-PHL)"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 20,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 12,
+   "n_na": 0
+  },
+  "D3": {
+   "tool_calls": 20,
+   "utterances": 12,
+   "checks": {
+    "empty": 2,
+    "repeat": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 10
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_030",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

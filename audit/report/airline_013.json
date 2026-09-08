@@ -1,0 +1,167 @@
+{
+ "flags": [
+  {
+   "step": 4,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: money=363"
+  },
+  {
+   "step": 9,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT102, reservation_id=HAT052, reservation_id=HAT178, reservation_id=HAT281, reservation_id=HAT174"
+  },
+  {
+   "step": 12,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "cannot be modified under the airline's policy",
+     "modify flight policy: basic economy flights cannot be modified.",
+     "needs to confirm if they want to proceed with the upgrade if allowed",
+     "not_allowed",
+     "permitted but the user must pay the price difference"
+    ],
+    "altered": []
+   },
+   "evidence": "policy_checker report->planner: missing [\"cannot be modified under the airline's policy\", 'modify flight policy: basic economy flights cannot be modified.', 'needs to confirm if they want to proceed with the upgrade if allowed'] altered []"
+  },
+  {
+   "step": 13,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.652,
+    "p_actual": 0.183,
+    "margin": 0.633
+   },
+   "evidence": "action distribution: no_tool 0.82, think 0.18, read_file 0.00 (actual: think)"
+  },
+  {
+   "step": 13,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "empty"
+    ],
+    "tool": "think"
+   },
+   "evidence": "tool think call #7: empty"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #10: repeat"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT052, money=121, update_flights="
+  },
+  {
+   "step": 19,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.3333333333333333,
+    "unsupported": 0.6666666666666667
+   },
+   "evidence": "values not found in any prior tool result: HAT030 (LAX to ORD), HAT223 (ORD to ATL), HAT252 (ATL to DFW), HAT124 (DFW to LAX), Gift Card (ID: gift_card_4643416), 0 (0 non-free), HAT252 (ATL to LAS)"
+  },
+  {
+   "step": 19,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "update_reservation_flights"
+   },
+   "evidence": "tool update_reservation_flights call #11: error"
+  },
+  {
+   "step": 30,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #19: repeat"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "update_reservation_flights"
+   },
+   "evidence": "tool update_reservation_flights call #20: error, repeat"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 30,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 19,
+   "n_na": 2
+  },
+  "D3": {
+   "tool_calls": 23,
+   "utterances": 17,
+   "checks": {
+    "empty": 1,
+    "repeat": 3,
+    "error": 2
+   }
+  },
+  "D7": {
+   "n_handoffs": 12
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_013",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

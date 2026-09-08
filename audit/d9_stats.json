@@ -1,0 +1,18 @@
+{
+  "overall": {
+    "n_equations": 1847,
+    "n_unknown": 1417,
+    "unknown_ratio": 0.7671900378992962
+  },
+  "first3": {
+    "traces": [
+      "aime_000",
+      "aime_001",
+      "aime_002"
+    ],
+    "n_equations": 374,
+    "n_unknown": 209,
+    "unknown_ratio": 0.5588235294117647
+  },
+  "narrow_to_numeric_only": false
+}

@@ -117,6 +117,12 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if v is not None:
             d9.scores[(r["run_id"], int(r["step_id"]))] = 1.0 - v
 
+    judge = add("Judge_p_fail", note="Qwen3-8B judge, thinking on, p_fail")
+    for r in read_jsonl(audit / "judge.jsonl"):
+        v = _num(r.get("p_fail"))
+        if v is not None:
+            judge.scores[(r["run_id"], int(r["step_id"]))] = v
+
     return {k: v for k, v in items.items() if v.scores}
 
 

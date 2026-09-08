@@ -1,0 +1,427 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.629,
+    "p_actual": 0.622,
+    "margin": 0.245
+   },
+   "evidence": "action distribution: db_agent 0.62, respond_to_user 0.38, no_tool 0.00 (actual: db_agent)"
+  },
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.622,
+    "H2": 0.956
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.62"
+  },
+  {
+   "step": 11,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "hxdubj",
+     "reservation id hxdubj is associated with the user",
+     "verified booking code association",
+     "yara_garcia_1905"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['hxdubj', 'reservation id hxdubj is associated with the user', 'verified booking code association'] altered []"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT072, reservation_id=HAT180"
+  },
+  {
+   "step": 20,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.65,
+    "p_actual": 0.553,
+    "margin": 0.217
+   },
+   "evidence": "action distribution: get_reservation_details 0.55, calculate 0.34, no_tool 0.09 (actual: get_reservation_details)"
+  },
+  {
+   "step": 20,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #12: error"
+  },
+  {
+   "step": 20,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #13: error"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #14: error"
+  },
+  {
+   "step": 23,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #16: error"
+  },
+  {
+   "step": 24,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.581,
+    "p_actual": 0.495,
+    "margin": 0.0
+   },
+   "evidence": "action distribution: db_agent 0.49, respond_to_user 0.49, no_tool 0.01 (actual: respond_to_user)"
+  },
+  {
+   "step": 24,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.496,
+    "H2": 1.0
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.50"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #18: repeat"
+  },
+  {
+   "step": 28,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #19: repeat"
+  },
+  {
+   "step": 28,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #20: repeat"
+  },
+  {
+   "step": 29,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+  },
+  {
+   "step": 30,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.904,
+    "H2": 0.456
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.90"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #22: repeat"
+  },
+  {
+   "step": 35,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.649,
+    "p_actual": 0.679,
+    "margin": 0.358
+   },
+   "evidence": "action distribution: db_agent 0.68, policy_checker 0.32, no_tool 0.00 (actual: db_agent)"
+  },
+  {
+   "step": 36,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #25: repeat"
+  },
+  {
+   "step": 37,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #26: repeat"
+  },
+  {
+   "step": 37,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #27: repeat"
+  },
+  {
+   "step": 38,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.3076923076923077,
+    "unsupported": 0.6923076923076923
+   },
+   "evidence": "values not found in any prior tool result: HAT072 (May 19th), HAT278 (May 21st), Update flights, upgrade cabin to business, add 2 checked bags per flight, calculate total cost and fees, Economy cabin, 0 total baggage, 0 non-free baggage"
+  },
+  {
+   "step": 38,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.38461538461538464,
+    "unsupported": 0.6153846153846154
+   },
+   "evidence": "values not found in any prior tool result: HAT072 (May 19th), HAT278 (May 21st), Update flights, upgrade cabin to business, add 2 checked bags per flight, calculate total cost and fees, Economy cabin, 0 total baggage, 0 non-free baggage"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "update_reservation_baggages"
+   },
+   "evidence": "tool update_reservation_baggages call #29: error"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT082, reservation_id=HAT180"
+  },
+  {
+   "step": 44,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.624,
+    "p_actual": 0.835,
+    "margin": 0.69
+   },
+   "evidence": "action distribution: write_file 0.83, think 0.15, read_file 0.02 (actual: write_file)"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.566,
+    "p_actual": 0.726,
+    "margin": 0.543
+   },
+   "evidence": "action distribution: respond_to_user 0.73, policy_checker 0.18, db_agent 0.09 (actual: respond_to_user)"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.27,
+    "H2": 0.842
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.27"
+  },
+  {
+   "step": 50,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.589,
+    "p_actual": 0.614,
+    "margin": 0.242
+   },
+   "evidence": "action distribution: respond_to_user 0.61, db_agent 0.37, no_tool 0.01 (actual: respond_to_user)"
+  },
+  {
+   "step": 50,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.374,
+    "H2": 0.954
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.37"
+  },
+  {
+   "step": 52,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.48,
+    "p_actual": 0.724,
+    "margin": 0.598
+   },
+   "evidence": "action distribution: respond_to_user 0.72, write_file 0.13, no_tool 0.08 (actual: respond_to_user)"
+  },
+  {
+   "step": 54,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.605,
+    "p_actual": 0.749,
+    "margin": 0.556
+   },
+   "evidence": "action distribution: no_tool 0.75, respond_to_user 0.19, write_file 0.06 (actual: no_tool)"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 43,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 24,
+   "n_na": 1
+  },
+  "D3": {
+   "tool_calls": 37,
+   "utterances": 20,
+   "checks": {
+    "error": 5,
+    "repeat": 7
+   }
+  },
+  "D7": {
+   "n_handoffs": 18
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_024",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

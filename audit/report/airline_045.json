@@ -1,0 +1,393 @@
+{
+ "flags": [
+  {
+   "step": 4,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.731,
+    "H2": 0.84
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.73"
+  },
+  {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.512,
+    "p_actual": 0.276,
+    "margin": 0.172
+   },
+   "evidence": "action distribution: no_tool 0.45, get_user_details 0.28, list_all_airports 0.13 (actual: get_user_details)"
+  },
+  {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #2: error"
+  },
+  {
+   "step": 6,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #3: error, ignored"
+  },
+  {
+   "step": 9,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "3",
+     "given_id",
+     "no_matching_reservation_found",
+     "search_for_reservation"
+    ],
+    "altered": [
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['3', 'given_id', 'no_matching_reservation_found'] altered ['verdict']"
+  },
+  {
+   "step": 10,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #5: error, repeat"
+  },
+  {
+   "step": 11,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #6: error, ignored"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "operation failed to locate a reservation.",
+     "user not found with the provided details."
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['operation failed to locate a reservation.', 'user not found with the provided details.'] altered []"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #11: error, repeat"
+  },
+  {
+   "step": 22,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #12: error, repeat, ignored"
+  },
+  {
+   "step": 26,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #14: error, repeat"
+  },
+  {
+   "step": 27,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #15: error, ignored"
+  },
+  {
+   "step": 30,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "delta_user_123",
+     "no_further_action_can_be_taken",
+     "user_not_found"
+    ],
+    "altered": [
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['delta_user_123', 'no_further_action_can_be_taken', 'user_not_found'] altered ['verdict']"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #17: error"
+  },
+  {
+   "step": 31,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-10-15"
+  },
+  {
+   "step": 32,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #18: error, ignored"
+  },
+  {
+   "step": 43,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.766,
+    "p_actual": 0.626,
+    "margin": 0.252
+   },
+   "evidence": "action distribution: search_onestop_flight 0.63, no_tool 0.37, transfer_to_human_agents 0.00 (actual: search_onestop_flight)"
+  },
+  {
+   "step": 48,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.777,
+    "p_actual": 0.787,
+    "margin": 0.612
+   },
+   "evidence": "action distribution: search_direct_flight 0.79, get_reservation_details 0.17, no_tool 0.03 (actual: search_direct_flight)"
+  },
+  {
+   "step": 48,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #28: repeat"
+  },
+  {
+   "step": 52,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "8jx2wo",
+     "could not be found",
+     "no details were retrieved for the requested reservation."
+    ],
+    "altered": [
+     "final_answer",
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['8jx2wo', 'could not be found', 'no details were retrieved for the requested reservation.'] altered ['final_answer', 'verdict']"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.719,
+    "p_actual": 0.549,
+    "margin": 0.119
+   },
+   "evidence": "action distribution: get_reservation_details 0.55, search_direct_flight 0.43, book_reservation 0.01 (actual: get_reservation_details)"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #31: error"
+  },
+  {
+   "step": 60,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #35: error"
+  },
+  {
+   "step": 61,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #36: error, ignored"
+  },
+  {
+   "step": 65,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #38: error"
+  },
+  {
+   "step": 66,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #39: error, ignored"
+  },
+  {
+   "step": 69,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.657,
+    "p_actual": 0.698,
+    "margin": 0.397
+   },
+   "evidence": "action distribution: respond_to_user 0.70, no_tool 0.30, write_file 0.00 (actual: respond_to_user)"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 54,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 26,
+   "n_na": 8
+  },
+  "D3": {
+   "tool_calls": 41,
+   "utterances": 6,
+   "checks": {
+    "error": 15,
+    "ignored": 7,
+    "repeat": 5
+   }
+  },
+  "D7": {
+   "n_handoffs": 24
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_045",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

@@ -51,9 +51,12 @@ _STRUCTURAL: dict[str, Any] = {
 
 
 # ----------------------------------------------------------------------------- safe sympy evaluation
-def _parse_side(s: str):
-    return parse_expr(s.strip(), evaluate=False, local_dict=dict(ALLOWED), global_dict=dict(_STRUCTURAL),
-                       transformations=standard_transformations)
+def _parse_side(s: str) -> sympy.Basic:
+    e = parse_expr(s.strip(), evaluate=False, local_dict=dict(ALLOWED), global_dict=dict(_STRUCTURAL),
+                   transformations=standard_transformations)
+    if not isinstance(e, sympy.Basic):  # e.g. "1, 2" parses to a tuple; treat as unparseable
+        raise ValueError(f"not a sympy expression: {type(e).__name__}")
+    return e
 
 
 def _split_relation(expr_python: str, relation: str) -> tuple[str, str] | None:
@@ -193,9 +196,12 @@ def process_step(run_id: str, step_id: int, agent: str, content: str,
 
 def run_all(runs_dir: Path, extractor: Callable[[str], list[dict]] | None = None) -> list[dict]:
     extractor = extractor or _default_extractor
+    steps = list(iter_aime_steps(runs_dir))
+    # Extraction (8B calls) in parallel like D2/D7 — the loop was sequential and one long JSON generation per step made
+    # the pass take >1 h. Order is preserved; equation evaluation stays sequential per step (bindings are per step).
+    from .extract import map_parallel
     rows = []
-    for run_id, step_id, agent, content in iter_aime_steps(runs_dir):
-        row = process_step(run_id, step_id, agent, content, extractor)
+    for row in map_parallel(lambda t: process_step(t[0], t[1], t[2], t[3], extractor), steps):
         if row is not None:
             rows.append(row)
     return rows

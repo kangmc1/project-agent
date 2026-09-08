@@ -1,0 +1,428 @@
+{
+ "percentile": 10,
+ "domains": {
+  "aime": {
+   "n_runs": 31,
+   "success_rate*": 0.25806451612903225,
+   "agents": {
+    "planner": {
+     "decisions": 127,
+     "low_confidence_ratio": 0.11023622047244094,
+     "mean_confidence": 0.9307688630276922,
+     "handoff_layer_low_ratio": 0.11023622047244094,
+     "unsupported_claim_ratio": 0.40625,
+     "tool_calls": 95,
+     "tool_check_ratios": {
+      "error": 0.021052631578947368,
+      "empty": 0.0,
+      "repeat": 0.010526315789473684,
+      "schema": 0.0,
+      "ignored": 0.021052631578947368
+     }
+    },
+    "solver": {
+     "decisions": 180,
+     "low_confidence_ratio": 0.11666666666666667,
+     "mean_confidence": 0.9656159313714466,
+     "handoff_layer_low_ratio": null,
+     "unsupported_claim_ratio": 0.4931506849315068,
+     "tool_calls": 137,
+     "tool_check_ratios": {
+      "error": 0.18248175182481752,
+      "empty": 0.0,
+      "repeat": 0.6277372262773723,
+      "schema": 0.0,
+      "ignored": 0.0
+     }
+    },
+    "verifier": {
+     "decisions": 83,
+     "low_confidence_ratio": 0.07228915662650602,
+     "mean_confidence": 0.9718804953365264,
+     "handoff_layer_low_ratio": null,
+     "unsupported_claim_ratio": 0.66,
+     "tool_calls": 54,
+     "tool_check_ratios": {
+      "error": 0.0,
+      "empty": 0.0,
+      "repeat": 0.5,
+      "schema": 0.0,
+      "ignored": 0.0
+     }
+    }
+   },
+   "handoff_edges": {
+    "solver:instruction->premise": {
+     "n": 43,
+     "mean_fidelity": 0.6487303347059444,
+     "low_fidelity_ratio(<0.8)": 0.6097560975609756,
+     "top_missing_keys": [
+      [
+       "m/n",
+       4
+      ],
+      [
+       "n",
+       4
+      ],
+      [
+       "4",
+       3
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "final_answer",
+       3
+      ],
+      [
+       "distance_miles",
+       2
+      ],
+      [
+       "problem_statement",
+       2
+      ]
+     ]
+    },
+    "solver:report->planner": {
+     "n": 43,
+     "mean_fidelity": 0.30109612609612607,
+     "low_fidelity_ratio(<0.8)": 0.8571428571428571,
+     "top_missing_keys": [
+      [
+       "1",
+       5
+      ],
+      [
+       "s",
+       4
+      ],
+      [
+       "r",
+       4
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "final_answer",
+       11
+      ],
+      [
+       "m_plus_n",
+       1
+      ]
+     ]
+    },
+    "verifier:instruction->premise": {
+     "n": 29,
+     "mean_fidelity": 0.6422224894447117,
+     "low_fidelity_ratio(<0.8)": 0.7037037037037037,
+     "top_missing_keys": [
+      [
+       "m",
+       4
+      ],
+      [
+       "4",
+       3
+      ],
+      [
+       "m/n",
+       3
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "m",
+       2
+      ],
+      [
+       "n",
+       2
+      ],
+      [
+       "final_answer",
+       2
+      ]
+     ]
+    },
+    "verifier:report->planner": {
+     "n": 29,
+     "mean_fidelity": 0.43555839002267577,
+     "low_fidelity_ratio(<0.8)": 0.75,
+     "top_missing_keys": [
+      [
+       "0",
+       5
+      ],
+      [
+       "true",
+       4
+      ],
+      [
+       "252/25",
+       2
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "final_answer",
+       1
+      ]
+     ]
+    }
+   },
+   "hotspots": [
+    [
+     "solver: claim numeric without tool evidence",
+     324
+    ],
+    [
+     "verifier: claim numeric without tool evidence",
+     113
+    ],
+    [
+     "solver: run_python repeat",
+     86
+    ],
+    [
+     "verifier: run_python repeat",
+     27
+    ],
+    [
+     "solver: run_python error",
+     25
+    ]
+   ],
+   "confidence_curve": {
+    "decisions 0-4": 0.9730679461869883,
+    "decisions 5-9": 0.9284856804591334,
+    "decisions 10-14": 0.933150825093611,
+    "decisions 15-19": 0.9636136586359234,
+    "decisions 20-24": 0.9728598784357543,
+    "decisions 25+": 0.9715400044569166
+   },
+   "D9": {
+    "n_steps": 280,
+    "mean_consistency": 0.7792379736057896
+   }
+  },
+  "airline": {
+   "n_runs": 31,
+   "success_rate*": 0.1935483870967742,
+   "agents": {
+    "db_agent": {
+     "decisions": 420,
+     "low_confidence_ratio": 0.07857142857142857,
+     "mean_confidence": 0.9497259813770386,
+     "handoff_layer_low_ratio": null,
+     "unsupported_claim_ratio": 0.19021739130434784,
+     "tool_calls": 357,
+     "tool_check_ratios": {
+      "error": 0.18207282913165265,
+      "empty": 0.0028011204481792717,
+      "repeat": 0.33053221288515405,
+      "schema": 0.0028011204481792717,
+      "ignored": 0.014005602240896359
+     }
+    },
+    "planner": {
+     "decisions": 431,
+     "low_confidence_ratio": 0.10208816705336426,
+     "mean_confidence": 0.9030606213759753,
+     "handoff_layer_low_ratio": 0.10208816705336426,
+     "unsupported_claim_ratio": 0.058823529411764705,
+     "tool_calls": 400,
+     "tool_check_ratios": {
+      "error": 0.09,
+      "empty": 0.0,
+      "repeat": 0.0275,
+      "schema": 0.0,
+      "ignored": 0.08
+     }
+    },
+    "policy_checker": {
+     "decisions": 55,
+     "low_confidence_ratio": 0.2727272727272727,
+     "mean_confidence": 0.836848097769988,
+     "handoff_layer_low_ratio": null,
+     "unsupported_claim_ratio": 0.20454545454545456,
+     "tool_calls": 19,
+     "tool_check_ratios": {
+      "error": 0.05263157894736842,
+      "empty": 0.5789473684210527,
+      "repeat": 0.05263157894736842,
+      "schema": 0.0,
+      "ignored": 0.05263157894736842
+     }
+    }
+   },
+   "handoff_edges": {
+    "db_agent:instruction->premise": {
+     "n": 152,
+     "mean_fidelity": 0.7367433821768187,
+     "low_fidelity_ratio(<0.8)": 0.4375,
+     "top_missing_keys": [
+      [
+       "aa123",
+       11
+      ],
+      [
+       "economy",
+       11
+      ],
+      [
+       "dl456",
+       8
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "departure_time_end",
+       2
+      ],
+      [
+       "departure_time_start",
+       2
+      ],
+      [
+       "verdict",
+       2
+      ]
+     ]
+    },
+    "db_agent:report->planner": {
+     "n": 152,
+     "mean_fidelity": 0.4077022289032574,
+     "low_fidelity_ratio(<0.8)": 0.852112676056338,
+     "top_missing_keys": [
+      [
+       "0",
+       17
+      ],
+      [
+       "jfk",
+       12
+      ],
+      [
+       "1",
+       9
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "verdict",
+       26
+      ],
+      [
+       "final_answer",
+       9
+      ],
+      [
+       "departure_date",
+       4
+      ]
+     ]
+    },
+    "policy_checker:instruction->premise": {
+     "n": 36,
+     "mean_fidelity": 0.7866780045351474,
+     "low_fidelity_ratio(<0.8)": 0.38095238095238093,
+     "top_missing_keys": [
+      [
+       "allowed under airline policy",
+       3
+      ],
+      [
+       "basic_economy",
+       3
+      ],
+      [
+       "eligible",
+       2
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "verdict",
+       5
+      ],
+      [
+       "final_answer",
+       4
+      ],
+      [
+       "flight_type",
+       2
+      ]
+     ]
+    },
+    "policy_checker:report->planner": {
+     "n": 36,
+     "mean_fidelity": 0.3735272443605777,
+     "low_fidelity_ratio(<0.8)": 0.8888888888888888,
+     "top_missing_keys": [
+      [
+       "need_info",
+       12
+      ],
+      [
+       "not_allowed",
+       10
+      ],
+      [
+       "2024-05-15 15:00:00 est",
+       7
+      ]
+     ],
+     "top_altered_keys": [
+      [
+       "verdict",
+       4
+      ],
+      [
+       "final_answer",
+       1
+      ],
+      [
+       "reservation_id",
+       1
+      ]
+     ]
+    }
+   },
+   "hotspots": [
+    [
+     "db_agent: claim reservation_id without tool evidence",
+     111
+    ],
+    [
+     "db_agent: get_reservation_details repeat",
+     67
+    ],
+    [
+     "db_agent: claim money without tool evidence",
+     45
+    ],
+    [
+     "planner: db_agent error",
+     31
+    ],
+    [
+     "planner: db_agent ignored",
+     29
+    ]
+   ],
+   "confidence_curve": {
+    "decisions 0-4": 0.9137665872617733,
+    "decisions 5-9": 0.9142322903400146,
+    "decisions 10-14": 0.916289027252323,
+    "decisions 15-19": 0.9438376917908455,
+    "decisions 20-24": 0.924665909271751,
+    "decisions 25+": 0.9201804665860982
+   },
+   "D9": null
+  }
+ }
+}

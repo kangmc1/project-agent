@@ -1,0 +1,637 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.148,
+    "H2": 0.605
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.15"
+  },
+  {
+   "step": 6,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT083, reservation_id=HAT069"
+  },
+  {
+   "step": 11,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT039, reservation_id=HAT218, reservation_id=HAT136, reservation_id=HAT268"
+  },
+  {
+   "step": 14,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "/case_notes.md",
+     "failed",
+     "hat039",
+     "hat268",
+     "mia_li_123"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['/case_notes.md', 'failed', 'hat039'] altered []"
+  },
+  {
+   "step": 15,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #8: error"
+  },
+  {
+   "step": 15,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_123"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #9: error"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_123"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_123"
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #13: error"
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 23,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #14: error, ignored"
+  },
+  {
+   "step": 23,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_onestop_flight"
+   },
+   "evidence": "tool search_onestop_flight call #19: repeat"
+  },
+  {
+   "step": 37,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_onestop_flight"
+   },
+   "evidence": "tool search_onestop_flight call #22: repeat"
+  },
+  {
+   "step": 38,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT218, reservation_id=HAT136"
+  },
+  {
+   "step": 42,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #25: error"
+  },
+  {
+   "step": 42,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 43,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.738,
+    "p_actual": 0.613,
+    "margin": 0.241
+   },
+   "evidence": "action distribution: write_file 0.61, read_file 0.37, think 0.01 (actual: write_file)"
+  },
+  {
+   "step": 44,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #27: error, ignored"
+  },
+  {
+   "step": 44,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 47,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.51,
+    "p_actual": 0.692,
+    "margin": 0.494
+   },
+   "evidence": "action distribution: read_file 0.69, write_file 0.20, db_agent 0.09 (actual: read_file)"
+  },
+  {
+   "step": 47,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.098,
+    "H2": 0.464
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.10"
+  },
+  {
+   "step": 47,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #29: error, ignored"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.572,
+    "p_actual": 0.655,
+    "margin": 0.346
+   },
+   "evidence": "action distribution: db_agent 0.66, respond_to_user 0.31, policy_checker 0.03 (actual: db_agent)"
+  },
+  {
+   "step": 48,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.688,
+    "H2": 0.895
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.69"
+  },
+  {
+   "step": 53,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_onestop_flight"
+   },
+   "evidence": "tool search_onestop_flight call #32: repeat"
+  },
+  {
+   "step": 57,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "4",
+     "before 10am est",
+     "with departure time after 10am est on the requested dates"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['4', 'before 10am est', 'with departure time after 10am est on the requested dates'] altered []"
+  },
+  {
+   "step": 63,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_onestop_flight"
+   },
+   "evidence": "tool search_onestop_flight call #39: repeat"
+  },
+  {
+   "step": 69,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT218"
+  },
+  {
+   "step": 73,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #46: error"
+  },
+  {
+   "step": 73,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 74,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #47: error, ignored"
+  },
+  {
+   "step": 74,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 78,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_onestop_flight"
+   },
+   "evidence": "tool search_onestop_flight call #49: repeat"
+  },
+  {
+   "step": 79,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT218"
+  },
+  {
+   "step": 83,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #52: error, repeat"
+  },
+  {
+   "step": 83,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 84,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #53: error, repeat, ignored"
+  },
+  {
+   "step": 84,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 87,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "credit_card_7815826",
+     "failed",
+     "hat218 + hat039",
+     "invalid or missing payment method",
+     "may 18th"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['credit_card_7815826', 'failed', 'hat218 + hat039'] altered []"
+  },
+  {
+   "step": 88,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #55: error"
+  },
+  {
+   "step": 88,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 89,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #56: error, ignored"
+  },
+  {
+   "step": 89,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=mia_li_3668"
+  },
+  {
+   "step": 92,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.633,
+    "p_actual": 0.676,
+    "margin": 0.357
+   },
+   "evidence": "action distribution: db_agent 0.68, policy_checker 0.32, respond_to_user 0.00 (actual: db_agent)"
+  },
+  {
+   "step": 92,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "investigate further and attempt to resolve the issue",
+     "still failing",
+     "the payment_id parameter",
+     "transfer the case to a human agent for assistance"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['investigate further and attempt to resolve the issue', 'still failing', 'the payment_id parameter'] altered []"
+  },
+  {
+   "step": 93,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.76,
+    "p_actual": 0.778,
+    "margin": 0.604
+   },
+   "evidence": "action distribution: get_user_details 0.78, get_reservation_details 0.17, update_reservation_flights 0.04 (actual: get_user_details)"
+  },
+  {
+   "step": 94,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.775,
+    "p_actual": 0.808,
+    "margin": 0.699
+   },
+   "evidence": "action distribution: book_reservation 0.81, get_reservation_details 0.11, no_tool 0.08 (actual: book_reservation)"
+  },
+  {
+   "step": 94,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #59: error"
+  },
+  {
+   "step": 95,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "schema"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #60: error, schema; schema: ['unknown:payment_id']"
+  },
+  {
+   "step": 99,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.483,
+    "p_actual": 0.347,
+    "margin": 0.205
+   },
+   "evidence": "action distribution: no_tool 0.55, respond_to_user 0.35, write_file 0.10 (actual: respond_to_user)"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 80,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 41,
+   "n_na": 3
+  },
+  "D3": {
+   "tool_calls": 63,
+   "utterances": 29,
+   "checks": {
+    "error": 15,
+    "ignored": 6,
+    "repeat": 7,
+    "schema": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 36
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_000",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

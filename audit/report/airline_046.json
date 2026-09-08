@@ -1,0 +1,261 @@
+{
+ "flags": [
+  {
+   "step": 6,
+   "agent": "db_agent",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: San Francisco (SFO), New York (JFK), May 15th, 2024"
+  },
+  {
+   "step": 9,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #5: repeat"
+  },
+  {
+   "step": 15,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "user not found"
+    ],
+    "altered": [
+     "final_answer",
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['user not found'] altered ['final_answer', 'verdict']"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #9: error"
+  },
+  {
+   "step": 17,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #10: error, ignored"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.82,
+    "H2": 0.68
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.82"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "not_found",
+     "sara_doe_496",
+     "the provided user id was not found in the database."
+    ],
+    "altered": [
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['not_found', 'sara_doe_496', 'the provided user id was not found in the database.'] altered ['verdict']"
+  },
+  {
+   "step": 21,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #12: error, repeat"
+  },
+  {
+   "step": 22,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #13: error"
+  },
+  {
+   "step": 34,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.775,
+    "p_actual": 0.678,
+    "margin": 0.358
+   },
+   "evidence": "action distribution: search_direct_flight 0.68, search_onestop_flight 0.32, no_tool 0.00 (actual: search_direct_flight)"
+  },
+  {
+   "step": 39,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #22: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.767,
+    "p_actual": 0.632,
+    "margin": 0.264
+   },
+   "evidence": "action distribution: search_onestop_flight 0.63, no_tool 0.37, transfer_to_human_agents 0.00 (actual: search_onestop_flight)"
+  },
+  {
+   "step": 45,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #26: repeat"
+  },
+  {
+   "step": 59,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "not found",
+     "sara_doe_496"
+    ],
+    "altered": [
+     "user_id",
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['not found', 'sara_doe_496'] altered ['user_id', 'verdict']"
+  },
+  {
+   "step": 60,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.635,
+    "p_actual": 0.62,
+    "margin": 0.371
+   },
+   "evidence": "action distribution: get_user_details 0.62, search_direct_flight 0.25, no_tool 0.07 (actual: get_user_details)"
+  },
+  {
+   "step": 60,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #36: error, repeat"
+  },
+  {
+   "step": 61,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #37: error, ignored"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 52,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 25,
+   "n_na": 7
+  },
+  "D3": {
+   "tool_calls": 40,
+   "utterances": 4,
+   "checks": {
+    "repeat": 5,
+    "error": 6,
+    "ignored": 2
+   }
+  },
+  "D7": {
+   "n_handoffs": 24
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_046",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

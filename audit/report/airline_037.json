@@ -1,0 +1,73 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.182,
+    "H2": 0.685
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.18"
+  },
+  {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT045, flight_no=HAT045"
+  },
+  {
+   "step": 6,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT045, flight_no=HAT045"
+  },
+  {
+   "step": 8,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT045, flight_no=HAT045"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 6,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 3,
+   "n_na": 2
+  },
+  "D3": {
+   "tool_calls": 4,
+   "utterances": 3,
+   "checks": {}
+  },
+  "D7": {
+   "n_handoffs": 2
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_037",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

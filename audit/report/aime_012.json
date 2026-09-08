@@ -1,0 +1,95 @@
+{
+ "flags": [
+  {
+   "step": 1,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "1",
+     "6",
+     "6/1",
+     "7"
+    ],
+    "altered": [
+     "final_answer"
+    ]
+   },
+   "evidence": "solver report->planner: missing ['1', '6', '6/1'] altered ['final_answer']"
+  },
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=39, numeric=16, numeric=24, numeric=72, numeric=12"
+  },
+  {
+   "step": 4,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "-2_3",
+     "0",
+     "1",
+     "2",
+     "3"
+    ],
+    "altered": [
+     "final_answer"
+    ]
+   },
+   "evidence": "verifier report->planner: missing ['-2_3', '0', '1'] altered ['final_answer']"
+  },
+  {
+   "step": 5,
+   "agent": "verifier",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=10, numeric=40, numeric=32, numeric=72, numeric=832"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 7,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 4,
+   "n_na": 2
+  },
+  "D3": {
+   "tool_calls": 4,
+   "utterances": 3,
+   "checks": {}
+  },
+  "D7": {
+   "n_handoffs": 4
+  },
+  "D9": {
+   "n_steps": 4
+  }
+ },
+ "coverage": {},
+ "run_id": "aime_012",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

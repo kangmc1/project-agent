@@ -1,0 +1,386 @@
+{
+ "flags": [
+  {
+   "step": 7,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #4: error, ignored"
+  },
+  {
+   "step": 10,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.269,
+    "H2": 0.839
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.27"
+  },
+  {
+   "step": 10,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #7: repeat"
+  },
+  {
+   "step": 12,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: cancel="
+  },
+  {
+   "step": 13,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.535,
+    "p_actual": 0.48,
+    "margin": 0.0
+   },
+   "evidence": "action distribution: db_agent 0.48, respond_to_user 0.48, read_file 0.04 (actual: db_agent)"
+  },
+  {
+   "step": 13,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.48,
+    "H2": 0.999
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.48"
+  },
+  {
+   "step": 14,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #9: repeat"
+  },
+  {
+   "step": 17,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: date=2024-05-15, cancel="
+  },
+  {
+   "step": 21,
+   "agent": "policy_checker",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.462,
+    "p_actual": 0.559,
+    "margin": 0.131
+   },
+   "evidence": "action distribution: think 0.56, no_tool 0.43, read_file 0.01 (actual: think)"
+  },
+  {
+   "step": 21,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "empty"
+    ],
+    "tool": "think"
+   },
+   "evidence": "tool think call #13: empty"
+  },
+  {
+   "step": 22,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: cancel="
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.757,
+    "p_actual": 0.553,
+    "margin": 0.107
+   },
+   "evidence": "action distribution: search_onestop_flight 0.55, no_tool 0.45, search_direct_flight 0.00 (actual: search_onestop_flight)"
+  },
+  {
+   "step": 27,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT023"
+  },
+  {
+   "step": 28,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT083, reservation_id=HAT011, money=314"
+  },
+  {
+   "step": 31,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "booking_failed",
+     "booking_operation_failed",
+     "hat011",
+     "hat083",
+     "sara_doe_496"
+    ],
+    "altered": [
+     "final_answer",
+     "user_id",
+     "verdict"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['booking_failed', 'booking_operation_failed', 'hat011'] altered ['final_answer', 'user_id', 'verdict']"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #20: error"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: money=314"
+  },
+  {
+   "step": 33,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #21: error, ignored"
+  },
+  {
+   "step": 33,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=sara_doe_496"
+  },
+  {
+   "step": 37,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #23: error"
+  },
+  {
+   "step": 41,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "could you please provide the date for the flight?",
+     "the `book_reservation` function failed because the required parameter `date` was not provided."
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['could you please provide the date for the flight?', 'the `book_reservation` function failed because the required parameter `date` was not provided.'] altered []"
+  },
+  {
+   "step": 42,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #26: error, repeat"
+  },
+  {
+   "step": 43,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #27: repeat"
+  },
+  {
+   "step": 45,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "respond_to_user"
+   },
+   "evidence": "tool respond_to_user call #28: repeat"
+  },
+  {
+   "step": 46,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "aarav_ahmed_6699",
+     "amount parameter",
+     "successfully transferred to a human agent"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['aarav_ahmed_6699', 'amount parameter', 'successfully transferred to a human agent'] altered []"
+  },
+  {
+   "step": 47,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #29: error"
+  },
+  {
+   "step": 48,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #30: error"
+  },
+  {
+   "step": 49,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #31: error, repeat"
+  },
+  {
+   "step": 52,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #34: repeat"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 46,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 27,
+   "n_na": 4
+  },
+  "D3": {
+   "tool_calls": 35,
+   "utterances": 23,
+   "checks": {
+    "error": 8,
+    "ignored": 2,
+    "repeat": 7,
+    "empty": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 20
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_025",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

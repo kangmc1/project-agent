@@ -1,0 +1,7 @@
+{
+  "direction2_nonempty_ratio": 1.0,
+  "mean_fidelity[instruction->premise]": 0.654912390437444,
+  "n[instruction->premise]": 260,
+  "mean_fidelity[report->planner]": 0.3417134513158554,
+  "n[report->planner]": 260
+}

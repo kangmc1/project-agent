@@ -58,3 +58,85 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Labeling: 6 opus subagents x 5 runs (blind to audit/), RUBRIC + LABELER_PROMPT.
 - 02:50 D1 check crashed on aime_008 step 13: planner called `run_python`, a tool it was never given (hallucinated tool name).
   Fix: hallucinated actual is added to the candidate set and flagged actual_not_in_A. Re-running --check.
+
+## 2026-09-09 03:52 KST — D1 equivalence gate result and scoring policy
+- `audit/d1_check.json`: 579/579 batch-1 decisions stepwise pre-scored (unscored={}), template check aligned 436/436 (94.95% within 0.1),
+  equivalence on 100 stratified points: ratio_within_0.01 = 0.62, within_0.05 = 0.80, max |Δp| = 0.165, max Δconfidence = 0.092;
+  logp-level within 0.01 = 16%. Distribution sigma 0.136, conf>0.99 ratio 0.60 (T=2: 0.14), prefix-cache hit 99.5%, 0.22 decisions/s.
+- Gate FAILED (< 0.95) → stepwise may NOT replace method 2. Policy applied: PRIMARY = method 2 on ALL decision points (planner-first,
+  `scripts/d1_full.sh`, ~18 decisions/min observed → ~72 min); SECONDARY = stepwise on all points to `audit/d1_stepwise.jsonl`
+  for the comparison table only. d1.py's built-in fallback string "m2_batch1_planner_only" was the time-budget minimum; full m2 fits the budget.
+
+## 2026-09-09 04:12 KST — D1 scoring policy revised (user decision)
+- Reference for D1 validity = original run-time logprob of the chosen action (template check: 436/436 aligned, 95% within 0.1 logp),
+  not method 2. Same forward pass yields all candidate logits at a position, so matching the chosen token validates the path.
+- Method-2 vs original on 133 points: 86.5% within 0.01 prob, max 0.09 — same magnitude as the m2-vs-stepwise gap; the
+  failed "equivalence gate" measured bf16 path noise between two rescoring routes, not stepwise error. Gate conclusion retracted.
+- Stopped m2 full pass at 211 rows -> audit/d1_m2_partial.jsonl (comparison sample only). Started stepwise on all 1,296
+  decision points (scripts/d1_stepwise_full.sh, resumable). Per-point stepwise-vs-original diff to be reported as D1 noise.
+- Run-time logprob recording is no longer needed for future runs once this check is documented.
+
+## 2026-09-09 04:35 KST — D1 stepwise: common-prefix (trie) call sharing; reproducibility floor measured
+- User decision: share calls on common token prefixes (header `<tool_call>\n{"name": "` + shared name prefixes). Implemented as
+  `stepwise_shared()` in src/audit/d1.py: one call per trie edge, root edge doubles as no_tool. 16.6 calls/decision (was ~43),
+  39 decisions/min uncontended (was ~23). Each remaining call is the same (prompt, token) request as before -> no approximation.
+- Header contribution measured on 974 recorded tool calls: 5 header tokens after <tool_call> sum to median -3e-6 logp, min -0.0024
+  (>0.001 in 2 cases). <tool_call> itself is the call/no-call decision: logp < -0.1 in 72/974, min -1.71.
+- Verification (19 already-scored decisions re-scored with new code): values differ from stored rows by up to 0.002 logp on
+  high-prob tokens (~0.1-0.5 on p~1e-6 tails), confidence spread ~0.004. Cause is NOT the code: repeated identical requests are
+  bit-identical, and old vs new code agree to 5 decimals when run back-to-back. Values depend on how the prefix KV blocks were
+  (re)computed (bf16 prefill rounding varies with chunking/cache state). This is the reproducibility floor of the scoring server and
+  applies to any pass, so the run was RESUMED at 389 rows (not restarted). Document as D1 measurement noise (~0.005 confidence).
+- Pass killed/restarted at 04:33 (scripts/d1_stepwise_full.sh); ETA ~05:00 for 1,296 decisions.
+- 04:42 user decision: do NOT report rescoring-vs-recorded logp residuals as a result/limitation. Recorded logprob is just another
+  bf16 estimate of the same quantity; the rescored value IS the measurement. Keep only the render-alignment sanity check
+  (token alignment + no gross logp outlier), reported as one line. Proposal §4.1.5 / limitations / appendix A.10 updated.
+- 04:52 user decision: execution no longer requests logprobs. src/harness/model.py make_chat(logprobs=RECORD_LOGPROBS),
+  default off, EXEC_LOGPROBS=1 re-enables for render-alignment checks. capture.py still writes the "logprobs" key (None) so
+  validate.py's required_fields check is unchanged. The 60 runs in this study were recorded with logprobs on.
+- 04:48 exec server qwen32b@18001 (GPU 1,2) shut down — no further runs planned. 8B@18002 stays until D9 finishes (it is re-extracting).
+- 04:53 decision_prefix(): without run-time logprobs, the text the model generated before <tool_call> is taken from the
+  recorded response `content` and re-tokenized. Check on the 60 runs: content == generated text in 471/471 text-first
+  decisions; re-encoding reproduces the exact token ids in 467/471 (the 4 others are alternative tokenizations of the same
+  text); 825/825 direct tool-call / no_tool decisions unaffected. So EXEC_LOGPROBS off does not block stepwise scoring.
+- 04:56 user wants exact generated token ids recorded. vLLM 0.9.2 lacks `return_token_ids` (verified: request field absent,
+  response token_ids empty). Only channel = `logprobs`. So make_chat(logprobs=RECORD_TOKENS) default ON again, env
+  EXEC_RECORD_TOKENS=0 to disable; documented as a token-id channel (logprob values unused by D1). Supersedes the 04:52 note.
+
+## 2026-09-09 05:02 KST — D2/D7 definition fixes (found while sanity-checking detectors before final metrics)
+- D2: grounding pool was tool results + prior user_sim text only, so values given in the AIME problem statement and in the
+  planner's instruction to a subagent were counted as unsupported (e.g. aime_005/1 "AB = 1", "4/3"). Fix: everything the
+  model was given in the request (system/user/tool messages; own assistant turns excluded) is a source (`source.tool="input"`).
+  mean_s 0.817 -> 0.847, NA ratio unchanged 0.172. Old file kept as audit/d2_v1.jsonl.
+- D7: 8B extractor misses values in terse planner text ("Submitted 277." + submit_answer args), giving fidelity 0 although
+  the value is literally present; 19/69 zero-fidelity report->planner rows had the value in the next tool-call args. Fix:
+  a value literally present in the raw B text counts as preserved (`added` still uses extracted facts only).
+  mean fidelity instruction->premise 0.655 -> 0.709, report->planner 0.342 -> 0.388. Old file kept as audit/d7_v1.jsonl.
+- Both reruns hit the extraction cache (0 new 8B calls). Labels were produced blind to detectors, so these are definition
+  fixes, not label tuning; record in proposal appendix A (spec deviations). D3 looked healthy (decisive AUROC 0.74 pre-D1).
+
+## 2026-09-09 05:03 KST — D1 scoring complete
+- audit/d1.jsonl: 1,296/1,296 decision points scored (planner 558, subagent 738; airline 906, aime 390), unscored 0,
+  method stepwise (trie-shared from row 390). Render-alignment sanity: 974/974 tool-call decisions aligned with the
+  recorded generated tokens, median |logp diff| 0.0001, no gross outlier (>1.0). One hallucinated tool name scored via A+actual.
+- Distribution: confidence mean 0.931, >0.99 in 62.0% (T=2: 13.8%) — not degenerate (<90%); confidence<0.5 in 1.5%
+  (planner 2.0%, subagent 1.1%); p_actual<0.5 in 2.5%. Total D1 machine time for the final file: 04:13-05:03 (~50 min).
+
+## 2026-09-09 05:05 KST — M6 evaluation run with D1 (D9 pending)
+- eval/metrics.md, thresholds.md, recovery.png, subtags.md regenerated 05:04 with D1 (1,296 rows) + fixed D2/D7.
+- Headline: D1 works at the planner level only. Step AUROC planner: 1-conf 0.667 [0.59,0.74] all errors / 0.726 decisive;
+  1-p_actual 0.691 / 0.806 decisive; margin 0.664 / 0.734; handoff-layer 0.610. Subagent D1 ~0.52-0.54 (decisive 0.41-0.43,
+  i.e. no signal). Airline > AIME (0.58 vs 0.54 all-roles). Trace-level D1 max/mean AUROC 0.49-0.65 with wide CIs.
+- D2 after grounding fix: all/all 0.533 -> 0.560 (decisive 0.595 -> 0.625). D3 unchanged (decisive 0.721). D7
+  report->planner 0.587 -> 0.579 (decisive 0.535 -> 0.566); D7 instruction->premise stays below chance (0.36 -> 0.39) —
+  low instruction fidelity does not indicate error; report as a negative result.
+- recall@FPR10: D1 planner 1-p_actual recall 0.231 (aime planner 0.667 on n_pos=6), detection latency median 3-4 steps
+  after decisive; n_crossed/n_failed 26/47.
+
+## 2026-09-09 05:30 KST — D9 done, final evaluation, reports, docs filled
+- D9: sequential loop replaced by map_parallel extraction (was ~1 step/min; 49 remaining steps took ~8 min). audit/d9.jsonl 280
+  rows, 1,847 equations, 76.7% unknown (802 symbolic unresolved + 615 parse errors), consistency on 81 steps (mean 0.78).
+  Eval: AIME subagent AUROC 0.528 [0.31,0.75] (n_pos 18/n_neg 9); coverage is the bottleneck -> reported as inconclusive.
+- eval/* regenerated 05:26 with D9. Reports: audit/report/ 62 traces (896 flags), audit/system_report.{md,json}.
+- proposal: §4.2.10 D9 and §4.2.12 system-report example filled; §4.3 D9 sentence; SKELETON marker removed;
+  check_docs --proposal and --skeleton pass. 8B server (GPU 3) shut down 05:27; only the scoring server (GPU 4) remains.

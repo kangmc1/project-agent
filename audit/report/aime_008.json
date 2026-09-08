@@ -1,0 +1,165 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.4,
+    "unsupported": 0.6
+   },
+   "evidence": "values not found in any prior tool result: 17017^17, number of positive integer divisors of 17017^17, compute the remainder when this count is divided by 1000"
+  },
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=12, numeric=1000"
+  },
+  {
+   "step": 3,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=81, numeric=12"
+  },
+  {
+   "step": 7,
+   "agent": "verifier",
+   "module": "D2",
+   "signal": {
+    "s": 0.3333333333333333,
+    "unsupported": 0.6666666666666667
+   },
+   "evidence": "values not found in any prior tool result: 17017^17, remainder when this count is divided by 1000, 17017^k for 0 ≤ k ≤ 17, 17017^k ≡ 5 (mod 12)"
+  },
+  {
+   "step": 7,
+   "agent": "verifier",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #5: repeat"
+  },
+  {
+   "step": 7,
+   "agent": "verifier",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=12"
+  },
+  {
+   "step": 11,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: 7 * 11 * 13 * 17"
+  },
+  {
+   "step": 11,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #8: repeat"
+  },
+  {
+   "step": 12,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=49, numeric=25, numeric=121"
+  },
+  {
+   "step": 13,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.619,
+    "p_actual": 0.725,
+    "margin": 0.485
+   },
+   "evidence": "action distribution: run_python 0.72, submit_answer 0.24, write_file 0.01 (actual: run_python)"
+  },
+  {
+   "step": 14,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.4,
+    "p_actual": 0.24,
+    "margin": 0.354
+   },
+   "evidence": "action distribution: no_tool 0.59, submit_answer 0.24, solver 0.11 (actual: submit_answer)"
+  },
+  {
+   "step": 14,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.155,
+    "H2": 0.623
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.16"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 15,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 11,
+   "n_na": 3
+  },
+  "D3": {
+   "tool_calls": 10,
+   "utterances": 10,
+   "checks": {
+    "repeat": 2
+   }
+  },
+  "D7": {
+   "n_handoffs": 6
+  },
+  "D9": {
+   "n_steps": 6
+  }
+ },
+ "coverage": {},
+ "run_id": "aime_008",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

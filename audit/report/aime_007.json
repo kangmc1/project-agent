@@ -1,0 +1,84 @@
+{
+ "flags": [
+  {
+   "step": 1,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "276"
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['276'] altered []"
+  },
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=10"
+  },
+  {
+   "step": 4,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "391"
+    ],
+    "altered": []
+   },
+   "evidence": "verifier report->planner: missing ['391'] altered []"
+  },
+  {
+   "step": 5,
+   "agent": "verifier",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=10"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 11,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 7,
+   "n_na": 0
+  },
+  "D3": {
+   "tool_calls": 7,
+   "utterances": 6,
+   "checks": {}
+  },
+  "D7": {
+   "n_handoffs": 6
+  },
+  "D9": {
+   "n_steps": 7
+  }
+ },
+ "coverage": {},
+ "run_id": "aime_007",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

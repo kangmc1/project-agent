@@ -1,0 +1,510 @@
+{
+ "flags": [
+  {
+   "step": 1,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "26"
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['26'] altered []"
+  },
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.2857142857142857,
+    "unsupported": 0.7142857142857143
+   },
+   "evidence": "values not found in any prior tool result: 4 + 2 + 1 + 2 + 4 = 13, symmetric, 1 to 9, digits 1 through 9, none"
+  },
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=42124"
+  },
+  {
+   "step": 3,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.3,
+    "unsupported": 0.7
+   },
+   "evidence": "values not found in any prior tool result: 2a + 2b + c = 13, abcba, 1 to 9, 2a + 2b, abba"
+  },
+  {
+   "step": 3,
+   "agent": "solver",
+   "module": "D9",
+   "signal": {
+    "consistency": 0.0
+   },
+   "evidence": "false equations: {'step_id': 3, 'expr': 'a == 5'}; {'step_id': 3, 'expr': 'b == 3'}; {'step_id': 3, 'expr': 'a == 6'}"
+  },
+  {
+   "step": 5,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.3333333333333333,
+    "unsupported": 0.6666666666666667
+   },
+   "evidence": "values not found in any prior tool result: 2a + 2b + 2c + 2d + e, abcdeedcba, 1 to 9, abcddcba, 2a + 2b + 2c + 2d"
+  },
+  {
+   "step": 6,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=26"
+  },
+  {
+   "step": 7,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: final_answer=26"
+  },
+  {
+   "step": 9,
+   "agent": "verifier",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=42124"
+  },
+  {
+   "step": 10,
+   "agent": "verifier",
+   "module": "D9",
+   "signal": {
+    "consistency": 0.0
+   },
+   "evidence": "false equations: {'step_id': 10, 'expr': 'digits_in_palindrome == 2'}; {'step_id': 10, 'expr': 'digits_in_palindrome == 3'}; {'step_id': 10, 'expr': 'digits_in_palindrome == 4'}"
+  },
+  {
+   "step": 11,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "ensure that half_length is an integer",
+     "the range function is still being passed a float",
+     "use of 10**(half_length - 1) and 10**half_length when half_length is a float"
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['ensure that half_length is an integer', 'the range function is still being passed a float', 'use of 10**(half_length - 1) and 10**half_length when half_length is a float'] altered []"
+  },
+  {
+   "step": 12,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #9: error"
+  },
+  {
+   "step": 12,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: numeric=12321, numeric=26, numeric=121"
+  },
+  {
+   "step": 13,
+   "agent": "solver",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.695,
+    "p_actual": 0.85,
+    "margin": 0.7
+   },
+   "evidence": "action distribution: run_python 0.85, no_tool 0.15, read_file 0.00 (actual: run_python)"
+  },
+  {
+   "step": 13,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #10: error"
+  },
+  {
+   "step": 14,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #11: error, repeat"
+  },
+  {
+   "step": 15,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #12: error, repeat"
+  },
+  {
+   "step": 16,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #13: error, repeat"
+  },
+  {
+   "step": 17,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #14: error, repeat"
+  },
+  {
+   "step": 18,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #15: error, repeat"
+  },
+  {
+   "step": 19,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #16: error, repeat"
+  },
+  {
+   "step": 20,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #17: error, repeat"
+  },
+  {
+   "step": 21,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #18: error, repeat"
+  },
+  {
+   "step": 22,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #19: error, repeat"
+  },
+  {
+   "step": 23,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #20: error, repeat"
+  },
+  {
+   "step": 24,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #21: error, repeat"
+  },
+  {
+   "step": 25,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #22: error, repeat"
+  },
+  {
+   "step": 26,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #23: error, repeat"
+  },
+  {
+   "step": 27,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #24: error, repeat"
+  },
+  {
+   "step": 28,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #25: error, repeat"
+  },
+  {
+   "step": 29,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #26: error, repeat"
+  },
+  {
+   "step": 30,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #27: error, repeat"
+  },
+  {
+   "step": 31,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #28: error, repeat"
+  },
+  {
+   "step": 32,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #29: error, repeat"
+  },
+  {
+   "step": 33,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #30: error, repeat"
+  },
+  {
+   "step": 34,
+   "agent": "solver",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "run_python"
+   },
+   "evidence": "tool run_python call #31: error, repeat"
+  },
+  {
+   "step": 35,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "solver"
+   },
+   "evidence": "tool solver call #32: error, ignored"
+  },
+  {
+   "step": 36,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.463,
+    "p_actual": 0.655,
+    "margin": 0.468
+   },
+   "evidence": "action distribution: submit_answer 0.66, verifier 0.19, no_tool 0.12 (actual: submit_answer)"
+  },
+  {
+   "step": 36,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.22,
+    "H2": 0.761
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.22"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 37,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 34,
+   "n_na": 24
+  },
+  "D3": {
+   "tool_calls": 33,
+   "utterances": 31,
+   "checks": {
+    "error": 24,
+    "repeat": 21,
+    "ignored": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 6
+  },
+  "D9": {
+   "n_steps": 31
+  }
+ },
+ "coverage": {},
+ "run_id": "aime_002",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

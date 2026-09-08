@@ -46,11 +46,30 @@ def _load_run(run: Path) -> tuple[list[dict], list[dict], dict]:
     return steps, calls, meta
 
 
+def _input_text(step: dict) -> str:
+    """Concatenated non-assistant message contents of the request the model saw at this step."""
+    parts = []
+    for m in step.get("request", {}).get("messages") or []:
+        if m.get("role") == "assistant":
+            continue
+        c = m.get("content")
+        if isinstance(c, list):
+            c = " ".join(x.get("text", "") for x in c if isinstance(x, dict))
+        if c:
+            parts.append(str(c))
+    return "\n".join(parts)
+
+
 def score_step(step: dict, calls: list[dict], user_sim_texts: list[tuple[int, str]], run_id: str, domain: str) -> dict:
     content = step["response"]["content"]
     claims = extract_claims(content)
     prior_calls = [c for c in calls if c["step_id"] <= step["step_id"]]
     prior_user = [(sid, txt) for sid, txt in user_sim_texts if sid < step["step_id"]]
+    # Everything the model was GIVEN in this request is a legitimate source too: the task statement and policy
+    # (system/user), the planner's instruction to a subagent (user), tool results (tool). Its own earlier assistant
+    # turns are excluded so a restated fabrication stays unsupported. (Added 09-09 05:00; before, AIME problem-statement
+    # values and instruction values were counted as unsupported.)
+    given_norm = _norm(_input_text(step))
 
     scored_claims = []
     n_values = 0
@@ -76,6 +95,9 @@ def score_step(step: dict, calls: list[dict], user_sim_texts: list[tuple[int, st
                         found = True
                         source = {"step_id": sid, "tool": "user_sim"}
                         break
+            if not found and norm_v in given_norm:
+                found = True
+                source = {"step_id": step["step_id"], "tool": "input"}
         scored_claims.append({"entity": c["entity"], "attribute": c["attribute"], "value": value,
                                "found": found, "source": source})
         if countable:

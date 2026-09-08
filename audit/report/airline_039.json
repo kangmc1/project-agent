@@ -1,0 +1,161 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "h8q05l",
+     "successfully retrieved and recorded in the case notes"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['h8q05l', 'successfully retrieved and recorded in the case notes'] altered []"
+  },
+  {
+   "step": 4,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.736,
+    "p_actual": 0.689,
+    "margin": 0.423
+   },
+   "evidence": "action distribution: write_file 0.69, no_tool 0.27, read_file 0.04 (actual: write_file)"
+  },
+  {
+   "step": 6,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.64,
+    "p_actual": 0.759,
+    "margin": 0.541
+   },
+   "evidence": "action distribution: read_file 0.76, policy_checker 0.22, respond_to_user 0.02 (actual: read_file)"
+  },
+  {
+   "step": 6,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.218,
+    "H2": 0.756
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.22"
+  },
+  {
+   "step": 8,
+   "agent": "policy_checker",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: cancel="
+  },
+  {
+   "step": 11,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "cancellation",
+     "full_refund",
+     "h8q05l",
+     "harper kovacs"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['cancellation', 'full_refund', 'h8q05l'] altered []"
+  },
+  {
+   "step": 12,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.778,
+    "p_actual": 0.679,
+    "margin": 0.358
+   },
+   "evidence": "action distribution: cancel_reservation 0.68, get_reservation_details 0.32, no_tool 0.00 (actual: cancel_reservation)"
+  },
+  {
+   "step": 13,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.721,
+    "p_actual": 0.702,
+    "margin": 0.479
+   },
+   "evidence": "action distribution: write_file 0.70, no_tool 0.22, read_file 0.07 (actual: write_file)"
+  },
+  {
+   "step": 15,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.553,
+    "p_actual": 0.648,
+    "margin": 0.342
+   },
+   "evidence": "action distribution: read_file 0.65, respond_to_user 0.31, write_file 0.04 (actual: read_file)"
+  },
+  {
+   "step": 15,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #10: repeat"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 15,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 8,
+   "n_na": 0
+  },
+  "D3": {
+   "tool_calls": 11,
+   "utterances": 8,
+   "checks": {
+    "repeat": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 6
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_039",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

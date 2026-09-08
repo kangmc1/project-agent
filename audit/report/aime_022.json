@@ -1,0 +1,95 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.25,
+    "unsupported": 0.75
+   },
+   "evidence": "values not found in any prior tool result: 1/3, 1/3, 1/3, m/n"
+  },
+  {
+   "step": 5,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.631,
+    "p_actual": 0.72,
+    "margin": 0.455
+   },
+   "evidence": "action distribution: solver 0.72, submit_answer 0.26, no_tool 0.01 (actual: solver)"
+  },
+  {
+   "step": 5,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.724,
+    "H2": 0.849
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.72"
+  },
+  {
+   "step": 6,
+   "agent": "solver",
+   "module": "D2",
+   "signal": {
+    "s": 0.0,
+    "unsupported": 1.0
+   },
+   "evidence": "values not found in any prior tool result: 2/6, 1/3, 2/6, 1/3, 2/6"
+  },
+  {
+   "step": 7,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "solver"
+   },
+   "evidence": "tool solver call #4: repeat"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 8,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 5,
+   "n_na": 0
+  },
+  "D3": {
+   "tool_calls": 4,
+   "utterances": 1,
+   "checks": {
+    "repeat": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 6
+  },
+  "D9": {
+   "n_steps": 5
+  }
+ },
+ "coverage": {},
+ "run_id": "aime_022",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

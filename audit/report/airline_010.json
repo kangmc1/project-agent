@@ -1,0 +1,490 @@
+{
+ "flags": [
+  {
+   "step": 7,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.604,
+    "p_actual": 0.56,
+    "margin": 0.124
+   },
+   "evidence": "action distribution: respond_to_user 0.56, policy_checker 0.44, db_agent 0.00 (actual: respond_to_user)"
+  },
+  {
+   "step": 7,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.438,
+    "H2": 0.989
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.44"
+  },
+  {
+   "step": 16,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT041"
+  },
+  {
+   "step": 17,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT083, reservation_id=HAT023, reservation_id=HAT069"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "read_file"
+   },
+   "evidence": "tool read_file call #19: error, ignored"
+  },
+  {
+   "step": 18,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT276, reservation_id=HAT100, reservation_id=HAT041, reservation_id=HAT012, reservation_id=HAT069"
+  },
+  {
+   "step": 20,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT276, reservation_id=HAT069, money=106"
+  },
+  {
+   "step": 24,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #23: error"
+  },
+  {
+   "step": 25,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #24: error, ignored"
+  },
+  {
+   "step": 25,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: user_id=sara_doe_496"
+  },
+  {
+   "step": 29,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.723,
+    "p_actual": 0.551,
+    "margin": 0.122
+   },
+   "evidence": "action distribution: book_reservation 0.55, get_user_details 0.43, no_tool 0.02 (actual: book_reservation)"
+  },
+  {
+   "step": 29,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #26: error"
+  },
+  {
+   "step": 30,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #27: error, ignored"
+  },
+  {
+   "step": 31,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.78,
+    "H2": 0.761
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.78"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.683,
+    "p_actual": 0.353,
+    "margin": 0.227
+   },
+   "evidence": "action distribution: get_reservation_details 0.58, search_direct_flight 0.35, no_tool 0.06 (actual: search_direct_flight)"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #28: repeat"
+  },
+  {
+   "step": 32,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #29: repeat"
+  },
+  {
+   "step": 34,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "error related to the `flight_number` parameter",
+     "failed",
+     "hat069",
+     "hat276"
+    ],
+    "altered": [
+     "flight_number_1"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['error related to the `flight_number` parameter', 'failed', 'hat069'] altered ['flight_number_1']"
+  },
+  {
+   "step": 35,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.723,
+    "p_actual": 0.551,
+    "margin": 0.122
+   },
+   "evidence": "action distribution: book_reservation 0.55, get_user_details 0.43, no_tool 0.02 (actual: book_reservation)"
+  },
+  {
+   "step": 35,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #31: error, repeat"
+  },
+  {
+   "step": 36,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #32: error, repeat, ignored"
+  },
+  {
+   "step": 37,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.454,
+    "p_actual": 0.544,
+    "margin": 0.214
+   },
+   "evidence": "action distribution: respond_to_user 0.54, policy_checker 0.33, db_agent 0.12 (actual: respond_to_user)"
+  },
+  {
+   "step": 37,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.452,
+    "H2": 0.993
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.45"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #34: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #35: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #36: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #37: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #38: repeat"
+  },
+  {
+   "step": 40,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #39: repeat"
+  },
+  {
+   "step": 41,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #40: repeat"
+  },
+  {
+   "step": 41,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #41: repeat"
+  },
+  {
+   "step": 41,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "repeat"
+    ],
+    "tool": "search_direct_flight"
+   },
+   "evidence": "tool search_direct_flight call #42: repeat"
+  },
+  {
+   "step": 41,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT023, reservation_id=HAT083, reservation_id=HAT041"
+  },
+  {
+   "step": 42,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT100, reservation_id=HAT041, reservation_id=HAT012, reservation_id=HAT089, reservation_id=HAT228"
+  },
+  {
+   "step": 45,
+   "agent": "planner",
+   "module": "D7",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "error related to the `flight_number` parameter",
+     "failed",
+     "hat012",
+     "hat041"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['error related to the `flight_number` parameter', 'failed', 'hat012'] altered []"
+  },
+  {
+   "step": 46,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.677,
+    "p_actual": 0.624,
+    "margin": 0.33
+   },
+   "evidence": "action distribution: book_reservation 0.62, get_user_details 0.29, no_tool 0.06 (actual: book_reservation)"
+  },
+  {
+   "step": 46,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "book_reservation"
+   },
+   "evidence": "tool book_reservation call #45: error"
+  },
+  {
+   "step": 47,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #46: error, ignored"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 42,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 23,
+   "n_na": 2
+  },
+  "D3": {
+   "tool_calls": 48,
+   "utterances": 20,
+   "checks": {
+    "error": 9,
+    "ignored": 5,
+    "repeat": 13
+   }
+  },
+  "D7": {
+   "n_handoffs": 18
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_010",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}

@@ -1,0 +1,207 @@
+{
+ "flags": [
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.647,
+    "p_actual": 0.724,
+    "margin": 0.458
+   },
+   "evidence": "action distribution: respond_to_user 0.72, db_agent 0.27, read_file 0.01 (actual: respond_to_user)"
+  },
+  {
+   "step": 2,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "handoff",
+   "signal": {
+    "p_delegate": 0.267,
+    "H2": 0.837
+   },
+   "evidence": "delegate-vs-not split p_delegate=0.27"
+  },
+  {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #2: error"
+  },
+  {
+   "step": 5,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "satisfied": false
+   },
+   "evidence": "claims without prior tool evidence: reservation_id=HAT039, flight_no=HAT039"
+  },
+  {
+   "step": 6,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.561,
+    "p_actual": 0.104,
+    "margin": 0.523
+   },
+   "evidence": "action distribution: no_tool 0.63, transfer_to_human_agents 0.10, book_reservation 0.10 (actual: get_reservation_details)"
+  },
+  {
+   "step": 6,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #3: error"
+  },
+  {
+   "step": 7,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #4: error, ignored"
+  },
+  {
+   "step": 11,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error"
+    ],
+    "tool": "get_reservation_details"
+   },
+   "evidence": "tool get_reservation_details call #6: error"
+  },
+  {
+   "step": 12,
+   "agent": "db_agent",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.722,
+    "p_actual": 0.676,
+    "margin": 0.409
+   },
+   "evidence": "action distribution: write_file 0.68, no_tool 0.27, transfer_to_human_agents 0.06 (actual: write_file)"
+  },
+  {
+   "step": 13,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #8: error, ignored"
+  },
+  {
+   "step": 14,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.535,
+    "p_actual": 0.592,
+    "margin": 0.233
+   },
+   "evidence": "action distribution: respond_to_user 0.59, read_file 0.36, write_file 0.05 (actual: respond_to_user)"
+  },
+  {
+   "step": 22,
+   "agent": "db_agent",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "repeat"
+    ],
+    "tool": "get_user_details"
+   },
+   "evidence": "tool get_user_details call #13: error, repeat"
+  },
+  {
+   "step": 23,
+   "agent": "planner",
+   "module": "D3",
+   "signal": {
+    "checks": [
+     "error",
+     "ignored"
+    ],
+    "tool": "db_agent"
+   },
+   "evidence": "tool db_agent call #14: error, ignored"
+  },
+  {
+   "step": 29,
+   "agent": "planner",
+   "module": "D1",
+   "layer": "tool",
+   "signal": {
+    "confidence": 0.646,
+    "p_actual": 0.673,
+    "margin": 0.346
+   },
+   "evidence": "action distribution: respond_to_user 0.67, no_tool 0.33, read_file 0.00 (actual: respond_to_user)"
+  }
+ ],
+ "per_module_summary": {
+  "D1": {
+   "n_scored": 23,
+   "method": "stepwise"
+  },
+  "D2": {
+   "n_utterances": 11,
+   "n_na": 2
+  },
+  "D3": {
+   "tool_calls": 18,
+   "utterances": 8,
+   "checks": {
+    "error": 7,
+    "ignored": 3,
+    "repeat": 1
+   }
+  },
+  "D7": {
+   "n_handoffs": 8
+  }
+ },
+ "coverage": {},
+ "run_id": "airline_016",
+ "thresholds": {
+  "percentile": 10,
+  "D1": {
+   "planner": 0.3389318650067048,
+   "subagent": 0.22245623061646203
+  },
+  "D1_handoff": 0.4560107138530137,
+  "D2": 0.5555555555555556,
+  "D7": 1.0,
+  "D9": 0.9333333333333333
+ }
+}
