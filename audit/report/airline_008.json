@@ -3,7 +3,7 @@
   {
    "step": 4,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -17,14 +17,14 @@
    "n_scored": 4,
    "method": "stepwise"
   },
-  "D3": {
+  "D2": {
    "n_steps": 4,
    "flagged": 1,
    "missing_tool": 1,
    "fabricated_arg": 0,
    "tool_call_failed": 0
   },
-  "D7": {
+  "D3": {
    "n_handoffs": 2
   }
  },
@@ -37,7 +37,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D7": 1.0,
-  "D3": "procedural flag (no threshold)"
+  "D3": 1.0,
+  "D2": "procedural flag (no threshold)"
  }
 }

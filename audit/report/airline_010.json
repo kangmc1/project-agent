@@ -26,7 +26,7 @@
   {
    "step": 15,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -37,7 +37,7 @@
   {
    "step": 16,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -48,7 +48,7 @@
   {
    "step": 24,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -71,7 +71,7 @@
   {
    "step": 29,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -105,7 +105,7 @@
   {
    "step": 34,
    "agent": "planner",
-   "module": "D7",
+   "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
@@ -136,7 +136,7 @@
   {
    "step": 35,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -170,7 +170,7 @@
   {
    "step": 40,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -181,7 +181,7 @@
   {
    "step": 45,
    "agent": "planner",
-   "module": "D7",
+   "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
@@ -210,7 +210,7 @@
   {
    "step": 46,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": true,
@@ -224,14 +224,14 @@
    "n_scored": 42,
    "method": "stepwise"
   },
-  "D3": {
+  "D2": {
    "n_steps": 42,
    "flagged": 7,
    "missing_tool": 0,
    "fabricated_arg": 7,
    "tool_call_failed": 4
   },
-  "D7": {
+  "D3": {
    "n_handoffs": 18
   }
  },
@@ -244,7 +244,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D7": 1.0,
-  "D3": "procedural flag (no threshold)"
+  "D3": 1.0,
+  "D2": "procedural flag (no threshold)"
  }
 }

@@ -1,4 +1,4 @@
-"""D3 rules: which tool evidence a claim in an utterance requires (deterministic, regex-based)."""
+"""D2 rules: which tool evidence a claim in an utterance requires (deterministic, regex-based)."""
 from __future__ import annotations
 
 import re

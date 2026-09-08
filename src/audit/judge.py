@@ -1,6 +1,6 @@
 """LLM-judge baseline (OPTIONAL comparator) — a single small model asked "did THIS step fail?".
 
-Comparison baseline for the code-judged auditor items (D1/D2/D3/D7/D9). For every labeled-agent step it shows the
+Comparison baseline for the code-judged auditor items (D1/D4/D2/D3/D9). For every labeled-agent step it shows the
 same 8B model that the extractor uses (Qwen3-8B on :18002) the run's domain, the agent's role, the last ~6 messages
 of context the agent actually saw (tool results verbatim), and the step's own output, then asks for
 {failure, p_fail, category, rationale} as strict JSON. Thinking is ON (no enable_thinking=False), so the

@@ -1,15 +1,15 @@
-"""D3 rule 2 — instruction -> action coverage (label-free, deterministic).
+"""D2 rule 2 — instruction -> action coverage (label-free, deterministic).
 
 For every handoff (planner wrapper call -> subagent steps until the planner's next step), derive from the planner's
 INSTRUCTION which tool families the subagent must call, and check the subagent's actual tool calls inside the handoff.
 The score is attached to the subagent's REPORT step (its last step in the handoff, normally a no_tool step): 1 if some
 required family was never called ("ended early"), else 0. This is the third handoff boundary (instruction -> actions);
-D7 covers instruction -> premise (text) and report -> planner (text). Motivation (2026-09-09 05:55): subagent no_tool is
+D3 covers instruction -> premise (text) and report -> planner (text). Motivation (2026-09-09 05:55): subagent no_tool is
 structurally "report and return" (260/260 followed by a planner step), so the question is not the confidence of ending
-but whether the requested work was done before ending. D3 rule 1 judges the utterance ("numbers need tool evidence");
+but whether the requested work was done before ending. D2 rule 1 judges the utterance ("numbers need tool evidence");
 this rule judges the instruction.
 
-Output: audit/d3_instruction.jsonl   Usage: python -m src.audit.d3_instruction [--runs runs]
+Output: audit/d2_instruction.jsonl   Usage: python -m src.audit.d2_instruction [--runs runs]
 """
 from __future__ import annotations
 
@@ -129,12 +129,12 @@ def main() -> None:
     for run in sorted(Path(a.runs).glob("*/")):
         if (run / "steps.jsonl").exists():
             rows += audit_run(run)
-    with (AUDIT / "d3_instruction.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d2_instruction.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     n_app = sum(r["applicable"] for r in rows)
     n_uns = sum(1 for r in rows if r["satisfied"] is False)
-    print(f"D3-instruction: handoffs {len(rows)}, applicable {n_app}, unsatisfied {n_uns}")
+    print(f"D2-instruction: handoffs {len(rows)}, applicable {n_app}, unsatisfied {n_uns}")
 
 
 if __name__ == "__main__":

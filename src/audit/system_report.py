@@ -18,7 +18,7 @@ WRAPPERS = {"policy_checker", "db_agent", "solver", "verifier"}
 
 
 def build(percentile: int = 10) -> dict:
-    d1, d3, d7, d3a = (_load(f) for f in ("d1.jsonl", "d3.jsonl", "d7.jsonl", "d3_args.jsonl"))
+    d1, d3, d7, d3a = (_load(f) for f in ("d1.jsonl", "d2_toolcalls.jsonl", "d3_handoff.jsonl", "d2_args.jsonl"))
     q = 1 - percentile / 100
     index = {}
     if Path("runs/index.csv").exists():
@@ -29,18 +29,18 @@ def build(percentile: int = 10) -> dict:
     for dom in domains:
         D1 = [r for r in d1 if r["domain"] == dom]
         D3A = [r for r in d3a if r["domain"] == dom]
-        D3 = [r for r in d3 if r["domain"] == dom]
-        D7 = [r for r in d7 if r["domain"] == dom]
+        D2 = [r for r in d3 if r["domain"] == dom]
+        D3 = [r for r in d7 if r["domain"] == dom]
         runs = sorted({r["run_id"] for r in D1 + D3})
         succ = [index[r]["success"] == "True" for r in runs if r in index and index[r]["status"] == "ok"]
         dom_out = {"n_runs": len(runs), "success_rate*": (sum(succ) / len(succ)) if succ else None, "agents": {}, "handoff_edges": {}, "hotspots": [], "confidence_curve": {}}
-        agents = sorted({r["agent"] for r in D1} | {r["agent"] for r in D3 if r["kind"] == "tool_call"})
+        agents = sorted({r["agent"] for r in D1} | {r["agent"] for r in D2 if r["kind"] == "tool_call"})
         thr_d1 = {role: _pct([1 - r["confidence"] for r in D1 if r["role"] == role], q) for role in ("planner", "subagent")}
         thr_h = _pct([r["layer2"]["H2"] for r in D1 if r["role"] == "planner"], q)
         for ag in agents:
             a1 = [r for r in D1 if r["agent"] == ag]
             a2 = [r for r in D3A if r["agent"] == ag]
-            a3 = [r for r in D3 if r["agent"] == ag and r["kind"] == "tool_call"]
+            a3 = [r for r in D2 if r["agent"] == ag and r["kind"] == "tool_call"]
             role = "planner" if ag == "planner" else "subagent"
             t = thr_d1.get(role)
             checks = Counter()
@@ -57,7 +57,7 @@ def build(percentile: int = 10) -> dict:
                 "tool_check_ratios": {k: (checks[k] / len(a3)) if a3 else None for k in ("error", "empty", "repeat", "schema", "ignored")},
             }
         edges = defaultdict(list)
-        for r in D7:
+        for r in D3:
             edges[(r["wrapper"], r["direction"])].append(r)
         for (w, d), rows in edges.items():
             fids = [r["fidelity"] for r in rows if r.get("fidelity") is not None]
@@ -67,7 +67,7 @@ def build(percentile: int = 10) -> dict:
                                                     "low_fidelity_ratio(<0.8)": (sum(1 for f in fids if f < 0.8) / len(fids)) if fids else None,
                                                     "top_missing_keys": miss.most_common(3), "top_altered_keys": alt.most_common(3)}
         hot = Counter()
-        for r in D3:
+        for r in D2:
             if r["kind"] == "tool_call":
                 for k, v in r["checks"].items():
                     if v:

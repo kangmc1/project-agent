@@ -1,9 +1,9 @@
-"""D3 — tool-called / tool-log checks (deterministic, label-free).
+"""D2 — tool-called / tool-log checks (deterministic, label-free).
 
-For every assistant utterance: which tool evidence do its claims require (d3_rules), and was such a tool called
+For every assistant utterance: which tool evidence do its claims require (d2_rules), and was such a tool called
 with a result BEFORE the utterance (value must appear in the result when the claim carries a value)?
 Plus five tool-log checks per tool call: error, empty, repeat, schema violation, ignored error.
-Output: audit/d3.jsonl (one row per step or tool call).   Usage: python -m src.audit.d3 [--runs runs]
+Output: audit/d2_toolcalls.jsonl (one row per step or tool call).   Usage: python -m src.audit.d2_toolcalls [--runs runs]
 """
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ import sqlite3
 from collections import Counter
 from pathlib import Path
 
-from .d3_rules import extract_claims, rules_for
+from .d2_rules import extract_claims, rules_for
 
 AUX = {"user_sim", "summarizer"}
 AUDIT = Path("audit")
@@ -118,7 +118,7 @@ def main() -> None:
     ap.add_argument("--runs", default="runs")
     a = ap.parse_args()
     AUDIT.mkdir(exist_ok=True)
-    out = AUDIT / "d3.jsonl"
+    out = AUDIT / "d2_toolcalls.jsonl"
     n = 0
     agg = Counter()
     with out.open("w", encoding="utf-8") as f:
@@ -134,7 +134,7 @@ def main() -> None:
                 else:
                     agg["utterances"] += 1
                     agg["unsatisfied"] += int(not r["satisfied"])
-    print(f"D3 rows={n}", dict(agg))
+    print(f"D2 rows={n}", dict(agg))
 
 
 if __name__ == "__main__":

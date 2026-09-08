@@ -3,7 +3,7 @@
   {
    "step": 1,
    "agent": "planner",
-   "module": "D7",
+   "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
@@ -17,7 +17,7 @@
   {
    "step": 11,
    "agent": "planner",
-   "module": "D7",
+   "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
@@ -33,7 +33,7 @@
   {
    "step": 12,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -56,7 +56,7 @@
   {
    "step": 13,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -67,7 +67,7 @@
   {
    "step": 14,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -78,7 +78,7 @@
   {
    "step": 15,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -89,7 +89,7 @@
   {
    "step": 16,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -100,7 +100,7 @@
   {
    "step": 17,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -111,7 +111,7 @@
   {
    "step": 18,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -122,7 +122,7 @@
   {
    "step": 19,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -133,7 +133,7 @@
   {
    "step": 20,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -144,7 +144,7 @@
   {
    "step": 21,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -155,7 +155,7 @@
   {
    "step": 22,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -166,7 +166,7 @@
   {
    "step": 23,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -177,7 +177,7 @@
   {
    "step": 24,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -188,7 +188,7 @@
   {
    "step": 25,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -199,7 +199,7 @@
   {
    "step": 26,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -210,7 +210,7 @@
   {
    "step": 27,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -221,7 +221,7 @@
   {
    "step": 28,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -232,7 +232,7 @@
   {
    "step": 29,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -243,7 +243,7 @@
   {
    "step": 30,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -254,7 +254,7 @@
   {
    "step": 31,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -265,7 +265,7 @@
   {
    "step": 32,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -276,7 +276,7 @@
   {
    "step": 33,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -287,7 +287,7 @@
   {
    "step": 34,
    "agent": "solver",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": false,
     "fabricated_arg": false,
@@ -324,14 +324,14 @@
    "n_scored": 37,
    "method": "stepwise"
   },
-  "D3": {
+  "D2": {
    "n_steps": 37,
    "flagged": 23,
    "missing_tool": 0,
    "fabricated_arg": 0,
    "tool_call_failed": 23
   },
-  "D7": {
+  "D3": {
    "n_handoffs": 6
   }
  },
@@ -344,7 +344,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D7": 1.0,
-  "D3": "procedural flag (no threshold)"
+  "D3": 1.0,
+  "D2": "procedural flag (no threshold)"
  }
 }

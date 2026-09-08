@@ -1,8 +1,8 @@
-"""D3 rule 3 — groundedness of TOOL-CALL ARGUMENTS (formerly D2 rule 2; moved into D3 = tool-call layer, 09-09 06:25) (label-free, deterministic).
+"""D2 rule 3 — groundedness of TOOL-CALL ARGUMENTS (formerly D4 rule 2; moved into D2 = tool-call layer, 09-09 06:25) (label-free, deterministic).
 
-Finding (2026-09-09 06:10): 38 of 49 hallucination_like subagent errors had D2 s = 1.0 because the fabricated values were
+Finding (2026-09-09 06:10): 38 of 49 hallucination_like subagent errors had D4 s = 1.0 because the fabricated values were
 not in the utterance but in the arguments of the tool call (e.g. get_user_details(user_id='rossi_123') when the customer
-gave only 'Rossi'). D2 rule 1 reads utterance text; this rule reads every tool-call argument the agent emitted at a step
+gave only 'Rossi'). D4 rule 1 reads utterance text; this rule reads every tool-call argument the agent emitted at a step
 and asks whether each identifier-like value was GIVEN to the agent: present in the non-assistant messages of that request
 (system/user/instruction/tool results) or in earlier customer turns of the run. Arguments are structured JSON, so no LLM
 extraction is needed. Score = fraction of identifier-like argument values that are ungrounded (0 = all given).
@@ -10,7 +10,7 @@ extraction is needed. Score = fraction of identifier-like argument values that a
 Checked value kinds (tau-bench conventions + AIME): reservation ids, user ids, flight numbers, ISO dates, money, IATA codes
 under origin/destination keys, person names under *name* keys, and the final integer of submit_answer (must appear in a
 prior run_python result). Skipped tools: run_python / file tools / think (code and prose, not claims).
-Output: audit/d3_args.jsonl   Usage: python -m src.audit.d3_args [--runs runs]
+Output: audit/d2_args.jsonl   Usage: python -m src.audit.d2_args [--runs runs]
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ import re
 from pathlib import Path
 
 import sqlite3
-from .d3_rules import RESERVATION_ID, FLIGHT_NO, MONEY, DATE
+from .d2_rules import RESERVATION_ID, FLIGHT_NO, MONEY, DATE
 
 USER_ID = re.compile(r"\b[a-z]+(?:_[a-z]+)?_\d{2,5}\b")  # tau-bench first_last_1234; also catches invented 'rossi_123'
 MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
@@ -172,10 +172,10 @@ def main() -> None:
     for run in sorted(Path(a.runs).glob("*/")):
         if (run / "steps.jsonl").exists() and (run / "tool_calls.sqlite").exists():
             rows += audit_run(run)
-    with (AUDIT / "d3_args.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d2_args.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print(f"D3-args: steps {len(rows)}, values {sum(r['n_values'] for r in rows)}, "
+    print(f"D2-args: steps {len(rows)}, values {sum(r['n_values'] for r in rows)}, "
           f"ungrounded {sum(r['n_ungrounded'] for r in rows)}, steps with any ungrounded {sum(r['n_ungrounded']>0 for r in rows)}")
 
 

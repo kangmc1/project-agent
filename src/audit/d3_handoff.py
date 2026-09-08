@@ -1,4 +1,4 @@
-"""D7 - handoff fidelity: does information survive the planner <-> subagent (policy_checker/db_agent/solver/verifier)
+"""D3 - handoff fidelity: does information survive the planner <-> subagent (policy_checker/db_agent/solver/verifier)
 round trip intact?
 
 Handoffs are wrapper rows in tool_calls.sqlite (tool in WRAPPERS, args_json = {"instruction": ...}). Two rows are
@@ -13,8 +13,8 @@ compared for each handoff:
 
 missing/added are VALUE-level diffs (normalized, containment-tolerant); altered = same key, different value; fidelity = |A values present in B| / |A values|.
 
-Output: audit/d7.jsonl (two rows per handoff).  --stats also writes audit/d7_stats.json.
-Usage: python -m src.audit.d7 [--runs runs] [--run-id ID] [--stats] [--out audit/d7.jsonl]
+Output: audit/d3_handoff.jsonl (two rows per handoff).  --stats also writes audit/d3_handoff_stats.json.
+Usage: python -m src.audit.d3_handoff [--runs runs] [--run-id ID] [--stats] [--out audit/d3_handoff.jsonl]
 """
 from __future__ import annotations
 
@@ -208,7 +208,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", default="runs")
     ap.add_argument("--run-id")
-    ap.add_argument("--out", default=str(AUDIT / "d7.jsonl"))
+    ap.add_argument("--out", default=str(AUDIT / "d3_handoff.jsonl"))
     ap.add_argument("--stats", action="store_true")
     a = ap.parse_args()
 
@@ -227,7 +227,7 @@ def main() -> None:
     with out_path.open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print(f"D7 done: {len(rows)} rows -> {out_path}")
+    print(f"D3 done: {len(rows)} rows -> {out_path}")
 
     if a.stats:
         by_dir: dict[str, list[dict]] = {}
@@ -240,8 +240,8 @@ def main() -> None:
             fids = [r["fidelity"] for r in rs if r["fidelity"] is not None]
             out[f"mean_fidelity[{direction}]"] = (sum(fids) / len(fids)) if fids else None
             out[f"n[{direction}]"] = len(rs)
-        (AUDIT / "d7_stats.json").write_text(json.dumps(out, indent=2, ensure_ascii=False))
-        print("D7 stats:", json.dumps(out, indent=2, ensure_ascii=False))
+        (AUDIT / "d3_handoff_stats.json").write_text(json.dumps(out, indent=2, ensure_ascii=False))
+        print("D3 stats:", json.dumps(out, indent=2, ensure_ascii=False))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 """Label-free percentile thresholds vs the label-optimal threshold (Youden J).
 
-For D1 (1-confidence), D3 rule 3 (ungrounded argument ratio) and D7 (report->planner):
+For D1 (1-confidence), D2 rule 3 (ungrounded argument ratio) and D3 (report->planner):
   * top 5% / top 10% = the 95th / 90th percentile of that item's score distribution over ALL scored steps,
     including runs that were never labeled (this is the operating rule an unlabeled deployment can apply);
   * label-optimal = the threshold maximising Youden J (TPR - FPR) on labeled steps
@@ -22,7 +22,7 @@ from .labels import load_index, non_aux_steps
 from .metrics import (DOMAIN_SCOPES, ROLE_SCOPES, Item, applicable, cell_rows, d7_report_to_planner,
                       labeled_steps, load_items)
 
-WANTED = ("D1_1-conf", "D3", "D7_report->planner")
+WANTED = ("D1_1-conf", "D2", "D3_report->planner")
 
 
 def pool_scores(item: Item, roles: set[str], domains: set[str] | None, index, root) -> np.ndarray:

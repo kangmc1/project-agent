@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D7/report->planner | {"fidelity": 0.0, "missing": ["111"], "altered": ["final_answer"]} | solver report->planner: missing ['111'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["111"], "altered": ["final_answer"]} | solver report->planner: missing ['111'] altered ['final_answer'] |
 | 2 | solver | D1/tool | {"confidence": 0.527, "p_actual": 0.365, "margin": 0.271} | action distribution: no_tool 0.64, run_python 0.36, write_file 0.00 (actual: run_python) |
 | 5 | verifier | D1/tool | {"confidence": 0.645, "p_actual": 0.806, "margin": 0.612} | action distribution: run_python 0.81, no_tool 0.19, read_file 0.00 (actual: run_python) |
 | 7 | planner | D1/handoff | {"p_delegate": 0.818, "H2": 0.685} | delegate-vs-not split p_delegate=0.82 |
@@ -15,17 +15,17 @@
   "n_scored": 14,
   "method": "stepwise"
  },
- "D3": {
+ "D2": {
   "n_steps": 14,
   "flagged": 0,
   "missing_tool": 0,
   "fabricated_arg": 0,
   "tool_call_failed": 0
  },
- "D7": {
+ "D3": {
   "n_handoffs": 6
  }
 }
 ```
 
-Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D7": 1.0, "D3": "procedural flag (no threshold)"}`
+Thresholds (label-free, top 10% per item): `{"percentile": 10, "D1": {"planner": 0.3389318650067048, "subagent": 0.22245623061646203}, "D1_handoff": 0.4560107138530137, "D3": 1.0, "D2": "procedural flag (no threshold)"}`

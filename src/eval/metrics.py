@@ -25,7 +25,7 @@ import numpy as np
 from .labels import (derive_step_classes, labeled_run_ids, load_index, load_label,
                      load_steps, non_aux_steps, role_of)
 
-D3_CHECKS = ("error", "empty", "repeat", "schema", "ignored")
+D2_CHECKS = ("error", "empty", "repeat", "schema", "ignored")
 ROLE_SCOPES = ("planner", "subagent", "all")
 DOMAIN_SCOPES = ("airline", "aime", "all")
 N_BOOT = 1000
@@ -83,12 +83,12 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         if role == "planner" and h2 is not None:
             d1_hand.scores[k] = h2
 
-    d3 = add("D3", note="action grounding (user definition): 1 if required tool never called OR fabricated argument OR tool call failed (excl. file/wrapper), else 0 (every non-aux step)")
-    for r in read_jsonl(audit / "d3_final.jsonl"):
+    d3 = add("D2", note="action grounding (user definition): 1 if required tool never called OR fabricated argument OR tool call failed (excl. file/wrapper), else 0 (every non-aux step)")
+    for r in read_jsonl(audit / "d2_action.jsonl"):
         d3.scores[(r["run_id"], int(r["step_id"]))] = float(r.get("d3", 0))
 
     by_dir: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)
-    for r in read_jsonl(audit / "d7.jsonl"):
+    for r in read_jsonl(audit / "d3_handoff.jsonl"):
         f = _num(r.get("fidelity"))
         if f is None:
             continue
@@ -96,7 +96,7 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         d = str(r.get("direction", "?"))
         by_dir[d][k] = max(by_dir[d].get(k, 0.0), 1.0 - f)
     for d in sorted(by_dir):
-        add(f"D7_{d}", roles=("planner",), note="1 - fidelity, worst wrapper at the planner step").scores = by_dir[d]
+        add(f"D3_{d}", roles=("planner",), note="1 - fidelity, worst wrapper at the planner step").scores = by_dir[d]
 
     judge = add("Judge_p_fail", note="Qwen3-8B judge, thinking on, p_fail")
     for r in read_jsonl(audit / "judge.jsonl"):
@@ -109,21 +109,21 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
 
 def load_d3_tool_flags(root: str | Path = ".") -> dict[tuple[str, int], dict[str, bool]]:
     flags: dict[tuple[str, int], dict[str, bool]] = {}
-    for r in read_jsonl(Path(root) / "audit" / "d3.jsonl"):
+    for r in read_jsonl(Path(root) / "audit" / "d2_toolcalls.jsonl"):
         if r.get("kind") != "tool_call":
             continue
         k = (r["run_id"], int(r["step_id"]))
-        cur = flags.setdefault(k, {c: False for c in D3_CHECKS})
+        cur = flags.setdefault(k, {c: False for c in D2_CHECKS})
         ch = r.get("checks") or {}
-        for c in D3_CHECKS:
+        for c in D2_CHECKS:
             cur[c] = cur[c] or bool(ch.get(c))
     return flags
 
 
 def d7_report_to_planner(items: dict[str, Item]) -> str | None:
-    """Name of the D7 item for the report->planner direction, if present."""
+    """Name of the D3 item for the report->planner direction, if present."""
     for name in items:
-        if not name.startswith("D7_"):
+        if not name.startswith("D3_"):
             continue
         d = "".join(ch for ch in name[3:].lower() if ch.isalnum())
         if d.startswith("report"):
@@ -306,7 +306,7 @@ def section_step_auroc(rep: Report, items, rows: list[StepRow]) -> None:
 
 def section_flag_metrics(rep: Report, items, rows: list[StepRow]) -> None:
     """Flag-level metrics for BINARY items (scores in {0,1}): precision / recall / F1 / FPR at the flag, plus decisive recall.
-    AUROC is the wrong summary for a 0/1 module (it equals (recall + 1 - FPR)/2); this table is the primary one for D3."""
+    AUROC is the wrong summary for a 0/1 module (it equals (recall + 1 - FPR)/2); this table is the primary one for D2."""
     rep.line("## 1b. Flag-level metrics for binary items (precision / recall / F1)")
     rep.line()
     rep.line("Same population as §1 (labeled runs, cascade excluded). A step is flagged when its score is 1. "
@@ -516,7 +516,7 @@ def section_threshold_latency(rep: Report, items, rows, index, root) -> None:
 
 
 def section_tool_checks(rep: Report, rows, flags, root) -> None:
-    rep.line("## 5. D3 tool checks vs `category=\"tool\"` labels")
+    rep.line("## 5. D2 tool checks vs `category=\"tool\"` labels")
     rep.line()
     rep.line("Population = every labeled non-aux step (cascade included); positive = a labeled error event of "
              "category `tool` at that step; a step is flagged when any tool call at it trips the check.")
@@ -528,7 +528,7 @@ def section_tool_checks(rep: Report, rows, flags, root) -> None:
             if e.get("category") == "tool" and isinstance(e.get("step"), int):
                 tool_pos.add((run_id, int(e["step"])))
     out = []
-    for check in D3_CHECKS:
+    for check in D2_CHECKS:
         for domain in DOMAIN_SCOPES:
             scope = [r for r in rows if domain == "all" or r.domain == domain]
             if not scope:
@@ -539,20 +539,20 @@ def section_tool_checks(rep: Report, rows, flags, root) -> None:
             prec = tp / len(flagged) if flagged else None
             recl = tp / npos if npos else None
             out.append([check, domain, len(scope), npos, len(flagged), tp, fmt(prec), fmt(recl)])
-            rep.rec(section="tool_checks", item=f"D3_check_{check}", role="all", domain=domain, metric="precision",
+            rep.rec(section="tool_checks", item=f"D2_check_{check}", role="all", domain=domain, metric="precision",
                     value="" if prec is None else round(prec, 6), n_pos=npos, n_scored=len(flagged), n_labeled=len(scope))
-            rep.rec(section="tool_checks", item=f"D3_check_{check}", role="all", domain=domain, metric="recall",
+            rep.rec(section="tool_checks", item=f"D2_check_{check}", role="all", domain=domain, metric="recall",
                     value="" if recl is None else round(recl, 6), n_pos=npos, n_scored=len(flagged), n_labeled=len(scope))
     rep.table(["check", "domain", "n_steps", "n_pos(tool)", "n_flagged", "TP", "precision", "recall"], out)
 
 
 def section_matched(rep: Report, items, rows) -> None:
-    rep.line("## 6. Matched sub-table (steps scored by D1 AND D3)")
+    rep.line("## 6. Matched sub-table (steps scored by D1 AND D2)")
     rep.line()
-    names = [n for n in ("D1_1-conf", "D3") if n in items]
+    names = [n for n in ("D1_1-conf", "D2") if n in items]
     if len(names) < 2:
         rep.line("_(needs D1 and D3; missing " + ", ".join(
-            n for n in ("D1_1-conf", "D3") if n not in items) + ")_")
+            n for n in ("D1_1-conf", "D2") if n not in items) + ")_")
         rep.line()
         return
     keys = set(items[names[0]].scores)

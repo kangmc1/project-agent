@@ -1,17 +1,17 @@
-"""D3 — tool-use failure, procedural (user's definition, 2026-09-09 07:00).
+"""D2 — tool-use failure, procedural (user's definition, 2026-09-09 07:00).
 
-D3 = ACTION GROUNDING: is this action (tool call) one the record required and allowed? For every non-aux step the module
+D2 = ACTION GROUNDING: is this action (tool call) one the record required and allowed? For every non-aux step the module
 returns 1 if ANY of the following holds, else 0 (user's definition, 2026-09-09 07:55):
   (1) missing_tool      : the subagent ended its handoff without calling a tool family the planner's instruction required
-                          (d3_instruction.jsonl, scored at the report step)
+                          (d2_instruction.jsonl, scored at the report step)
   (2) fabricated_arg    : a tool call at this step carries an identifier-like argument value the agent was never given
-                          (d3_args.jsonl)
+                          (d2_args.jsonl)
   (3') tool_call_failed : a tool call at this step returned an error, EXCLUDING file tools (a first read_file of the
                           not-yet-created case-notes file fails by design) and wrapper rows (subagent-level errors are
                           judged inside the subagent's own steps). Mostly the symptom of (2): a call made with values the
                           record never supplied. (d3.jsonl check "error")
-Not in D3: the utterance->required-tool rule (utterance layer), and the empty/schema/repeat/ignored log checks
-("result handling" cannot be judged from the log stream). `tool_error` (all errors) stays as a descriptive field. Output: audit/d3_final.jsonl  Usage: python -m src.audit.d3_final
+Not in D2: the utterance->required-tool rule (utterance layer), and the empty/schema/repeat/ignored log checks
+("result handling" cannot be judged from the log stream). `tool_error` (all errors) stays as a descriptive field. Output: audit/d2_action.jsonl  Usage: python -m src.audit.d2_action
 """
 from __future__ import annotations
 
@@ -43,17 +43,17 @@ def main() -> None:
             steps[(run.name, s["step_id"])] = {"run_id": run.name, "domain": meta.get("domain", run.name.split("_")[0]),
                                                 "step_id": s["step_id"], "agent": s["agent"],
                                                 "missing_tool": False, "fabricated_arg": False, "tool_error": False, "tool_call_failed": False, "evidence": [], "tool_error_evidence": []}
-    for r in _rows("d3_instruction.jsonl"):
+    for r in _rows("d2_instruction.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("applicable") and r.get("satisfied") is False:
             steps[k]["missing_tool"] = True
             steps[k]["evidence"].append("required but never called: " + ", ".join("/".join(m["tools"]) for m in r["missing"]))
-    for r in _rows("d3_args.jsonl"):
+    for r in _rows("d2_args.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("n_ungrounded", 0) > 0:
             steps[k]["fabricated_arg"] = True
             steps[k]["evidence"].append("argument never given: " + ", ".join(f"{u['tool']}.{u['kind']}={u['value']}" for u in r["ungrounded"][:4]))
-    for r in _rows("d3.jsonl"):
+    for r in _rows("d2_toolcalls.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("kind") == "tool_call" and (r.get("checks") or {}).get("error"):
             steps[k]["tool_error"] = True  # descriptive: any error
@@ -62,13 +62,13 @@ def main() -> None:
                 steps[k]["tool_call_failed"] = True  # condition (3')
                 steps[k]["evidence"].append(f"call failed: {r.get('tool')} returned an error")
     n = 0
-    with (AUDIT / "d3_final.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d2_action.jsonl").open("w", encoding="utf-8") as f:
         for k in sorted(steps):
             s = steps[k]
             s["d3"] = 1 if (s["missing_tool"] or s["fabricated_arg"] or s["tool_call_failed"]) else 0
             n += s["d3"]
             f.write(json.dumps(s, ensure_ascii=False) + "\n")
-    print(f"D3 final: {len(steps)} steps, flagged {n} "
+    print(f"D2 final: {len(steps)} steps, flagged {n} "
           f"(missing_tool {sum(s['missing_tool'] for s in steps.values())}, fabricated_arg {sum(s['fabricated_arg'] for s in steps.values())}, tool_call_failed {sum(s['tool_call_failed'] for s in steps.values())}; any tool_error {sum(s['tool_error'] for s in steps.values())})")
 
 

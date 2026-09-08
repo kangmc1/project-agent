@@ -37,7 +37,7 @@
   {
    "step": 19,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -71,7 +71,7 @@
   {
    "step": 20,
    "agent": "planner",
-   "module": "D7",
+   "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
@@ -98,7 +98,7 @@
   {
    "step": 23,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -121,7 +121,7 @@
   {
    "step": 28,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -156,7 +156,7 @@
   {
    "step": 40,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -178,7 +178,7 @@
   {
    "step": 45,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -212,7 +212,7 @@
   {
    "step": 54,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -223,7 +223,7 @@
   {
    "step": 59,
    "agent": "db_agent",
-   "module": "D3",
+   "module": "D2",
    "signal": {
     "missing_tool": true,
     "fabricated_arg": false,
@@ -249,14 +249,14 @@
    "n_scored": 55,
    "method": "stepwise"
   },
-  "D3": {
+  "D2": {
    "n_steps": 55,
    "flagged": 7,
    "missing_tool": 7,
    "fabricated_arg": 0,
    "tool_call_failed": 0
   },
-  "D7": {
+  "D3": {
    "n_handoffs": 22
   }
  },
@@ -269,7 +269,7 @@
    "subagent": 0.22245623061646203
   },
   "D1_handoff": 0.4560107138530137,
-  "D7": 1.0,
-  "D3": "procedural flag (no threshold)"
+  "D3": 1.0,
+  "D2": "procedural flag (no threshold)"
  }
 }

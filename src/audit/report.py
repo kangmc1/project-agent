@@ -31,7 +31,7 @@ def _pct(values: list[float], q: float) -> float | None:
 
 
 def build(percentile: int = 10) -> dict[str, dict]:
-    d1, d3f, d7 = (_load(f) for f in ("d1.jsonl", "d3_final.jsonl", "d7.jsonl"))
+    d1, d3f, d7 = (_load(f) for f in ("d1.jsonl", "d2_action.jsonl", "d3_handoff.jsonl"))
     q = 1 - percentile / 100
     # label-free thresholds per role
     thr_d1 = {role: _pct([1 - r["confidence"] for r in d1 if r["role"] == role], q) for role in ("planner", "subagent")}
@@ -53,29 +53,29 @@ def build(percentile: int = 10) -> dict[str, dict]:
             rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D1", "layer": "handoff",
                                  "signal": {"p_delegate": round(r["layer2"]["p_delegate"], 3), "H2": round(r["layer2"]["H2"], 3)},
                                  "evidence": f"delegate-vs-not split p_delegate={r['layer2']['p_delegate']:.2f}"})
-    for r in d3f:  # D3 procedural: required tool never called / fabricated argument / tool returned error
+    for r in d3f:  # D2 procedural: required tool never called / fabricated argument / tool returned error
         rep = reports[r["run_id"]]
-        s = rep["per_module_summary"].setdefault("D3", {"n_steps": 0, "flagged": 0, "missing_tool": 0, "fabricated_arg": 0, "tool_call_failed": 0})
+        s = rep["per_module_summary"].setdefault("D2", {"n_steps": 0, "flagged": 0, "missing_tool": 0, "fabricated_arg": 0, "tool_call_failed": 0})
         s["n_steps"] += 1
         for key in ("missing_tool", "fabricated_arg", "tool_call_failed"):
             s[key] += int(bool(r.get(key)))
         if r.get("d3"):
             s["flagged"] += 1
-            rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D3",
+            rep["flags"].append({"step": r["step_id"], "agent": r["agent"], "module": "D2",
                                  "signal": {k: bool(r.get(k)) for k in ("missing_tool", "fabricated_arg", "tool_call_failed")},
                                  "evidence": "; ".join(r.get("evidence") or [])[:400]})
     for r in d7:
         rep = reports[r["run_id"]]
-        s = rep["per_module_summary"].setdefault("D7", {"n_handoffs": 0})
+        s = rep["per_module_summary"].setdefault("D3", {"n_handoffs": 0})
         s["n_handoffs"] += 1
         if r.get("fidelity") is not None and thr_d7 is not None and (1 - r["fidelity"]) >= thr_d7 and r["fidelity"] < 1:
-            rep["flags"].append({"step": r["planner_step_id"], "agent": "planner", "module": "D7", "direction": r["direction"],
+            rep["flags"].append({"step": r["planner_step_id"], "agent": "planner", "module": "D3", "direction": r["direction"],
                                  "signal": {"fidelity": r["fidelity"], "missing": r["missing"][:5], "altered": r["altered"]},
                                  "evidence": f"{r['wrapper']} {r['direction']}: missing {r['missing'][:3]} altered {list(r['altered'])[:3]}"})
     for rid, rep in reports.items():
         rep["run_id"] = rid
         rep["flags"].sort(key=lambda f: (f["step"], f["module"]))
-        rep["thresholds"] = {"percentile": percentile, "D1": thr_d1, "D1_handoff": thr_d1_h, "D7": thr_d7, "D3": "procedural flag (no threshold)"}
+        rep["thresholds"] = {"percentile": percentile, "D1": thr_d1, "D1_handoff": thr_d1_h, "D3": thr_d7, "D2": "procedural flag (no threshold)"}
         for k, v in rep["per_module_summary"].items():
             if isinstance(v, dict) and "checks" in v:
                 v["checks"] = dict(v["checks"])
