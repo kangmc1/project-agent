@@ -1,0 +1,494 @@
+[
+ {
+  "scenario_id": "scheduling_00",
+  "domain": "scheduling",
+  "selected": [
+   "web_lookup",
+   "policy_checker",
+   "calendar_planner",
+   "booking_executor"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "date_check",
+   "budget_check",
+   "prohibition_check",
+   "availability"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.25,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "research_10",
+  "domain": "research",
+  "selected": [
+   "web_lookup",
+   "fact_verifier",
+   "report_writer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "document_facts",
+   "date_check",
+   "code_patch"
+  ],
+  "missing": [
+   "document_facts",
+   "code_patch"
+  ],
+  "loss": 0.6666666666666666,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "scheduling_10",
+  "domain": "scheduling",
+  "selected": [
+   "web_lookup",
+   "calendar_planner",
+   "policy_checker"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "date_check",
+   "itinerary",
+   "prohibition_check",
+   "test_locations"
+  ],
+  "missing": [
+   "date_check",
+   "test_locations"
+  ],
+  "loss": 0.5,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "research_33",
+  "domain": "research",
+  "selected": [
+   "web_lookup",
+   "fact_verifier",
+   "report_writer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "date_check",
+   "document_facts",
+   "itinerary"
+  ],
+  "missing": [
+   "document_facts",
+   "itinerary"
+  ],
+  "loss": 0.6666666666666666,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "research_34",
+  "domain": "research",
+  "selected": [
+   "web_lookup",
+   "fact_verifier",
+   "report_writer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "document_facts",
+   "date_check",
+   "availability"
+  ],
+  "missing": [
+   "document_facts"
+  ],
+  "loss": 0.3333333333333333,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "research_35",
+  "domain": "research",
+  "selected": [
+   "web_lookup",
+   "fact_verifier",
+   "report_writer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "date_check",
+   "document_facts",
+   "report_draft"
+  ],
+  "missing": [
+   "document_facts"
+  ],
+  "loss": 0.3333333333333333,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "scheduling_30",
+  "domain": "scheduling",
+  "selected": [
+   "web_lookup",
+   "booking_executor",
+   "calendar_planner",
+   "policy_checker"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "budget_check",
+   "dates",
+   "itinerary",
+   "availability"
+  ],
+  "missing": [],
+  "loss": 0.0,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "scheduling_32",
+  "domain": "scheduling",
+  "selected": [
+   "web_lookup",
+   "policy_checker",
+   "booking_executor",
+   "calendar_planner"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "budget_check",
+   "date_check",
+   "prohibition_check",
+   "availability"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.25,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "scheduling_33",
+  "domain": "scheduling",
+  "selected": [
+   "web_lookup",
+   "policy_checker",
+   "calendar_planner",
+   "booking_executor"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "prohibition_check",
+   "date_check",
+   "budget_check"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.3333333333333333,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "research_50",
+  "domain": "research",
+  "selected": [
+   "web_lookup",
+   "fact_verifier",
+   "report_writer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "availability",
+   "dates",
+   "date_check",
+   "document_facts"
+  ],
+  "missing": [
+   "document_facts"
+  ],
+  "loss": 0.25,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "research_52",
+  "domain": "research",
+  "selected": [
+   "web_lookup",
+   "document_reader",
+   "fact_verifier",
+   "report_writer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "document_facts",
+   "dates",
+   "availability"
+  ],
+  "missing": [],
+  "loss": 0.0,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "scheduling_51",
+  "domain": "scheduling",
+  "selected": [
+   "web_lookup",
+   "policy_checker",
+   "booking_executor",
+   "calendar_planner"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "date_check",
+   "budget_check",
+   "prohibition_check"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.3333333333333333,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "customer_support_61",
+  "domain": "customer_support",
+  "selected": [
+   "document_reader",
+   "policy_checker",
+   "refund_executor"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "refund",
+   "date_check",
+   "refund_policy"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.3333333333333333,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "customer_support_63",
+  "domain": "customer_support",
+  "selected": [
+   "web_lookup",
+   "refund_executor",
+   "policy_checker"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "refund_policy",
+   "prohibition_check",
+   "date_check"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.3333333333333333,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "customer_support_64",
+  "domain": "customer_support",
+  "selected": [
+   "web_lookup",
+   "policy_checker",
+   "booking_executor"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "rebooking",
+   "date_check",
+   "time_windows"
+  ],
+  "missing": [
+   "date_check",
+   "time_windows"
+  ],
+  "loss": 0.6666666666666666,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "coding_61",
+  "domain": "coding",
+  "selected": [
+   "code_reader",
+   "code_editor",
+   "fact_verifier"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "code_patch",
+   "config_edit",
+   "date_check"
+  ],
+  "missing": [],
+  "loss": 0.0,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "coding_62",
+  "domain": "coding",
+  "selected": [
+   "code_reader",
+   "code_editor",
+   "policy_checker",
+   "test_runner_reviewer"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "code_patch",
+   "code_navigation",
+   "date_check",
+   "config_edit"
+  ],
+  "missing": [
+   "date_check"
+  ],
+  "loss": 0.25,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "coding_63",
+  "domain": "coding",
+  "selected": [
+   "code_reader",
+   "code_editor",
+   "test_runner_reviewer",
+   "fact_verifier"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "code_patch",
+   "test_review",
+   "repo_conventions",
+   "date_check"
+  ],
+  "missing": [],
+  "loss": 0.0,
+  "slots_missing": []
+ },
+ {
+  "scenario_id": "coding_64",
+  "domain": "coding",
+  "selected": [
+   "web_lookup",
+   "code_reader",
+   "test_runner_reviewer",
+   "fact_verifier"
+  ],
+  "slots": [
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "code_patch",
+   "code_navigation",
+   "config_edit"
+  ],
+  "missing": [
+   "code_patch",
+   "config_edit"
+  ],
+  "loss": 0.6666666666666666,
+  "slots_missing": [
+   "Executor"
+  ]
+ },
+ {
+  "scenario_id": "coding_65",
+  "domain": "coding",
+  "selected": [
+   "code_reader",
+   "code_editor",
+   "fact_verifier"
+  ],
+  "slots": [
+   "Executor",
+   "Researcher",
+   "Verifier"
+  ],
+  "required": [
+   "code_navigation",
+   "code_patch",
+   "date_check"
+  ],
+  "missing": [],
+  "loss": 0.0,
+  "slots_missing": []
+ }
+]

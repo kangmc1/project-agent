@@ -33,6 +33,9 @@ class LLM:
     def __init__(self, config: str | Path = "configs/judge.yaml", **overrides):
         cfg = yaml.safe_load(open(config))
         cfg.update(overrides)
+        import os
+        if os.environ.get("AH_BASE_URL"):
+            cfg["base_url"] = os.environ["AH_BASE_URL"]
         self.cfg = cfg
         self.client = OpenAI(base_url=cfg["base_url"], api_key=cfg["api_key"])
         self.model = cfg["model"]

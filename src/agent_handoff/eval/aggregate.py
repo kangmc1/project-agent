@@ -5,8 +5,12 @@ from pathlib import Path
 
 
 def load(path):
-    p = Path(path)
-    return [json.loads(l) for l in p.open()] if p.exists() else []
+    """Load a JSONL file, or all shard files matching '<stem>*.jsonl' (e.g. workflow_grid.jsonl + workflow_grid_s0.jsonl ...)."""
+    p = Path(path); rows = []
+    for f in sorted(p.parent.glob(p.stem + "*.jsonl")):
+        if "_v0" in f.name or "leaky" in f.name or "probe" in f.name or "smoke" in f.name: continue
+        rows += [json.loads(l) for l in f.open()]
+    return rows
 
 
 def stress_curves(rows):
