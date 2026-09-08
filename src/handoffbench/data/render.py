@@ -71,7 +71,9 @@ def render_instruction_handoff(h: dict[str, Any], budget: int = 24000) -> dict[s
 
 def render_reset_handoff(r: dict[str, Any], budget: int = 24000) -> dict[str, Any]:
     ctx, stats = render_transcript(r["pre_reset_transcript"][:-1], budget)
-    artifact = "UPDATED FACT SHEET:\n" + r["facts_text"] + "\n\nNEW PLAN:\n" + _trim(r["plan_text"], 4000)
+    # The team restarts from messages[0] of the reset step = task + team + updated fact sheet + new plan.
+    # That whole text is the artifact (task constraints are re-shown, so they count as preserved).
+    artifact = _trim(r["post_reset_context"], 9000) if r.get("post_reset_context") else ("UPDATED FACT SHEET:\n" + r["facts_text"] + "\n\nNEW PLAN:\n" + _trim(r["plan_text"], 4000))
     beh = []
     for st in r.get("post_reset_steps", [])[:12]:
         for tc in st.get("tool_calls", []):

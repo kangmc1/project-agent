@@ -28,7 +28,11 @@ random.Random(a.seed).shuffle(items)
 if a.select == "mistake":
     key = (lambda h: (h["mistake_position"] != "at_reset_summary", h["mistake_position"] != "before_reset")) if a.layer == "reset" else (lambda h: (not h["mistake_at_this_handoff"], not h["mistake_in_segment"]))
     items.sort(key=key)
-items = items if a.select == "all" else items[: a.n]
+if a.select == "pilot":
+    ids = set(json.load(open("data/pilot/pilot_set.json"))[a.layer])
+    items = [h for h in items if h["handoff_id"] in ids]
+else:
+    items = items if a.select == "all" else items[: a.n]
 render = render_reset_handoff if a.layer == "reset" else render_instruction_handoff
 
 llm = LLM()

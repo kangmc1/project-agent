@@ -12,16 +12,16 @@ p.add_argument("--out", default="data/injections/reset_facts.jsonl")
 p.add_argument("--seed", type=int, default=0)
 a = p.parse_args()
 
-def build_artifact(facts, plan):
-    return "UPDATED FACT SHEET:\n" + facts + "\n\nNEW PLAN:\n" + _trim(plan, 4000)
-
 hs = [json.loads(l) for l in open("data/handoffs/magentic_one_resets.jsonl")]
-hs = [h for h in hs if h["facts_text"] and len(fact_bullets(h["facts_text"])) >= 2]
+hs = [h for h in hs if h["facts_text"] and len(fact_bullets(h["facts_text"])) >= 2 and h["facts_text"] in h["post_reset_context"]]
 rng = random.Random(a.seed); rng.shuffle(hs)
 hs = hs[: a.n_handoffs]
 llm = LLM()
 out = []
 for h in hs:
+    def build_artifact(facts, plan, _h=h):
+        # same artifact the detectors see for a real reset handoff, with the fact sheet swapped
+        return _trim(_h["post_reset_context"].replace(_h["facts_text"], facts, 1), 9000)
     for op in a.ops.split(","):
         inj = inject(llm, h, op, rng, build_artifact)
         if inj: out.append(inj)
