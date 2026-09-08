@@ -85,7 +85,9 @@ def _fabricated_values(text: str, initial: str, task: str) -> list[str]:
 
 
 def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility: str = "shared", fmt: str = "free",
-                 budget: int = 400, guard: bool = False, k_samples: int = 0, temperature: float = 0.3, width: int = 1) -> dict[str, Any]:
+                 budget: int = 400, guard: bool = False, k_samples: int = 0, temperature: float = 0.3, width: int = 1, team: list[str] | None = None) -> dict[str, Any]:
+    """team: optional subset of role slots selected at B0 (e.g. ["Researcher","Executor"]); the action space is restricted to it."""
+    AGENTS = [a for a in R.AGENTS if (team is None or a in team)] or list(R.AGENTS)
     task, obls, initial = scenario["task"], scenario["obligations"], scenario["transcript"]
     state = initial               # the orchestrator's handoff state (initially the raw transcript)
     transcript = [initial]        # what accumulates between compressions
@@ -97,7 +99,7 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
         rep_txt = "\n\n".join(f"[{x['agent']}] {x['report']}" for x in reports[-4:]) or "(none yet)"
         hist_txt = "\n".join(f"{e['round']}: {e['action']['next_agent']} / {e['action']['action_type']} / {e['action']['target']} -> {('VERDICT ' + e['verdict']) if e.get('verdict') else ('UNAVAILABLE' if any(k in (e.get('report') or '').upper() for k in ('UNAVAILABLE', 'MISSING:', 'CANNOT VERIFY')) else 'reported')}" for e in log) or "(none)"
         base = R.ORCH_DECIDE.format(task=task, state=state, reports=rep_txt, history=hist_txt, r=r, rounds=rounds)
-        choices_all = list(R.AGENTS) + ["finish"]
+        choices_all = list(AGENTS) + ["finish"]
         # (a) policy uncertainty: distribution over the 4 actions given the STATE ONLY (before any deliberation)
         _, p_agent, ent_agent = choose(llm, R.ORCH_SYSTEM, base + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all) + ".", choices_all)
         # (0) short deliberation, then the executed decision
@@ -136,8 +138,8 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
                  "p_agent": p_agent, "entropy_agent": ent_agent, "p_type": p_type, "entropy_type": ent_type, "assessment": assess, "masked": masked}
         if agent == "finish" or atype == "finish":
             entry["finished"] = True; log.append(entry); break
-        if agent not in R.AGENTS:
-            agent = "Researcher"
+        if agent not in AGENTS:
+            agent = AGENTS[0]
         # ---- agent turn ----
         if visibility == "shared":
             visible = "CONTEXT (shared transcript):\n" + "\n\n".join(transcript) + ("\n\nREPORTS SO FAR:\n" + "\n\n".join(f"[{x['agent']}] {x['report']}" for x in reports) if reports else "")
@@ -177,7 +179,7 @@ def run_workflow(llm: LLM, scenario: dict[str, Any], rounds: int = 8, visibility
                 if missing:
                     new_state = _repair(new_state, fmt, missing); repaired = [o["id"] for o in missing]; rep = survival_report(obls, new_state)
             # decision divergence: would the orchestrator decide differently from the compressed state than from the full transcript?
-            choices_all2 = list(R.AGENTS) + ["finish"]
+            choices_all2 = list(AGENTS) + ["finish"]
             q_before = R.ORCH_DECIDE.format(task=task, state="\n\n".join(transcript), reports=rep_txt, history=hist_txt, r=r + 1, rounds=rounds)
             q_after = R.ORCH_DECIDE.format(task=task, state=new_state, reports=rep_txt, history=hist_txt, r=r + 1, rounds=rounds)
             _, pb, hb = choose(llm, R.ORCH_SYSTEM, q_before + "\n\nDecide ONLY which agent acts next. Answer with one of: " + ", ".join(choices_all2) + ".", choices_all2)
