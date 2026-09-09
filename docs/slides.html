@@ -552,7 +552,7 @@
           <circle cx="303" cy="88" r="6" fill="var(--s2)"><title>subagent 라벨 최적: FPR 0.337, recall 0.542</title></circle><text class="val" x="313" y="92">라벨 최적</text>
         </svg></div>
         <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator</span><span><i style="background:var(--s2)"></i>subagent</span><span>점: 상위 5 % · 상위 10 % = 라벨 없는 기준, 라벨 최적 = 라벨로 찾은 최선</span></div>
-        <p class="quiet">라벨로 찾은 최적 기준은 조금이라도 흔들린 결정을 전부 의심하는 지점이라, 실제로는 문제없는 정상 스텝의 34–65 %까지 "고른 행동이 옳지 않을 수 있다"고 판정합니다. 상위 5–10 %만 의심하는 라벨 없는 기준은 반대로 실제 오류의 4–17 %만 판정합니다. 따라서 D1은 검토할 스텝의 순서를 매기는 데 쓰고 단독 판정으로는 쓰지 않습니다. D2는 점수가 아니라 "이 호출은 근거가 없다"는 예/아니오를 내므로 기준값이 필요 없어 라벨 없이 운영해도 잃는 것이 없습니다.</p></div>
+        <p>라벨로 찾은 최적 기준은 조금이라도 흔들린 결정을 전부 의심하는 지점이라, 실제로는 문제없는 정상 스텝의 34–65 %까지 "고른 행동이 옳지 않을 수 있다"고 판정합니다. 상위 5–10 %만 의심하는 라벨 없는 기준은 반대로 실제 오류의 4–17 %만 판정합니다. 따라서 D1은 검토할 스텝의 순서를 매기는 데 쓰고 단독 판정으로는 쓰지 않습니다. D2는 점수가 아니라 "이 호출은 근거가 없다"는 예/아니오를 내므로 기준값이 필요 없어 라벨 없이 운영해도 잃는 것이 없습니다.</p></div>
       <div><h4>판정 방식 비교 <span class="quiet" style="font-weight:400">(같은 질문을 코드 대신 LLM-as-judge에게 물었을 때 · §4.2.12)</span></h4>
         <div class="tbl"><table>
           <tr><th>D1 · AUROC(Step)</th><th class="n">orchestrator 전체 / decisive</th><th class="n">subagent 전체</th></tr>
@@ -566,7 +566,7 @@
           <tr><td>LLM-as-judge (gpt-oss-20b)</td><td class="n">0.44</td><td class="n">0.46</td><td class="n">0.45</td><td class="n">0.12</td></tr>
           <tr><td>LLM-as-judge (Qwen3-32B)</td><td class="n">0.40</td><td class="n">0.46</td><td class="n">0.43</td><td class="n">0.14</td></tr>
         </table></div>
-        <p class="quiet" style="margin-top:.6rem">D1의 orchestrator에서는 코드와 LLM-as-judge가 같은 수준입니다. 실행 모델이 자기 결정을 후하게 보는 편향 때문에 나온 신호가 아니라는 뜻입니다. D2에서는 코드가 모든 지표에서 앞서고, D3에서는 반대로 LLM-as-judge가 앞섰습니다(10장). "판정은 코드가 한다"는 원칙은 도구 호출처럼 구조가 있는 곳에서만 성립합니다.</p></div>
+        <p style="margin-top:.6rem">D1의 orchestrator에서는 코드와 LLM-as-judge가 같은 수준입니다. 실행 모델이 자기 결정을 후하게 보는 편향 때문에 나온 신호가 아니라는 뜻입니다. D2에서는 코드가 모든 지표에서 앞서고, D3에서는 반대로 LLM-as-judge가 앞섰습니다(10장). "판정은 코드가 한다"는 원칙은 도구 호출처럼 구조가 있는 곳에서만 성립합니다.</p></div>
     </div>
   </div>
 </section>
