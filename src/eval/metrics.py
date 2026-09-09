@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import re
 import sys
 import time
 from collections import defaultdict
@@ -98,26 +99,32 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
     for d in sorted(by_dir):
         add(f"D3_{d}", roles=("planner",), note="1 - fidelity, worst wrapper at the planner step").scores = by_dir[d]
 
-    # LLM-only variants of D1/D2/D3 (Qwen3-32B judge, same question as the module) — comparators
-    l1c = add("LLM_D1_1-conf", note="LLM-only D1: 1 - confidence from verbalized candidate probabilities")
-    l1p = add("LLM_D1_1-p_actual", note="LLM-only D1: 1 - verbalized p(actual)")
-    for r in read_jsonl(audit / "llm_d1.jsonl"):
-        if r.get("parsed"):
-            k = (r["run_id"], int(r["step_id"]))
-            l1c.scores[k] = 1.0 - float(r["confidence"]); l1p.scores[k] = 1.0 - float(r["p_actual"])
-    l2 = add("LLM_D2", note="LLM-only D2: any of skipped_required_tool / argument_not_in_record / call_failed")
-    for r in read_jsonl(audit / "llm_d2.jsonl"):
-        if r.get("parsed") and r.get("flag") is not None:
-            l2.scores[(r["run_id"], int(r["step_id"]))] = float(r["flag"])
-    by_dir3: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)
-    for r in read_jsonl(audit / "llm_d3.jsonl"):
-        f = _num(r.get("fidelity"))
-        if f is None:
-            continue
-        k = (r["run_id"], int(r["planner_step_id"])); d = str(r.get("direction", "?"))
-        by_dir3[d][k] = max(by_dir3[d].get(k, 0.0), 1.0 - f)
-    for d in sorted(by_dir3):
-        add(f"LLM_D3_{d}", roles=("planner",), note="LLM-only D3: 1 - verbalized fidelity, worst wrapper at the planner step").scores = by_dir3[d]
+    # LLM-only variants of D1/D2/D3 — same question as the module, LLM judgment. One item set per judge model:
+    # default files llm_d{1,2,3}.jsonl = Qwen3-32B; llm_d{1,2,3}_<tag>.jsonl = other judges (e.g. gptoss20b).
+    import glob as _glob
+    tags = [""] + sorted({m.group(1) for f in _glob.glob(str(audit / "llm_d1_*.jsonl")) for m in [re.search(r"llm_d1_(.+)\.jsonl$", f)] if m})
+    for tag in tags:
+        sfx = f"_{tag}" if tag else ""
+        lab = f"LLM{'-' + tag if tag else ''}"
+        l1c = add(f"{lab}_D1_1-conf", note=f"LLM-only D1 ({tag or 'qwen32b'}): 1 - confidence from verbalized candidate probabilities")
+        l1p = add(f"{lab}_D1_1-p_actual", note=f"LLM-only D1 ({tag or 'qwen32b'}): 1 - verbalized p(actual)")
+        for r in read_jsonl(audit / f"llm_d1{sfx}.jsonl"):
+            if r.get("parsed"):
+                k = (r["run_id"], int(r["step_id"]))
+                l1c.scores[k] = 1.0 - float(r["confidence"]); l1p.scores[k] = 1.0 - float(r["p_actual"])
+        l2 = add(f"{lab}_D2", note=f"LLM-only D2 ({tag or 'qwen32b'}): any of skipped_required_tool / argument_not_in_record / call_failed")
+        for r in read_jsonl(audit / f"llm_d2{sfx}.jsonl"):
+            if r.get("parsed") and r.get("flag") is not None:
+                l2.scores[(r["run_id"], int(r["step_id"]))] = float(r["flag"])
+        by_dir3: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)
+        for r in read_jsonl(audit / f"llm_d3{sfx}.jsonl"):
+            f = _num(r.get("fidelity"))
+            if f is None:
+                continue
+            k = (r["run_id"], int(r["planner_step_id"])); d = str(r.get("direction", "?"))
+            by_dir3[d][k] = max(by_dir3[d].get(k, 0.0), 1.0 - f)
+        for d in sorted(by_dir3):
+            add(f"{lab}_D3_{d}", roles=("planner",), note=f"LLM-only D3 ({tag or 'qwen32b'}): 1 - verbalized fidelity").scores = by_dir3[d]
     judge = add("Judge_p_fail", note="Qwen3-8B judge, thinking on, p_fail")
     for r in read_jsonl(audit / "judge.jsonl"):
         v = _num(r.get("p_fail"))

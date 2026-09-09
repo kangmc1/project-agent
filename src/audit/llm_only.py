@@ -30,8 +30,10 @@ from .d3_handoff import _load_run, _load_text, _dedupe_wrapper_rows, _planner_wr
 
 AUDIT = Path("audit")
 CACHE_DB = AUDIT / "cache" / "llm_only.sqlite"
-BASE = "http://localhost:18001/v1"
-MODEL = "qwen32b"
+import os
+BASE = os.environ.get("LLM_JUDGE_BASE", "http://localhost:18001/v1")
+MODEL = os.environ.get("LLM_JUDGE_MODEL", "qwen32b")
+TAG = os.environ.get("LLM_JUDGE_TAG", "")  # "" = default Qwen3-32B files (llm_d1.jsonl); e.g. "gptoss20b" -> llm_d1_gptoss20b.jsonl
 AUX = {"user_sim", "summarizer"}
 MAX_TOKENS = 1800
 N_CTX = 8
@@ -74,7 +76,7 @@ def _json_obj(t: str) -> dict | None:
 
 
 def ask(prompt: str) -> tuple[dict | None, float, int]:
-    h = hashlib.sha1(prompt.encode()).hexdigest()
+    h = hashlib.sha1((MODEL + "\n" + prompt).encode()).hexdigest()
     with _lock:
         row = _cache().execute("SELECT value, latency, out_tokens FROM cache WHERE hash=?", (h,)).fetchone()
     if row:
@@ -300,6 +302,8 @@ def run(which: str) -> None:
 
 
 def _write(name, rows):
+    if TAG:
+        name = name.replace(".jsonl", f"_{TAG}.jsonl")
     with (AUDIT / name).open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
