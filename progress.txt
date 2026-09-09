@@ -250,3 +250,14 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   + handoffs; cache audit/cache/llm_only.sqlite; outputs audit/llm_d{1,2,3}.jsonl. Smoke: 3 calls OK (13-22 s each).
 - Generic 8B step judge (src/audit/judge.py, "did THIS step fail?", p_fail) running in parallel on :18002 -> audit/judge.jsonl.
 - metrics items: LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_<direction>, Judge_p_fail. Servers 32B (GPU 1-2) and 8B (GPU 3) up.
+
+## 2026-09-09 09:45 KST (machine) — 32B LLM-only comparators done (τ-bench airline, labeled non-cascade steps)
+- LLM_D1 (verbalized probs) planner: 1-p_actual 0.603 [0.516,0.693] / decisive 0.682 vs code D1 0.627 / 0.746 (code ≥ LLM, CIs overlap);
+  decisive attribution exact: LLM 0.375 vs code 0.167 (LLM better). Subagent: LLM_D1 0.646 / 0.622 vs code D1 0.544 / 0.357 —
+  verbalized uncertainty carries signal where logprobs do not.
+- LLM_D2: F1 0.425 (P 0.395, R 0.459, FPR 0.137) vs code D2 F1 0.541 (P 0.622, R 0.479, FPR 0.074) — code better.
+- LLM_D3: report->planner 0.434 (code 0.590); instruction->premise 0.573 (code 0.401) — both weak either way.
+- Coverage: LLM items scored 190/194 planner and 222/238 subagent non-cascade labeled steps (parse failures excluded).
+- Next: 8B generic judge finishing; then math_infer vLLM upgrade (user decision, no new env) -> gpt-oss-20b judge on GPU 4.
+- 09:50 8B generic judge (τ-bench airline, 906 labeled steps): planner AUROC 0.610 [0.52,0.70] / decisive 0.686; subagent 0.607 / decisive
+  0.707; attribution planner exact 0.167. Added Judge_flag (p_fail>=0.5) for P/R/F1 comparison with D2. Chain waiting on gpt-oss download.

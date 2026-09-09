@@ -1,10 +1,10 @@
 # Detection metrics
 
-- generated: 2026-09-09 07:26:51 KST
+- generated: 2026-09-09 09:44:39 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
-- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3_instruction->premise, D3_report->planner
+- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3_instruction->premise, D3_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, Judge_p_fail, Judge_flag
 - bootstrap: 1000 stratified resamples, seed 0; AUROC is `n/a` when n_pos < 3 or n_neg < 3.
 
 ## 1. Step-level AUROC
@@ -58,6 +58,57 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D3_report->planner | planner | airline | 161/391 | 31 | 66 | 0.590 [0.470, 0.716] | 11 | 0.598 [0.399, 0.775] |
 | D3_report->planner | planner | aime | 68/123 | 3 | 41 | 0.715 [0.537, 0.866] | 0 | n/a |
 | D3_report->planner | planner | all | 229/514 | 34 | 107 | 0.579 [0.476, 0.687] | 11 | 0.566 [0.392, 0.737] |
+| LLM_D1_1-conf | planner | airline | 190/391 | 44 | 146 | 0.580 [0.479, 0.678] | 16 | 0.577 [0.403, 0.741] |
+| LLM_D1_1-conf | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D1_1-conf | planner | all | 190/514 | 44 | 146 | 0.580 [0.479, 0.678] | 16 | 0.577 [0.403, 0.741] |
+| LLM_D1_1-conf | subagent | airline | 222/435 | 36 | 186 | 0.610 [0.508, 0.702] | 8 | 0.509 [0.320, 0.713] |
+| LLM_D1_1-conf | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D1_1-conf | subagent | all | 222/694 | 36 | 186 | 0.610 [0.508, 0.702] | 8 | 0.509 [0.320, 0.713] |
+| LLM_D1_1-conf | all | airline | 412/826 | 80 | 332 | 0.594 [0.527, 0.659] | 24 | 0.561 [0.441, 0.694] |
+| LLM_D1_1-conf | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D1_1-conf | all | all | 412/1208 | 80 | 332 | 0.594 [0.527, 0.659] | 24 | 0.561 [0.441, 0.694] |
+| LLM_D1_1-p_actual | planner | airline | 190/391 | 44 | 146 | 0.603 [0.516, 0.693] | 16 | 0.682 [0.560, 0.815] |
+| LLM_D1_1-p_actual | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D1_1-p_actual | planner | all | 190/514 | 44 | 146 | 0.603 [0.516, 0.693] | 16 | 0.682 [0.560, 0.815] |
+| LLM_D1_1-p_actual | subagent | airline | 222/435 | 36 | 186 | 0.646 [0.552, 0.737] | 8 | 0.622 [0.408, 0.817] |
+| LLM_D1_1-p_actual | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D1_1-p_actual | subagent | all | 222/694 | 36 | 186 | 0.646 [0.552, 0.737] | 8 | 0.622 [0.408, 0.817] |
+| LLM_D1_1-p_actual | all | airline | 412/826 | 80 | 332 | 0.621 [0.555, 0.686] | 24 | 0.655 [0.538, 0.757] |
+| LLM_D1_1-p_actual | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D1_1-p_actual | all | all | 412/1208 | 80 | 332 | 0.621 [0.555, 0.686] | 24 | 0.655 [0.538, 0.757] |
+| LLM_D2 | planner | airline | 192/391 | 44 | 148 | 0.500 [0.463, 0.541] | 16 | 0.466 [0.446, 0.483] |
+| LLM_D2 | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D2 | planner | all | 192/514 | 44 | 148 | 0.500 [0.463, 0.541] | 16 | 0.466 [0.446, 0.483] |
+| LLM_D2 | subagent | airline | 227/435 | 37 | 190 | 0.661 [0.578, 0.748] | 8 | 0.619 [0.473, 0.796] |
+| LLM_D2 | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D2 | subagent | all | 227/694 | 37 | 190 | 0.661 [0.578, 0.748] | 8 | 0.619 [0.473, 0.796] |
+| LLM_D2 | all | airline | 419/826 | 81 | 338 | 0.570 [0.520, 0.627] | 24 | 0.509 [0.451, 0.578] |
+| LLM_D2 | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D2 | all | all | 419/1208 | 81 | 338 | 0.570 [0.520, 0.627] | 24 | 0.509 [0.451, 0.578] |
+| LLM_D3_instruction->premise | planner | airline | 98/391 | 31 | 67 | 0.573 [0.490, 0.655] | 13 | 0.537 [0.440, 0.644] |
+| LLM_D3_instruction->premise | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D3_instruction->premise | planner | all | 98/514 | 31 | 67 | 0.573 [0.490, 0.655] | 13 | 0.537 [0.440, 0.644] |
+| LLM_D3_report->planner | planner | airline | 84/391 | 29 | 55 | 0.434 [0.326, 0.559] | 12 | 0.398 [0.241, 0.553] |
+| LLM_D3_report->planner | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM_D3_report->planner | planner | all | 84/514 | 29 | 55 | 0.434 [0.326, 0.559] | 12 | 0.398 [0.241, 0.553] |
+| Judge_p_fail | planner | airline | 388/391 | 46 | 148 | 0.610 [0.521, 0.698] | 16 | 0.686 [0.567, 0.800] |
+| Judge_p_fail | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| Judge_p_fail | planner | all | 388/514 | 46 | 148 | 0.610 [0.521, 0.698] | 16 | 0.686 [0.567, 0.800] |
+| Judge_p_fail | subagent | airline | 431/435 | 48 | 188 | 0.607 [0.529, 0.680] | 8 | 0.707 [0.605, 0.816] |
+| Judge_p_fail | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
+| Judge_p_fail | subagent | all | 431/694 | 48 | 188 | 0.607 [0.529, 0.680] | 8 | 0.707 [0.605, 0.816] |
+| Judge_p_fail | all | airline | 819/826 | 94 | 336 | 0.602 [0.538, 0.665] | 24 | 0.662 [0.577, 0.739] |
+| Judge_p_fail | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
+| Judge_p_fail | all | all | 819/1208 | 94 | 336 | 0.602 [0.538, 0.665] | 24 | 0.662 [0.577, 0.739] |
+| Judge_flag | planner | airline | 388/391 | 46 | 148 | 0.567 [0.491, 0.642] | 16 | 0.601 [0.475, 0.736] |
+| Judge_flag | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| Judge_flag | planner | all | 388/514 | 46 | 148 | 0.567 [0.491, 0.642] | 16 | 0.601 [0.475, 0.736] |
+| Judge_flag | subagent | airline | 431/435 | 48 | 188 | 0.602 [0.529, 0.675] | 8 | 0.644 [0.492, 0.779] |
+| Judge_flag | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
+| Judge_flag | subagent | all | 431/694 | 48 | 188 | 0.602 [0.529, 0.675] | 8 | 0.644 [0.492, 0.779] |
+| Judge_flag | all | airline | 819/826 | 94 | 336 | 0.579 [0.520, 0.635] | 24 | 0.589 [0.488, 0.695] |
+| Judge_flag | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
+| Judge_flag | all | all | 819/1208 | 94 | 336 | 0.579 [0.520, 0.635] | 24 | 0.589 [0.488, 0.695] |
 
 ## 1b. Flag-level metrics for binary items (precision / recall / F1)
 
@@ -74,6 +125,18 @@ Same population as §1 (labeled runs, cascade excluded). A step is flagged when 
 | D2 | all | airline | 94 | 338 | 25 | 14 | 0.641 | 0.266 | 0.376 | 0.041 | 2/24 |
 | D2 | all | aime | 78 | 92 | 30 | 3 | 0.909 | 0.385 | 0.541 | 0.033 | 5/23 |
 | D2 | all | all | 172 | 430 | 55 | 17 | 0.764 | 0.320 | 0.451 | 0.040 | 7/47 |
+| LLM_D2 | planner | airline | 44 | 148 | 3 | 10 | 0.231 | 0.068 | 0.105 | 0.068 | 0/16 |
+| LLM_D2 | planner | all | 44 | 148 | 3 | 10 | 0.231 | 0.068 | 0.105 | 0.068 | 0/16 |
+| LLM_D2 | subagent | airline | 37 | 190 | 17 | 26 | 0.395 | 0.459 | 0.425 | 0.137 | 3/8 |
+| LLM_D2 | subagent | all | 37 | 190 | 17 | 26 | 0.395 | 0.459 | 0.425 | 0.137 | 3/8 |
+| LLM_D2 | all | airline | 81 | 338 | 20 | 36 | 0.357 | 0.247 | 0.292 | 0.107 | 3/24 |
+| LLM_D2 | all | all | 81 | 338 | 20 | 36 | 0.357 | 0.247 | 0.292 | 0.107 | 3/24 |
+| Judge_flag | planner | airline | 46 | 148 | 17 | 35 | 0.327 | 0.370 | 0.347 | 0.236 | 7/16 |
+| Judge_flag | planner | all | 46 | 148 | 17 | 35 | 0.327 | 0.370 | 0.347 | 0.236 | 7/16 |
+| Judge_flag | subagent | airline | 48 | 188 | 32 | 87 | 0.269 | 0.667 | 0.383 | 0.463 | 6/8 |
+| Judge_flag | subagent | all | 48 | 188 | 32 | 87 | 0.269 | 0.667 | 0.383 | 0.463 | 6/8 |
+| Judge_flag | all | airline | 94 | 336 | 49 | 122 | 0.287 | 0.521 | 0.370 | 0.363 | 13/24 |
+| Judge_flag | all | all | 94 | 336 | 49 | 122 | 0.287 | 0.521 | 0.370 | 0.363 | 13/24 |
 
 ## 2. Trace-level AUROC (positives = runs with success=false)
 
@@ -120,6 +183,36 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | D2 | all | airline | 31 | 25 | 6 | 0.527 [0.340, 0.733] | 0.633 [0.420, 0.813] |
 | D2 | all | aime | 31 | 23 | 8 | 0.489 [0.299, 0.698] | 0.429 [0.201, 0.669] |
 | D2 | all | all | 62 | 48 | 14 | 0.516 [0.374, 0.682] | 0.518 [0.351, 0.699] |
+| LLM_D1_1-conf | planner | airline | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM_D1_1-conf | planner | all | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM_D1_1-conf | subagent | airline | 10 | 4 | 6 | 0.500 [0.000, 0.958] | 0.208 [0.000, 0.542] |
+| LLM_D1_1-conf | subagent | all | 10 | 4 | 6 | 0.500 [0.000, 0.958] | 0.208 [0.000, 0.542] |
+| LLM_D1_1-conf | all | airline | 9 | 3 | 6 | 0.611 [0.000, 1.000] | 0.389 [0.000, 0.833] |
+| LLM_D1_1-conf | all | all | 9 | 3 | 6 | 0.611 [0.000, 1.000] | 0.389 [0.000, 0.833] |
+| LLM_D1_1-p_actual | planner | airline | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM_D1_1-p_actual | planner | all | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM_D1_1-p_actual | subagent | airline | 10 | 4 | 6 | 0.583 [0.500, 0.750] | 0.208 [0.000, 0.625] |
+| LLM_D1_1-p_actual | subagent | all | 10 | 4 | 6 | 0.583 [0.500, 0.750] | 0.208 [0.000, 0.625] |
+| LLM_D1_1-p_actual | all | airline | 9 | 3 | 6 | 0.500 [0.500, 0.500] | 0.778 [0.443, 1.000] |
+| LLM_D1_1-p_actual | all | all | 9 | 3 | 6 | 0.500 [0.500, 0.500] | 0.778 [0.443, 1.000] |
+| LLM_D2 | planner | airline | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM_D2 | planner | all | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM_D2 | subagent | airline | 10 | 4 | 6 | 0.667 [0.500, 0.833] | 0.750 [0.333, 1.000] |
+| LLM_D2 | subagent | all | 10 | 4 | 6 | 0.667 [0.500, 0.833] | 0.750 [0.333, 1.000] |
+| LLM_D2 | all | airline | 9 | 3 | 6 | 0.583 [0.500, 0.750] | 0.722 [0.333, 1.000] |
+| LLM_D2 | all | all | 9 | 3 | 6 | 0.583 [0.500, 0.750] | 0.722 [0.333, 1.000] |
+| Judge_p_fail | planner | airline | 31 | 25 | 6 | 0.480 [0.280, 0.687] | 0.533 [0.300, 0.760] |
+| Judge_p_fail | planner | all | 31 | 25 | 6 | 0.480 [0.280, 0.687] | 0.533 [0.300, 0.760] |
+| Judge_p_fail | subagent | airline | 30 | 24 | 6 | 0.604 [0.364, 0.833] | 0.743 [0.493, 0.931] |
+| Judge_p_fail | subagent | all | 30 | 24 | 6 | 0.604 [0.364, 0.833] | 0.743 [0.493, 0.931] |
+| Judge_p_fail | all | airline | 31 | 25 | 6 | 0.553 [0.370, 0.720] | 0.780 [0.487, 0.993] |
+| Judge_p_fail | all | all | 31 | 25 | 6 | 0.553 [0.370, 0.720] | 0.780 [0.487, 0.993] |
+| Judge_flag | planner | airline | 31 | 25 | 6 | 0.500 [0.500, 0.500] | 0.553 [0.307, 0.787] |
+| Judge_flag | planner | all | 31 | 25 | 6 | 0.500 [0.500, 0.500] | 0.553 [0.307, 0.787] |
+| Judge_flag | subagent | airline | 30 | 24 | 6 | 0.542 [0.417, 0.729] | 0.747 [0.514, 0.924] |
+| Judge_flag | subagent | all | 30 | 24 | 6 | 0.542 [0.417, 0.729] | 0.747 [0.514, 0.924] |
+| Judge_flag | all | airline | 31 | 25 | 6 | 0.500 [0.500, 0.500] | 0.790 [0.477, 1.000] |
+| Judge_flag | all | all | 31 | 25 | 6 | 0.500 [0.500, 0.500] | 0.790 [0.477, 1.000] |
 
 ## 3. Decisive-step attribution (failed labeled runs)
 
@@ -172,6 +265,40 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | D3_report->planner | planner | airline | 23 | 0.174 | 0.217 | 0.652 |
 | D3_report->planner | planner | aime | 22 | 0.000 | 0.455 | 0.045 |
 | D3_report->planner | planner | all | 45 | 0.089 | 0.333 | 0.356 |
+| LLM_D1_1-conf | planner | airline | 24 | 0.333 | 0.500 | 0.667 |
+| LLM_D1_1-conf | planner | all | 24 | 0.333 | 0.500 | 0.667 |
+| LLM_D1_1-conf | subagent | airline | 17 | 0.118 | 0.294 | 0.412 |
+| LLM_D1_1-conf | subagent | all | 17 | 0.118 | 0.294 | 0.412 |
+| LLM_D1_1-conf | all | airline | 24 | 0.417 | 0.583 | 0.708 |
+| LLM_D1_1-conf | all | all | 24 | 0.417 | 0.583 | 0.708 |
+| LLM_D1_1-p_actual | planner | airline | 24 | 0.375 | 0.417 | 0.667 |
+| LLM_D1_1-p_actual | planner | all | 24 | 0.375 | 0.417 | 0.667 |
+| LLM_D1_1-p_actual | subagent | airline | 17 | 0.118 | 0.235 | 0.412 |
+| LLM_D1_1-p_actual | subagent | all | 17 | 0.118 | 0.235 | 0.412 |
+| LLM_D1_1-p_actual | all | airline | 24 | 0.375 | 0.458 | 0.667 |
+| LLM_D1_1-p_actual | all | all | 24 | 0.375 | 0.458 | 0.667 |
+| LLM_D2 | planner | airline | 24 | 0.125 | 0.292 | 0.667 |
+| LLM_D2 | planner | all | 24 | 0.125 | 0.292 | 0.667 |
+| LLM_D2 | subagent | airline | 17 | 0.059 | 0.176 | 0.353 |
+| LLM_D2 | subagent | all | 17 | 0.059 | 0.176 | 0.353 |
+| LLM_D2 | all | airline | 24 | 0.167 | 0.375 | 0.667 |
+| LLM_D2 | all | all | 24 | 0.167 | 0.375 | 0.667 |
+| LLM_D3_instruction->premise | planner | airline | 24 | 0.292 | 0.292 | 0.667 |
+| LLM_D3_instruction->premise | planner | all | 24 | 0.292 | 0.292 | 0.667 |
+| LLM_D3_report->planner | planner | airline | 24 | 0.375 | 0.417 | 0.667 |
+| LLM_D3_report->planner | planner | all | 24 | 0.375 | 0.417 | 0.667 |
+| Judge_p_fail | planner | airline | 24 | 0.167 | 0.167 | 0.667 |
+| Judge_p_fail | planner | all | 24 | 0.167 | 0.167 | 0.667 |
+| Judge_p_fail | subagent | airline | 24 | 0.000 | 0.125 | 0.208 |
+| Judge_p_fail | subagent | all | 24 | 0.000 | 0.125 | 0.208 |
+| Judge_p_fail | all | airline | 24 | 0.125 | 0.125 | 0.583 |
+| Judge_p_fail | all | all | 24 | 0.125 | 0.125 | 0.583 |
+| Judge_flag | planner | airline | 24 | 0.250 | 0.250 | 0.667 |
+| Judge_flag | planner | all | 24 | 0.250 | 0.250 | 0.667 |
+| Judge_flag | subagent | airline | 24 | 0.000 | 0.250 | 0.208 |
+| Judge_flag | subagent | all | 24 | 0.000 | 0.250 | 0.208 |
+| Judge_flag | all | airline | 24 | 0.250 | 0.250 | 0.667 |
+| Judge_flag | all | all | 24 | 0.250 | 0.250 | 0.667 |
 
 ## 4. recall@FPR10 and detection latency
 
@@ -224,6 +351,40 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | D3_report->planner | planner | airline | 1 | 0.000 | 0.000 | 31 | 0/24 | n/a |
 | D3_report->planner | planner | aime | 1 | 0.000 | 0.000 | 3 | 0/23 | n/a |
 | D3_report->planner | planner | all | 1 | 0.000 | 0.000 | 34 | 0/47 | n/a |
+| LLM_D1_1-conf | planner | airline | 0.4475 | 0.089 | 0.182 | 44 | 4/24 | 0.0 |
+| LLM_D1_1-conf | planner | all | 0.4475 | 0.089 | 0.182 | 44 | 4/47 | 0.0 |
+| LLM_D1_1-conf | subagent | airline | 0.461 | 0.097 | 0.111 | 36 | 1/24 | 0.0 |
+| LLM_D1_1-conf | subagent | all | 0.461 | 0.097 | 0.111 | 36 | 1/46 | 0.0 |
+| LLM_D1_1-conf | all | airline | 0.4288 | 0.099 | 0.163 | 80 | 5/24 | 0.0 |
+| LLM_D1_1-conf | all | all | 0.4288 | 0.099 | 0.163 | 80 | 5/47 | 0.0 |
+| LLM_D1_1-p_actual | planner | airline | 1 | 0.000 | 0.000 | 44 | 0/24 | n/a |
+| LLM_D1_1-p_actual | planner | all | 1 | 0.000 | 0.000 | 44 | 0/47 | n/a |
+| LLM_D1_1-p_actual | subagent | airline | 1 | 0.000 | 0.000 | 36 | 0/24 | n/a |
+| LLM_D1_1-p_actual | subagent | all | 1 | 0.000 | 0.000 | 36 | 0/46 | n/a |
+| LLM_D1_1-p_actual | all | airline | 1 | 0.000 | 0.000 | 80 | 0/24 | n/a |
+| LLM_D1_1-p_actual | all | all | 1 | 0.000 | 0.000 | 80 | 0/47 | n/a |
+| LLM_D2 | planner | airline | 1 | 0.068 | 0.068 | 44 | 0/24 | n/a |
+| LLM_D2 | planner | all | 1 | 0.068 | 0.068 | 44 | 0/47 | n/a |
+| LLM_D2 | subagent | airline | 1 | 0.000 | 0.000 | 37 | 0/24 | n/a |
+| LLM_D2 | subagent | all | 1 | 0.000 | 0.000 | 37 | 0/46 | n/a |
+| LLM_D2 | all | airline | 1 | 0.000 | 0.000 | 81 | 0/24 | n/a |
+| LLM_D2 | all | all | 1 | 0.000 | 0.000 | 81 | 0/47 | n/a |
+| LLM_D3_instruction->premise | planner | airline | 0.143 | 0.090 | 0.226 | 31 | 2/24 | 0.0 |
+| LLM_D3_instruction->premise | planner | all | 0.143 | 0.090 | 0.226 | 31 | 2/47 | 0.0 |
+| LLM_D3_report->planner | planner | airline | 1 | 0.000 | 0.000 | 29 | 0/24 | n/a |
+| LLM_D3_report->planner | planner | all | 1 | 0.000 | 0.000 | 29 | 0/47 | n/a |
+| Judge_p_fail | planner | airline | 0.95 | 0.061 | 0.087 | 46 | 9/24 | 10.0 |
+| Judge_p_fail | planner | all | 0.95 | 0.061 | 0.087 | 46 | 9/47 | 10.0 |
+| Judge_p_fail | subagent | airline | 1 | 0.016 | 0.000 | 48 | 8/24 | 3.5 |
+| Judge_p_fail | subagent | all | 1 | 0.016 | 0.000 | 48 | 8/46 | 3.5 |
+| Judge_p_fail | all | airline | 1 | 0.012 | 0.000 | 94 | 8/24 | 3.5 |
+| Judge_p_fail | all | all | 1 | 0.012 | 0.000 | 94 | 8/47 | 3.5 |
+| Judge_flag | planner | airline | 1 | 0.000 | 0.000 | 46 | 0/24 | n/a |
+| Judge_flag | planner | all | 1 | 0.000 | 0.000 | 46 | 0/47 | n/a |
+| Judge_flag | subagent | airline | 1 | 0.000 | 0.000 | 48 | 0/24 | n/a |
+| Judge_flag | subagent | all | 1 | 0.000 | 0.000 | 48 | 0/46 | n/a |
+| Judge_flag | all | airline | 1 | 0.000 | 0.000 | 94 | 0/24 | n/a |
+| Judge_flag | all | all | 1 | 0.000 | 0.000 | 94 | 0/47 | n/a |
 
 ## 5. D2 tool checks vs `category="tool"` labels
 
@@ -274,7 +435,7 @@ Intersection = 1296 step(s) scored by all of D1_1-conf, D2.
 
 ## 7. Any-flag coverage (descriptive)
 
-Of the 172 labeled error steps (decisive + transient), **0.488** (84/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
+Of the 172 labeled error steps (decisive + transient), **0.651** (112/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
-Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.7500, `D3_report->planner`=1.0000.
+Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.7500, `D3_report->planner`=1.0000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
 

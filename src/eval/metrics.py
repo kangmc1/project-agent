@@ -126,9 +126,11 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         for d in sorted(by_dir3):
             add(f"{lab}_D3_{d}", roles=("planner",), note=f"LLM-only D3 ({tag or 'qwen32b'}): 1 - verbalized fidelity").scores = by_dir3[d]
     judge = add("Judge_p_fail", note="Qwen3-8B judge, thinking on, p_fail")
+    judge_flag = add("Judge_flag", note="Qwen3-8B judge: p_fail >= 0.5 as a 0/1 flag (for P/R/F1 comparison with D2)")
     for r in read_jsonl(audit / "judge.jsonl"):
         v = _num(r.get("p_fail"))
         if v is not None:
+            judge_flag.scores[(r["run_id"], int(r["step_id"]))] = 1.0 if v >= 0.5 else 0.0
             judge.scores[(r["run_id"], int(r["step_id"]))] = v
 
     return {k: v for k, v in items.items() if v.scores}
