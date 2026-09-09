@@ -312,3 +312,9 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   as reference only; D3 is evaluated on the loss gold.
 - 11:30 proposal + README rewritten by me for: D2 planner conditions, D3 = LLM direct comparison with loss-gold validation (§4.2.13),
   judge comparison subsection (§4.2.14), §1.3 claim 2 reframed ("판정 주체를 층에 맞춘다"), appendix A.23–26.
+
+## 13:37 D4 rerun (gpt-oss-20b, Qwen3-32B thinking) — user request 12:45
+- Same prompt/score as the 8B pilot; judge chosen via LLM_JUDGE_BASE/MODEL (llm_only.ask cache). 443 labeled subagent response steps.
+- airline AUROC 0.47 (8B) / 0.55 (20B) / 0.50 (32B), CIs all include 0.5; AIME 0.52 / 0.66 / 0.62. Clean-step flag rate rises with judge size (0.39/0.71/0.54).
+- Cause (inspected airline_002 s6-s13): procedural sentences counted as claims; harmless inferences ("reservation is active") marked unsupported. Value-bearing-only rescoring does not help (0.55/0.51). -> check-definition problem, not judge size. D4 stays not adopted.
+- Module moved unused/ -> src/audit/d4_evidence_judge.py; scripts/eval_d4.py; metrics.py D4_<judge> items; 8B pilot restored as audit/d4_evidence_judge_qwen8b.jsonl. Proposal §4.2.14 + A.27. Servers shut down 13:45.

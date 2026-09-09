@@ -695,7 +695,7 @@ D3의 판정 방식 비교는 §4.2.12에 있다.
 
 **4. 라벨이 없는 상태에서 시작할 수 있다.** 임계값은 모듈별 자기 분포의 백분위(상위 5 % 또는 10 %)로 정한다. 새 고객이나 새 도메인에 라벨이 한 건도 없어도 첫날부터 순위가 나오고, 검수가 쌓이면 그 셀에서만 라벨 최적 임계값으로 옮겨 가면 된다. §4.2.6의 백분위 대 라벨 최적 비교가 이 출발점에서 얼마를 잃는지를 재는 실험이다.
 
-**5. 판정 주체가 층마다 정해져 있어 감사가 가능하다.** 결정 층(D1)과 행동 층(D2)은 코드가 판정한다. 판정 규칙이 코드이므로 재현되고, 고객이 이의를 제기하면 근거 포인터를 그대로 보여 줄 수 있으며, 규칙 변경의 영향 범위를 재실행으로 확인할 수 있다. LLM이 판정하는 것은 handoff 경계의 자연어 비교(D3) 하나뿐이며, 그 판정도 누락·변형된 사실 목록으로 남기고 손실 정답지에 대해 타당성을 확인하였다(§4.2.12). LLM 판정기 기반 제품이 겪는 "판정이 바뀌었는데 왜 바뀌었는지 모른다"는 문제가 D1·D2에서는 구조적으로 발생하지 않고, D3에서는 사실 목록으로 추적된다.
+**5. 판정 주체가 층마다 정해져 있어 감사가 가능하다.** 결정 층(D1)과 행동 층(D2)은 코드가 판정한다. 판정 규칙이 코드이므로 재현되고, 고객이 이의를 제기하면 근거 포인터를 그대로 보여 줄 수 있으며, 규칙 변경의 영향 범위를 재실행으로 확인할 수 있다. 채택된 모듈 가운데 LLM이 판정하는 것은 handoff 경계의 자연어 비교(D3) 하나뿐이며, 그 판정도 누락·변형된 사실 목록으로 남기고 손실 정답지에 대해 타당성을 확인하였다(§4.2.12). LLM 판정기 기반 제품이 겪는 "판정이 바뀌었는데 왜 바뀌었는지 모른다"는 문제가 D1·D2에서는 구조적으로 발생하지 않고, D3에서는 사실 목록으로 추적된다.
 
 ## 부록 A. 스펙 이탈·정정 기록
 
@@ -751,6 +751,8 @@ python -m src.run --batch 1 --parallel 4 --resume # 이후 --batch 2
 python -m src.audit.d1_decision --check && python -m src.audit.d1_decision --all --method stepwise # D1 (채점 서버)
 python -m src.audit.d2_tool_log && python -m src.audit.d2_required_calls && python -m src.audit.d2_argument_grounding && python -m src.audit.d2_delegation && python -m src.audit.d2_action # D2
 python -m src.audit.d3_handoff --stats # D3 (gpt-oss-20b 판정)
+LLM_JUDGE_BASE=http://localhost:18004/v1 LLM_JUDGE_MODEL=gptoss20b python -m src.audit.d4_evidence_judge --labeled-only # D4, 판정기별로 반복 (qwen32b: BASE :18001)
+python scripts/eval_d4.py audit/d4_evidence_judge_*.jsonl # D4 판정기 비교 (§4.2.14)
 python -m src.audit.comparators.d3_factset --stats && python -m src.audit.llm_only all # 비교군 (선택)
 python -m src.audit.report && python -m src.audit.system_report
 # 4. 라벨 + 평가

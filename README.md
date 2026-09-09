@@ -17,7 +17,7 @@ subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근
 
 ```
 src/harness/   실행 환경: Deep Agents 위의 두 그래프 + 완전 관측 기록
-src/audit/     감사기: d1_decision.py, d2_*.py, d3_handoff.py, report.py, system_report.py
+src/audit/     감사기: d1_decision.py, d2_*.py, d3_handoff.py, d4_evidence_judge.py, report.py, system_report.py
 src/eval/      라벨 검증과 지표 계산
 scripts/       vLLM 서버 스크립트, 게이트 검사
 runs/          실행 요약 (원본 trace는 커밋하지 않음)
@@ -57,7 +57,8 @@ deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따�
 
 D2와 D4는 같은 기록을 각각 **행동**과 **발언**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 발언은 자연어라
 LLM이 필요하다. D3은 자연어 텍스트 둘을 비교하는데, 60개 handoff 정보 손실 정답지에서 LLM 비교가 8B 사실 추출 + 집합 차보다
-정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) D3만 LLM이 판정한다. D2는 orchestrator의 위임도
+정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) LLM이 판정한다. 발언 층의 D4도 LLM 판정이지만
+판정기 세 종(8B, 20B, 32B) 모두 우연 수준이라 채택하지 않았다(제안서 §4.2.14). D2는 orchestrator의 위임도
 검사한다(식별자 누락, 실패 보고 후 재발행). D2는 flag 기준(정밀도 / 재현율 / F1 / FPR)으로 평가하며, AUROC은 비교 가능성을 위해서만
 싣는다. 0/1 점수의 AUROC은 (재현율 + 1 − FPR)/2로 고정되기 때문이다.
 
@@ -88,6 +89,8 @@ python -m src.run --batch 1 --parallel 4 --resume    # 이어서 --batch 2
 python -m src.audit.d1_decision --check && python -m src.audit.d1_decision --all --method stepwise   # D1 (채점 서버)
 python -m src.audit.d2_tool_log && python -m src.audit.d2_required_calls && python -m src.audit.d2_argument_grounding && python -m src.audit.d2_delegation && python -m src.audit.d2_action   # D2
 python -m src.audit.d3_handoff --stats               # D3 (gpt-oss-20b 판정기)
+LLM_JUDGE_BASE=http://localhost:18004/v1 LLM_JUDGE_MODEL=gptoss20b python -m src.audit.d4_evidence_judge --labeled-only   # D4, 판정기별로 반복 (qwen32b: BASE :18001)
+python scripts/eval_d4.py audit/d4_evidence_judge_*.jsonl   # D4 판정기 비교 (제안서 §4.2.14)
 python -m src.audit.comparators.d3_factset --stats; python -m src.audit.llm_only all   # 비교군 (선택)
 python -m src.audit.report && python -m src.audit.system_report
 # 4. 라벨 + 평가
