@@ -13,28 +13,18 @@ subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근
 ## 저장소 구성
 
 ```
-scripts/     serve_qwen32b.sh serve_qwen32b_score.sh serve_gptoss20b.sh serve_qwen8b.sh   # vLLM 서버: 실행기, D1 채점기, D3 판정기, 8B(비교군 전용)
-             check_server.py (P1 게이트)  probe_deepagents.py (P1b 게이트)  check_docs.py  score_gold_llm_d3.py (D3 정답지: LLM 직접 비교)
-src/data/    aime.py tau.py tau_user.py                       # AIME 2026 로더, τ-bench airline 환경, raw-httpx 사용자 시뮬레이터
-src/harness/ deepagents_compat.py model.py capture.py tools.py airline.py aime.py validate.py   # 그래프 + 완전 관측 기록
-src/run.py                                                    # 과제 하나 또는 배치 실행
-src/audit/   render.py d1_decision.py                         # D1 결정 분포 채점 (채점 서버)
-             d2_rules.py d2_tool_log.py d2_required_calls.py d2_argument_grounding.py d2_delegation.py d2_action.py   # D2 행동 근거성 (코드만; subagent + planner 조건)
-             d3_handoff.py llm_only.py                        # D3 handoff 정보 손실 (LLM 직접 비교, gpt-oss-20b); LLM 단독 비교군
-             comparators/d3_factset.py extract.py             # 폐기된 D3 경로 (Qwen3-8B 사실 추출 + 집합 차), 비교군으로 보존
-             report.py system_report.py                       # 실행별 리포트, 시스템 수준 집계
-             judge.py                                         # 선택적 LLM 판정 기준선 (결과에 포함되지 않음)
-             unused/d4_evidence_judge.py                      # D4 근거 의존 판정 — 설계만, 결과에 미사용
-src/eval/    index.py summarize.py labels.py metrics.py thresholds.py recovery.py
-data/        tau_task_ids.json aime_ids.json                  # 고정 과제 표본 (배치 1 = 도메인별 앞 15개)
-runs/        index.csv, <run_id>/summary.md                   # 원본 trace는 커밋하지 않음 (.gitignore 참고)
-audit/       d1.jsonl d1_check.json d2_tool_log.jsonl d2_required_calls.jsonl d2_argument_grounding.jsonl d2_action.jsonl
-             d3_handoff.jsonl d3_handoff_stats.json report/<run_id>.{json,md} system_report.{md,json}
-audit/_removed/   폐기된 모듈의 출력 (발언 값 대조 검사, 수식 정합성 검사, D4 8B 파일럿) — 이력 보존용
-labels/      RUBRIC.md LABELER_PROMPT.md index.csv <run_id>.json   # Claude가 단 스텝 라벨 (평가 전용)
-eval/        metrics.md metrics.csv thresholds.md recovery.png subtags.md
-eval/_archive/    D1 이전의 지표 스냅샷, 옛 모듈 번호 — 이력 보존용
+src/harness/   실행 환경: Deep Agents 위의 두 그래프 + 완전 관측 기록
+src/audit/     감사기: d1_decision.py, d2_*.py, d3_handoff.py, report.py, system_report.py
+src/eval/      라벨 검증과 지표 계산
+scripts/       vLLM 서버 스크립트, 게이트 검사
+runs/          실행 요약 (원본 trace는 커밋하지 않음)
+audit/         감사기 출력과 실행별 리포트
+labels/        스텝 라벨과 라벨링 지침 (평가 전용)
+eval/          지표 표와 그림
+docs/          제안서, 타임라인
 ```
+
+폐기된 모듈의 출력은 `audit/_removed/`, 옛 번호의 지표 스냅샷은 `eval/_archive/`에 이력으로만 남긴다.
 
 ## 실행 그래프 (감사 대상 시스템)
 
