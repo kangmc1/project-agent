@@ -495,9 +495,9 @@
         <div><h4>측정 방식 비교 <span class="quiet" style="font-weight:400">(보고→orchestrator 30건)</span></h4>
         <div class="tbl"><table>
           <tr><th>측정 방식</th><th class="n">정답 손실량과의 순위 일치</th><th class="n">실질 손실 구분 AUROC</th></tr>
-          <tr><td>작은 모델이 사실을 뽑아 집합 비교 (이전 방식)</td><td class="n">0.61</td><td class="n">0.62</td></tr>
-          <tr><td>값 토큰 겹침 (LLM 없음)</td><td class="n">0.70</td><td class="n">0.75</td></tr>
-          <tr class="hi"><td>LLM 직접 비교, gpt-oss-20b (채택)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
+          <tr><td>atomic fact 추출 후 집합 비교 (Qwen3-8B)</td><td class="n">0.61</td><td class="n">0.62</td></tr>
+          <tr><td>보고 전/후 토큰 일치도 비교</td><td class="n">0.70</td><td class="n">0.75</td></tr>
+          <tr class="hi"><td>LLM-as-judge (gpt-oss-20b)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
         </table></div>
         <p style="margin-top:.5rem">실질 손실 12건 중 8건은 값이 빠진 것이 아니라 바꿔 말한 것("기록을 남김" → "처리 완료")이라 값 비교로는 보이지 않고, LLM 직접 비교만 알아봅니다.</p></div>
       </div>
