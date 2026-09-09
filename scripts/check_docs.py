@@ -1,4 +1,4 @@
-"""Document checklist gates (P12, P12b, P13, P16).  Usage: python scripts/check_docs.py --skeleton|--proposal|--slides|--adr"""
+"""Document checklist gates (P12, P12b, P13, P16).  Usage: python scripts/check_docs.py --skeleton|--proposal|--adr"""
 from __future__ import annotations
 
 import argparse
@@ -37,23 +37,6 @@ def check_proposal() -> list[str]:
     return problems
 
 
-def check_slides() -> list[str]:
-    # slides dropped by user decision (2026-09-09 07:40): written submission only
-    return []
-
-
-def _check_slides_legacy() -> list[str]:
-    p = Path("docs/slides.html")
-    if not p.exists():
-        return ["docs/slides.html missing"]
-    t = p.read_text(encoding="utf-8")
-    problems = [f"slides missing: {m}" for m in has(t, "planner", "auditor", "AUROC", "한계")]
-    readme = Path("README.md").read_text(encoding="utf-8") if Path("README.md").exists() else ""
-    if "claude.ai/code/artifact" not in readme and "slides.html" not in readme:
-        problems.append("README lacks slides link")
-    return problems
-
-
 def check_adr() -> list[str]:
     t = Path(".omc/plans/agent-failure-detection-plan.md").read_text(encoding="utf-8")
     problems = [f"ADR missing: {m}" for m in has(t, "## 7. ADR", "**Decision**", "**Drivers**", "**Alternatives", "**Why", "**Consequences**", "**Follow-ups**")]
@@ -64,7 +47,7 @@ def check_adr() -> list[str]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    for f in ("skeleton", "proposal", "slides", "adr"):
+    for f in ("skeleton", "proposal", "adr"):
         ap.add_argument(f"--{f}", action="store_true")
     a = ap.parse_args()
     problems = []
@@ -72,8 +55,6 @@ def main() -> int:
         problems += check_skeleton()
     if a.proposal:
         problems += check_proposal()
-    if a.slides:
-        problems += check_slides()
     if a.adr:
         problems += check_adr()
     for p in problems:
