@@ -75,6 +75,9 @@ system-level aggregate `audit/system_report.md` (per agent role, per handoff edg
 
 ```bash
 # 0. envs: conda `math_infer` (vLLM 0.9.2) for the servers, `agent_failure_trace` (py3.11) for everything else
+#    NOTE: all 60 runs and all D1 scoring were produced with vLLM 0.9.2. The same env was later upgraded to vLLM 0.11.0
+#    (torch 2.8.0+cu128) to serve the gpt-oss-20b comparator judge (scripts/serve_gptoss20b.sh, GPU 4, :18004); re-scoring D1 under
+#    0.11.0 may move values within the documented reproducibility floor (~0.005 confidence).
 pip install -r requirements.txt                       # inside agent_failure_trace
 # 1. servers (GPUs 1-4 only)
 bash scripts/serve_qwen32b.sh &        # executor  Qwen3-32B TP=2, GPUs 1-2, :18001

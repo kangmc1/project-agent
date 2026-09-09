@@ -35,7 +35,7 @@ BASE = os.environ.get("LLM_JUDGE_BASE", "http://localhost:18001/v1")
 MODEL = os.environ.get("LLM_JUDGE_MODEL", "qwen32b")
 TAG = os.environ.get("LLM_JUDGE_TAG", "")  # "" = default Qwen3-32B files (llm_d1.jsonl); e.g. "gptoss20b" -> llm_d1_gptoss20b.jsonl
 AUX = {"user_sim", "summarizer"}
-MAX_TOKENS = 1800
+MAX_TOKENS = int(os.environ.get("LLM_JUDGE_MAX_TOKENS", "1800"))
 N_CTX = 8
 PER_MSG = 1800
 _client = None

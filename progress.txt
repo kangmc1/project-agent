@@ -261,3 +261,11 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Next: 8B generic judge finishing; then math_infer vLLM upgrade (user decision, no new env) -> gpt-oss-20b judge on GPU 4.
 - 09:50 8B generic judge (τ-bench airline, 906 labeled steps): planner AUROC 0.610 [0.52,0.70] / decisive 0.686; subagent 0.607 / decisive
   0.707; attribution planner exact 0.167. Added Judge_flag (p_fail>=0.5) for P/R/F1 comparison with D2. Chain waiting on gpt-oss download.
+- 09:55 INCIDENT: gptoss_chain.sh (sed edit failed, re-armed by mistake) killed the 32B/8B servers and started `pip install vllm==0.21.0`
+  in math_infer while I launched a second identical pip install concurrently. Result: torch 2.11 + mismatched NCCL, `import torch`
+  fails (undefined symbol ncclCommWindowDeregister). Repair: pip install vllm==0.21.0 torch==2.7.1 torchvision==0.22.1 torchaudio==2.7.1.
+  8B LLM-only run had started against the dead server: 306 null cache rows purged, partial outputs deleted; will rerun after repair.
+- 10:05 math_infer repaired: vllm 0.11.0 + torch 2.8.0+cu128 (driver 570 = CUDA 12.8; cu130 builds cannot run here — so the idlm env
+  was never GPU-capable either). cu13 leftovers removed, cu12 runtime packages force-reinstalled (cudnn had been deleted by a shared path).
+  8B (:18002, GPU 3) and gpt-oss-20b (:18004, GPU 4; Triton MoE kernels unavailable -> fallback path, output OK) up. Running LLM-only
+  D1/D2/D3 with qwen8b (thinking on) and gptoss20b (default reasoning) in parallel. One-shot chain scripts deleted (hazard).
