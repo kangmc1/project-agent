@@ -74,7 +74,7 @@ orchestrator-worker 시스템에서 오류는 스텝의 어느 부분에서 드�
 
 ### 3.1 실행 환경: Deep Agents 위의 orchestrator→subagent 그래프
 
-**τ-bench airline이란.** τ-bench [7](Sierra Research, 2024)는 도구를 쓰는 에이전트를 시뮬레이션 고객과의 대화 속에서 평가하는 공개 벤치마크이며, τ-bench airline은 그 가운데 항공사 고객 응대 도메인이다. 에이전트는 문서로 주어진 항공사 정책을 지키면서 시뮬레이션 고객과 대화하고, 예약 데이터베이스를 조회·수정하는 도구 14개(`get_user_details`, `get_reservation_details`, `search_direct_flight`, `search_onestop_flight`, `book_reservation`, `update_reservation_flights`, `update_reservation_baggages`, `update_reservation_passengers`, `cancel_reservation`, `send_certificate`, `calculate`, `list_all_airports`, `transfer_to_human_agents`, `think`)로 과제를 수행한다. 대화가 끝난 뒤 데이터베이스의 최종 상태가 정답 상태와 같으면 성공이다.
+**τ-bench airline이란.** τ-bench [7](Sierra Research, 2024)는 도구를 쓰는 에이전트를 시뮬레이션 고객과의 대화 속에서 평가하는 공개 벤치마크이며, τ-bench airline은 그 가운데 항공사 고객 응대 도메인이다. 에이전트는 문서로 주어진 항공사 정책을 지키면서 시뮬레이션 고객과 대화하고, 예약 데이터베이스를 조회·수정하는 도구 14개로 과제를 수행한다. 대화가 끝난 뒤 데이터베이스의 최종 상태가 정답 상태와 같으면 성공이다.
 
 τ-bench airline을 아래 구조의 그래프로 실행한다.
 
@@ -85,12 +85,12 @@ orchestrator-worker 시스템에서 오류는 스텝의 어느 부분에서 드�
  └─ read_file / write_file (공유 파일 /case_notes.md)
 ```
 
-- **subagent는 이름을 가진 래퍼 도구다.** orchestrator는 `policy_checker`, `db_agent`라는 이름의 도구를 부르고, 그 도구가 해당 subagent 그래프를 실행한 뒤 보고서를 도구 결과로 돌려준다. Deep Agents의 내장 `task` 도구를 쓰지 않은 이유는, `task`가 어느 subagent를 부르는지를 자유 텍스트 뒤의 인자(`subagent_type`)에 두어 D1이 "누구를 부르는가"의 확률을 잴 수 없기 때문이다. 내장 `task`는 `SubAgentMiddleware`를 추가하지 않는 설정으로 제거하였고, 래퍼는 `task`의 상태 규약을 따라 부모 상태를 subagent에 넘기고(제어용·비공개 키는 제외) 실행 후 공유 파일 상태(`files`)를 부모에 병합한다. `todos`는 이 규약상 공유되지 않는다.
-- **각 에이전트가 쓸 수 있는 도구.** orchestrator는 두 래퍼와 `respond_to_user`(고객에게 말하고 답을 받는 도구), 그리고 Deep Agents의 파일 도구 `read_file`·`write_file`을 쓴다. orchestrator는 데이터베이스에 직접 접근하지 않는다. `policy_checker`는 사고용 `think` 도구와 파일 도구를 쓰며, 항공사 정책 문서는 시스템 프롬프트에 들어 있다. `db_agent`는 τ-bench airline 도구 14개와 파일 도구를 쓴다. 나머지 내장 파일 도구(`ls`, `glob`, `grep`, `execute`, `edit_file`, `delete`)는 모든 그래프에서 제거하였다.
-- **공유 파일과 요약.** τ-bench airline에서는 subagent가 작업을 끝내기 전에 공유 파일 `/case_notes.md`에 결과를 덧붙이고 orchestrator가 그것을 읽는다. 대화가 길어질 때를 위한 요약 미들웨어는 orchestrator와 각 subagent 그래프에 하나씩 있으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다. 요약 호출은 기록에 `summarizer`라는 별도 에이전트 이름으로 남지만, subagent가 아니라 미들웨어다.
-- **모델과 시뮬레이터.** 실행 모델은 Qwen3-32B(vLLM, thinking 비활성)이고, 고객 시뮬레이터도 같은 모델이다. 시뮬레이터는 τ-bench의 LLM 사용자 시뮬레이터를 같은 시스템 프롬프트로 다시 구현한 것으로, 요청 본문을 캡처하기 위해 HTTP 클라이언트를 직접 쓴다(§4.3 한계).
-- **종료 조건.** 고객이 대화를 끝내거나 30턴 또는 20분에 이르면 끝난다. LangGraph의 재귀 한도는 200이다.
+- **subagent는 이름을 가진 래퍼 도구다.** orchestrator는 `policy_checker`, `db_agent`라는 이름의 도구를 부르고, 그 도구가 해당 subagent 그래프를 실행한 뒤 보고서를 도구 결과로 돌려준다. Deep Agents의 내장 `task` 도구를 쓰지 않은 이유는, `task`가 어느 subagent를 부르는지를 인자 안에 두어 D1이 "누구를 부르는가"의 확률을 잴 수 없기 때문이다.
+- **역할 분담.** orchestrator는 고객과 대화하고 두 subagent에게 일을 맡기며 데이터베이스에 직접 접근하지 않는다. `policy_checker`는 정책 문서를 보고 판단하고, `db_agent`는 데이터베이스 도구 14개로 조회·변경한다. subagent는 작업을 끝내기 전에 공유 파일 `/case_notes.md`에 결과를 덧붙이고 orchestrator가 그것을 읽는다.
+- **모델과 시뮬레이터.** 실행 모델은 Qwen3-32B(thinking 끔)이고, 고객 시뮬레이터도 같은 모델로 τ-bench의 사용자 시뮬레이터를 다시 구현한 것이다(§4.3 한계).
 - **두 번째 도메인.** 같은 하네스로 AIME 2026 그래프(orchestrator → `solver`, `verifier`)도 30회 실행하였다. 그러나 solver가 풀이의 거의 전부를 수행하고 orchestrator의 실질적 결정이 적어(라벨된 orchestrator 오류 6건) orchestrator→subagent 분해가 형식적이었으므로 본문에서 빼고, 그래프 구조와 결과를 부록 C에 둔다.
+
+도구 목록, 래퍼의 상태 규약, 요약 미들웨어, 종료 조건 같은 설정 상세는 부록 E에 있다.
 
 ### 3.2 완전 관측 기록
 
@@ -193,34 +193,16 @@ orchestrator-worker 시스템에서 오류는 스텝의 어느 부분에서 드�
 
 #### 4.1.1 실험 대상 시스템 (system under test)
 
-Deep Agents(`deepagents 0.7.13`) 위의 그래프를 §3.1의 구조대로 실행한다. subagent는 모두 이름을 가진 래퍼 도구다.
-
-| 항목 | τ-bench airline |
-|---|---|
-| orchestrator 도구 | `policy_checker`, `db_agent`, `respond_to_user`, `read_file`, `write_file` |
-| subagent 도구 | `policy_checker`: `think`(정책 문서는 시스템 프롬프트) / `db_agent`: τ-bench airline 도구 14개; 둘 다 `read_file`, `write_file` |
-| 공유 FS | `/case_notes.md`(subagent가 append) |
-| 사용자 | 같은 모델로 구현한 HTTP 직접 호출 시뮬레이터(`user_sim`) |
-| 종료 조건 | `done` 또는 30턴(`MAX_TURNS`), `recursion_limit=200` |
-
-도구 개수 14는 `tau_bench/envs/airline/tools/`의 모듈 수이며, 나머지 구성은 `src/harness/airline.py`에 있다(AIME 2026은 `src/harness/aime.py`, 부록 C). orchestrator에서 `task`, `ls`, `glob`, `grep`, `execute`, `edit_file`, `delete`를 제거하였으므로 D1의 후보 집합에는 위 표의 도구만 남는다(`docs/notes/deepagents_probe.md`에서 노출 도구가 `read_file`, `write_file`과 바인딩된 래퍼·도메인 도구뿐임을 확인하였다).
-
-모델은 셋을 썼다. 모든 호출은 `temperature=0`이며, 서빙 설정은 `scripts/serve_*.sh`에 있다.
-
-- **Qwen3-32B.** 실행 모델과 사용자 시뮬레이터로 쓴다. thinking을 끄고 `logprobs`를 켜서 생성 토큰 id를 받으며, 어느 에이전트의 호출인지를 `X-Agent` 헤더로 기록한다. D1 채점에는 같은 가중치를 문맥 24,576토큰의 별도 서버로 띄워 쓴다. LLM 단독 비교군과 D4의 판정에도 쓰며, 이때는 thinking을 켠다.
-- **gpt-oss-20b.** 실행 모델과 다른 계열의 판정 모델이다. D3 판정, D4 판정, LLM 단독 비교군 판정에 쓴다. 기본 reasoning 설정 그대로다.
-- **Qwen3-8B.** 사실 추출 비교군(§4.2.11)과 D4의 8B 파일럿에는 thinking을 끄고, LLM 단독 8B 비교군과 D3 정답지 비교에는 켜서 쓴다.
-
-요약 미들웨어는 orchestrator와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다.
+Deep Agents(`deepagents 0.7.13`) 위의 그래프를 §3.1의 구조대로 실행한다. 모델은 셋이다. Qwen3-32B는 실행 모델과 사용자 시뮬레이터, 그리고 D1 채점(같은 가중치의 별도 서버)을 맡는다. gpt-oss-20b는 실행 모델과 다른 계열의 판정 모델로 D3과 D4의 판정을 맡는다. Qwen3-8B는 비교군(사실 추출, D4 8B 파일럿, LLM 단독 8B)에만 쓴다. 모든 호출은 `temperature=0`이다. 에이전트별 도구, thinking 설정, 요약 미들웨어, 서빙 설정은 부록 E에 있다.
 
 #### 4.1.2 실행 규모
 
 실행 규모와 성패 판정 기준은 다음과 같다.
 
-- 과제. τ-bench airline은 테스트 과제 30건이다. 배치 1은 id 2–24 범위의 15건, 배치 2는 id 25–48 범위의 15건이다. 시드를 고정한 표본을 미리 저장하였다(`data/tau_task_ids.json`).
+- 과제. τ-bench airline 테스트 과제에서 시드를 고정해 뽑은 30건이다(배치 1·2 각 15건, `data/tau_task_ids.json`).
 - 실행 순서. 배치 1(15)을 완주한 뒤 배치 2(15)를 실행하였다. 총 30회다. AIME 2026도 같은 배치 구조로 30회 실행하였다(부록 C).
 - 모집단. `runs/index.csv`는 두 도메인 62행이다. `batch=0`인 `airline_000`과 `aime_000` 두 건은 파이프라인 점검용 예비 실행(스모크 실행)이므로 라벨과 평가 모집단에서 제외한다. 남은 60건이 `labels/index.csv`의 60행과 일치하며, 그중 τ-bench airline 30건이 본문의 모집단이다.
-- 성패 판정. `runs/index.csv`의 `success` 열로 판정한다. τ-bench의 보상 1.0이 성공이다. `status` 열은 62건 모두 `ok`이므로, 실패는 모두 하네스 오류가 아니라 에이전트의 과제 실패다.
+- 성패 판정. τ-bench의 보상 1.0이 성공이다. 하네스 오류로 끝난 실행은 없으므로 실패는 모두 에이전트의 과제 실패다.
 
 | 도메인 | n | 성공 | 실패 | 성공률 | 스텝 수 합 | 스텝 수 중앙값(범위) |
 |---|---|---|---|---|---|---|
@@ -270,12 +252,11 @@ D1의 확률 P(a | 문맥)은 실행이 끝난 뒤 같은 가중치(Qwen3-32B, �
 
 채점 방법은 다음과 같다.
 
-- 후보의 토큰열. 후보 a의 토큰열은 `<tool_call>`과 그 뒤 헤더 5토큰, 이름 1–5토큰을 합친 7–11토큰이며, 확률은 그 체인 전체 ∏ P(t_i | 문맥, t_<i)다.
-- 경로. decode 경로로 채점한다(코드명 `stepwise`, `src/audit/d1_decision.py`). 렌더된 prefix를 토큰 ID 배열로 고정하고, 후보 토큰을 한 개씩 `allowed_token_ids=[t_i]`로 강제한 1토큰 생성(`max_tokens: 1`)의 마스킹 전 logprob을 읽어 합한다. 이 경로는 실행 시 모델이 토큰을 생성한 경로와 같고, vLLM의 prefix cache가 유지되어 호출당 마지막 토큰 한 step만 계산한다.
+- 후보의 토큰열. 후보 a의 토큰열은 `<tool_call>` 헤더와 이름 토큰을 합친 7–11토큰이며, 확률은 그 체인 전체 ∏ P(t_i | 문맥, t_<i)다.
+- 경로. 렌더된 prefix를 고정하고 후보 토큰을 한 개씩 강제한 1토큰 생성의 logprob을 읽어 합한다(decode 경로, `src/audit/d1_decision.py`). 실행 시 모델이 토큰을 생성한 경로와 같다.
 - `no_tool`. 첫 위치에서 1 − P(`<tool_call>`)로 정의한다.
-- 공통 접두 공유. 후보들이 공유하는 토큰 접두(헤더, 겹치는 이름 앞부분)는 한 번만 묻고 재사용한다(trie). 헤더 5토큰의 logp 합은 기록 974건에서 중앙값 −3×10⁻⁶, 최소 −0.0024로 무시할 수 있으며, 실질적인 결정은 `<tool_call>` 여부와 이름 토큰에서 일어난다.
-- 후보 집합. A는 그 스텝 요청 본문의 `tools` 이름과 `no_tool`의 합집합이다. 모델이 바인딩되지 않은 이름을 호출한 경우(환각 도구 이름)에는 그 이름을 사후에 A에 추가하여 채점한다. 그러지 않으면 실제 행동의 확률이 정의되지 않기 때문이다. `user_sim`과 `summarizer` 스텝은 결정 지점이 아니다. 채점 서버의 24,576토큰을 넘는 prefix는 `d1_unscored.json`의 `prefix_too_long`으로 분류한다.
-- 기록 logprob의 용도. 실행 시 기록된 logprob은 같은 가중치의 또 다른 bf16(16비트 부동소수) 계산 결과이므로 재채점보다 참값에 가깝지 않고, 둘의 차이는 정확도가 아니라 두 추정치 사이의 반올림 잡음이다. 따라서 기록 logprob은 결과 지표로 쓰지 않고 렌더 정합 검사에만 쓴다. 실행 시 `logprobs` 옵션은 생성 토큰 ID를 받기 위한 채널로 켜 둔다(vLLM 0.9.2에는 `return_token_ids`가 없다). 기록이 없는 실행은 응답 텍스트를 다시 토큰화하며, 60회 검사에서 토큰 ID가 471건 중 467건 완전히 일치하였다.
+- 후보 집합. A는 그 스텝 요청 본문의 `tools` 이름과 `no_tool`의 합집합이다. 모델이 바인딩되지 않은 이름을 호출한 경우(환각 도구 이름)에는 그 이름을 사후에 A에 추가하여 채점한다. 그러지 않으면 실제 행동의 확률이 정의되지 않기 때문이다. `user_sim`과 `summarizer` 스텝은 결정 지점이 아니다.
+- 기록 logprob의 용도. 실행 시 기록된 logprob은 같은 가중치의 또 다른 bf16 계산 결과라 재채점보다 참값에 가깝지 않으므로, 결과 지표로 쓰지 않고 렌더 정합 검사에만 쓴다(부록 E).
 
 타당성 검사는 두 가지다. 렌더 정합 검사는 결정 지점마다 기록의 생성 토큰열에서 `<tool_call>` 위치를 찾아, 그 뒤 토큰열이 실제 선택 후보의 토큰열과 일치하는지 확인한다. 불일치나 수 단위의 logp 이탈은 채팅 템플릿이나 도구 스키마의 렌더 오류를 뜻한다. 재현성 검사는 같은 요청을 다른 KV 캐시 상태에서 다시 채점하여 값이 얼마나 흔들리는지 잰다. 결과는 다음 표와 같다(최종 채점 파일 `audit/d1.jsonl`).
 
@@ -289,7 +270,6 @@ D1의 확률 P(a | 문맥)은 실행이 끝난 뒤 같은 가중치(Qwen3-32B, �
 | confidence < 0.5 비율 | 1.5 % (orchestrator 2.0 %, subagent 1.1 %) |
 | p_actual < 0.5 비율 | 2.5 % |
 | 재현성 하한 (같은 요청, 다른 KV-cache 상태) | logp 약 0.002, confidence 약 0.005 |
-| 처리량 | 결정 지점당 16.6 호출, 분당 39–49 지점 (공통 접두 공유 전: 약 43 호출, 분당 약 23); prefix cache 적중률 0.995 |
 
 재현성 하한은 D1 값의 유효 자릿수를 정한다. 같은 요청도 prefix의 KV 블록이 다시 계산되는 시점에 따라 logp가 약 0.002(고확률 토큰), confidence가 약 0.005 흔들리며, 같은 캐시 상태에서는 완전히 재현된다.
 
@@ -802,3 +782,33 @@ AIME 2026에서 강한 것은 모두 도구 층 검사다. 결정적 실패의 �
 **D6 — 계획-행동 일치.** orchestrator가 세운 계획(todo 목록이나 지시문에 적힌 단계)과 실제 도구 호출 순서를 대조한다. 계획에는 있는데 실행되지 않은 단계, 계획에 없는 호출, 순서가 뒤바뀐 호출을 센다. Deep Agents의 `todos`가 subagent와 공유되지 않아(§3.1) orchestrator 범위에서만 정의되며, D2의 어긋남 (1)이 같은 질문의 일부를 handoff 단위로 이미 다룬다.
 
 **D7 — 재도출.** 정책 문서의 규칙(환불 조건, 변경 수수료, 수하물 허용량 등)을 코드로 옮겨 두고, 에이전트가 발언한 값을 기록의 입력값에서 다시 계산해 대조한다. 값이 근거에 있는지만 보는 D2의 어긋남 (2)와 달리 "근거 값에서 이 결론이 따라 나오는가"를 코드로 묻는 모듈이며, 보고 층(§1.2)의 공백을 도메인 규칙이 코드화되는 범위 안에서 메울 후보다. 규칙을 코드로 옮기는 비용이 도메인마다 들어 이번 범위에서 제외하였다.
+
+## 부록 E. 실행·채점 설정 상세
+
+본문 §3.1, §4.1.1, §4.1.5에서 뺀 설정 세부다. 서빙 설정은 `scripts/serve_*.sh`, 하네스는 `src/harness/`에 있다.
+
+**τ-bench airline 도구 14개.** `get_user_details`, `get_reservation_details`, `search_direct_flight`, `search_onestop_flight`, `book_reservation`, `update_reservation_flights`, `update_reservation_baggages`, `update_reservation_passengers`, `cancel_reservation`, `send_certificate`, `calculate`, `list_all_airports`, `transfer_to_human_agents`, `think`. 개수는 `tau_bench/envs/airline/tools/`의 모듈 수다.
+
+**에이전트별 도구.**
+
+| 항목 | τ-bench airline |
+|---|---|
+| orchestrator 도구 | `policy_checker`, `db_agent`, `respond_to_user`(고객에게 말하고 답을 받는 도구), `read_file`, `write_file` |
+| subagent 도구 | `policy_checker`: `think`(정책 문서는 시스템 프롬프트) / `db_agent`: τ-bench airline 도구 14개; 둘 다 `read_file`, `write_file` |
+| 공유 FS | `/case_notes.md`(subagent가 append) |
+| 사용자 | 같은 모델로 구현한 HTTP 직접 호출 시뮬레이터(`user_sim`, `src/data/tau_user.py`) |
+| 종료 조건 | 고객이 대화를 끝내거나 30턴 또는 20분, LangGraph 재귀 한도 200 |
+
+**래퍼 도구의 상태 규약.** 내장 `task`는 `SubAgentMiddleware`를 추가하지 않는 설정으로 제거하였고, 래퍼는 `task`의 상태 규약을 따라 부모 상태를 subagent에 넘기고(제어용·비공개 키는 제외) 실행 후 공유 파일 상태(`files`)를 부모에 병합한다. `todos`는 이 규약상 공유되지 않는다. 나머지 내장 파일 도구(`ls`, `glob`, `grep`, `execute`, `edit_file`, `delete`)는 모든 그래프에서 제거하였으므로 D1의 후보 집합에는 위 표의 도구만 남는다(`docs/notes/deepagents_probe.md`에서 확인).
+
+**요약 미들웨어.** orchestrator와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다. 요약 호출은 기록에 `summarizer`라는 별도 에이전트 이름으로 남지만 subagent가 아니라 미들웨어다.
+
+**모델 설정.** 모든 호출은 `temperature=0`이다.
+
+- Qwen3-32B: 실행 모델과 사용자 시뮬레이터에서는 thinking을 끄고 `logprobs`를 켜서 생성 토큰 id를 받으며(vLLM 0.9.2에는 `return_token_ids`가 없다), 어느 에이전트의 호출인지를 `X-Agent` 헤더로 기록한다(`src/harness/model.py`). D1 채점은 같은 가중치를 문맥 24,576토큰의 별도 서버로 띄워 쓴다. LLM 단독 비교군과 D4 판정에서는 thinking을 켠다.
+- gpt-oss-20b: D3 판정, D4 판정, LLM 단독 비교군 판정. 기본 reasoning 설정 그대로다. 같은 환경의 vLLM을 0.11.0으로 올려 띄웠다(실행과 D1 채점은 0.9.2).
+- Qwen3-8B: 사실 추출 비교군과 D4 8B 파일럿은 thinking을 끄고, LLM 단독 8B 비교군과 D3 정답지 비교는 켠다.
+
+**D1 채점 구현.** 후보 a의 토큰열은 `<tool_call>`과 그 뒤 헤더 5토큰, 이름 1–5토큰이다. 후보 토큰을 한 개씩 `allowed_token_ids=[t_i]`로 강제한 1토큰 생성(`max_tokens: 1`)의 마스킹 전 logprob을 읽어 합하며, vLLM의 prefix cache가 유지되어 호출당 마지막 토큰 한 step만 계산한다. 후보들이 공유하는 토큰 접두(헤더, 겹치는 이름 앞부분)는 한 번만 묻고 재사용한다(trie). 헤더 5토큰의 logp 합은 기록 974건에서 중앙값 −3×10⁻⁶, 최소 −0.0024로 무시할 수 있으며, 실질적인 결정은 `<tool_call>` 여부와 이름 토큰에서 일어난다. 처리량은 결정 지점당 16.6 호출, 분당 39–49 지점(접두 공유 전 약 43 호출, 분당 약 23), prefix cache 적중률 0.995다. 채점 서버의 24,576토큰을 넘는 prefix는 `d1_unscored.json`의 `prefix_too_long`으로 분류한다(이번 실험에서는 0건). 실행 시 기록된 logprob은 렌더 정합 검사에만 쓴다. 생성 토큰 id 기록이 없는 실행은 응답 텍스트를 다시 토큰화하며, 60회 검사에서 토큰 id가 471건 중 467건 완전히 일치하였다.
+
+**실행 배치.** τ-bench airline 배치 1은 과제 id 2–24 범위의 15건, 배치 2는 id 25–48 범위의 15건이다(AIME 2026은 문제 1–15, 16–30). `runs/index.csv`는 두 도메인 62행이며 `batch=0`인 스모크 실행 2건(`airline_000`, `aime_000`)은 라벨과 평가에서 제외한다. `status` 열은 62건 모두 `ok`다.
