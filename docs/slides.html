@@ -390,7 +390,7 @@
         <p style="margin-top:.3rem">decisive step은 실패한 실행에서 회복되지 못한 첫 오류 이벤트이며, 탐지기가 반드시 잡아야 하는 스텝입니다. 그 뒤의 스텝은 여파(cascade)로 보아 채점에서 뺍니다. 회복된 오류는 transient, 성공 실행의 미회복 오류는 error로 둡니다.</p></div>
       </div>
       <div class="stack">
-      <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 절차</h4><ul class="q" style="display:grid;gap:.5rem">
+      <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 절차</h4><ul class="q" style="display:grid;gap:.25rem">
         <li>Claude 라벨러 6개가 실행 5건씩. 실행 요약본만 보고 탐지기 출력은 보지 않음(블라인드)</li>
         <li>오류 이벤트마다 회복 여부, 회복된 스텝, 기록에서 어긋난 부분의 인용을 기록</li>
         <li>독립 재라벨 6건에서 decisive step은 모두 일치. 이벤트 집합 겹침 0.56은 두 번째 라벨러가 같은 오류의 반복을 빠뜨린 것이라, 반복도 스텝마다 라벨하도록 규약을 고정</li></ul></div>
