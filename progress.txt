@@ -333,5 +333,5 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   subsections renumbered 4.2.8-4.2.13 (refs updated incl. README); limitations bullets D1 coverage / hallucinated tool name / file-delete+todo removed;
   부록 C pooled block removed; 부록 A 27 -> 21 items (old 1,7,8,13,22 dropped, 4+5 merged); new 부록 E with all setting details; README aligned.
 
-## 14:55 §4.4 기대 효과: condensed to one paragraph + 부록 F (cb6a10d), then reverted at the user's request (c21863d).
+## 14:44 §4.4 기대 효과: condensed to one paragraph + 부록 F (cb6a10d), then reverted at the user's request (c21863d).
 - Rationale for not moving it wholesale: the assignment guideline lists 기대 효과 under section 4 and check_docs gates on it. Final state = original five items in §4.4, appendices A-E only.
