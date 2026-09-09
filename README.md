@@ -46,18 +46,18 @@ deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따�
 
 ## 감사기 모듈
 
-`Dn`은 탐지 모듈 번호다. 최종 번호는 결과에 등장하는 순서를 따른다(D1 결정, D2 행동, D3 handoff, D4 발언).
+`Dn`은 탐지 모듈 번호다. 최종 번호는 결과에 등장하는 순서를 따른다(D1 결정, D2 행동, D3 handoff, D4 보고).
 
 | 모듈 | 층 | 대조 상대 | 판정 주체 | 한 문장 | 코드 | 출력 |
 |---|---|---|---|---|---|---|
 | **D1** 결정 분포 | 결정 | 실행기 자신의 후보 행동(도구 이름 ∪ `no_tool`) 확률 분포, 같은 가중치로 재채점 | 코드 (LLM 없음) | 결정이 얼마나 흔들렸는가 — `1−p_actual`, `1−confidence`(정규화 엔트로피), `1−margin`, 그리고 handoff 층(위임 여부) | `d1_decision.py` | `audit/d1.jsonl` |
 | **D2** 행동 근거성 | 행동 (도구 호출) | 기록: orchestrator의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 행동은 기록이 요구하고 허용한 것인가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
 | **D3** handoff 정보 손실 | handoff 경계 텍스트 | 경계 반대편의 텍스트 | LLM 판정기 (gpt-oss-20b)가 두 텍스트를 비교 | 넘기는 과정에서 무엇이 빠지거나 바뀌었는가 — 지시→전제, 보고→orchestrator의 원자 사실 fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
-| **D4** 근거 의존 판정 | 발언 | 근거 (도구 결과 + 지시문) | LLM 판정 (Qwen3-8B / gpt-oss-20b / Qwen3-32B 비교) | 말한 것이 근거에 얼마나 의존하는가 — 주장별 supported / derived / unsupported / contradicted. 세 판정기 모두 우연 수준(airline AUROC 0.47 / 0.55 / 0.50)이라 미채택 | `d4_evidence_judge.py` | `audit/d4_evidence_judge_<judge>.jsonl` |
+| **D4** 보고 근거성 | 보고 | 근거 (도구 결과 + 지시문) | LLM 판정 (Qwen3-8B / gpt-oss-20b / Qwen3-32B 비교) | 보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가 — 주장별 supported / derived / unsupported / contradicted. 세 판정기 모두 우연 수준(airline AUROC 0.47 / 0.55 / 0.50)이라 미채택 | `d4_evidence_judge.py` | `audit/d4_evidence_judge_<judge>.jsonl` |
 
-D2와 D4는 같은 기록을 각각 **행동**과 **발언**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 발언은 자연어라
+D2와 D4는 같은 기록을 각각 **행동**과 **보고**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 보고는 자연어라
 LLM이 필요하다. D3은 자연어 텍스트 둘을 비교하는데, 60개 handoff 정보 손실 정답지에서 LLM 비교가 8B 사실 추출 + 집합 차보다
-정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) LLM이 판정한다. 발언 층의 D4도 LLM 판정이지만
+정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) LLM이 판정한다. 보고 층의 D4도 LLM 판정이지만
 판정기 세 종(8B, 20B, 32B) 모두 우연 수준이라 채택하지 않았다(제안서 §4.2.14). D2는 orchestrator의 위임도
 검사한다(식별자 누락, 실패 보고 후 재발행). D2는 flag 기준(정밀도 / 재현율 / F1 / FPR)으로 평가하며, AUROC은 비교 가능성을 위해서만
 싣는다. 0/1 점수의 AUROC은 (재현율 + 1 − FPR)/2로 고정되기 때문이다.
@@ -114,7 +114,7 @@ python scripts/check_docs.py --proposal --skeleton --adr
 | D2 행동 근거성 | 행동 | orchestrator (위임) | F1 0.35 (정밀도 **0.91**, 재현율 0.22, FPR 0.007); decisive 6/16 | 0.60 / 0.69 | 작동 (고정밀·저재현) |
 | D3 handoff 정보 손실, 보고→orchestrator | 경계 | orchestrator | 손실 정답지 대비 순위 상관 0.71, 실질 손실 AUROC 0.74 (n = 30) | 실패 라벨 대비 0.53 / 0.59 (참고) | 계측 성립. 실패 예측은 약함 |
 | D3 handoff 정보 손실, 지시→전제 | 경계 | orchestrator | 정답 fidelity 0.97, 손실 거의 없음 (n = 30) | 0.55 / 0.62 (참고) | 손실 없는 경계로 확인 |
-| D4 근거 의존 판정 | 발언 | subagent | 판정기 3종 AUROC 0.47 / 0.55 / 0.50, CI 모두 0.5 포함 | 좌동 | 신호 없음. 미채택 |
+| D4 보고 근거성 | 보고 | subagent | 판정기 3종 AUROC 0.47 / 0.55 / 0.50, CI 모두 0.5 포함 | 좌동 | 신호 없음. 미채택 |
 
 ## 한계
 
@@ -122,7 +122,7 @@ python scripts/check_docs.py --proposal --skeleton --adr
   CI가 겹치는 곳에서는 모듈 간 순위를 주장하지 않는다.
 - **라벨을 모델이 달았다.** 라벨러는 실행 요약만 보고 블라인드로 작업한 Claude subagent다. 스팟체크에서 decisive step 일치는 6/6이었지만,
   이벤트 집합 일치(Jaccard 0.56)는 "무엇을 오류로 볼 것인가"에 남는 자유도를 보여준다.
-- **발언 / 추론 층이 비어 있다.** "값은 맞는데 결론이 틀린" 오류는 어느 모듈도 잡지 못한다. D4는 8B, 20B, 32B 판정기 모두 우연 수준이라 채택하지 않았다.
+- **보고 층이 비어 있다.** "값은 맞는데 결론이 틀린" 오류는 어느 모듈도 잡지 못한다. D4는 8B, 20B, 32B 판정기 모두 우연 수준이라 채택하지 않았다.
 - **모델 계열 하나와 완전 관측 로깅 계약.** 실행기, 시뮬레이터, 채점기가 모두 Qwen3다. D1은 모델이 본 입력 그대로와 logprob 접근이
   필요하므로, 출력만 남는 로그로는 D1, D2, D3을 돌릴 수 없다.
 - **측정 잡음 바닥.** D1 확률은 bf16 반올림 경로에 따라 confidence 기준 ~0.005 움직인다. 그 아래의 차이는 신호가 아니며,
