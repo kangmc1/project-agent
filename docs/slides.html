@@ -606,9 +606,7 @@
         <li><b>순차 위임 그래프만.</b> orchestrator가 subagent를 하나씩 부르는 형태만 다뤘고, 병렬 실행이나 에이전트 간 직접 통신은 다루지 않았음</li></ul></div>
       <div><h4>향후 방향</h4>
         <div class="flow" style="grid-template-columns:1fr 1fr;gap:1rem">
-          <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼</p></div>
-          <div class="box"><div class="m">보고 지점 · 코드</div><div class="t">D7 재도출 (proposal 부록 D)</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. LLM 없이 추론 오류를 잡을 후보</p></div>
-          <div class="box"><div class="m">행동 지점</div><div class="t">D2 검사 ①의 precision</div><p>지시문을 정규식으로 읽는 대신 구조화된 위임 형식이나 소형 모델 추출로 바꿔 오탐 14건을 줄임</p></div>
+          <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사를 위한 방법론 고안</div><p>판정 LLM 세 종 모두 0.5 부근이라 지금 정의로는 보고 지점을 판정하지 못함. 판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 넣는 등 D4를 제대로 잴 수 있는 검사 방법을 찾는 것이 다음 과제</p></div>
           <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out에서 "역할이 가른다"는 결론이 유지되는지 확인</p></div>
         </div></div>
     </div>
