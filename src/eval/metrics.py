@@ -88,7 +88,10 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
     for r in read_jsonl(audit / "d2_action.jsonl"):
         d3.scores[(r["run_id"], int(r["step_id"]))] = float(r.get("d3", 0))
 
-    by_dir: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)
+    d3c = add("D3", roles=("planner",), note="handoff 실행 가능성·수용 (user definition): 1 if the delegation lacks the identifiers the subagent needs OR re-issues a near-identical instruction after a failure report, else 0 (planner delegation steps)")
+    for r in read_jsonl(audit / "d3_conditions.jsonl"):
+        d3c.scores[(r["run_id"], int(r["step_id"]))] = float(r.get("d3", 0))
+    by_dir: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)  # descriptive: fact-set fidelity per direction
     for r in read_jsonl(audit / "d3_handoff.jsonl"):
         f = _num(r.get("fidelity"))
         if f is None:
@@ -97,7 +100,7 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         d = str(r.get("direction", "?"))
         by_dir[d][k] = max(by_dir[d].get(k, 0.0), 1.0 - f)
     for d in sorted(by_dir):
-        add(f"D3_{d}", roles=("planner",), note="1 - fidelity, worst wrapper at the planner step").scores = by_dir[d]
+        add(f"D3fid_{d}", roles=("planner",), note="descriptive only: 1 - fact-set fidelity (8B extraction), worst wrapper at the planner step").scores = by_dir[d]
 
     # LLM-only variants of D1/D2/D3 — same question as the module, LLM judgment. One item set per judge model:
     # default files llm_d{1,2,3}.jsonl = Qwen3-32B; llm_d{1,2,3}_<tag>.jsonl = other judges (e.g. gptoss20b).
