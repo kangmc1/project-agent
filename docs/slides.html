@@ -354,6 +354,7 @@
     <div><h3><span class="ss solo"><span class="n">4.1</span>실험 설계</span></h3></div>
     <div class="cols wide-left" style="align-items:stretch">
       <div class="stack">
+      <div><h4><span class="n">4.1.1</span>실험 대상 시스템</h4><p>§3.1의 그래프를 그대로 실행합니다. 실행 모델과 고객 시뮬레이터는 Qwen3-32B, D3·D4 판정은 gpt-oss-20b(D4는 Qwen3-32B도), 비교군은 Qwen3-8B입니다.</p></div>
       <div><h4><span class="n">4.1.2</span>실행 규모</h4><p>τ-bench airline 30회(배치 1·2 각 15건). 성공 6, 실패 24. 스텝 1,029개, 실행당 중앙값 31.5스텝.</p></div>
       <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 라벨 분포 (airline 215건)</h4>
       <div class="chart"><svg viewBox="0 0 640 210" width="640" height="210" role="img" aria-label="τ-bench airline 라벨 이벤트 215건의 범주와 subtag 구성">
@@ -405,10 +406,10 @@
   <div class="rail"><span class="num mono">08</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>orchestrator의 결정이 흔들린 정도는 실패를 예고하고, subagent에서는 신호가 없습니다</h2></div>
   <div class="body">
-    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · D1 결정 분포</span></h3></div>
+    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D1 (결정 분포)</span></h3></div>
     <div class="cols wide-left">
       <div>
-        <h3><span class="ss"><span class="n">4.2.2</span>스텝 수준 AUROC</span>1 − p_actual, 95 % CI</h3>
+        <h4>스텝 수준 AUROC <span class="quiet" style="font-weight:400">(1 − p_actual, 95 % CI · §4.2.2)</span></h4>
         <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D1 스텝 AUROC, 역할별">
           <g class="lab"><text x="150" y="26" text-anchor="end">전체 오류 · orchestrator</text><text x="150" y="62" text-anchor="end">decisive · orchestrator</text><text x="150" y="116" text-anchor="end">전체 오류 · subagent</text><text x="150" y="152" text-anchor="end">decisive · subagent</text></g>
           <line class="grid" x1="170" y1="6" x2="170" y2="176"/><line class="ref" x1="420" y1="6" x2="420" y2="176"/>
@@ -421,7 +422,7 @@
         <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (n_pos 46 / decisive 16)</span><span><i style="background:var(--s2)"></i>subagent (n_pos 48 / decisive 8)</span></div>
       </div>
       <div>
-        <h3><span class="ss"><span class="n">4.2.3</span>트레이스 수준 AUROC</span>max 요약, 실패 25 / 성공 6</h3>
+        <h4>트레이스 수준 AUROC <span class="quiet" style="font-weight:400">(max 요약, 실패 25 / 성공 6 · §4.2.3)</span></h4>
         <div class="chart"><svg viewBox="0 0 400 130" width="400" height="130" role="img" aria-label="트레이스 수준 AUROC">
           <g class="lab"><text x="130" y="26" text-anchor="end">D1 · orchestrator</text><text x="130" y="62" text-anchor="end">D1 · subagent</text><text x="130" y="98" text-anchor="end">D2 · subagent</text></g>
           <line class="grid" x1="140" y1="6" x2="140" y2="112"/><line class="ref" x1="240" y1="6" x2="240" y2="112"/><text class="lab" x="240" y="126" text-anchor="middle">0.5</text><text class="lab" x="340" y="126" text-anchor="middle">1.0</text>
@@ -443,10 +444,10 @@
   <div class="rail"><span class="num mono">09</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>subagent의 실수는 확신에 찬 잘못된 호출이라 코드 대조가 잡습니다</h2></div>
   <div class="body">
-    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · D2 행동 근거</span></h3></div>
+    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D2 (행동 근거)</span></h3></div>
     <div class="cols wide-left">
       <div>
-        <h3><span class="ss"><span class="n">4.2.8</span>D2 구성 요소 선택</span>정밀도와 재현율 (subagent, 양성 48 / 음성 190)</h3>
+        <h4>D2 구성 요소 선택 <span class="quiet" style="font-weight:400">(정밀도와 재현율 (subagent, 양성 48 / 음성 190) · §4.2.8)</span></h4>
         <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D2 구성별 정밀도와 재현율">
           <g class="lab"><text x="190" y="30" text-anchor="end">(2) 기록에 없는 값만</text><text x="190" y="66" text-anchor="end">(3′) 실패한 호출만</text><text x="190" y="102" text-anchor="end">(2) ∪ (3′)</text><text x="190" y="138" text-anchor="end">(1) ∪ (2), 매핑 수정 후</text><text x="190" y="174" text-anchor="end">(1) ∪ (2) ∪ (3′) · 채택</text></g>
           <line class="grid" x1="200" y1="6" x2="200" y2="190"/><text class="lab" x="200" y="206" text-anchor="middle">0</text><text class="lab" x="440" y="206" text-anchor="middle">0.5</text><text class="lab" x="680" y="206" text-anchor="middle">1.0</text>
@@ -459,7 +460,7 @@
         <div class="legend"><span><i style="background:var(--s1)"></i>정밀도</span><span><i style="background:var(--s2)"></i>재현율</span><span>orchestrator 위임 조건: 정밀도 0.91 · 재현율 0.22 · decisive 6/16</span></div>
       </div>
       <div>
-        <h3><span class="ss"><span class="n">4.2.9</span>subtag 서술 분석</span>무엇을 잡는가</h3><ul>
+        <h4>subtag 서술 분석 <span class="quiet" style="font-weight:400">(무엇을 잡는가 · §4.2.9)</span></h4><ul>
           <li>환각성 subagent 오류 29건 중 23건이 (2)에 걸림. 예: 고객이 성만 말했는데 <code>get_user_details(user_id='rossi_123')</code></li>
           <li>지어낸 값은 발언이 아니라 <b>인자</b>에 있었음. 폐기한 발언 값 검사는 같은 49건 중 38건을 "근거 있음"으로 봄</li>
           <li>(3′)는 대개 (2)의 증상. 57건 중 32건이 겹침</li></ul>
@@ -476,9 +477,9 @@
   <div class="rail"><span class="num mono">10</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>D3은 손실을 재고, D4는 판정기를 키워도 우연 수준입니다</h2></div>
   <div class="body">
-    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · D3 handoff 정보 손실 · D4 보고 근거</span></h3></div>
+    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D3 (handoff 정보 손실) · D4 (보고 근거)</span></h3></div>
     <div class="cols two">
-      <div><h3><span class="ss"><span class="n">4.2.11</span>D3 손실 정답지 대비</span>60건, 보고→orchestrator</h3>
+      <div><h4>D3 손실 정답지 대비 <span class="quiet" style="font-weight:400">(60건, 보고→orchestrator · §4.2.11)</span></h4>
         <div class="tbl"><table>
           <tr><th>측정 방식</th><th class="n">순위 상관</th><th class="n">실질 손실 AUROC</th></tr>
           <tr><td>8B 사실 추출 + 집합 비교 (이전 D3)</td><td class="n">0.61</td><td class="n">0.62</td></tr>
@@ -486,7 +487,7 @@
           <tr class="hi"><td>LLM 직접 비교, gpt-oss-20b (채택)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
         </table></div>
         <p class="quiet" style="margin-top:.6rem">실질 손실 12건 중 8건은 누락이 아니라 바꿔 말하기였습니다. "기록을 남김"이 "처리 완료"로 바뀌는 식이라 값 집합의 차로는 보이지 않습니다. 지시→전제 경계는 정답 fidelity 0.97로 손실이 거의 없고, 실패 라벨 대비 AUROC는 0.53으로 실패 예측기로는 약합니다.</p></div>
-      <div><h3><span class="ss"><span class="n">4.2.13</span>D4 판정기 세 종 비교</span>airline subagent AUROC (95 % CI)</h3>
+      <div><h4>D4 판정기 세 종 비교 <span class="quiet" style="font-weight:400">(airline subagent AUROC (95 % CI) · §4.2.13)</span></h4>
         <div class="chart"><svg viewBox="0 0 420 150" width="420" height="150" role="img" aria-label="D4 판정기별 AUROC">
           <g class="lab"><text x="102" y="26" text-anchor="end">Qwen3-8B</text><text x="102" y="66" text-anchor="end">gpt-oss-20b</text><text x="102" y="106" text-anchor="end">Qwen3-32B</text></g>
           <line class="grid" x1="110" y1="6" x2="110" y2="126"/><line class="ref" x1="260" y1="6" x2="260" y2="126"/><text class="lab" x="260" y="144" text-anchor="middle">0.5 (우연)</text><text class="lab" x="410" y="144" text-anchor="middle">1.0</text>
@@ -503,9 +504,9 @@
   <div class="rail"><span class="num mono">11</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>D1은 순위 지표로 쓰고, 판정 주체는 탐지 대상마다 데이터로 정했습니다</h2></div>
   <div class="body">
-    <div><h3><span class="ss solo"><span class="n">4.2</span>결과</span></h3></div>
+    <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 임계값과 판정 방식</span></h3></div>
     <div class="cols two">
-      <div><h3><span class="ss"><span class="n">4.2.6</span>임계값 실험</span>백분위 대 라벨 최적 (D1 1 − confidence)</h3>
+      <div><h4>임계값 실험 <span class="quiet" style="font-weight:400">(백분위 대 라벨 최적 (D1 1 − confidence) · §4.2.6)</span></h4>
         <div class="chart"><svg viewBox="0 0 520 220" width="520" height="220" role="img" aria-label="FPR 대 recall: 백분위 임계값과 라벨 최적 임계값">
           <line class="grid" x1="120" y1="10" x2="120" y2="180"/><line class="grid" x1="120" y1="180" x2="500" y2="180"/>
           <text class="lab" x="120" y="200" text-anchor="middle">FPR 0</text><text class="lab" x="310" y="200" text-anchor="middle">0.35</text><text class="lab" x="500" y="200" text-anchor="middle">0.7</text>
@@ -519,7 +520,7 @@
         </svg></div>
         <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator</span><span><i style="background:var(--s2)"></i>subagent</span></div>
         <p class="quiet">라벨 최적 임계값은 confidence 0.995 부근, 곧 조금이라도 흔들린 결정을 전부 잡는 지점이라 FPR이 0.34–0.65입니다. 상위 5–10 % 규칙은 recall을 0.04–0.17로 떨어뜨립니다. D1은 검토 우선순위로 쓰고 단독 알람은 두지 않습니다. D2는 0/1이라 라벨 없이 운영해도 잃는 것이 없습니다.</p></div>
-      <div><h3><span class="ss"><span class="n">4.2.12</span>판정 방식 대조</span>같은 질문을 LLM에게 시키면</h3>
+      <div><h4>판정 방식 대조 <span class="quiet" style="font-weight:400">(같은 질문을 LLM에게 시키면 · §4.2.12)</span></h4>
         <div class="tbl"><table>
           <tr><th>D1 · orchestrator</th><th class="n">전체 / decisive</th><th class="n">subagent</th></tr>
           <tr class="hi"><td>코드 (실행 모델 logprob)</td><td class="n">0.63 / 0.75</td><td class="n">0.54</td></tr>
@@ -550,9 +551,9 @@
       <tr><td>D4 보고 근거 (LLM)</td><td>—</td><td class="quiet">판정기 3종 모두 우연 수준</td><td>미채택, 검사 재정의 필요</td></tr>
     </table></div>
     <div class="cols">
-      <div><h3><span class="ss"><span class="n">4.3</span>해석</span>같은 질문, 역할마다 다른 실패의 모양</h3><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타납니다. 감사 파이프라인은 모든 스텝에 모든 탐지기를 돌리는 구조가 아니라 역할과 탐지 대상에 탐지기를 배정하는 라우팅 구조여야 합니다.</p></div>
-      <div><h3><span class="ss"><span class="n">4.2.10</span>시스템 단위 집계</span>프로파일이 조치를 지목</h3><p>db_agent는 도구 호출의 20 %가 근거 없는 인자였고 report→orchestrator 경계의 평균 fidelity는 0.44였습니다. 이런 프로파일이 프롬프트 수정이나 subagent 분리 같은 조치의 대상을 바로 지목합니다.</p></div>
-      <div><h3><span class="ss"><span class="n">4.3</span>해석</span>측정 잡음이 뜻하는 것</h3><p>같은 요청도 캐시 상태에 따라 confidence가 약 0.005 흔들립니다. 라벨 최적 임계값이 바로 그 잡음 수준에 있으므로 재현 가능한 경계가 아니며, D1의 유효 자릿수는 소수 둘째 자리까지입니다.</p></div>
+      <div><h4>같은 질문, 역할마다 다른 실패의 모양</h4><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타납니다. 감사 파이프라인은 모든 스텝에 모든 탐지기를 돌리는 구조가 아니라 역할과 탐지 대상에 탐지기를 배정하는 라우팅 구조여야 합니다.</p></div>
+      <div><h4>시스템 단위 집계 <span class="quiet" style="font-weight:400">(프로파일이 조치를 지목 · §4.2.10)</span></h4><p>db_agent는 도구 호출의 20 %가 근거 없는 인자였고 report→orchestrator 경계의 평균 fidelity는 0.44였습니다. 이런 프로파일이 프롬프트 수정이나 subagent 분리 같은 조치의 대상을 바로 지목합니다.</p></div>
+      <div><h4>측정 잡음이 뜻하는 것</h4><p>같은 요청도 캐시 상태에 따라 confidence가 약 0.005 흔들립니다. 라벨 최적 임계값이 바로 그 잡음 수준에 있으므로 재현 가능한 경계가 아니며, D1의 유효 자릿수는 소수 둘째 자리까지입니다.</p></div>
     </div>
   </div>
 </section>
@@ -563,13 +564,13 @@
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.3</span>해석과 한계</span></h3></div>
     <div class="cols two">
-      <div><h3><span class="ss solo"><span class="n">4.3</span>한계</span></h3><ul>
+      <div><h4>한계</h4><ul>
         <li><b>한 도메인 30회.</b> 셀당 decisive 양성 8–16건, CI가 넓음. CI가 겹치는 곳에서 탐지기 간 순위를 주장하지 않음</li>
         <li><b>라벨러가 사람이 아님.</b> decisive 일치 6/6이지만 이벤트 집합 Jaccard 0.56. 손실 정답지도 모델이 만듦</li>
         <li><b>보고 지점은 아직 잡지 못함.</b> D4는 세 판정기 모두 우연 수준</li>
         <li><b>단일 모델 계열과 로깅 계약.</b> 실행·시뮬레이터·채점이 모두 Qwen3. 출력만 남는 로그에서는 돌지 않음</li>
         <li><b>순차 위임 그래프만.</b> 병렬 fan-out, 에이전트 간 직접 통신은 다루지 않았음</li></ul></div>
-      <div><h3><span class="ss solo"><span class="n">4.3</span>향후 방향</span></h3>
+      <div><h4>향후 방향</h4>
         <div class="flow" style="grid-template-columns:1fr 1fr">
           <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼</p></div>
           <div class="box"><div class="m">보고 지점 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. LLM 없이 추론 오류를 잡을 후보</p></div>
