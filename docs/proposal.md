@@ -205,16 +205,15 @@ Deep Agents(`deepagents 0.7.13`) 위의 그래프를 §3.1의 구조대로 실�
 
 도구 개수 14는 `tau_bench/envs/airline/tools/`의 모듈 수이며, 나머지 구성은 `src/harness/airline.py`에 있다(AIME 2026은 `src/harness/aime.py`, 부록 C). orchestrator에서 `task`, `ls`, `glob`, `grep`, `execute`, `edit_file`, `delete`를 제거하였으므로 D1의 후보 집합에는 위 표의 도구만 남는다(`docs/notes/deepagents_probe.md`에서 노출 도구가 `read_file`, `write_file`과 바인딩된 래퍼·도메인 도구뿐임을 확인하였다).
 
-서빙 설정은 `scripts/serve_*.sh`에 있다. 실행과 D1 채점은 vLLM 0.9.2로, gpt-oss-20b 판정은 같은 환경을 0.11.0으로 올린 뒤 하였다.
+모델은 셋이다. 서빙 설정은 `scripts/serve_*.sh`에 있다.
 
-| 서버 | 모델 | 역할 | GPU | 파라미터 |
-|---|---|---|---|---|
-| 실행 | Qwen3-32B | 실행 모델, 사용자 시뮬레이터, LLM 단독 비교군 판정(thinking 켬), D4 판정(thinking 켬) | 1–2 (TP=2) | `--max-model-len 40960 --max-num-seqs 16 --max-num-batched-tokens 8192 --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes --gpu-memory-utilization 0.90 --dtype bfloat16` |
-| 채점 | Qwen3-32B | D1 채점(실행과 같은 가중치, TP=1) | 4 | `--max-model-len 24576 --max-num-seqs 1 --max-num-batched-tokens 2048 --enable-prefix-caching --gpu-memory-utilization 0.90` |
-| 판정 | gpt-oss-20b | D3 판정, D4 판정, LLM 단독 비교군 판정 | 4 (채점 서버와 다른 시간에) | `--max-model-len 32768 --max-num-seqs 32 --enable-prefix-caching --gpu-memory-utilization 0.90` |
-| 비교군 | Qwen3-8B | 사실 추출 비교군(§4.2.12), D4 8B 파일럿, LLM 단독 8B 비교군 | 3 | `--max-model-len 32768 --max-num-seqs 32 --tool-call-parser hermes --gpu-memory-utilization 0.90` |
+| 모델 | 역할 | thinking |
+|---|---|---|
+| Qwen3-32B | 실행 모델과 사용자 시뮬레이터. D1 채점(같은 가중치, 별도 서버, 문맥 24,576토큰). LLM 단독 비교군과 D4의 판정 | 실행·채점은 끔, 판정은 켬 |
+| gpt-oss-20b | D3 판정, D4 판정, LLM 단독 비교군 판정. 실행 모델과 다른 계열 | 기본 reasoning |
+| Qwen3-8B | 사실 추출 비교군(§4.2.12), D4 8B 파일럿, LLM 단독 8B 비교군 | 끔 |
 
-실행 하네스의 호출(실행 모델, 사용자 시뮬레이터, 요약)은 `temperature=0`, `max_tokens=2048`, `logprobs=True`, `disable_streaming=True`, `enable_thinking=False`이며, 어느 에이전트의 호출인지는 `X-Agent` 헤더로 기록한다(`src/harness/model.py`). 판정 호출(D3, D4, LLM 단독 비교군)은 `temperature=0`이고 thinking은 판정 모델의 기본값을 따른다. gpt-oss-20b는 기본 reasoning, Qwen3-32B는 thinking을 켠 상태이며, Qwen3-8B 추출·파일럿만 `enable_thinking=False`다(`src/audit/llm_only.py`, `src/audit/extract.py`). 요약 미들웨어는 orchestrator와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다(`trigger=("tokens", 16000)`, `keep=("messages", 8)`; `docs/notes/deepagents_probe.md`).
+모든 호출은 `temperature=0`이다. 실행 하네스는 `logprobs`를 켜고(생성 토큰 id를 받는 채널) 어느 에이전트의 호출인지를 `X-Agent` 헤더로 기록한다(`src/harness/model.py`). 요약 미들웨어는 orchestrator와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다.
 
 #### 4.1.2 실행 규모
 
