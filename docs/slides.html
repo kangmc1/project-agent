@@ -302,7 +302,7 @@
     <div><h3>탐지기별 계산 방법</h3>
     <div class="flow">
       <div class="box"><div class="m">D1 결정 분포</div><div class="t">후보별 확률 재채점</div><p>후보는 부를 수 있는 도구 이름과 "도구 없이 답하기". 문맥을 고정하고 후보마다 실행 모델의 확률을 다시 계산. 샘플링 없음. 실제 선택의 확률이 낮거나 분포가 퍼져 있으면 흔들린 결정.</p></div>
-      <div class="box"><div class="m">D2 행동 근거</div><div class="t">세 가지 어긋남 검사</div><p>(1) 지시가 요구한 도구를 부르지 않음 (2) 기록 어디에도 없는 값(예약번호, 날짜 등)으로 호출 (3) 호출이 오류로 돌아옴. 하나라도 해당하면 1. orchestrator의 위임은 식별자 없는 위임과 실패 뒤 재위임을 검사.</p></div>
+      <div class="box"><div class="m">D2 행동 근거</div><div class="t">세 가지 어긋남 검사</div><p>① 지시가 요구한 도구를 부르지 않음 ② 기록 어디에도 없는 값(예약번호, 날짜 등)으로 호출 ③ 호출이 오류로 돌아옴. 하나라도 해당하면 1. orchestrator의 위임은 식별자 없는 위임과 실패 뒤 재위임을 검사.</p></div>
       <div class="box"><div class="m">D3 handoff 정보 손실</div><div class="t">경계 양쪽 텍스트 비교</div><p>지시→전제, 보고→다음 행동의 두 경계. 판정 LLM이 앞 텍스트의 사실을 나열하고 뒤 텍스트에서 보존·누락·변형을 표시. fidelity = 보존된 사실의 비율.</p></div>
       <div class="box"><div class="m">D4 보고 근거</div><div class="t">주장 단위 근거 판정</div><p>판정 LLM이 보고를 주장 단위로 나누고 각 주장을 근거 있음 / 근거에서 유도됨 / 근거 없음 / 근거와 모순으로 분류. 값은 맞는데 결론이 틀린 경우를 겨누는 유일한 탐지기.</p></div>
     </div>
@@ -440,32 +440,39 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">09</span><span class="sec">4 결과</span></div>
-  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>subagent의 실수는 확신에 찬 잘못된 호출이라 코드 대조가 잡습니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>탐지기 D2의 성능과 세 검사의 기여</h2></div>
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D2 (행동 근거)</span></h3></div>
+    <div><h4>채택한 D2 (① + ② + ③)의 subagent 성능 <span class="quiet" style="font-weight:400">(양성 48 / 음성 190 · §4.2.2)</span></h4>
+    <div class="tiles" style="grid-template-columns:repeat(4,1fr)">
+      <div class="tile"><div class="v">0.62</div><div class="l">정밀도 · 울린 경고 중 실제 오류의 비율</div></div>
+      <div class="tile"><div class="v">0.48</div><div class="l">재현율 · 실제 오류 중 잡아낸 비율</div></div>
+      <div class="tile"><div class="v">0.54</div><div class="l">F1 · 정밀도와 재현율의 조화평균</div></div>
+      <div class="tile"><div class="v">0.07</div><div class="l">오탐율 · 정상 스텝에서 잘못 울린 비율</div></div>
+    </div></div>
     <div class="cols wide-left">
       <div>
-        <h4>D2 구성 요소 선택 <span class="quiet" style="font-weight:400">(정밀도와 재현율 (subagent, 양성 48 / 음성 190) · §4.2.8)</span></h4>
-        <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D2 구성별 정밀도와 재현율">
-          <g class="lab"><text x="190" y="30" text-anchor="end">(2) 기록에 없는 값만</text><text x="190" y="66" text-anchor="end">(3′) 실패한 호출만</text><text x="190" y="102" text-anchor="end">(2) ∪ (3′)</text><text x="190" y="138" text-anchor="end">(1) ∪ (2), 매핑 수정 후</text><text x="190" y="174" text-anchor="end">(1) ∪ (2) ∪ (3′) · 채택</text></g>
+        <h4>검사 조합별 정밀도와 재현율 <span class="quiet" style="font-weight:400">(§4.2.2 · 부록 A.14)</span></h4>
+        <p class="quiet" style="font-size:.84rem;margin-bottom:.3rem">① 요구된 도구를 부르지 않음 · ② 기록에 없는 값으로 호출 · ③ 호출이 오류로 돌아옴</p>
+        <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D2 검사 조합별 정밀도와 재현율">
           <line class="grid" x1="200" y1="6" x2="200" y2="190"/><text class="lab" x="200" y="206" text-anchor="middle">0</text><text class="lab" x="440" y="206" text-anchor="middle">0.5</text><text class="lab" x="680" y="206" text-anchor="middle">1.0</text>
-          <rect x="200" y="16" width="393.6" height="9" fill="var(--s1)"><title>정밀도 0.82</title></rect><rect x="200" y="27" width="91.2" height="9" fill="var(--s2)"><title>재현율 0.19</title></rect><text class="val" x="600" y="25">0.82</text><text class="val" x="298" y="36">0.19</text>
-          <rect x="200" y="52" width="446.4" height="9" fill="var(--s1)"><title>정밀도 0.93</title></rect><rect x="200" y="63" width="129.6" height="9" fill="var(--s2)"><title>재현율 0.27</title></rect><text class="val" x="652" y="61">0.93</text><text class="val" x="336" y="72">0.27</text>
-          <rect x="200" y="88" width="403.2" height="9" fill="var(--s1)"><title>정밀도 0.84</title></rect><rect x="200" y="99" width="158.4" height="9" fill="var(--s2)"><title>재현율 0.33</title></rect><text class="val" x="610" y="97">0.84</text><text class="val" x="365" y="108">0.33</text>
-          <rect x="200" y="124" width="264" height="9" fill="var(--s1)"><title>정밀도 0.55</title></rect><rect x="200" y="135" width="158.4" height="9" fill="var(--s2)"><title>재현율 0.33</title></rect><text class="val" x="470" y="133">0.55</text><text class="val" x="365" y="144">0.33</text>
-          <rect x="200" y="160" width="297.6" height="9" fill="var(--s1)"><title>정밀도 0.62</title></rect><rect x="200" y="171" width="230.4" height="9" fill="var(--s2)"><title>재현율 0.48</title></rect><text class="val" x="504" y="169">0.62</text><text class="val" x="437" y="180">0.48 · F1 0.54 · FPR 0.07</text>
+          <text class="lab" x="190" y="30" text-anchor="end">② 기록에 없는 값</text><rect x="200" y="16" width="393.6" height="9" fill="var(--s1)"><title>정밀도 0.82</title></rect><rect x="200" y="27" width="91.2" height="9" fill="var(--s2)"><title>재현율 0.19</title></rect><text class="val" x="599.6" y="25">0.82</text><text class="val" x="297.2" y="36">0.19</text>
+          <text class="lab" x="190" y="66" text-anchor="end">③ 호출 오류</text><rect x="200" y="52" width="446.4" height="9" fill="var(--s1)"><title>정밀도 0.93</title></rect><rect x="200" y="63" width="129.6" height="9" fill="var(--s2)"><title>재현율 0.27</title></rect><text class="val" x="652.4" y="61">0.93</text><text class="val" x="335.6" y="72">0.27</text>
+          <text class="lab" x="190" y="102" text-anchor="end">② + ③</text><rect x="200" y="88" width="403.2" height="9" fill="var(--s1)"><title>정밀도 0.84</title></rect><rect x="200" y="99" width="158.4" height="9" fill="var(--s2)"><title>재현율 0.33</title></rect><text class="val" x="609.2" y="97">0.84</text><text class="val" x="364.4" y="108">0.33</text>
+          <text class="lab" x="190" y="138" text-anchor="end">① + ②</text><rect x="200" y="124" width="264.0" height="9" fill="var(--s1)"><title>정밀도 0.55</title></rect><rect x="200" y="135" width="158.4" height="9" fill="var(--s2)"><title>재현율 0.33</title></rect><text class="val" x="470.0" y="133">0.55</text><text class="val" x="364.4" y="144">0.33</text>
+          <text class="lab" x="190" y="174" text-anchor="end">① + ② + ③ (채택)</text><rect x="200" y="160" width="297.6" height="9" fill="var(--s1)"><title>정밀도 0.62</title></rect><rect x="200" y="171" width="230.4" height="9" fill="var(--s2)"><title>재현율 0.48</title></rect><text class="val" x="503.6" y="169">0.62</text><text class="val" x="436.4" y="180">0.48</text>
         </svg></div>
-        <div class="legend"><span><i style="background:var(--s1)"></i>정밀도</span><span><i style="background:var(--s2)"></i>재현율</span><span>orchestrator 위임 조건: 정밀도 0.91 · 재현율 0.22 · decisive 6/16</span></div>
+        <div class="legend"><span><i style="background:var(--s1)"></i>정밀도</span><span><i style="background:var(--s2)"></i>재현율</span></div>
       </div>
-      <div>
-        <h4>subtag 서술 분석 <span class="quiet" style="font-weight:400">(무엇을 잡는가 · §4.2.9)</span></h4><ul>
-          <li>환각성 subagent 오류 29건 중 23건이 (2)에 걸림. 예: 고객이 성만 말했는데 <code>get_user_details(user_id='rossi_123')</code></li>
-          <li>지어낸 값은 발언이 아니라 <b>인자</b>에 있었음. 폐기한 발언 값 검사는 같은 49건 중 38건을 "근거 있음"으로 봄</li>
-          <li>(3′)는 대개 (2)의 증상. 57건 중 32건이 겹침</li></ul>
-        <h3 style="margin-top:.9rem">무엇을 놓치는가</h3><ul>
-          <li>인자의 출처는 맞는데 선택이 틀린 경우(다른 예약의 날짜) 10건</li>
-          <li>보고 지점과 경계 지점의 오류 15건은 D2의 질문 밖</li>
-          <li>잡음의 주된 원인은 (1)의 지시문→도구 군 정규식. 남은 오탐 14건 대부분</li></ul>
+      <div class="stack">
+        <div><h4>무엇을 잡는가</h4><ul>
+          <li>검사 ②가 환각성 오류 29건 중 23건을 잡음. 예: 고객이 성만 말했는데 지어낸 ID로 조회</li>
+          <li>검사 ③은 대개 ②의 결과(57건 중 32건 겹침)지만 ②가 놓친 잘못된 인자를 보완</li>
+          <li>orchestrator 위임 조건(식별자 없는 위임, 실패 뒤 재위임)은 정밀도 0.91로 결정적 실패 16건 중 6건을 잡음</li></ul></div>
+        <div><h4>무엇을 놓치는가</h4><ul>
+          <li>값은 기록에 있지만 다른 예약의 값을 고른 경우 10건</li>
+          <li>보고나 handoff에서 생긴 오류 15건은 D2가 보는 자리가 아님</li>
+          <li>남은 오탐 14건은 대부분 검사 ①의 지시문 해석 규칙 때문</li></ul></div>
       </div>
     </div>
   </div>
