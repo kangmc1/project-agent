@@ -301,3 +301,14 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   LLM 32B 0.61 / 0.21 / 0.71; gpt-oss-20b 0.71 / 0.19 / 0.74; 8B 0.77 / 0.19 / 0.72 (n=16). instruction->premise: gold nearly
   constant (0.97), MAE 0.05-0.09 for all, only 1 material loss. Direct LLM comparison of the two texts is at least as faithful to
   the loss gold as 8B-extraction + code diff, and better on material loss (it notices reframings). Servers shut down.
+
+## 2026-09-09 11:15 KST (machine) — D3 adopted = LLM direct comparison (user decision: "llm-only를 표준으로 채택")
+- Against the loss gold, raw-text value-token recall (no LLM) matched gpt-oss (rho 0.70 / material AUROC 0.75 vs 0.71 / 0.74) and beat
+  8B fact-set (0.61 / 0.62); Jaccard (symmetric) is the wrong shape (penalizes B's additions). User chose LLM direct comparison as
+  the D3 standard; judge = gpt-oss-20b (best on gold, different model family). src/audit/d3_handoff.py rewritten; the 8B fact-set
+  version moved to src/audit/comparators/d3_factset.py (eval items D3fs_*). Terminology: user rejected "coverage"; recall/containment
+  discussed; D3 outputs remain fidelity (보존율) in prose. Full-run profile (gpt-oss): instr->premise mean 0.89 (n=256), report->planner 0.38 (n=239).
+- Failure-label AUROC of adopted D3 (airline planner): instr->premise 0.545 / decisive 0.616; report->planner 0.526 / 0.591 — reported
+  as reference only; D3 is evaluated on the loss gold.
+- 11:30 proposal + README rewritten by me for: D2 planner conditions, D3 = LLM direct comparison with loss-gold validation (§4.2.13),
+  judge comparison subsection (§4.2.14), §1.3 claim 2 reframed ("판정 주체를 층에 맞춘다"), appendix A.23–26.
