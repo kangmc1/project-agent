@@ -1,0 +1,272 @@
+[
+ {
+  "item_id": "L01",
+  "n_facts": 5,
+  "preserved": 2,
+  "altered": 0,
+  "gold_fidelity": 0.4,
+  "material_loss": "yes",
+  "note": "원인(flight_number 인자 오류)과 HAT041/HAT012, '확인 후 재시도' 권고가 빠지고 '시스템 문제'로 바뀜; 재시도 대신 상담원 안내"
+ },
+ {
+  "item_id": "L02",
+  "n_facts": 6,
+  "preserved": 6,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L03",
+  "n_facts": 6,
+  "preserved": 6,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "예약번호 5개와 작업 보존; '정확성 확인'은 요청이라 사실 아님"
+ },
+ {
+  "item_id": "L04",
+  "n_facts": 8,
+  "preserved": 6,
+  "altered": 0,
+  "gold_fidelity": 0.75,
+  "material_loss": "no",
+  "note": "구간별 가격 $51/$55 누락, 총액·편명·날짜·등급 보존"
+ },
+ {
+  "item_id": "L05",
+  "n_facts": 3,
+  "preserved": 3,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L06",
+  "n_facts": 5,
+  "preserved": 5,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L07",
+  "n_facts": 4,
+  "preserved": 2,
+  "altered": 0,
+  "gold_fidelity": 0.5,
+  "material_loss": "yes",
+  "note": "subagent가 요구한 user ID·reservation ID 누락; planner는 실행 불가능한 정보(도시·날짜)를 대신 요청"
+ },
+ {
+  "item_id": "L08",
+  "n_facts": 2,
+  "preserved": 2,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L09",
+  "n_facts": 2,
+  "preserved": 2,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L10",
+  "n_facts": 4,
+  "preserved": 3,
+  "altered": 0,
+  "gold_fidelity": 0.75,
+  "material_loss": "yes",
+  "note": "조회에 쓴 ID ethan_martin_123 누락; 고객이 준 정보 문제로 프레이밍되어 실제 원인(추정 ID)이 가려짐"
+ },
+ {
+  "item_id": "L11",
+  "n_facts": 4,
+  "preserved": 4,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존(+현재 날짜 추가)"
+ },
+ {
+  "item_id": "L12",
+  "n_facts": 5,
+  "preserved": 5,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L13",
+  "n_facts": 2,
+  "preserved": 1,
+  "altered": 0,
+  "gold_fidelity": 0.5,
+  "material_loss": "no",
+  "note": "B는 case_notes 읽기 호출; 상세는 노트에서 읽힘"
+ },
+ {
+  "item_id": "L14",
+  "n_facts": 3,
+  "preserved": 2,
+  "altered": 0,
+  "gold_fidelity": 0.6666666666666666,
+  "material_loss": "yes",
+  "note": "'없으면 증빙 업로드/상담원 안내' 조건부 지시 누락"
+ },
+ {
+  "item_id": "L15",
+  "n_facts": 18,
+  "preserved": 18,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L16",
+  "n_facts": 3,
+  "preserved": 3,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L17",
+  "n_facts": 8,
+  "preserved": 8,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L18",
+  "n_facts": 7,
+  "preserved": 0,
+  "altered": 0,
+  "gold_fidelity": 0.0,
+  "material_loss": "no",
+  "note": "B는 case_notes 읽기 호출; 텍스트에 값 없음(노트에 기록됨)"
+ },
+ {
+  "item_id": "L19",
+  "n_facts": 5,
+  "preserved": 5,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "'상세·가격 제공'은 요청"
+ },
+ {
+  "item_id": "L20",
+  "n_facts": 5,
+  "preserved": 5,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L21",
+  "n_facts": 16,
+  "preserved": 5,
+  "altered": 0,
+  "gold_fidelity": 0.3125,
+  "material_loss": "yes",
+  "note": "정책 질의에 insurance: yes 누락(취소 규정의 핵심), 편명·가격·사용자·결제 누락"
+ },
+ {
+  "item_id": "L22",
+  "n_facts": 4,
+  "preserved": 4,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ },
+ {
+  "item_id": "L23",
+  "n_facts": 1,
+  "preserved": 1,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "3명 보존; 지시 자체가 실행 불가하나 손실은 아님"
+ },
+ {
+  "item_id": "L24",
+  "n_facts": 5,
+  "preserved": 3,
+  "altered": 0,
+  "gold_fidelity": 0.6,
+  "material_loss": "no",
+  "note": "예약번호·timeline N/A 누락, 핵심(보험 없음→환불 불가→상담원) 보존"
+ },
+ {
+  "item_id": "L25",
+  "n_facts": 5,
+  "preserved": 4,
+  "altered": 0,
+  "gold_fidelity": 0.8,
+  "material_loss": "no",
+  "note": "'없으면 메시지' 조건 누락"
+ },
+ {
+  "item_id": "L26",
+  "n_facts": 9,
+  "preserved": 4,
+  "altered": 0,
+  "gold_fidelity": 0.4444444444444444,
+  "material_loss": "no",
+  "note": "편명·구간·가격 누락, insurance yes·날짜·다구간 보존; '미사용 구간' 누락은 경계적"
+ },
+ {
+  "item_id": "L27",
+  "n_facts": 3,
+  "preserved": 2,
+  "altered": 0,
+  "gold_fidelity": 0.6666666666666666,
+  "material_loss": "no",
+  "note": "Gold 회원 조건 누락"
+ },
+ {
+  "item_id": "L28",
+  "n_facts": 4,
+  "preserved": 2,
+  "altered": 1,
+  "gold_fidelity": 0.5,
+  "material_loss": "yes",
+  "note": "검색이 origin 'HAT'/dest '271'로 잘못된 사실과 'HAT271은 예약번호로도 없음'이 '해당 편 없음'으로 바뀜; 재검색 대신 고객에게 편 없음 통보"
+ },
+ {
+  "item_id": "L29",
+  "n_facts": 7,
+  "preserved": 3,
+  "altered": 0,
+  "gold_fidelity": 0.42857142857142855,
+  "material_loss": "no",
+  "note": "need_info의 핵심(등급·보험 필요) 보존; 날짜·구간 누락은 불필요"
+ },
+ {
+  "item_id": "L30",
+  "n_facts": 6,
+  "preserved": 6,
+  "altered": 0,
+  "gold_fidelity": 1.0,
+  "material_loss": "no",
+  "note": "전부 보존"
+ }
+]
