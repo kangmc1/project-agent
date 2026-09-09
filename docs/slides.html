@@ -207,9 +207,9 @@
         <h3><span class="ss solo"><span class="n">1.3</span>차별점 <span class="kp">(Novelty)</span></span></h3>
         <ol class="nov">
           <li><b>결정의 불확실성을 실행 모델 자신의 확률로 잼</b>공개 트레이스 벤치마크는 출력만 남아 다른 모델로 재생해야 확률을 얻음. 실행과 채점에 같은 가중치·채팅 템플릿·도구 스키마를 쓰고, 후보가 유한하므로 샘플링 없이 결정 지점마다 짧은 채점으로 끝남</li>
-          <li><b>판정 주체를 층에 맞춤</b>결정·행동은 코드가 판정. 구조화된 도구 호출에는 문자열 대조가 LLM보다 정밀했고 모든 플래그에 근거 포인터가 붙음. handoff 경계는 자연어 대 자연어라 LLM이 판정하며, 직접 비교가 사실 추출 후 집합 비교보다 정확. 어느 층에 무엇이 맞는지를 데이터로 정함</li>
+          <li><b>판정 주체를 탐지 대상에 맞춤</b>결정·행동은 코드가 판정. 구조화된 도구 호출에는 문자열 대조가 LLM보다 정밀했고 모든 플래그에 근거 포인터가 붙음. handoff 경계는 자연어 대 자연어라 LLM이 판정하며, 직접 비교가 사실 추출 후 집합 비교보다 정확. 어느 탐지 대상에 무엇이 맞는지를 데이터로 정함</li>
           <li><b>정답과 라벨 없이 동작</b>어느 검사도 정답·보상·라벨을 입력으로 받지 않고 임계값은 자기 분포의 백분위. 라벨은 이 실험의 평가에만 사용. 성공과 실패가 섞인 운영 로그를 사후 검토하는 제품에 그대로 얹힘</li>
-          <li><b>성공 실행을 포함한 완전 관측 데이터셋과 생성 파이프라인</b>모델이 실제로 본 입력, 도구 호출·결과 원문, 공유 파일 스냅샷까지 담고 결정·행동·경계·보고 네 층을 모두 라벨. 성공 실행이 있어 오탐율과 회복 분석이 가능. 모델 라벨이라 사람 라벨의 대체가 아니라 출발점</li>
+          <li><b>성공 실행을 포함한 완전 관측 데이터셋과 생성 파이프라인</b>모델이 실제로 본 입력, 도구 호출·결과 원문, 공유 파일 스냅샷까지 담고 결정·행동·경계·보고 네 탐지 대상을 모두 라벨. 성공 실행이 있어 오탐율과 회복 분석이 가능. 모델 라벨이라 사람 라벨의 대체가 아니라 출발점</li>
         </ol>
       </div>
     </div>
@@ -288,11 +288,11 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">05</span><span class="sec">3 제안</span></div>
-  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>네 모듈은 층마다 다른 상대와 대조하고 다른 주체가 판정합니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>네 탐지기는 탐지 대상마다 다른 상대와 대조하고 다른 주체가 판정합니다</h2></div>
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">3.3</span>탐지기 구성</span></h3>
     <div class="tbl"><table>
-      <tr><th>모듈</th><th>층</th><th>대조 상대</th><th>판정 주체</th><th>한 문장</th><th>출력</th></tr>
+      <tr><th>탐지기</th><th>탐지 대상</th><th>대조 상대</th><th>판정 주체</th><th>한 문장</th><th>출력</th></tr>
       <tr><td><span class="tag">D1</span> 결정 분포</td><td>결정</td><td>모델 자신의 확률 분포</td><td>코드</td><td>다음 행동을 고를 때 얼마나 흔들렸는가</td><td class="mono">1 − p_actual, 1 − confidence, 1 − margin</td></tr>
       <tr><td><span class="tag">D2</span> 행동 근거</td><td>행동(도구 호출)</td><td>기록(지시문, 주어진 값)</td><td>코드</td><td>이 도구 호출은 지시와 기록이 뒷받침하는가</td><td class="mono">0/1 플래그 + 근거 문자열</td></tr>
       <tr><td><span class="tag">D3</span> handoff 정보 손실</td><td>handoff 경계</td><td>경계 반대편의 텍스트</td><td>LLM (gpt-oss-20b)</td><td>지시와 보고가 넘어가는 동안 어떤 사실이 빠지거나 바뀌었는가</td><td class="mono">fidelity 0–1 + 누락·변형 목록</td></tr>
@@ -302,7 +302,7 @@
       <div><h3>D1 · 확률을 얻는 법</h3><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산합니다. 샘플링 없이 결정 지점마다 후보 수만큼의 짧은 채점으로 끝납니다.</p></div>
       <div><h3>D2 · 세 어긋남의 OR</h3><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 봅니다.</p></div>
       <div><h3>D3 · 두 경계</h3><p>지시→전제(orchestrator 지시문 ↔ subagent 첫 발언)와 보고→orchestrator(subagent 보고 ↔ orchestrator 다음 행동). 판정 모델이 A의 사실을 나열하고 B에서 보존·누락·변형으로 표시합니다.</p></div>
-      <div><h3>D4 · D2와 같은 질문을 보고에</h3><p>지어낸 값이 도구 인자로도 쓰이면 둘 다 잡고, 요구된 조회를 건너뛴 것은 D2만, 값은 맞는데 틀린 결론은 D4만 잡습니다. 설계만 한 선택 모듈 D5–D7은 부록 D.</p></div>
+      <div><h3>D4 · D2와 같은 질문을 보고에</h3><p>지어낸 값이 도구 인자로도 쓰이면 둘 다 잡고, 요구된 조회를 건너뛴 것은 D2만, 값은 맞는데 틀린 결론은 D4만 잡습니다. 설계만 한 선택 탐지기 D5–D7은 부록 D.</p></div>
     </div>
   </div>
 </section>
@@ -313,12 +313,12 @@
   <div class="body">
     <div class="cols two">
       <div><h3><span class="ss"><span class="n">3.4</span>라벨 없는 운영</span>설계 원칙</h3><ul>
-        <li>탐지기 입력에 정답, 보상, 라벨이 없음. 임계값은 모듈별 자기 분포의 백분위(상위 5 %·10 %)</li>
+        <li>탐지기 입력에 정답, 보상, 라벨이 없음. 임계값은 탐지기별 자기 분포의 백분위(상위 5 %·10 %)</li>
         <li>모든 플래그에 근거 포인터가 붙어 순위 → 소량 검수 → 임계값 갱신의 루프에 들어감</li>
         <li>전제는 완전 관측 로깅 계약. 출력만 남는 로그에서는 D1·D2·D3이 돌지 않음</li></ul></div>
       <div><h3><span class="ss"><span class="n">3.5</span>평가 데이터셋</span>공개 벤치마크와 다른 점</h3><ul>
         <li>성공 실행을 포함해 오탐율과 회복 분석이 가능. 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점 가능</li>
-        <li>탐지기가 담당하지 않는 보고 층에도 라벨이 있어 후속 탐지기를 같은 지표로 평가 가능</li>
+        <li>탐지기가 담당하지 않는 보고 지점에도 라벨이 있어 후속 탐지기를 같은 지표로 평가 가능</li>
         <li>라벨러가 사람이 아닌 것이 한계. 사람 라벨의 대체가 아니라 출발점</li></ul></div>
     </div>
     <div><h3><span class="ss"><span class="n">3.5</span>평가 데이터셋</span>생성 파이프라인과 규모</h3>
@@ -438,7 +438,7 @@
           <li>(3′)는 대개 (2)의 증상. 57건 중 32건이 겹침</li></ul>
         <h3 style="margin-top:.9rem">무엇을 놓치는가</h3><ul>
           <li>인자의 출처는 맞는데 선택이 틀린 경우(다른 예약의 날짜) 10건</li>
-          <li>보고 층과 경계 층의 오류 15건은 D2의 질문 밖</li>
+          <li>보고 지점과 경계 지점의 오류 15건은 D2의 질문 밖</li>
           <li>잡음의 주된 원인은 (1)의 지시문→도구 군 정규식. 남은 오탐 14건 대부분</li></ul>
       </div>
     </div>
@@ -473,7 +473,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">11</span><span class="sec">4 결과</span></div>
-  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b><span class="crumb">›</span>4.2 결과</p><h2>D1은 순위 지표로 쓰고, 판정 주체는 층마다 데이터로 정했습니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b><span class="crumb">›</span>4.2 결과</p><h2>D1은 순위 지표로 쓰고, 판정 주체는 탐지 대상마다 데이터로 정했습니다</h2></div>
   <div class="body">
     <div class="cols two">
       <div><h3><span class="ss"><span class="n">4.2.6</span>임계값 실험</span>백분위 대 라벨 최적 (D1 1 − confidence)</h3>
@@ -503,24 +503,24 @@
           <tr><td>LLM-only, gpt-oss-20b</td><td class="n">0.44</td><td class="n">0.46</td><td class="n">0.45</td><td class="n">0.12</td></tr>
           <tr><td>LLM-only, Qwen3-32B</td><td class="n">0.40</td><td class="n">0.46</td><td class="n">0.43</td><td class="n">0.14</td></tr>
         </table></div>
-        <p class="quiet" style="margin-top:.6rem">D1 orchestrator에서는 코드와 LLM이 같은 수준이라 확률 신호가 자기 판정 편향이 아님을 보여 줍니다. D2에서는 코드가 모든 지표에서 앞서고, D3에서는 반대로 LLM 직접 비교가 낫습니다. "판정은 코드가 한다"는 원칙은 구조화된 행동 층에서만 성립합니다.</p></div>
+        <p class="quiet" style="margin-top:.6rem">D1 orchestrator에서는 코드와 LLM이 같은 수준이라 확률 신호가 자기 판정 편향이 아님을 보여 줍니다. D2에서는 코드가 모든 지표에서 앞서고, D3에서는 반대로 LLM 직접 비교가 낫습니다. "판정은 코드가 한다"는 원칙은 구조화된 행동 지점에서만 성립합니다.</p></div>
     </div>
   </div>
 </section>
 
 <section class="slide">
   <div class="rail"><span class="num mono">12</span><span class="sec">4 해석</span></div>
-  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b><span class="crumb">›</span>4.3 해석과 한계</p><h2>탐지기의 성능은 탐지기보다 어느 역할·어느 층에 붙이는가에 달려 있습니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b><span class="crumb">›</span>4.3 해석과 한계</p><h2>탐지기의 성능은 탐지기보다 어느 역할·어느 탐지 대상에 붙이는가에 달려 있습니다</h2></div>
   <div class="body">
     <div class="tbl"><table>
       <tr><th></th><th>orchestrator</th><th>subagent</th><th>판정</th></tr>
       <tr><td>D1 결정 분포 (코드, 확률)</td><td>decisive 0.75 · 트레이스 max 0.81</td><td class="quiet">0.54 · decisive 0.36 (우연)</td><td>orchestrator 결정에 배정</td></tr>
-      <tr><td>D2 행동 근거 (코드, 기록 대조)</td><td>플래그 2건 (recall 0.04) · 위임 조건은 정밀도 0.91</td><td>F1 0.54 · FPR 0.07</td><td>subagent 도구 층과 orchestrator 위임에 배정</td></tr>
+      <tr><td>D2 행동 근거 (코드, 기록 대조)</td><td>플래그 2건 (recall 0.04) · 위임 조건은 정밀도 0.91</td><td>F1 0.54 · FPR 0.07</td><td>subagent 도구 지점과 orchestrator 위임에 배정</td></tr>
       <tr><td>D3 handoff 정보 손실 (LLM)</td><td colspan="2">보고→orchestrator 경계에서 손실 계측 성립 · 지시→전제는 손실 자체가 없음</td><td>경계 프로파일용, 실패 알람용 아님</td></tr>
       <tr><td>D4 보고 근거 (LLM)</td><td>—</td><td class="quiet">판정기 3종 모두 우연 수준</td><td>미채택, 검사 재정의 필요</td></tr>
     </table></div>
     <div class="cols">
-      <div><h3><span class="ss"><span class="n">4.3</span>해석</span>같은 질문, 역할마다 다른 실패의 모양</h3><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타납니다. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 합니다.</p></div>
+      <div><h3><span class="ss"><span class="n">4.3</span>해석</span>같은 질문, 역할마다 다른 실패의 모양</h3><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타납니다. 감사 파이프라인은 모든 스텝에 모든 탐지기를 돌리는 구조가 아니라 역할과 탐지 대상에 탐지기를 배정하는 라우팅 구조여야 합니다.</p></div>
       <div><h3><span class="ss"><span class="n">4.2.10</span>시스템 단위 집계</span>프로파일이 조치를 지목</h3><p>db_agent는 도구 호출의 20 %가 근거 없는 인자였고 report→orchestrator 경계의 평균 fidelity는 0.44였습니다. 이런 프로파일이 프롬프트 수정이나 subagent 분리 같은 조치의 대상을 바로 지목합니다.</p></div>
       <div><h3><span class="ss"><span class="n">4.3</span>해석</span>측정 잡음이 뜻하는 것</h3><p>같은 요청도 캐시 상태에 따라 confidence가 약 0.005 흔들립니다. 라벨 최적 임계값이 바로 그 잡음 수준에 있으므로 재현 가능한 경계가 아니며, D1의 유효 자릿수는 소수 둘째 자리까지입니다.</p></div>
     </div>
@@ -533,16 +533,16 @@
   <div class="body">
     <div class="cols two">
       <div><h3><span class="ss solo"><span class="n">4.3</span>한계</span></h3><ul>
-        <li><b>한 도메인 30회.</b> 셀당 decisive 양성 8–16건, CI가 넓음. CI가 겹치는 곳에서 모듈 간 순위를 주장하지 않음</li>
+        <li><b>한 도메인 30회.</b> 셀당 decisive 양성 8–16건, CI가 넓음. CI가 겹치는 곳에서 탐지기 간 순위를 주장하지 않음</li>
         <li><b>라벨러가 사람이 아님.</b> decisive 일치 6/6이지만 이벤트 집합 Jaccard 0.56. 손실 정답지도 모델이 만듦</li>
-        <li><b>보고 층은 아직 잡지 못함.</b> D4는 세 판정기 모두 우연 수준</li>
+        <li><b>보고 지점은 아직 잡지 못함.</b> D4는 세 판정기 모두 우연 수준</li>
         <li><b>단일 모델 계열과 로깅 계약.</b> 실행·시뮬레이터·채점이 모두 Qwen3. 출력만 남는 로그에서는 돌지 않음</li>
         <li><b>순차 위임 그래프만.</b> 병렬 fan-out, 에이전트 간 직접 통신은 다루지 않았음</li></ul></div>
       <div><h3><span class="ss solo"><span class="n">4.3</span>향후 방향</span></h3>
         <div class="flow" style="grid-template-columns:1fr 1fr">
-          <div class="box"><div class="m">보고 층</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼</p></div>
-          <div class="box"><div class="m">보고 층 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. LLM 없이 추론 오류를 잡을 후보</p></div>
-          <div class="box"><div class="m">행동 층</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄임</p></div>
+          <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼</p></div>
+          <div class="box"><div class="m">보고 지점 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. LLM 없이 추론 오류를 잡을 후보</p></div>
+          <div class="box"><div class="m">행동 지점</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄임</p></div>
           <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out에서 "역할이 가른다"는 결론이 유지되는지 확인</p></div>
         </div></div>
     </div>
@@ -556,7 +556,7 @@
     <div class="steps">
       <div class="box"><div class="m">운영 로그</div><p>성공·실패가 섞인 대량의 실행 기록. 라벨 없음</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">감사 파이프라인</div><p>역할별로 D1·D2·D3 배정. 스텝마다 신호와 근거 포인터</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">순위</div><p>모듈별 백분위 임계값. 첫날부터 동작</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">순위</div><p>탐지기별 백분위 임계값. 첫날부터 동작</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">소량 검수</div><p>검수자는 상위 몇 %의 스텝만 열어 봄</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">임계값 갱신</div><p>검수가 쌓인 셀만 라벨 최적으로</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">시스템 프로파일</div><p>역할·엣지별 약점 → 조치 대상 지목</p></div>
@@ -564,7 +564,7 @@
     <div class="cols">
       <div><h3>트레이스가 아니라 시스템을 평가</h3><p>에이전트별 저신뢰 결정 비율과 D2 플래그 비율, handoff 엣지별 fidelity와 자주 빠지는 값이 나옵니다. "어디가 약한가"의 답이 트레이스 목록이 아니라 역할과 엣지 위의 프로파일이라 프롬프트 수정, 도구 스키마 변경, subagent 분리 같은 조치로 바로 번역됩니다.</p></div>
       <div><h3>로깅 계약이 곧 온보딩 체크리스트</h3><p>스텝마다 모델이 본 입력 전체, 응답 본문, 도구 인자와 결과 원문, 공유 상태 스냅샷, 에이전트 식별자. 여기까지로 D2와 D3이 돌고, 실행 모델의 logprob 접근이 더해지면 D1이 켜집니다.</p></div>
-      <div><h3>감사 가능</h3><p>결정·행동 층의 판정이 코드이므로 재현되고, 이의 제기에 근거 포인터로 답하며, 규칙 변경의 영향을 재실행으로 확인합니다. LLM 판정은 D3 하나뿐이며 누락·변형된 사실 목록으로 추적됩니다.</p></div>
+      <div><h3>감사 가능</h3><p>결정·행동 지점의 판정이 코드이므로 재현되고, 이의 제기에 근거 포인터로 답하며, 규칙 변경의 영향을 재실행으로 확인합니다. LLM 판정은 D3 하나뿐이며 누락·변형된 사실 목록으로 추적됩니다.</p></div>
     </div>
   </div>
 </section>
@@ -575,12 +575,12 @@
   <div class="body">
     <div class="cols wide-right">
       <div>
-        <p>orchestrator가 subagent에게 일을 맡기는 시스템에서, 실행 기록만 보고 정답이나 라벨 없이 어느 스텝에서 어떤 실패가 일어났는지 짚어낼 수 있는지를 물었습니다. 기록을 결정, 행동, handoff 경계의 세 층으로 나누고 층마다 다른 검사를 두었습니다.</p>
+        <p>orchestrator가 subagent에게 일을 맡기는 시스템에서, 실행 기록만 보고 정답이나 라벨 없이 어느 스텝에서 어떤 실패가 일어났는지 짚어낼 수 있는지를 물었습니다. 기록을 결정, 행동, handoff 경계의 세 탐지 대상으로 나누고 탐지 대상마다 다른 검사를 두었습니다.</p>
         <p style="margin-top:.7rem">τ-bench airline 30회를 실행하고 탐지기 출력을 보지 않은 라벨러가 오류 215건을 달았습니다. 이 트레이스와 라벨은 네 실패 유형을 모두 담은 평가 데이터셋으로 함께 제출합니다.</p>
-        <p style="margin-top:.7rem">orchestrator의 결정이 흔들린 정도는 실패를 부른 스텝을 AUROC 0.75로 가려내지만 subagent에서는 우연 수준입니다. subagent는 행동 근거 검사가 오류의 절반 가까이를 정밀도 0.62로 잡습니다. handoff 정보 손실은 계측으로 성립하지만 실패 예측력은 약하고, 보고 층의 근거 판정은 판정기 세 종 모두 우연 수준이었습니다. 탐지기의 성능은 탐지기 자체보다 어느 역할과 층에 붙이는가에 달려 있으며, 감사 파이프라인은 역할별로 검사를 배정하는 구조여야 합니다.</p>
+        <p style="margin-top:.7rem">orchestrator의 결정이 흔들린 정도는 실패를 부른 스텝을 AUROC 0.75로 가려내지만 subagent에서는 우연 수준입니다. subagent는 행동 근거 검사가 오류의 절반 가까이를 정밀도 0.62로 잡습니다. handoff 정보 손실은 계측으로 성립하지만 실패 예측력은 약하고, 보고 지점의 근거 판정은 판정기 세 종 모두 우연 수준이었습니다. 탐지기의 성능은 탐지기 자체보다 어느 역할과 탐지 대상에 붙이는가에 달려 있으며, 감사 파이프라인은 역할별로 검사를 배정하는 구조여야 합니다.</p>
       </div>
       <div class="tbl"><table>
-        <tr><th>모듈</th><th>역할</th><th>주 지표</th><th>판정</th></tr>
+        <tr><th>탐지기</th><th>역할</th><th>주 지표</th><th>판정</th></tr>
         <tr class="hi"><td>D1 결정 분포</td><td class="nw">orchestrator</td><td class="mono">AUROC 0.63 · decisive 0.75</td><td>작동</td></tr>
         <tr><td>D1 결정 분포</td><td class="nw">subagent</td><td class="mono">0.54 · decisive 0.36</td><td>신호 없음</td></tr>
         <tr class="hi"><td>D2 행동 근거</td><td class="nw">subagent</td><td class="mono">F1 0.54 (정밀도 0.62 · 재현율 0.48 · FPR 0.07)</td><td>작동 (부분)</td></tr>
@@ -613,7 +613,7 @@
           <tr><td>D2 subagent 귀속 에이전트 일치</td><td class="n">0.86</td><td class="n">0.25</td></tr>
           <tr><td>repeat 로그 검사 정밀도</td><td class="n">0.86</td><td class="n">0.22</td></tr>
         </table></div>
-        <p class="quiet" style="margin-top:.6rem">실패의 전형이 "solver가 <code>run_python</code>을 반복하거나 부르지 않고 답을 보고"라 도구 층 검사만 강합니다.</p></div>
+        <p class="quiet" style="margin-top:.6rem">실패의 전형이 "solver가 <code>run_python</code>을 반복하거나 부르지 않고 답을 보고"라 도구 지점 검사만 강합니다.</p></div>
     </div>
   </div>
 </section>
@@ -637,14 +637,14 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">18</span><span class="sec">부록</span></div>
-  <div class="head"><p class="eyebrow"><b>부록</b><span class="crumb">›</span>D 설계만 한 선택 모듈</p><h2>구현하지 않은 세 모듈과 그 이유</h2></div>
+  <div class="head"><p class="eyebrow"><b>부록</b><span class="crumb">›</span>D 설계만 한 선택 탐지기</p><h2>구현하지 않은 세 탐지기와 그 이유</h2></div>
   <div class="body">
     <div class="flow three">
       <div class="box"><div class="m">D5</div><div class="t">축약 손실</div><p>요약 미들웨어가 문맥을 줄일 때 사실이 빠지는지. 요약 직전 원문과 요약 결과를 D3 방식으로 비교. 이번 실험에서는 문맥이 16,000토큰에 이른 실행이 없어 요약이 발동하지 않았고 잴 표본이 없음.</p></div>
       <div class="box"><div class="m">D6</div><div class="t">계획-행동 일치</div><p>orchestrator의 계획(todo, 지시문의 단계)과 실제 호출 순서 대조. 누락·추가·순서 뒤바뀜을 셈. <code>todos</code>가 subagent와 공유되지 않아 orchestrator 범위에서만 정의됨.</p></div>
       <div class="box"><div class="m">D7</div><div class="t">재도출</div><p>환불 조건, 변경 수수료 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. "근거 값에서 이 결론이 따라 나오는가"를 코드로 묻는 유일한 후보. 규칙 코드화 비용이 도메인마다 듦.</p></div>
     </div>
-    <p class="quiet">세 모듈 모두 완전 관측 기록 위에서 코드로 판정하도록 설계했습니다. D7이 보고 층 공백을 메울 첫 후보입니다.</p>
+    <p class="quiet">세 탐지기 모두 완전 관측 기록 위에서 코드로 판정하도록 설계했습니다. D7이 보고 지점 공백을 메울 첫 후보입니다.</p>
   </div>
 </section>
 
@@ -675,8 +675,8 @@ python -m src.eval.labels --validate &amp;&amp; python -m src.eval.metrics &amp;
   <div class="body">
     <div class="tbl"><table>
       <tr><th>단계</th><th>AI (Claude Code)</th><th>사람</th></tr>
-      <tr><td>설계</td><td>인터뷰로 스펙과 계획 v2.4 작성, 두 검토 에이전트의 합의본</td><td>연구 질문, 네 층의 틀, 평가 조건, 계획 승인</td></tr>
-      <tr><td>구현·실행</td><td>하네스, 캡처, D1–D4, 평가·게이트 스크립트, 60회 실행과 채점</td><td>게이트 확인, 모듈 정의의 채택·기각, 자원 배정</td></tr>
+      <tr><td>설계</td><td>인터뷰로 스펙과 계획 v2.4 작성, 두 검토 에이전트의 합의본</td><td>연구 질문, 네 탐지 대상의 틀, 평가 조건, 계획 승인</td></tr>
+      <tr><td>구현·실행</td><td>하네스, 캡처, D1–D4, 평가·게이트 스크립트, 60회 실행과 채점</td><td>게이트 확인, 탐지기 정의의 채택·기각, 자원 배정</td></tr>
       <tr><td>라벨링</td><td>서브에이전트 6개 블라인드 라벨, 독립 스팟체크, 손실 정답지</td><td>라벨 규약 승인, 반복 규약 확정</td></tr>
       <tr><td>해석·문서</td><td>지표, 표, 원인 진단, 초안, 수치 대조, 출처 확인</td><td>AIME 부록화, D2 정의, D4 재실행, 이름과 구조, 문제 정의와 요약 직접 수정</td></tr>
     </table></div>
