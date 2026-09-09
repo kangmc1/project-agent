@@ -36,7 +36,8 @@
   html { scroll-snap-type: y proximity; }
   .rail { grid-row: 1 / span 2; border-right: 1px solid var(--rule); padding: 1.2rem 0 0; text-align: center; }
   .rail .num { display: block; font-size: 0.9rem; color: var(--ink-3); }
-  .rail .sec { display: block; writing-mode: vertical-rl; margin: 1rem auto 0; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .rail .sec { display: block; writing-mode: vertical-rl; text-orientation: upright; margin: 1rem auto 0; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .rail .sec.latin { text-orientation: mixed; }
   .head { padding: 1.8rem 2.6rem 0.4rem; }
   .eyebrow { font-size: 0.76rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
   .body { padding: 0.6rem 2.6rem 2rem; display: grid; gap: 1.1rem; align-content: center; max-width: 1220px; }
@@ -119,7 +120,7 @@
 <div class="deck" id="deck">
 
 <section class="slide title">
-  <div class="rail"><span class="num mono">01</span><span class="sec">Coxwave</span></div>
+  <div class="rail"><span class="num mono">01</span><span class="sec latin">Coxwave</span></div>
   <div class="head"></div>
   <div class="body">
     <p class="eyebrow">Coxwave AI 리서치·제품화 엔지니어 직무과제</p>
