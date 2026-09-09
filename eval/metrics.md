@@ -1,10 +1,10 @@
 # Detection metrics
 
-- generated: 2026-09-09 10:14:48 KST
+- generated: 2026-09-09 10:26:11 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
-- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3_instruction->premise, D3_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, LLM-gptoss20b_D1_1-conf, LLM-gptoss20b_D1_1-p_actual, LLM-gptoss20b_D2, LLM-gptoss20b_D3_instruction->premise, LLM-gptoss20b_D3_report->planner, LLM-qwen8b_D1_1-conf, LLM-qwen8b_D1_1-p_actual, Judge_p_fail, Judge_flag
+- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3_instruction->premise, D3_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, LLM-gptoss20b_D1_1-conf, LLM-gptoss20b_D1_1-p_actual, LLM-gptoss20b_D2, LLM-gptoss20b_D3_instruction->premise, LLM-gptoss20b_D3_report->planner, LLM-qwen8b_D1_1-conf, LLM-qwen8b_D1_1-p_actual, LLM-qwen8b_D2, LLM-qwen8b_D3_instruction->premise, LLM-qwen8b_D3_report->planner, Judge_p_fail, Judge_flag
 - bootstrap: 1000 stratified resamples, seed 0; AUROC is `n/a` when n_pos < 3 or n_neg < 3.
 
 ## 1. Step-level AUROC
@@ -142,6 +142,21 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | LLM-qwen8b_D1_1-p_actual | all | airline | 367/826 | 68 | 299 | 0.558 [0.486, 0.632] | 20 | 0.666 [0.533, 0.786] |
 | LLM-qwen8b_D1_1-p_actual | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
 | LLM-qwen8b_D1_1-p_actual | all | all | 367/1208 | 68 | 299 | 0.558 [0.486, 0.632] | 20 | 0.666 [0.533, 0.786] |
+| LLM-qwen8b_D2 | planner | airline | 192/391 | 44 | 148 | 0.526 [0.481, 0.580] | 16 | 0.501 [0.453, 0.573] |
+| LLM-qwen8b_D2 | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM-qwen8b_D2 | planner | all | 192/514 | 44 | 148 | 0.526 [0.481, 0.580] | 16 | 0.501 [0.453, 0.573] |
+| LLM-qwen8b_D2 | subagent | airline | 227/435 | 37 | 190 | 0.626 [0.548, 0.705] | 8 | 0.549 [0.418, 0.695] |
+| LLM-qwen8b_D2 | subagent | aime | 0/259 | 0 | 0 | n/a | 0 | n/a |
+| LLM-qwen8b_D2 | subagent | all | 227/694 | 37 | 190 | 0.626 [0.548, 0.705] | 8 | 0.549 [0.418, 0.695] |
+| LLM-qwen8b_D2 | all | airline | 419/826 | 81 | 338 | 0.567 [0.520, 0.621] | 24 | 0.506 [0.445, 0.587] |
+| LLM-qwen8b_D2 | all | aime | 0/382 | 0 | 0 | n/a | 0 | n/a |
+| LLM-qwen8b_D2 | all | all | 419/1208 | 81 | 338 | 0.567 [0.520, 0.621] | 24 | 0.506 [0.445, 0.587] |
+| LLM-qwen8b_D3_instruction->premise | planner | airline | 86/391 | 25 | 61 | 0.529 [0.436, 0.626] | 10 | 0.533 [0.410, 0.676] |
+| LLM-qwen8b_D3_instruction->premise | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM-qwen8b_D3_instruction->premise | planner | all | 86/514 | 25 | 61 | 0.529 [0.436, 0.626] | 10 | 0.533 [0.410, 0.676] |
+| LLM-qwen8b_D3_report->planner | planner | airline | 40/391 | 17 | 23 | 0.448 [0.286, 0.639] | 7 | 0.475 [0.261, 0.693] |
+| LLM-qwen8b_D3_report->planner | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
+| LLM-qwen8b_D3_report->planner | planner | all | 40/514 | 17 | 23 | 0.448 [0.286, 0.639] | 7 | 0.475 [0.261, 0.693] |
 | Judge_p_fail | planner | airline | 388/391 | 46 | 148 | 0.610 [0.521, 0.698] | 16 | 0.686 [0.567, 0.800] |
 | Judge_p_fail | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
 | Judge_p_fail | planner | all | 388/514 | 46 | 148 | 0.610 [0.521, 0.698] | 16 | 0.686 [0.567, 0.800] |
@@ -188,6 +203,12 @@ Same population as §1 (labeled runs, cascade excluded). A step is flagged when 
 | LLM-gptoss20b_D2 | subagent | all | 37 | 190 | 17 | 22 | 0.436 | 0.459 | 0.447 | 0.116 | 3/8 |
 | LLM-gptoss20b_D2 | all | airline | 81 | 338 | 40 | 65 | 0.381 | 0.494 | 0.430 | 0.192 | 11/24 |
 | LLM-gptoss20b_D2 | all | all | 81 | 338 | 40 | 65 | 0.381 | 0.494 | 0.430 | 0.192 | 11/24 |
+| LLM-qwen8b_D2 | planner | airline | 44 | 148 | 5 | 9 | 0.357 | 0.114 | 0.172 | 0.061 | 1/16 |
+| LLM-qwen8b_D2 | planner | all | 44 | 148 | 5 | 9 | 0.357 | 0.114 | 0.172 | 0.061 | 1/16 |
+| LLM-qwen8b_D2 | subagent | airline | 37 | 190 | 15 | 29 | 0.341 | 0.405 | 0.370 | 0.153 | 2/8 |
+| LLM-qwen8b_D2 | subagent | all | 37 | 190 | 15 | 29 | 0.341 | 0.405 | 0.370 | 0.153 | 2/8 |
+| LLM-qwen8b_D2 | all | airline | 81 | 338 | 20 | 38 | 0.345 | 0.247 | 0.288 | 0.112 | 3/24 |
+| LLM-qwen8b_D2 | all | all | 81 | 338 | 20 | 38 | 0.345 | 0.247 | 0.288 | 0.112 | 3/24 |
 | Judge_flag | planner | airline | 46 | 148 | 17 | 35 | 0.327 | 0.370 | 0.347 | 0.236 | 7/16 |
 | Judge_flag | planner | all | 46 | 148 | 17 | 35 | 0.327 | 0.370 | 0.347 | 0.236 | 7/16 |
 | Judge_flag | subagent | airline | 48 | 188 | 32 | 87 | 0.269 | 0.667 | 0.383 | 0.463 | 6/8 |
@@ -288,6 +309,12 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | LLM-qwen8b_D1_1-p_actual | subagent | all | 5 | 3 | 2 | not computable (success=2, failure=3) | not computable (success=2, failure=3) |
 | LLM-qwen8b_D1_1-p_actual | all | airline | 6 | 2 | 4 | not computable (success=4, failure=2) | not computable (success=4, failure=2) |
 | LLM-qwen8b_D1_1-p_actual | all | all | 6 | 2 | 4 | not computable (success=4, failure=2) | not computable (success=4, failure=2) |
+| LLM-qwen8b_D2 | planner | airline | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM-qwen8b_D2 | planner | all | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
+| LLM-qwen8b_D2 | subagent | airline | 10 | 4 | 6 | 0.500 [0.500, 0.500] | 0.771 [0.438, 1.000] |
+| LLM-qwen8b_D2 | subagent | all | 10 | 4 | 6 | 0.500 [0.500, 0.500] | 0.771 [0.438, 1.000] |
+| LLM-qwen8b_D2 | all | airline | 9 | 3 | 6 | 0.500 [0.500, 0.500] | 1.000 [1.000, 1.000] |
+| LLM-qwen8b_D2 | all | all | 9 | 3 | 6 | 0.500 [0.500, 0.500] | 1.000 [1.000, 1.000] |
 | Judge_p_fail | planner | airline | 31 | 25 | 6 | 0.480 [0.280, 0.687] | 0.533 [0.300, 0.760] |
 | Judge_p_fail | planner | all | 31 | 25 | 6 | 0.480 [0.280, 0.687] | 0.533 [0.300, 0.760] |
 | Judge_p_fail | subagent | airline | 30 | 24 | 6 | 0.604 [0.364, 0.833] | 0.743 [0.493, 0.931] |
@@ -408,6 +435,16 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | LLM-qwen8b_D1_1-p_actual | subagent | all | 17 | 0.118 | 0.118 | 0.412 |
 | LLM-qwen8b_D1_1-p_actual | all | airline | 24 | 0.250 | 0.292 | 0.667 |
 | LLM-qwen8b_D1_1-p_actual | all | all | 24 | 0.250 | 0.292 | 0.667 |
+| LLM-qwen8b_D2 | planner | airline | 24 | 0.167 | 0.333 | 0.667 |
+| LLM-qwen8b_D2 | planner | all | 24 | 0.167 | 0.333 | 0.667 |
+| LLM-qwen8b_D2 | subagent | airline | 17 | 0.000 | 0.059 | 0.353 |
+| LLM-qwen8b_D2 | subagent | all | 17 | 0.000 | 0.059 | 0.353 |
+| LLM-qwen8b_D2 | all | airline | 24 | 0.167 | 0.333 | 0.750 |
+| LLM-qwen8b_D2 | all | all | 24 | 0.167 | 0.333 | 0.750 |
+| LLM-qwen8b_D3_instruction->premise | planner | airline | 22 | 0.227 | 0.227 | 0.636 |
+| LLM-qwen8b_D3_instruction->premise | planner | all | 22 | 0.227 | 0.227 | 0.636 |
+| LLM-qwen8b_D3_report->planner | planner | airline | 18 | 0.333 | 0.333 | 0.667 |
+| LLM-qwen8b_D3_report->planner | planner | all | 18 | 0.333 | 0.333 | 0.667 |
 | Judge_p_fail | planner | airline | 24 | 0.167 | 0.167 | 0.667 |
 | Judge_p_fail | planner | all | 24 | 0.167 | 0.167 | 0.667 |
 | Judge_p_fail | subagent | airline | 24 | 0.000 | 0.125 | 0.208 |
@@ -528,6 +565,16 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | LLM-qwen8b_D1_1-p_actual | subagent | all | 1 | 0.000 | 0.000 | 27 | 0/46 | n/a |
 | LLM-qwen8b_D1_1-p_actual | all | airline | 1 | 0.000 | 0.000 | 68 | 0/24 | n/a |
 | LLM-qwen8b_D1_1-p_actual | all | all | 1 | 0.000 | 0.000 | 68 | 0/47 | n/a |
+| LLM-qwen8b_D2 | planner | airline | 1 | 0.061 | 0.114 | 44 | 1/24 | 0.0 |
+| LLM-qwen8b_D2 | planner | all | 1 | 0.061 | 0.114 | 44 | 1/47 | 0.0 |
+| LLM-qwen8b_D2 | subagent | airline | 1 | 0.000 | 0.000 | 37 | 0/24 | n/a |
+| LLM-qwen8b_D2 | subagent | all | 1 | 0.000 | 0.000 | 37 | 0/46 | n/a |
+| LLM-qwen8b_D2 | all | airline | 1 | 0.000 | 0.000 | 81 | 0/24 | n/a |
+| LLM-qwen8b_D2 | all | all | 1 | 0.000 | 0.000 | 81 | 0/47 | n/a |
+| LLM-qwen8b_D3_instruction->premise | planner | airline | 0.25 | 0.098 | 0.160 | 25 | 2/24 | 0.0 |
+| LLM-qwen8b_D3_instruction->premise | planner | all | 0.25 | 0.098 | 0.160 | 25 | 2/47 | 0.0 |
+| LLM-qwen8b_D3_report->planner | planner | airline | 1 | 0.000 | 0.000 | 17 | 0/24 | n/a |
+| LLM-qwen8b_D3_report->planner | planner | all | 1 | 0.000 | 0.000 | 17 | 0/47 | n/a |
 | Judge_p_fail | planner | airline | 0.95 | 0.061 | 0.087 | 46 | 9/24 | 10.0 |
 | Judge_p_fail | planner | all | 0.95 | 0.061 | 0.087 | 46 | 9/47 | 10.0 |
 | Judge_p_fail | subagent | airline | 1 | 0.016 | 0.000 | 48 | 8/24 | 3.5 |
@@ -592,5 +639,5 @@ Intersection = 1296 step(s) scored by all of D1_1-conf, D2.
 
 Of the 172 labeled error steps (decisive + transient), **0.698** (120/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
-Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.7500, `D3_report->planner`=1.0000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM-gptoss20b_D1_1-conf`=0.5156, `LLM-gptoss20b_D1_1-p_actual`=0.9900, `LLM-gptoss20b_D2`=1.0000, `LLM-gptoss20b_D3_instruction->premise`=0.3333, `LLM-gptoss20b_D3_report->planner`=1.0000, `LLM-qwen8b_D1_1-conf`=0.3258, `LLM-qwen8b_D1_1-p_actual`=1.0000, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
+Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.7500, `D3_report->planner`=1.0000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM-gptoss20b_D1_1-conf`=0.5156, `LLM-gptoss20b_D1_1-p_actual`=0.9900, `LLM-gptoss20b_D2`=1.0000, `LLM-gptoss20b_D3_instruction->premise`=0.3333, `LLM-gptoss20b_D3_report->planner`=1.0000, `LLM-qwen8b_D1_1-conf`=0.3258, `LLM-qwen8b_D1_1-p_actual`=1.0000, `LLM-qwen8b_D2`=1.0000, `LLM-qwen8b_D3_instruction->premise`=0.2500, `LLM-qwen8b_D3_report->planner`=1.0000, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
 

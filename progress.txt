@@ -273,3 +273,10 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   0.774 [0.660,0.877] (code 0.627 / 0.746; CIs overlap); subagent 0.617 / 0.784 (7 pos). D2 F1 0.447 (P 0.436 R 0.459 FPR 0.116) vs
   code 0.541. D3 instr->premise 0.540 / 0.616, report->planner 0.527 / 0.591. Attribution planner exact 0.333 (code 0.167, 32B 0.375).
   8B LLM-only still running (D1 done, D2/D3 in progress).
+- 10:27 all comparators done (τ-bench airline, labeled non-cascade). Four-way per cell (code / LLM-only 32B thinking / gpt-oss-20b
+  reasoning / 8B thinking): D1 planner decisive 0.746 / 0.682 / 0.774 / 0.697 (CIs overlap); D1 planner attribution exact 0.17 /
+  0.38 / 0.33 / 0.25; D1 subagent all 0.544 / 0.646 / 0.617 / 0.518; D2 F1 0.541 / 0.425 / 0.447 / 0.370 (FPR 0.07 / 0.14 / 0.12 /
+  0.15); D3 report->planner 0.590 / 0.434 / 0.527 / 0.448; instruction->premise 0.401 / 0.573 / 0.540 / 0.529.
+- D3 diagnosis: 31% of extracted A values in instruction->premise are not in the instruction text (8B extractor fills requested
+  items with fake values); error handoffs have longer, more assertive instructions restated fully (fidelity 0.76 vs clean 0.68) ->
+  reversed AUROC is not a label error. Proposed fix: require extracted values to appear literally in the source text (awaiting user).
