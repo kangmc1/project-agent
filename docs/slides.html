@@ -395,7 +395,7 @@
         <li>Claude 라벨러 6개가 실행 5건씩. 실행 요약본만 보고 탐지기 출력은 보지 않음(블라인드)</li>
         <li>오류 이벤트마다 회복 여부, 회복된 스텝, 기록에서 어긋난 부분의 인용을 기록</li>
         <li>독립 재라벨 6건에서 decisive step은 모두 일치. 이벤트 집합 겹침 0.56은 두 번째 라벨러가 같은 오류의 반복을 빠뜨린 것이라, 반복도 스텝마다 라벨하도록 규약을 고정</li></ul></div>
-      <div><h4><span class="n">4.1.4</span>지표 정의</h4><p>스텝 AUROC는 탐지기 점수로 오류 스텝(전체 오류 또는 decisive만)을 깨끗한 스텝과 얼마나 잘 가르는지이며, 95 % 신뢰구간은 부트스트랩 1,000회로 구합니다. 0/1 플래그를 내는 D2는 정밀도·재현율·F1·오탐율로 잽니다.</p></div>
+      <div><h4><span class="n">4.1.4</span>지표 정의</h4><p>AUROC(Step)는 탐지기 점수로 오류 스텝(전체 오류 또는 decisive만)을 깨끗한 스텝과 얼마나 잘 가르는지이며, 95 % 신뢰구간은 부트스트랩 1,000회로 구합니다. 0/1 플래그를 내는 D2는 정밀도·재현율·F1·오탐율로 잽니다.</p></div>
       <div><h4><span class="n">4.1.5</span>D1 teacher forcing 검증</h4><p>결정 지점 906개 모두에 teacher forcing으로 후보 확률을 다시 계산했고, 그 입력이 실행 시 입력과 974/974 일치합니다. 같은 요청을 다시 teacher forcing하면 값이 약 0.005 흔들리므로 D1 값은 소수 둘째 자리까지만 유효합니다.</p></div>
       </div>
     </div>
@@ -409,8 +409,8 @@
     <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D1 (결정 분포)</span></h3></div>
     <div class="cols two">
       <div>
-        <h4>스텝 수준 AUROC <span class="quiet" style="font-weight:400">(1 − p_actual, 95 % CI · §4.2.2)</span></h4>
-        <div class="chart"><svg viewBox="0 0 580 205" width="580" height="205" role="img" aria-label="D1 스텝 AUROC, 역할별">
+        <h4>AUROC(Step) <span class="quiet" style="font-weight:400">(1 − p_actual, 95 % CI · §4.2.2)</span></h4>
+        <div class="chart"><svg viewBox="0 0 580 205" width="580" height="205" role="img" aria-label="D1 AUROC(Step), 역할별">
           <g class="lab"><text x="88" y="26" text-anchor="end">전체 오류</text><text x="88" y="62" text-anchor="end">decisive</text><text x="88" y="116" text-anchor="end">전체 오류</text><text x="88" y="152" text-anchor="end">decisive</text></g>
           <line class="grid" x1="100" y1="6" x2="100" y2="176"/><line class="ref" x1="320" y1="6" x2="320" y2="176"/><text class="lab" x="100" y="196" text-anchor="middle">0</text><text class="lab" x="320" y="196" text-anchor="middle">0.5 (우연)</text><text class="lab" x="540" y="196" text-anchor="middle">1.0</text>
           <rect x="100" y="12" width="275.9" height="18" fill="var(--s1)"><title>0.627 [0.543, 0.713] · n_pos 46 / n_neg 148</title></rect><line class="ci" x1="338.9" y1="21" x2="413.7" y2="21"/><text class="val" x="421.7" y="26">0.63</text>
@@ -420,8 +420,8 @@
         </svg></div>
       </div>
       <div>
-        <h4>트레이스 수준 AUROC <span class="quiet" style="font-weight:400">(max 요약, 실패 25 / 성공 6 · §4.2.3)</span></h4>
-        <div class="chart"><svg viewBox="0 0 580 205" width="580" height="205" role="img" aria-label="트레이스 수준 AUROC">
+        <h4>AUROC(Trace) <span class="quiet" style="font-weight:400">(max 요약, 실패 25 / 성공 6 · §4.2.3)</span></h4>
+        <div class="chart"><svg viewBox="0 0 580 205" width="580" height="205" role="img" aria-label="AUROC(Trace)">
           <g class="lab"><text x="88" y="26" text-anchor="end">D1</text><text x="88" y="80" text-anchor="end">D1</text><text x="88" y="116" text-anchor="end">D2</text></g>
           <line class="grid" x1="100" y1="6" x2="100" y2="176"/><line class="ref" x1="320" y1="6" x2="320" y2="176"/><text class="lab" x="100" y="196" text-anchor="middle">0</text><text class="lab" x="320" y="196" text-anchor="middle">0.5 (우연)</text><text class="lab" x="540" y="196" text-anchor="middle">1.0</text>
           <rect x="100" y="12" width="357.7" height="18" fill="var(--s1)"><title>0.813 [0.627, 0.960]</title></rect><line class="ci" x1="375.9" y1="21" x2="522.4" y2="21"/><text class="val" x="530.4" y="26">0.81</text>
@@ -432,8 +432,8 @@
     </div>
     <div class="legend" style="margin-top:-0.5rem"><span><i style="background:var(--s1)"></i>orchestrator (스텝 양성 46 / decisive 16)</span><span><i style="background:var(--s2)"></i>subagent (스텝 양성 48 / decisive 8)</span></div>
     <div class="cols two" style="margin-top:-0.5rem">
-      <div><p><b>스텝 수준 AUROC</b>는 스텝 하나하나를 단위로 잽니다. D1 점수가 오류 스텝에서 높고 정상 스텝에서 낮으면 1에 가깝고, 점수와 오류가 무관하면 0.5입니다. 곧 어느 스텝에서 오류가 났는지 찾아내는 성능입니다. orchestrator는 매 스텝 여러 후보 가운데 하나를 고르므로 잘못된 선택일수록 그 선택의 확률이 낮게 나타나, 결정적 오류 스텝을 0.75로 찾아냅니다. subagent는 지시문에 다음 행동이 거의 정해져 있어 어떤 선택이든 확률이 높게 나오고, 오류는 어떤 값으로 도구를 부르는가에서 생기므로 D1 점수와 오류가 무관합니다.</p></div>
-      <div><p><b>트레이스 수준 AUROC</b>는 실행 하나를 단위로 잽니다. 한 실행의 스텝 점수 중 최댓값을 그 실행의 점수로 삼고, 실패한 실행 24회의 점수가 성공한 실행 6회보다 높은지를 봅니다. 곧 이 실행이 실패했는지를 점수만으로 맞히는 성능입니다. orchestrator D1은 0.81로, 실행 중 확률이 가장 낮았던 결정 하나만 보아도 실패한 실행을 대체로 가려냅니다. subagent는 D1 0.55, D2 0.61로 실행 단위 구분이 약합니다.</p></div>
+      <div><p><b>AUROC(Step)</b>는 스텝 하나하나를 단위로 잽니다. D1 점수가 오류 스텝에서 높고 정상 스텝에서 낮으면 1에 가깝고, 점수와 오류가 무관하면 0.5입니다. 곧 어느 스텝에서 오류가 났는지 찾아내는 성능입니다. orchestrator는 매 스텝 여러 후보 가운데 하나를 고르므로 잘못된 선택일수록 그 선택의 확률이 낮게 나타나, 결정적 오류 스텝을 0.75로 찾아냅니다. subagent는 지시문에 다음 행동이 거의 정해져 있어 어떤 선택이든 확률이 높게 나오고, 오류는 어떤 값으로 도구를 부르는가에서 생기므로 D1 점수와 오류가 무관합니다.</p></div>
+      <div><p><b>AUROC(Trace)</b>는 실행 하나를 단위로 잽니다. 한 실행의 스텝 점수 중 최댓값을 그 실행의 점수로 삼고, 실패한 실행 24회의 점수가 성공한 실행 6회보다 높은지를 봅니다. 곧 이 실행이 실패했는지를 점수만으로 맞히는 성능입니다. orchestrator D1은 0.81로, 실행 중 확률이 가장 낮았던 결정 하나만 보아도 실패한 실행을 대체로 가려냅니다. subagent는 D1 0.55, D2 0.61로 실행 단위 구분이 약합니다.</p></div>
     </div>
   </div>
 </section>
