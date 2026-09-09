@@ -2,13 +2,14 @@
 
 orchestrator→subagent 시스템의 실행 기록 전체를 읽고, **정답이나 라벨 없이** 실패를 짚어내는 **오프라인 감사기(auditor)**다.
 기록의 층마다 대조 상대와 판정 주체를 달리 둔다. 결정 층은 실행 모델 자신이 유한한 다음 행동 후보에 매긴 확률로(D1),
-행동 층은 도구 호출을 기록과 코드로 대조하여(D2), handoff 경계는 두 텍스트를 LLM으로 비교하여(D3) 검사한다.
+행동 층은 도구 호출을 기록과 코드로 대조하여(D2), handoff 경계는 두 텍스트를 LLM으로 비교하여(D3), 보고 층은 주장마다
+근거에 있는지를 LLM에 물어(D4) 검사한다.
 LangChain Deep Agents 위에서 로컬 Qwen3-32B로 실제 실행한 τ-bench airline 30회로 평가하였다.
 그 산출물인 완전 관측 트레이스 30건, 스텝 라벨 이벤트 215건, handoff 손실 정답지 60건은 과제의 네 실패 유형을 모두 라벨한
 평가 데이터셋이자 생성 파이프라인으로 함께 제출한다(제안서 §3.5). 같은 하네스로 실행한 AIME 2026 30회는 제안서 부록 C에 있다.
-결론은 세 문장이다. orchestrator의 결정 불안정성(D1)은 실패를 예측한다(decisive step AUROC 0.75).
-subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근거 검사(D2, F1 0.54)가 맡는다.
-탐지기의 성능은 탐지기 자체보다 어느 역할·어느 층에 붙이는가에 따라 갈린다.
+orchestrator의 결정 불안정성(D1)은 실패를 예측한다(decisive step AUROC 0.75). subagent 층은 D1에 보이지 않으며, 대신
+정밀도 위주의 행동 근거 검사(D2, F1 0.54)가 맡는다. handoff 정보 손실(D3)은 계측으로는 성립하지만 실패 예측력은 약하고,
+보고 근거(D4)는 판정기 세 종 모두 우연 수준이었다. 탐지기의 성능은 탐지기 자체보다 어느 역할·어느 층에 붙이는가에 따라 갈린다.
 
 - 제안서 (한국어, 주 제출물): [`docs/proposal.md`](docs/proposal.md)
 - 계획 / ADR: `.omc/plans/agent-failure-detection-plan.md` (로컬, 미커밋) · 타임라인: [`docs/notes/timeline.md`](docs/notes/timeline.md)
@@ -16,7 +17,7 @@ subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근
 ## 저장소 구성
 
 ```
-src/harness/   실행 환경: Deep Agents 위의 두 그래프 + 완전 관측 기록
+src/harness/   실행 환경: Deep Agents 위의 orchestrator→subagent 그래프 + 완전 관측 기록
 src/audit/     감사기: d1_decision.py, d2_*.py, d3_handoff.py, d4_evidence_judge.py, report.py, system_report.py
 src/eval/      라벨 검증과 지표 계산
 scripts/       vLLM 서버 스크립트, 게이트 검사
@@ -38,9 +39,9 @@ docs/          제안서, 타임라인
   공유 파일 /case_notes.md (subagent가 덧붙임)
 ```
 
-subagent는 orchestrator에게 **이름 붙은 wrapper 도구**(`policy_checker`, `db_agent`)로 노출된다. wrapper는
-deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따르므로, handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에
-놓인다. 실행기는 Qwen3-32B(vLLM, thinking off)이고 사용자 시뮬레이터는 같은 모델을 raw HTTP로 호출한다.
+subagent는 orchestrator에게 **이름 붙은 wrapper 도구**(`policy_checker`, `db_agent`)로 노출되므로, handoff 결정이 D1이 채점할 수
+있는 도구 이름 위치에 놓인다. 실행 모델은 Qwen3-32B(thinking 끔)이고 사용자 시뮬레이터도 같은 모델이다. 도구 목록, wrapper의 상태 규약,
+요약 미들웨어, 모델 설정 같은 세부는 제안서 부록 E에 있다.
 같은 하네스로 실행한 AIME 2026(orchestrator → solver, verifier)은 solver가 일을 거의 다 해 orchestrator→subagent 분해가 형식적이므로
 본문에서 빼고 제안서 부록 C에 두었다. 코드, 라벨 파일, 지표 표에서 orchestrator의 역할 이름은 `planner`다.
 
@@ -50,9 +51,9 @@ deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따�
 
 | 모듈 | 층 | 대조 상대 | 판정 주체 | 한 문장 | 코드 | 출력 |
 |---|---|---|---|---|---|---|
-| **D1** 결정 분포 | 결정 | 실행기 자신의 후보 행동(도구 이름 ∪ `no_tool`) 확률 분포, 같은 가중치로 재채점 | 코드 (LLM 없음) | 결정이 얼마나 흔들렸는가 — `1−p_actual`, `1−confidence`(정규화 엔트로피), `1−margin`, 그리고 handoff 층(위임 여부) | `d1_decision.py` | `audit/d1.jsonl` |
-| **D2** 행동 근거 | 행동 (도구 호출) | 기록: orchestrator의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 행동은 기록이 요구하고 허용한 것인가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
-| **D3** handoff 정보 손실 | handoff 경계 텍스트 | 경계 반대편의 텍스트 | LLM 판정기 (gpt-oss-20b)가 두 텍스트를 비교 | 넘기는 과정에서 무엇이 빠지거나 바뀌었는가 — 지시→전제, 보고→orchestrator의 원자 사실 fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
+| **D1** 결정 분포 | 결정 | 실행 모델 자신의 후보 행동(도구 이름 ∪ `no_tool`) 확률 분포, 같은 가중치로 재채점 | 코드 (LLM 없음) | 다음 행동을 고를 때 얼마나 흔들렸는가 — `1−p_actual`, `1−confidence`(정규화 엔트로피), `1−margin`, 그리고 handoff 층(위임 여부) | `d1_decision.py` | `audit/d1.jsonl` |
+| **D2** 행동 근거 | 행동 (도구 호출) | 기록: orchestrator의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 도구 호출은 지시와 기록이 뒷받침하는가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
+| **D3** handoff 정보 손실 | handoff 경계 텍스트 | 경계 반대편의 텍스트 | LLM 판정기 (gpt-oss-20b)가 두 텍스트를 비교 | 지시와 보고가 넘어가는 동안 어떤 사실이 빠지거나 바뀌었는가 — 지시→전제, 보고→orchestrator의 원자 사실 fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
 | **D4** 보고 근거 | 보고 | 근거 (도구 결과 + 지시문) | LLM 판정 (Qwen3-8B / gpt-oss-20b / Qwen3-32B 비교) | 보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가 — 주장별 supported / derived / unsupported / contradicted. 세 판정기 모두 우연 수준(airline AUROC 0.47 / 0.55 / 0.50)이라 미채택 | `d4_evidence_judge.py` | `audit/d4_evidence_judge_<judge>.jsonl` |
 
 D2와 D4는 같은 기록을 각각 **행동**과 **보고**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 보고는 자연어라
@@ -68,20 +69,16 @@ LLM이 필요하다. D3은 자연어 텍스트 둘을 비교하는데, 60개 han
 ## 재현
 
 ```bash
-# 0. 환경: 서버는 conda `math_infer` (vLLM 0.9.2), 나머지는 전부 `agent_failure_trace` (py3.11)
-# 주의: 60회 실행과 D1 채점은 모두 vLLM 0.9.2로 생산하였다. 이후 gpt-oss-20b 비교군 판정기(scripts/serve_gptoss20b.sh)를 띄우기 위해
-#       같은 환경을 vLLM 0.11.0(torch 2.8.0+cu128)으로 올렸다. 0.11.0에서 D1을 다시 채점하면 문서화된 재현성 바닥(confidence ~0.005)
-#       안에서 값이 움직일 수 있다.
+# 0. 환경: 서버는 conda `math_infer` (vLLM 0.9.2; gpt-oss-20b 판정기만 0.11.0), 나머지는 전부 `agent_failure_trace` (py3.11)
 pip install -r requirements.txt                      # agent_failure_trace 안에서
 # 1. 서버 (GPU 배치와 포트는 스크립트 안에 있음)
-bash scripts/serve_qwen32b.sh &                      # 실행기 Qwen3-32B
-bash scripts/serve_gptoss20b.sh &                    # D3 판정기 gpt-oss-20b (vLLM 0.11.0 환경 필요)
+bash scripts/serve_qwen32b.sh &                      # 실행 모델 Qwen3-32B
+bash scripts/serve_gptoss20b.sh &                    # D3·D4 판정기 gpt-oss-20b (vLLM 0.11.0 환경 필요)
 bash scripts/serve_qwen8b.sh &                       # Qwen3-8B, 비교군 전용 (fact-set D3, LLM 단독 8B)
 bash scripts/serve_qwen32b_score.sh &                # D1 채점기 Qwen3-32B
-export OPENAI_BASE_URL=<실행기 서버 url> OPENAI_API_BASE=$OPENAI_BASE_URL OPENAI_API_KEY=dummy
+export OPENAI_BASE_URL=<실행 모델 서버 url> OPENAI_API_BASE=$OPENAI_BASE_URL OPENAI_API_KEY=dummy
 python scripts/check_server.py && python scripts/probe_deepagents.py   # P1 / P1b 게이트
-# 2. 데이터 + 실행 (EXEC_RECORD_TOKENS=1 기본: 실행 시 logprob 요청은 생성 토큰 id를 실어 나르는 통로로만 쓴다.
-#    vLLM 0.9.2에는 return_token_ids가 없다. D1은 기록된 logprob 값을 쓰지 않는다)
+# 2. 데이터 + 실행 (실행 시 logprob 요청은 생성 토큰 id를 받는 통로일 뿐, D1은 기록된 logprob 값을 쓰지 않는다; 제안서 부록 E)
 python -m src.data.tau --write && python -m src.data.aime --write
 python -m src.run --domain airline --task 0 && python -m src.harness.validate runs/airline_000   # 스모크
 python -m src.run --batch 1 --parallel 4 --resume    # 이어서 --batch 2
@@ -122,8 +119,8 @@ python scripts/check_docs.py --proposal --skeleton --adr
   CI가 겹치는 곳에서는 모듈 간 순위를 주장하지 않는다.
 - **라벨을 모델이 달았다.** 라벨러는 실행 요약만 보고 블라인드로 작업한 Claude subagent다. 스팟체크에서 decisive step 일치는 6/6이었지만,
   이벤트 집합 일치(Jaccard 0.56)는 "무엇을 오류로 볼 것인가"에 남는 자유도를 보여준다.
-- **보고 층이 비어 있다.** "값은 맞는데 결론이 틀린" 오류는 어느 모듈도 잡지 못한다. D4는 8B, 20B, 32B 판정기 모두 우연 수준이라 채택하지 않았다.
-- **모델 계열 하나와 완전 관측 로깅 계약.** 실행기, 시뮬레이터, 채점기가 모두 Qwen3다. D1은 모델이 본 입력 그대로와 logprob 접근이
+- **보고 층은 아직 잡지 못한다.** "값은 맞는데 결론이 틀린" 오류를 겨눈 D4는 8B, 20B, 32B 판정기 모두 우연 수준이라 채택하지 않았다. 다음 단계는 제안서 §1.2에 있다.
+- **모델 계열 하나와 완전 관측 로깅 계약.** 실행 모델, 시뮬레이터, 채점기가 모두 Qwen3다. D1은 모델이 본 입력 그대로와 logprob 접근이
   필요하므로, 출력만 남는 로그로는 D1, D2, D3을 돌릴 수 없다.
 - **측정 잡음 바닥.** D1 확률은 bf16 반올림 경로에 따라 confidence 기준 ~0.005 움직인다. 그 아래의 차이는 신호가 아니며,
   라벨 최적 임계값이 그 잡음 수준에 놓인다(제안서 §4.2.6).
@@ -132,7 +129,7 @@ python scripts/check_docs.py --proposal --skeleton --adr
 
 - τ-bench (Sierra Research, MIT) — airline 도메인 테스트 과제, 도구, 정책 wiki.
 - AIME 2026 — `MathArena/aime_2026` (Hugging Face).
-- 모델 — Qwen3-32B / Qwen3-8B (Apache-2.0), openai/gpt-oss-20b (Apache-2.0, D3 판정기). vLLM으로 서빙(실행과 D1 채점은 0.9.2, 이후 0.11.0).
+- 모델 — Qwen3-32B / Qwen3-8B (Apache-2.0), openai/gpt-oss-20b (Apache-2.0, D3·D4 판정기). vLLM으로 서빙(실행과 D1 채점은 0.9.2, 이후 0.11.0).
 - deepagents 0.7.13, langchain 1.4, langgraph 1.2.
 
 ## 커밋 정책
