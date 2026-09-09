@@ -119,6 +119,17 @@
    "evidence": "delegate-vs-not split p_delegate=0.78"
   },
   {
+   "step": 46,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "policy_checker: re-issued after a failure report (similarity 0.92): 'Check if the cancellation of a multi-leg Basic Economy flight (Reservation ID 9HBUV8) is allowed und'"
+  },
+  {
    "step": 48,
    "agent": "planner",
    "module": "D1",
@@ -137,7 +148,7 @@
   },
   "D2": {
    "n_steps": 48,
-   "flagged": 0,
+   "flagged": 1,
    "missing_tool": 0,
    "fabricated_arg": 0,
    "tool_call_failed": 0

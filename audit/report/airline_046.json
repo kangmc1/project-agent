@@ -36,6 +36,17 @@
   {
    "step": 15,
    "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find the last reservation with three passengers.'"
+  },
+  {
+   "step": 15,
+   "agent": "planner",
    "module": "D3",
    "direction": "report->planner",
    "signal": {
@@ -113,6 +124,17 @@
    "evidence": "required but never called: search_direct_flight/search_onestop_flight"
   },
   {
+   "step": 25,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for recent delayed flights with three passengers without a specific user ID.'"
+  },
+  {
    "step": 26,
    "agent": "db_agent",
    "module": "D2",
@@ -133,6 +155,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: search_direct_flight/search_onestop_flight"
+  },
+  {
+   "step": 33,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: re-issued after a failure report (similarity 0.90): 'Search for a delayed flight from SFO to JFK on the 8th of last month with three passengers.'"
   },
   {
    "step": 34,
@@ -156,6 +189,17 @@
     "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.date=2024-04-08"
+  },
+  {
+   "step": 38,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a delayed flight from SFO to JFK on the 8th of last month with three passengers and retrieve the reservation '; db_agent: re-issued after a failure report (similarity 0.83): 'Search for a delayed flight from SFO to JFK on the 8th of last month with three passengers and retri'"
   },
   {
    "step": 39,
@@ -203,6 +247,17 @@
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
   {
+   "step": 44,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for flight DL142 operated by Delta from SFO to JFK on April 8th and retrieve the reservation details for three pa'"
+  },
+  {
    "step": 46,
    "agent": "db_agent",
    "module": "D2",
@@ -212,6 +267,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 49,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for flight DL142 operated by Delta from SFO to LGA on April 8th and retrieve the reservation details for three pa'; db_agent: re-issued after a failure report (similarity 0.98): 'Search for flight DL142 operated by Delta from SFO to LGA on April 8th and retrieve the reservation '"
   },
   {
    "step": 51,
@@ -234,6 +300,17 @@
     "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.date=2024-04-05, search_direct_flight.date=2024-04-05"
+  },
+  {
+   "step": 59,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a Delta reservation with three passengers, including a passenger named Sarah, for a morning flight from SFO t'"
   },
   {
    "step": 59,
@@ -284,7 +361,7 @@
   },
   "D2": {
    "n_steps": 52,
-   "flagged": 16,
+   "flagged": 23,
    "missing_tool": 6,
    "fabricated_arg": 10,
    "tool_call_failed": 3

@@ -1,17 +1,13 @@
-"""D3 — handoff 실행 가능성·수용 (procedural flag at the planner step that issues a delegation; user decision 2026-09-09).
-
-Fidelity-style overlap measures (8B fact sets, LLM comparison, value-token coverage/Jaccard) did not separate labeled handoff
-failures (all ~0.4-0.6 AUROC). The labeled failures were about the CONTENT of the handoff, not the amount transferred:
-  (a) missing_identifier : the instruction asks the db_agent to look up / modify a reservation or user but carries no reservation
-                           id (6-char code) and no user id (first_last_1234) — τ-bench has no tool that searches by name, so
-                           the subagent cannot execute it. Not applicable to policy_checker (no identifiers needed) or to
-                           pure flight searches (origin/destination/date suffice).
-  (b) reissued_after_failure : the previous report of the same wrapper stated failure / impossibility, and the new instruction is
-                           nearly the same as the previous one (normalized similarity >= 0.8) with no new identifier added —
-                           the planner did not take the report in.
-Fabricated values inside the instruction are NOT part of D3: D2 condition (2) already checks wrapper-call arguments.
-D3 = 1 if (a) or (b), else 0, on every planner step that issues at least one wrapper call. Output: audit/d3_conditions.jsonl
-Usage: python -m src.audit.d3_conditions [--runs runs]
+"""D2 — planner-side conditions of 행동 근거성 (user decision 2026-09-09): the planner's delegation (wrapper call) is a tool
+call too, so D2's question "is this action one the record required and allowed?" is asked of it with two conditions:
+  (a) missing_identifier     : the delegation asks db_agent to look up / modify a reservation or user but carries no reservation
+                               code and no user id — τ-bench has no tool that searches by name, so the record does not allow the
+                               subagent to execute it. Not applicable to policy_checker or to pure flight searches.
+  (b) reissued_after_failure : the previous report of the same wrapper stated failure / impossibility and the new delegation is
+                               nearly identical (normalized similarity >= 0.8, no new identifier) — the record (that report) does
+                               not allow repeating the call. Fires mostly after the decisive step (a loop symptom).
+Fabricated values inside the delegation text are already covered by D2 condition (2) (d2_args.py). Output: audit/d2_delegation.jsonl
+Usage: python -m src.audit.d2_delegation [--runs runs]
 """
 from __future__ import annotations
 
@@ -98,7 +94,7 @@ def audit_run(run: Path) -> list[dict]:
             rec["reissued_after_failure"] = True
             rec["evidence"].append(f"{h['wrapper']}: re-issued after a failure report (similarity {sim:.2f}): {h['instruction'][:100]!r}")
     for rec in by_step.values():
-        rec["d3"] = 1 if (rec["missing_identifier"] or rec["reissued_after_failure"]) else 0
+        rec["d2_planner"] = 1 if (rec["missing_identifier"] or rec["reissued_after_failure"]) else 0
         out.append(rec)
     return out
 
@@ -110,10 +106,10 @@ def main() -> None:
         if (run / "steps.jsonl").exists() and (run / "tool_calls.sqlite").exists():
             rows += audit_run(run)
     AUDIT.mkdir(exist_ok=True)
-    with (AUDIT / "d3_conditions.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d2_delegation.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
-    print(f"D3 conditions: planner delegation steps {len(rows)}, flagged {sum(r['d3'] for r in rows)} "
+    print(f"D2 delegation conditions: planner delegation steps {len(rows)}, flagged {sum(r['d2_planner'] for r in rows)} "
           f"(missing_identifier {sum(r['missing_identifier'] for r in rows)}, reissued_after_failure {sum(r['reissued_after_failure'] for r in rows)})")
 
 

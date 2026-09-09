@@ -280,3 +280,11 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - D3 diagnosis: 31% of extracted A values in instruction->premise are not in the instruction text (8B extractor fills requested
   items with fake values); error handoffs have longer, more assertive instructions restated fully (fidelity 0.76 vs clean 0.68) ->
   reversed AUROC is not a label error. Proposed fix: require extracted values to appear literally in the source text (awaiting user).
+
+## 2026-09-09 10:55 KST (machine) — D2 extended to planner delegations; D3 = information-loss measure (user decisions)
+- D3 as a failure predictor was exhausted: 8B fact sets 0.40/0.59, LLM-only 0.43-0.57, value-token coverage/Jaccard 0.49-0.53 —
+  labeled handoff failures are about delegation CONTENT, not amount transferred. User: D3 measures information loss; evaluate its
+  measurement validity, not failure prediction. Gold plan: (1) perturbation test, (3) inter-method agreement now; (2) blind loss labels later.
+- Two planner conditions (missing identifier in delegation; re-issue after failure report) moved INTO D2 as planner-side
+  conditions (src/audit/d2_delegation.py, folded by d2_action.py). D2 planner airline: P 0.909 R 0.217 F1 0.351 FPR 0.007,
+  decisive 6/16; subagent cell unchanged. (b) fires 13x in cascade, 0 on labeled-error steps (post-decisive loop symptom).

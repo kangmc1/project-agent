@@ -12,9 +12,11 @@
 | 33 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: calculate |
 | 37 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
 | 38 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: calculate |
+| 41 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: re-issued after a failure report (similarity 1.00): 'Book the second cheapest economy class option for flight from JFK to SFO on May 24, which is the com' |
 | 41 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["could you please provide the date for the flight?", "the `book_reservation` function failed because the required parameter `date` was not provided."], "altered": []} | db_agent report->planner: missing ['could you please provide the date for the flight?', 'the `book_reservation` function failed because the required parameter `date` was not provided.'] altered [] |
 | 42 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
 | 43 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: calculate |
+| 46 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: re-issued after a failure report (similarity 1.00): 'Book the second cheapest economy class option for flight from JFK to SFO on May 24, which is the com' |
 | 46 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["aarav_ahmed_6699", "amount parameter", "successfully transferred to a human agent"], "altered": []} | db_agent report->planner: missing ['aarav_ahmed_6699', 'amount parameter', 'successfully transferred to a human agent'] altered [] |
 | 47 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
 | 48 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
@@ -30,7 +32,7 @@
  },
  "D2": {
   "n_steps": 46,
-  "flagged": 10,
+  "flagged": 12,
   "missing_tool": 4,
   "fabricated_arg": 1,
   "tool_call_failed": 6

@@ -1,0 +1,13 @@
+{
+  "n_steps": 906,
+  "failure_rate": 0.4245810055865922,
+  "mean_p_fail": 0.40396648044692607,
+  "extract_failure_rate": 0.012141280353200883,
+  "extract_failures": 11,
+  "mean_latency_s": 13.220192052980135,
+  "category_counts": {
+    "handoff": 61,
+    "reasoning_stability": 71,
+    "tool": 248
+  }
+}

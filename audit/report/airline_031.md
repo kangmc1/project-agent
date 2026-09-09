@@ -12,6 +12,7 @@
 | 34 | policy_checker | D1/tool | {"confidence": 0.353, "p_actual": 0.522, "margin": 0.115} | action distribution: write_file 0.52, think 0.41, read_file 0.07 (actual: write_file) |
 | 40 | policy_checker | D1/tool | {"confidence": 0.506, "p_actual": 0.776, "margin": 0.603} | action distribution: think 0.78, write_file 0.17, no_tool 0.03 (actual: think) |
 | 46 | planner | D1/handoff | {"p_delegate": 0.776, "H2": 0.767} | delegate-vs-not split p_delegate=0.78 |
+| 46 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | policy_checker: re-issued after a failure report (similarity 0.92): 'Check if the cancellation of a multi-leg Basic Economy flight (Reservation ID 9HBUV8) is allowed und' |
 | 48 | planner | D1/handoff | {"p_delegate": 0.223, "H2": 0.765} | delegate-vs-not split p_delegate=0.22 |
 
 ## Per-module summary
@@ -23,7 +24,7 @@
  },
  "D2": {
   "n_steps": 48,
-  "flagged": 0,
+  "flagged": 1,
   "missing_tool": 0,
   "fabricated_arg": 0,
   "tool_call_failed": 0

@@ -127,6 +127,17 @@
   {
    "step": 41,
    "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: re-issued after a failure report (similarity 1.00): 'Book the second cheapest economy class option for flight from JFK to SFO on May 24, which is the com'"
+  },
+  {
+   "step": 41,
+   "agent": "planner",
    "module": "D3",
    "direction": "report->planner",
    "signal": {
@@ -160,6 +171,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
+  },
+  {
+   "step": 46,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: re-issued after a failure report (similarity 1.00): 'Book the second cheapest economy class option for flight from JFK to SFO on May 24, which is the com'"
   },
   {
    "step": 46,
@@ -229,7 +251,7 @@
   },
   "D2": {
    "n_steps": 46,
-   "flagged": 10,
+   "flagged": 12,
    "missing_tool": 4,
    "fabricated_arg": 1,
    "tool_call_failed": 6

@@ -1,10 +1,10 @@
 # Detection metrics
 
-- generated: 2026-09-09 10:36:22 KST
+- generated: 2026-09-09 10:39:56 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
-- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3, D3fid_instruction->premise, D3fid_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, LLM-gptoss20b_D1_1-conf, LLM-gptoss20b_D1_1-p_actual, LLM-gptoss20b_D2, LLM-gptoss20b_D3_instruction->premise, LLM-gptoss20b_D3_report->planner, LLM-qwen8b_D1_1-conf, LLM-qwen8b_D1_1-p_actual, LLM-qwen8b_D2, LLM-qwen8b_D3_instruction->premise, LLM-qwen8b_D3_report->planner, Judge_p_fail, Judge_flag
+- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3_instruction->premise, D3_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, LLM-gptoss20b_D1_1-conf, LLM-gptoss20b_D1_1-p_actual, LLM-gptoss20b_D2, LLM-gptoss20b_D3_instruction->premise, LLM-gptoss20b_D3_report->planner, LLM-qwen8b_D1_1-conf, LLM-qwen8b_D1_1-p_actual, LLM-qwen8b_D2, LLM-qwen8b_D3_instruction->premise, LLM-qwen8b_D3_report->planner, Judge_p_fail, Judge_flag
 - bootstrap: 1000 stratified resamples, seed 0; AUROC is `n/a` when n_pos < 3 or n_neg < 3.
 
 ## 1. Step-level AUROC
@@ -43,24 +43,21 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D1_handoff | planner | airline | 391/391 | 46 | 148 | 0.579 [0.493, 0.667] | 16 | 0.552 [0.430, 0.685] |
 | D1_handoff | planner | aime | 123/123 | 6 | 56 | 0.518 [0.241, 0.795] | 2 | n/a |
 | D1_handoff | planner | all | 514/514 | 52 | 204 | 0.610 [0.524, 0.685] | 18 | 0.559 [0.411, 0.684] |
-| D2 | planner | airline | 391/391 | 46 | 148 | 0.522 [0.500, 0.554] | 16 | 0.500 [0.500, 0.500] |
+| D2 | planner | airline | 391/391 | 46 | 148 | 0.605 [0.552, 0.671] | 16 | 0.684 [0.559, 0.806] |
 | D2 | planner | aime | 123/123 | 6 | 56 | 0.500 [0.500, 0.500] | 2 | n/a |
-| D2 | planner | all | 514/514 | 52 | 204 | 0.519 [0.500, 0.548] | 18 | 0.500 [0.500, 0.500] |
+| D2 | planner | all | 514/514 | 52 | 204 | 0.594 [0.541, 0.651] | 18 | 0.664 [0.553, 0.778] |
 | D2 | subagent | airline | 435/435 | 48 | 190 | 0.703 [0.625, 0.778] | 8 | 0.588 [0.458, 0.768] |
 | D2 | subagent | aime | 259/259 | 72 | 36 | 0.667 [0.597, 0.736] | 21 | 0.577 [0.478, 0.673] |
 | D2 | subagent | all | 694/694 | 120 | 226 | 0.683 [0.633, 0.730] | 29 | 0.583 [0.512, 0.663] |
-| D2 | all | airline | 826/826 | 94 | 338 | 0.612 [0.569, 0.662] | 24 | 0.521 [0.475, 0.586] |
+| D2 | all | airline | 826/826 | 94 | 338 | 0.653 [0.605, 0.702] | 24 | 0.644 [0.557, 0.740] |
 | D2 | all | aime | 382/382 | 78 | 92 | 0.676 [0.619, 0.732] | 23 | 0.592 [0.511, 0.685] |
-| D2 | all | all | 1208/1208 | 172 | 430 | 0.640 [0.605, 0.673] | 47 | 0.555 [0.505, 0.607] |
-| D3 | planner | airline | 170/391 | 33 | 67 | 0.614 [0.538, 0.690] | 13 | 0.723 [0.577, 0.862] |
-| D3 | planner | aime | 70/123 | 3 | 42 | 0.500 [0.500, 0.500] | 0 | n/a |
-| D3 | planner | all | 240/514 | 36 | 109 | 0.607 [0.542, 0.676] | 13 | 0.726 [0.602, 0.866] |
-| D3fid_instruction->premise | planner | airline | 105/391 | 21 | 44 | 0.401 [0.254, 0.554] | 7 | 0.349 [0.125, 0.609] |
-| D3fid_instruction->premise | planner | aime | 66/123 | 3 | 39 | 0.513 [0.128, 0.821] | 0 | n/a |
-| D3fid_instruction->premise | planner | all | 171/514 | 24 | 83 | 0.388 [0.260, 0.517] | 7 | 0.335 [0.114, 0.608] |
-| D3fid_report->planner | planner | airline | 161/391 | 31 | 66 | 0.590 [0.470, 0.716] | 11 | 0.598 [0.399, 0.775] |
-| D3fid_report->planner | planner | aime | 68/123 | 3 | 41 | 0.715 [0.537, 0.866] | 0 | n/a |
-| D3fid_report->planner | planner | all | 229/514 | 34 | 107 | 0.579 [0.476, 0.687] | 11 | 0.566 [0.392, 0.737] |
+| D2 | all | all | 1208/1208 | 172 | 430 | 0.662 [0.627, 0.697] | 47 | 0.617 [0.551, 0.678] |
+| D3_instruction->premise | planner | airline | 105/391 | 21 | 44 | 0.401 [0.254, 0.554] | 7 | 0.349 [0.125, 0.609] |
+| D3_instruction->premise | planner | aime | 66/123 | 3 | 39 | 0.513 [0.128, 0.821] | 0 | n/a |
+| D3_instruction->premise | planner | all | 171/514 | 24 | 83 | 0.388 [0.260, 0.517] | 7 | 0.335 [0.114, 0.608] |
+| D3_report->planner | planner | airline | 161/391 | 31 | 66 | 0.590 [0.470, 0.716] | 11 | 0.598 [0.399, 0.775] |
+| D3_report->planner | planner | aime | 68/123 | 3 | 41 | 0.715 [0.537, 0.866] | 0 | n/a |
+| D3_report->planner | planner | all | 229/514 | 34 | 107 | 0.579 [0.476, 0.687] | 11 | 0.566 [0.392, 0.737] |
 | LLM_D1_1-conf | planner | airline | 190/391 | 44 | 146 | 0.580 [0.479, 0.678] | 16 | 0.577 [0.403, 0.741] |
 | LLM_D1_1-conf | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
 | LLM_D1_1-conf | planner | all | 190/514 | 44 | 146 | 0.580 [0.479, 0.678] | 16 | 0.577 [0.403, 0.741] |
@@ -185,18 +182,15 @@ Same population as §1 (labeled runs, cascade excluded). A step is flagged when 
 
 | item | role | domain | n_pos | n_neg | TP | FP | precision | recall | F1 | FPR | decisive recall |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| D2 | planner | airline | 46 | 148 | 2 | 0 | 1.000 | 0.043 | 0.083 | 0.000 | 0/16 |
+| D2 | planner | airline | 46 | 148 | 10 | 1 | 0.909 | 0.217 | 0.351 | 0.007 | 6/16 |
 | D2 | planner | aime | 6 | 56 | 0 | 0 | n/a | 0.000 | n/a | 0.000 | 0/2 |
-| D2 | planner | all | 52 | 204 | 2 | 0 | 1.000 | 0.038 | 0.074 | 0.000 | 0/18 |
+| D2 | planner | all | 52 | 204 | 10 | 1 | 0.909 | 0.192 | 0.317 | 0.005 | 6/18 |
 | D2 | subagent | airline | 48 | 190 | 23 | 14 | 0.622 | 0.479 | 0.541 | 0.074 | 2/8 |
 | D2 | subagent | aime | 72 | 36 | 30 | 3 | 0.909 | 0.417 | 0.571 | 0.083 | 5/21 |
 | D2 | subagent | all | 120 | 226 | 53 | 17 | 0.757 | 0.442 | 0.558 | 0.075 | 7/29 |
-| D2 | all | airline | 94 | 338 | 25 | 14 | 0.641 | 0.266 | 0.376 | 0.041 | 2/24 |
+| D2 | all | airline | 94 | 338 | 33 | 15 | 0.688 | 0.351 | 0.465 | 0.044 | 8/24 |
 | D2 | all | aime | 78 | 92 | 30 | 3 | 0.909 | 0.385 | 0.541 | 0.033 | 5/23 |
-| D2 | all | all | 172 | 430 | 55 | 17 | 0.764 | 0.320 | 0.451 | 0.040 | 7/47 |
-| D3 | planner | airline | 33 | 67 | 8 | 1 | 0.889 | 0.242 | 0.381 | 0.015 | 6/13 |
-| D3 | planner | aime | 3 | 42 | 0 | 0 | n/a | 0.000 | n/a | 0.000 | n/a |
-| D3 | planner | all | 36 | 109 | 8 | 1 | 0.889 | 0.222 | 0.356 | 0.009 | 6/13 |
+| D2 | all | all | 172 | 430 | 63 | 18 | 0.778 | 0.366 | 0.498 | 0.042 | 13/47 |
 | LLM_D2 | planner | airline | 44 | 148 | 3 | 10 | 0.231 | 0.068 | 0.105 | 0.068 | 0/16 |
 | LLM_D2 | planner | all | 44 | 148 | 3 | 10 | 0.231 | 0.068 | 0.105 | 0.068 | 0/16 |
 | LLM_D2 | subagent | airline | 37 | 190 | 17 | 26 | 0.395 | 0.459 | 0.425 | 0.137 | 3/8 |
@@ -258,15 +252,15 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | D1_handoff | planner | airline | 31 | 25 | 6 | 0.673 [0.507, 0.840] | 0.467 [0.240, 0.693] |
 | D1_handoff | planner | aime | 31 | 23 | 8 | 0.630 [0.380, 0.842] | 0.679 [0.424, 0.891] |
 | D1_handoff | planner | all | 62 | 48 | 14 | 0.635 [0.463, 0.783] | 0.582 [0.402, 0.746] |
-| D2 | planner | airline | 31 | 25 | 6 | 0.373 [0.187, 0.540] | 0.373 [0.173, 0.540] |
+| D2 | planner | airline | 31 | 25 | 6 | 0.470 [0.243, 0.697] | 0.560 [0.347, 0.740] |
 | D2 | planner | aime | 31 | 23 | 8 | 0.522 [0.500, 0.565] | 0.522 [0.500, 0.565] |
-| D2 | planner | all | 62 | 48 | 14 | 0.460 [0.353, 0.542] | 0.461 [0.356, 0.542] |
+| D2 | planner | all | 62 | 48 | 14 | 0.518 [0.384, 0.626] | 0.540 [0.417, 0.642] |
 | D2 | subagent | airline | 31 | 25 | 6 | 0.610 [0.400, 0.817] | 0.607 [0.347, 0.840] |
 | D2 | subagent | aime | 30 | 22 | 8 | 0.500 [0.307, 0.699] | 0.432 [0.207, 0.676] |
 | D2 | subagent | all | 61 | 47 | 14 | 0.559 [0.413, 0.704] | 0.518 [0.349, 0.690] |
-| D2 | all | airline | 31 | 25 | 6 | 0.527 [0.340, 0.733] | 0.633 [0.420, 0.813] |
+| D2 | all | airline | 31 | 25 | 6 | 0.443 [0.280, 0.630] | 0.623 [0.423, 0.800] |
 | D2 | all | aime | 31 | 23 | 8 | 0.489 [0.299, 0.698] | 0.429 [0.201, 0.669] |
-| D2 | all | all | 62 | 48 | 14 | 0.516 [0.374, 0.682] | 0.518 [0.351, 0.699] |
+| D2 | all | all | 62 | 48 | 14 | 0.481 [0.342, 0.640] | 0.511 [0.348, 0.691] |
 | LLM_D1_1-conf | planner | airline | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
 | LLM_D1_1-conf | planner | all | 8 | 2 | 6 | not computable (success=6, failure=2) | not computable (success=6, failure=2) |
 | LLM_D1_1-conf | subagent | airline | 10 | 4 | 6 | 0.500 [0.000, 0.958] | 0.208 [0.000, 0.542] |
@@ -370,24 +364,21 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | D1_handoff | planner | airline | 24 | 0.208 | 0.292 | 0.667 |
 | D1_handoff | planner | aime | 23 | 0.043 | 0.304 | 0.087 |
 | D1_handoff | planner | all | 47 | 0.128 | 0.298 | 0.383 |
-| D2 | planner | airline | 24 | 0.125 | 0.292 | 0.667 |
+| D2 | planner | airline | 24 | 0.292 | 0.333 | 0.667 |
 | D2 | planner | aime | 23 | 0.043 | 0.522 | 0.087 |
-| D2 | planner | all | 47 | 0.085 | 0.404 | 0.383 |
+| D2 | planner | all | 47 | 0.170 | 0.426 | 0.383 |
 | D2 | subagent | airline | 24 | 0.042 | 0.292 | 0.250 |
 | D2 | subagent | aime | 22 | 0.500 | 0.545 | 0.864 |
 | D2 | subagent | all | 46 | 0.261 | 0.413 | 0.543 |
-| D2 | all | airline | 24 | 0.083 | 0.208 | 0.458 |
+| D2 | all | airline | 24 | 0.333 | 0.333 | 0.667 |
 | D2 | all | aime | 23 | 0.217 | 0.478 | 0.435 |
-| D2 | all | all | 47 | 0.149 | 0.340 | 0.447 |
-| D3 | planner | airline | 24 | 0.333 | 0.333 | 0.667 |
-| D3 | planner | aime | 22 | 0.000 | 0.545 | 0.045 |
-| D3 | planner | all | 46 | 0.174 | 0.435 | 0.370 |
-| D3fid_instruction->premise | planner | airline | 21 | 0.286 | 0.333 | 0.619 |
-| D3fid_instruction->premise | planner | aime | 21 | 0.000 | 0.381 | 0.048 |
-| D3fid_instruction->premise | planner | all | 42 | 0.143 | 0.357 | 0.333 |
-| D3fid_report->planner | planner | airline | 23 | 0.174 | 0.217 | 0.652 |
-| D3fid_report->planner | planner | aime | 22 | 0.000 | 0.455 | 0.045 |
-| D3fid_report->planner | planner | all | 45 | 0.089 | 0.333 | 0.356 |
+| D2 | all | all | 47 | 0.277 | 0.404 | 0.553 |
+| D3_instruction->premise | planner | airline | 21 | 0.286 | 0.333 | 0.619 |
+| D3_instruction->premise | planner | aime | 21 | 0.000 | 0.381 | 0.048 |
+| D3_instruction->premise | planner | all | 42 | 0.143 | 0.357 | 0.333 |
+| D3_report->planner | planner | airline | 23 | 0.174 | 0.217 | 0.652 |
+| D3_report->planner | planner | aime | 22 | 0.000 | 0.455 | 0.045 |
+| D3_report->planner | planner | all | 45 | 0.089 | 0.333 | 0.356 |
 | LLM_D1_1-conf | planner | airline | 24 | 0.333 | 0.500 | 0.667 |
 | LLM_D1_1-conf | planner | all | 24 | 0.333 | 0.500 | 0.667 |
 | LLM_D1_1-conf | subagent | airline | 17 | 0.118 | 0.294 | 0.412 |
@@ -503,24 +494,21 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | D1_handoff | planner | airline | 0.7041 | 0.095 | 0.065 | 46 | 8/24 | 5.5 |
 | D1_handoff | planner | aime | 0.0853 | 0.089 | 0.333 | 6 | 10/23 | 4.5 |
 | D1_handoff | planner | all | 0.6846 | 0.098 | 0.096 | 52 | 14/47 | 3.5 |
-| D2 | planner | airline | 1 | 0.000 | 0.043 | 46 | 1/24 | 20.0 |
+| D2 | planner | airline | 1 | 0.007 | 0.217 | 46 | 10/24 | 0.0 |
 | D2 | planner | aime | 1e-09 | 0.000 | 0.000 | 6 | 1/23 | 29.0 |
-| D2 | planner | all | 1 | 0.000 | 0.038 | 52 | 2/47 | 24.5 |
+| D2 | planner | all | 1 | 0.005 | 0.192 | 52 | 11/47 | 0.0 |
 | D2 | subagent | airline | 1 | 0.074 | 0.479 | 48 | 17/24 | 2.0 |
 | D2 | subagent | aime | 1 | 0.083 | 0.417 | 72 | 9/22 | 0.0 |
 | D2 | subagent | all | 1 | 0.075 | 0.442 | 120 | 26/46 | 2.0 |
-| D2 | all | airline | 1 | 0.041 | 0.266 | 94 | 17/24 | 2.0 |
+| D2 | all | airline | 1 | 0.044 | 0.351 | 94 | 17/24 | 1.0 |
 | D2 | all | aime | 1 | 0.033 | 0.385 | 78 | 9/23 | 0.0 |
-| D2 | all | all | 1 | 0.040 | 0.320 | 172 | 26/47 | 2.0 |
-| D3 | planner | airline | 1 | 0.015 | 0.242 | 33 | 9/24 | 0.0 |
-| D3 | planner | aime | 1e-09 | 0.000 | 0.000 | 3 | 0/23 | n/a |
-| D3 | planner | all | 1 | 0.009 | 0.222 | 36 | 9/47 | 0.0 |
-| D3fid_instruction->premise | planner | airline | 0.8 | 0.091 | 0.190 | 21 | 1/24 | 0.0 |
-| D3fid_instruction->premise | planner | aime | 0.8889 | 0.077 | 0.000 | 3 | 2/23 | 4.5 |
-| D3fid_instruction->premise | planner | all | 0.8667 | 0.072 | 0.083 | 24 | 3/47 | 3.0 |
-| D3fid_report->planner | planner | airline | 1 | 0.000 | 0.000 | 31 | 0/24 | n/a |
-| D3fid_report->planner | planner | aime | 1 | 0.000 | 0.000 | 3 | 0/23 | n/a |
-| D3fid_report->planner | planner | all | 1 | 0.000 | 0.000 | 34 | 0/47 | n/a |
+| D2 | all | all | 1 | 0.042 | 0.366 | 172 | 26/47 | 0.5 |
+| D3_instruction->premise | planner | airline | 0.8 | 0.091 | 0.190 | 21 | 1/24 | 0.0 |
+| D3_instruction->premise | planner | aime | 0.8889 | 0.077 | 0.000 | 3 | 2/23 | 4.5 |
+| D3_instruction->premise | planner | all | 0.8667 | 0.072 | 0.083 | 24 | 3/47 | 3.0 |
+| D3_report->planner | planner | airline | 1 | 0.000 | 0.000 | 31 | 0/24 | n/a |
+| D3_report->planner | planner | aime | 1 | 0.000 | 0.000 | 3 | 0/23 | n/a |
+| D3_report->planner | planner | all | 1 | 0.000 | 0.000 | 34 | 0/47 | n/a |
 | LLM_D1_1-conf | planner | airline | 0.4475 | 0.089 | 0.182 | 44 | 4/24 | 0.0 |
 | LLM_D1_1-conf | planner | all | 0.4475 | 0.089 | 0.182 | 44 | 4/47 | 0.0 |
 | LLM_D1_1-conf | subagent | airline | 0.461 | 0.097 | 0.111 | 36 | 1/24 | 0.0 |
@@ -637,19 +625,19 @@ Intersection = 1296 step(s) scored by all of D1_1-conf, D2.
 | D1_1-conf | all | airline | 94 | 338 | 0.583 [0.516, 0.645] |
 | D1_1-conf | all | aime | 78 | 92 | 0.544 [0.456, 0.639] |
 | D1_1-conf | all | all | 172 | 430 | 0.538 [0.489, 0.586] |
-| D2 | planner | airline | 46 | 148 | 0.522 [0.500, 0.554] |
+| D2 | planner | airline | 46 | 148 | 0.605 [0.552, 0.671] |
 | D2 | planner | aime | 6 | 56 | 0.500 [0.500, 0.500] |
-| D2 | planner | all | 52 | 204 | 0.519 [0.500, 0.548] |
+| D2 | planner | all | 52 | 204 | 0.594 [0.541, 0.651] |
 | D2 | subagent | airline | 48 | 190 | 0.703 [0.625, 0.778] |
 | D2 | subagent | aime | 72 | 36 | 0.667 [0.597, 0.736] |
 | D2 | subagent | all | 120 | 226 | 0.683 [0.633, 0.730] |
-| D2 | all | airline | 94 | 338 | 0.612 [0.569, 0.662] |
+| D2 | all | airline | 94 | 338 | 0.653 [0.605, 0.702] |
 | D2 | all | aime | 78 | 92 | 0.676 [0.619, 0.732] |
-| D2 | all | all | 172 | 430 | 0.640 [0.605, 0.673] |
+| D2 | all | all | 172 | 430 | 0.662 [0.627, 0.697] |
 
 ## 7. Any-flag coverage (descriptive)
 
 Of the 172 labeled error steps (decisive + transient), **0.703** (121/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
-Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3`=1.0000, `D3fid_instruction->premise`=0.7500, `D3fid_report->planner`=1.0000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM-gptoss20b_D1_1-conf`=0.5156, `LLM-gptoss20b_D1_1-p_actual`=0.9900, `LLM-gptoss20b_D2`=1.0000, `LLM-gptoss20b_D3_instruction->premise`=0.3333, `LLM-gptoss20b_D3_report->planner`=1.0000, `LLM-qwen8b_D1_1-conf`=0.3258, `LLM-qwen8b_D1_1-p_actual`=1.0000, `LLM-qwen8b_D2`=1.0000, `LLM-qwen8b_D3_instruction->premise`=0.2500, `LLM-qwen8b_D3_report->planner`=1.0000, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
+Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.7500, `D3_report->planner`=1.0000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM-gptoss20b_D1_1-conf`=0.5156, `LLM-gptoss20b_D1_1-p_actual`=0.9900, `LLM-gptoss20b_D2`=1.0000, `LLM-gptoss20b_D3_instruction->premise`=0.3333, `LLM-gptoss20b_D3_report->planner`=1.0000, `LLM-qwen8b_D1_1-conf`=0.3258, `LLM-qwen8b_D1_1-p_actual`=1.0000, `LLM-qwen8b_D2`=1.0000, `LLM-qwen8b_D3_instruction->premise`=0.2500, `LLM-qwen8b_D3_report->planner`=1.0000, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
 

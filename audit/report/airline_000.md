@@ -7,6 +7,7 @@
 | 14 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["/case_notes.md", "failed", "hat039", "hat268", "mia_li_123"], "altered": []} | db_agent report->planner: missing ['/case_notes.md', 'failed', 'hat039'] altered [] |
 | 15 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: book_reservation.user_id=mia_li_123, book_reservation.airport=SFO; call failed: book_reservation returned an error |
 | 22 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error |
+| 31 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: re-issued after a failure report (similarity 0.86): 'Find one-stop economy flights from New York to Seattle on May 20th with departure time between 10am ' |
 | 39 | planner | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: respond_to_user.money=261, respond_to_user.money=255 |
 | 42 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error |
 | 43 | db_agent | D1/tool | {"confidence": 0.738, "p_actual": 0.613, "margin": 0.241} | action distribution: write_file 0.61, read_file 0.37, think 0.01 (actual: write_file) |
@@ -15,6 +16,7 @@
 | 48 | planner | D1/tool | {"confidence": 0.572, "p_actual": 0.655, "margin": 0.346} | action distribution: db_agent 0.66, respond_to_user 0.31, policy_checker 0.03 (actual: db_agent) |
 | 48 | planner | D1/handoff | {"p_delegate": 0.688, "H2": 0.895} | delegate-vs-not split p_delegate=0.69 |
 | 49 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: get_reservation_details/get_user_details |
+| 57 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: re-issued after a failure report (similarity 0.82): 'Find one-stop economy flights from New York to Seattle on dates near May 20th (e.g., May 19th, May 2' |
 | 57 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["4", "before 10am est", "with departure time after 10am est on the requested dates"], "altered": []} | db_agent report->planner: missing ['4', 'before 10am est', 'with departure time after 10am est on the requested dates'] altered [] |
 | 70 | planner | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: respond_to_user.money=234, respond_to_user.money=242, respond_to_user.money=315, respond_to_user.money=301 |
 | 73 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error |
@@ -40,7 +42,7 @@
  },
  "D2": {
   "n_steps": 80,
-  "flagged": 14,
+  "flagged": 16,
   "missing_tool": 2,
   "fabricated_arg": 9,
   "tool_call_failed": 8

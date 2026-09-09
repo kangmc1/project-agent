@@ -3,6 +3,17 @@
   {
    "step": 4,
    "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find a reservation with origin ATL, destination PHL, and travel date April 5th. Return the reservation ID and passenger '"
+  },
+  {
+   "step": 4,
+   "agent": "planner",
    "module": "D3",
    "direction": "instruction->premise",
    "signal": {
@@ -39,6 +50,17 @@
    "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
+   "step": 9,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name Aarav Garcia. Return the '"
+  },
+  {
    "step": 10,
    "agent": "db_agent",
    "module": "D2",
@@ -48,6 +70,17 @@
     "tool_call_failed": true
    },
    "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; call failed: get_user_details returned an error"
+  },
+  {
+   "step": 14,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name Aarav Garcia. If no'"
   },
   {
    "step": 14,
@@ -105,6 +138,17 @@
    "evidence": "delegate-vs-not split p_delegate=0.69"
   },
   {
+   "step": 19,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Perform a broader search for a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name A'"
+  },
+  {
    "step": 20,
    "agent": "db_agent",
    "module": "D1",
@@ -126,6 +170,17 @@
     "tool_call_failed": true
    },
    "evidence": "argument never given: get_user_details.user_id=aarav_garcia_123; call failed: get_user_details returned an error"
+  },
+  {
+   "step": 24,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a reservation made under the name Aarav Garcia for a flight from ATL to PHL, with a travel date of April 5th,'"
   },
   {
    "step": 25,
@@ -157,7 +212,7 @@
   },
   "D2": {
    "n_steps": 27,
-   "flagged": 6,
+   "flagged": 11,
    "missing_tool": 1,
    "fabricated_arg": 5,
    "tool_call_failed": 5

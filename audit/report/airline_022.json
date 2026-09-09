@@ -1,6 +1,17 @@
 {
  "flags": [
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with last name 'Rossi' and flight date 'May 21' departing from EWR.\""
+  },
+  {
    "step": 5,
    "agent": "db_agent",
    "module": "D2",
@@ -23,6 +34,17 @@
    "evidence": "required but never called: search_direct_flight/search_onestop_flight/get_reservation_details"
   },
   {
+   "step": 9,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with last name 'Rossi', first name 'Ivan', and flight date 'May 21' departing from EWR.\"; db_agent: re-issued after a failure report (similarity 0.92): \"Search for a reservation with last name 'Rossi', first name 'Ivan', and flight date 'May 21' departi\""
+  },
+  {
    "step": 10,
    "agent": "db_agent",
    "module": "D2",
@@ -41,7 +63,7 @@
   },
   "D2": {
    "n_steps": 11,
-   "flagged": 3,
+   "flagged": 5,
    "missing_tool": 1,
    "fabricated_arg": 2,
    "tool_call_failed": 2

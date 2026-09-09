@@ -12,6 +12,17 @@
    "evidence": "delegate-vs-not split p_delegate=0.73"
   },
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find the last reservation made by the customer and return its ID and details.'"
+  },
+  {
    "step": 5,
    "agent": "db_agent",
    "module": "D1",
@@ -33,6 +44,17 @@
     "tool_call_failed": true
    },
    "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
+  },
+  {
+   "step": 9,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with 3 passengers that matches the customer's description and return its ID and details.\""
   },
   {
    "step": 9,
@@ -65,6 +87,17 @@
    "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
+   "step": 16,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with 2 passengers that matches the customer's description and return its ID and details.\"; db_agent: re-issued after a failure report (similarity 0.99): \"Search for a reservation with 2 passengers that matches the customer's description and return its ID\""
+  },
+  {
    "step": 17,
    "agent": "db_agent",
    "module": "D2",
@@ -74,6 +107,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 20,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with 3 passengers that matches the customer's description and return its ID and details.\""
   },
   {
    "step": 20,
@@ -102,6 +146,17 @@
    "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
   },
   {
+   "step": 25,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a reservation with 3 passengers, traveling from Chicago to Miami around mid-October, and return its ID and de'"
+  },
+  {
    "step": 26,
    "agent": "db_agent",
    "module": "D2",
@@ -111,6 +166,17 @@
     "tool_call_failed": true
    },
    "evidence": "argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error"
+  },
+  {
+   "step": 30,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami around mid-October, and return its ID '; db_agent: re-issued after a failure report (similarity 0.98): 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami around mid-October'"
   },
   {
    "step": 30,
@@ -142,6 +208,17 @@
    "evidence": "argument never given: get_user_details.user_id=delta_user_123; call failed: get_user_details returned an error"
   },
   {
+   "step": 35,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on October 15th on flight Delta 452, a'; db_agent: re-issued after a failure report (similarity 0.88): 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on October 15th on'"
+  },
+  {
    "step": 38,
    "agent": "db_agent",
    "module": "D2",
@@ -151,6 +228,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 41,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on October 16th on flight Delta 452, a'; db_agent: re-issued after a failure report (similarity 0.99): 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on October 16th on'"
   },
   {
    "step": 43,
@@ -176,6 +264,17 @@
    "evidence": "required but never called: get_reservation_details/get_user_details"
   },
   {
+   "step": 47,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on mid-October on flight Delta 457, an'; db_agent: re-issued after a failure report (similarity 0.96): 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on mid-October on '"
+  },
+  {
    "step": 48,
    "agent": "db_agent",
    "module": "D1",
@@ -197,6 +296,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 52,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a United reservation with 3 passengers, traveling from Chicago to Miami in mid-October on flight United 123, '; db_agent: re-issued after a failure report (similarity 0.91): 'Search for a United reservation with 3 passengers, traveling from Chicago to Miami in mid-October on'"
   },
   {
    "step": 52,
@@ -252,6 +362,17 @@
    "evidence": "call failed: get_user_details returned an error"
   },
   {
+   "step": 64,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Retrieve the reservation history for the email address noahmuller9847@example.com and return the details.'; db_agent: re-issued after a failure report (similarity 0.99): 'Retrieve the reservation history for the email address noahmuller9847@example.com and return the det'"
+  },
+  {
    "step": 65,
    "agent": "db_agent",
    "module": "D2",
@@ -282,7 +403,7 @@
   },
   "D2": {
    "n_steps": 54,
-   "flagged": 12,
+   "flagged": 23,
    "missing_tool": 4,
    "fabricated_arg": 6,
    "tool_call_failed": 8

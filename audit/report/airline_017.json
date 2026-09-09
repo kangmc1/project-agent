@@ -24,6 +24,17 @@
    "evidence": "delegate-vs-not split p_delegate=0.73"
   },
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find flights from IAH to SEA on May 23 with 2 passengers and provide their reservation details.'"
+  },
+  {
    "step": 7,
    "agent": "db_agent",
    "module": "D2",
@@ -150,6 +161,17 @@
    "evidence": "call failed: get_reservation_details returned an error"
   },
   {
+   "step": 51,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for reservations under the name Liam Khan for flights from IAH to SEA on May 23 and retrieve the reservation ID.'"
+  },
+  {
    "step": 52,
    "agent": "db_agent",
    "module": "D2",
@@ -214,7 +236,7 @@
   },
   "D2": {
    "n_steps": 59,
-   "flagged": 8,
+   "flagged": 10,
    "missing_tool": 4,
    "fabricated_arg": 3,
    "tool_call_failed": 2

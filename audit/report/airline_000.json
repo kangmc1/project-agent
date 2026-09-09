@@ -63,6 +63,17 @@
    "evidence": "argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
+   "step": 31,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: re-issued after a failure report (similarity 0.86): 'Find one-stop economy flights from New York to Seattle on May 20th with departure time between 10am '"
+  },
+  {
    "step": 39,
    "agent": "planner",
    "module": "D2",
@@ -152,6 +163,17 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: get_reservation_details/get_user_details"
+  },
+  {
+   "step": 57,
+   "agent": "planner",
+   "module": "D2",
+   "signal": {
+    "missing_tool": false,
+    "fabricated_arg": false,
+    "tool_call_failed": false
+   },
+   "evidence": "db_agent: re-issued after a failure report (similarity 0.82): 'Find one-stop economy flights from New York to Seattle on dates near May 20th (e.g., May 19th, May 2'"
   },
   {
    "step": 57,
@@ -348,7 +370,7 @@
   },
   "D2": {
    "n_steps": 80,
-   "flagged": 14,
+   "flagged": 16,
    "missing_tool": 2,
    "fabricated_arg": 9,
    "tool_call_failed": 8

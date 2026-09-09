@@ -42,7 +42,7 @@ def main() -> None:
                 continue
             steps[(run.name, s["step_id"])] = {"run_id": run.name, "domain": meta.get("domain", run.name.split("_")[0]),
                                                 "step_id": s["step_id"], "agent": s["agent"],
-                                                "missing_tool": False, "fabricated_arg": False, "tool_error": False, "tool_call_failed": False, "evidence": [], "tool_error_evidence": []}
+                                                "missing_tool": False, "fabricated_arg": False, "tool_error": False, "tool_call_failed": False, "missing_identifier": False, "reissued_after_failure": False, "evidence": [], "tool_error_evidence": []}
     for r in _rows("d2_instruction.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("applicable") and r.get("satisfied") is False:
@@ -53,6 +53,12 @@ def main() -> None:
         if k in steps and r.get("n_ungrounded", 0) > 0:
             steps[k]["fabricated_arg"] = True
             steps[k]["evidence"].append("argument never given: " + ", ".join(f"{u['tool']}.{u['kind']}={u['value']}" for u in r["ungrounded"][:4]))
+    for r in _rows("d2_delegation.jsonl"):  # planner-side conditions (a)(b)
+        k = (r["run_id"], r["step_id"])
+        if k in steps:
+            steps[k]["missing_identifier"] = bool(r.get("missing_identifier"))
+            steps[k]["reissued_after_failure"] = bool(r.get("reissued_after_failure"))
+            steps[k]["evidence"] += list(r.get("evidence") or [])
     for r in _rows("d2_toolcalls.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("kind") == "tool_call" and (r.get("checks") or {}).get("error"):
@@ -65,11 +71,11 @@ def main() -> None:
     with (AUDIT / "d2_action.jsonl").open("w", encoding="utf-8") as f:
         for k in sorted(steps):
             s = steps[k]
-            s["d3"] = 1 if (s["missing_tool"] or s["fabricated_arg"] or s["tool_call_failed"]) else 0
+            s["d3"] = 1 if (s["missing_tool"] or s["fabricated_arg"] or s["tool_call_failed"] or s["missing_identifier"] or s["reissued_after_failure"]) else 0
             n += s["d3"]
             f.write(json.dumps(s, ensure_ascii=False) + "\n")
     print(f"D2 final: {len(steps)} steps, flagged {n} "
-          f"(missing_tool {sum(s['missing_tool'] for s in steps.values())}, fabricated_arg {sum(s['fabricated_arg'] for s in steps.values())}, tool_call_failed {sum(s['tool_call_failed'] for s in steps.values())}; any tool_error {sum(s['tool_error'] for s in steps.values())})")
+          f"(missing_tool {sum(s['missing_tool'] for s in steps.values())}, fabricated_arg {sum(s['fabricated_arg'] for s in steps.values())}, tool_call_failed {sum(s['tool_call_failed'] for s in steps.values())}, planner missing_identifier {sum(s['missing_identifier'] for s in steps.values())}, planner reissued_after_failure {sum(s['reissued_after_failure'] for s in steps.values())})")
 
 
 if __name__ == "__main__":
