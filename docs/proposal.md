@@ -68,14 +68,14 @@
 
 ```
 [τ-bench airline]
-  고객(시뮬레이터, 같은 모델) ⇄ planner ─┬─ policy_checker  (think 도구 + 시스템 프롬프트에 담긴 정책 문서)
-        respond_to_user 도구로만 대화     ├─ db_agent        (τ-bench airline 도구 14개)
-                                          └─ read_file / write_file (공유 파일 /case_notes.md)
+ 고객(시뮬레이터, 같은 모델) ⇄ planner ─┬─ policy_checker (think 도구 + 시스템 프롬프트에 담긴 정책 문서)
+ respond_to_user 도구로만 대화 ├─ db_agent (τ-bench airline 도구 14개)
+ └─ read_file / write_file (공유 파일 /case_notes.md)
 
 [AIME 2026]
-  문제 ─▶ planner ─┬─ solver    (run_python)
-                   ├─ verifier  (run_python, 문제만 받아 독립 풀이)
-                   └─ submit_answer
+ 문제 ─▶ planner ─┬─ solver (run_python)
+ ├─ verifier (run_python, 문제만 받아 독립 풀이)
+ └─ submit_answer
 ```
 
 - **subagent는 이름을 가진 래퍼 도구다.** planner는 `policy_checker`, `db_agent`(τ-bench airline) 또는 `solver`, `verifier`(AIME 2026)라는 이름의 도구를 부르고, 그 도구가 해당 subagent 그래프를 실행한 뒤 보고서를 도구 결과로 돌려준다. Deep Agents의 내장 `task` 도구를 쓰지 않은 이유는, `task`가 어느 subagent를 부르는지를 자유 텍스트 뒤의 인자(`subagent_type`)에 두어 D1이 "누구를 부르는가"의 확률을 잴 수 없기 때문이다. 내장 `task`는 `SubAgentMiddleware`를 추가하지 않는 설정으로 제거하였고, 래퍼는 `task`의 상태 규약을 따라 부모 상태를 subagent에 넘기고(제어용·비공개 키는 제외) 실행 후 공유 파일 상태(`files`)를 부모에 병합한다. `todos`는 이 규약상 공유되지 않는다.
@@ -107,12 +107,12 @@ D2와 D4는 같은 기록을 놓고 하나는 행동을, 하나는 발언을 대
 스텝 하나를 [결정] → [행동: 도구 호출] → [발언]의 세 층으로 나누고, 스텝 사이에 handoff 경계를 두면 결과에 쓰인 세 모듈은 다음 자리에 놓인다.
 
 ```
- 층             모듈                    한 문장                                   판정 주체
- ─────────────  ──────────────────────  ────────────────────────────────────────  ──────────────
- 결정           D1 결정 분포            후보 행동 위의 확률 분포가 얼마나 퍼졌는가  코드
- 행동(도구)     D2 행동 근거성          호출이 기록이 요구하고 허용한 것인가        코드
- handoff 경계   D3 handoff 정보 손실    경계를 넘으며 어떤 사실이 빠지거나 바뀌었는가  LLM (gpt-oss-20b)
- 발언·추론      (탐지기 없음 — D4 설계만)
+ 층 모듈 한 문장 판정 주체
+ ───────────── ────────────────────── ──────────────────────────────────────── ──────────────
+ 결정 D1 결정 분포 후보 행동 위의 확률 분포가 얼마나 퍼졌는가 코드
+ 행동(도구) D2 행동 근거성 호출이 기록이 요구하고 허용한 것인가 코드
+ handoff 경계 D3 handoff 정보 손실 경계를 넘으며 어떤 사실이 빠지거나 바뀌었는가 LLM (gpt-oss-20b)
+ 발언·추론 (탐지기 없음 — D4 설계만)
 ```
 
 출력은 모듈별 플래그와 근거 포인터이며, 이를 트레이스별 보고서와 시스템 단위 집계로 정리한다(§4.2.11). 모듈을 합친 통합 점수는 내지 않는다. 설계만 하고 결과에 쓰지 않은 선택 모듈은 D4 외에 D8 축약 손실(요약 전후의 원자 사실 비교), D10 계획-행동 일치(todo와 실제 호출의 비교), D6 재도출(정책 규칙 코드와 재계산)이 있다.
@@ -130,10 +130,10 @@ D2와 D4는 같은 기록을 놓고 하나는 행동을, 하나는 발언을 대
 - 목적: 한 스텝의 도구 호출이 기록이 요구하고 허용한 행동인지를 코드로 판정한다. 하나의 질문에 대한 세 가지 어긋남을 본다.
 - 입력: planner의 지시문, 해당 handoff 안의 도구 호출 목록, 호출 인자, 에이전트가 그 요청에서 받은 메시지(system, user, tool), 도구가 돌려준 결과.
 - 계산: 다음 셋 중 하나라도 성립하면 1, 아니면 0이다.
-  - (1) 기록이 요구한 호출을 하지 않음. 지시문이 요구하는 도구 군(조회, 검색, 예약, 변경, 취소, 계산, 가격 등 τ-bench airline 12군; AIME 2026은 `run_python`)을 정규식으로 뽑아, subagent가 handoff 안에서 실제로 부른 도구와 대조한다. 하나라도 빠지면 subagent의 보고 스텝에 1을 준다.
-  - (2) 기록에 없는 값으로 호출함. 호출 인자에서 식별자형 값(예약번호, 사용자 ID, 편명, ISO 날짜, 금액, 공항 코드, 이름)을 뽑아, 그 값이 에이전트에게 주어진 메시지나 이전 고객 발화에 있는지 확인한다. 공항은 도시명, 날짜는 자연어 표기도 근거로 인정한다.
-  - (3′) 호출이 성립하지 않음. 도구가 오류를 돌려준 호출이다. 아직 만들어지지 않은 공유 파일을 처음 읽는 `read_file`의 오류와 래퍼 행의 오류는 제외한다. 이 어긋남은 대부분 (2)의 증상이다(기록에 없는 값으로 부른 호출이 "user not found"로 돌아오는 경우).
-  - planner의 위임 호출에는 같은 질문을 두 조건으로 묻는다. (a) 위임이 예약·사용자 조회나 변경을 요구하는데 예약번호도 사용자 ID도 담지 않았다. τ-bench airline에는 이름으로 예약을 찾는 도구가 없어 기록이 실행을 허용하지 않는 호출이다. (b) 같은 subagent의 직전 보고가 실패나 불가능을 알렸는데 거의 같은 위임을 다시 냈다(정규화 유사도 0.8 이상, 새 식별자 없음). 위임문 안의 지어낸 값은 (2)가 이미 검사한다.
+ - (1) 기록이 요구한 호출을 하지 않음. 지시문이 요구하는 도구 군(조회, 검색, 예약, 변경, 취소, 계산, 가격 등 τ-bench airline 12군; AIME 2026은 `run_python`)을 정규식으로 뽑아, subagent가 handoff 안에서 실제로 부른 도구와 대조한다. 하나라도 빠지면 subagent의 보고 스텝에 1을 준다.
+ - (2) 기록에 없는 값으로 호출함. 호출 인자에서 식별자형 값(예약번호, 사용자 ID, 편명, ISO 날짜, 금액, 공항 코드, 이름)을 뽑아, 그 값이 에이전트에게 주어진 메시지나 이전 고객 발화에 있는지 확인한다. 공항은 도시명, 날짜는 자연어 표기도 근거로 인정한다.
+ - (3′) 호출이 성립하지 않음. 도구가 오류를 돌려준 호출이다. 아직 만들어지지 않은 공유 파일을 처음 읽는 `read_file`의 오류와 래퍼 행의 오류는 제외한다. 이 어긋남은 대부분 (2)의 증상이다(기록에 없는 값으로 부른 호출이 "user not found"로 돌아오는 경우).
+ - planner의 위임 호출에는 같은 질문을 두 조건으로 묻는다. (a) 위임이 예약·사용자 조회나 변경을 요구하는데 예약번호도 사용자 ID도 담지 않았다. τ-bench airline에는 이름으로 예약을 찾는 도구가 없어 기록이 실행을 허용하지 않는 호출이다. (b) 같은 subagent의 직전 보고가 실패나 불가능을 알렸는데 거의 같은 위임을 다시 냈다(정규화 유사도 0.8 이상, 새 식별자 없음). 위임문 안의 지어낸 값은 (2)가 이미 검사한다.
 - 출력: 스텝마다 0/1 플래그와, 어느 어긋남이 왜 걸렸는지의 근거 문자열.
 - 제외한 것: 발언의 숫자 주장에 도구 근거를 요구하는 규칙(발언 층의 문제), 도구 호출 결과의 처리에 관한 로그 검사(반복, 무시, 빈 결과, 스키마 위반). 결과를 잘못 다뤘는지는 로그 흐름만으로 판정할 수 없다(§4.2.9).
 - 코드: `src/audit/d2_instruction.py`(1), `src/audit/d2_args.py`(2), `src/audit/d2_toolcalls.py`(3′의 원자료), `src/audit/d2_delegation.py`(planner 조건 a·b), 합성 `src/audit/d2_action.py`, 출력 `audit/d2_action.jsonl`.
@@ -180,13 +180,13 @@ Deep Agents(`deepagents 0.7.13`) 위의 두 그래프를 §3.1의 구조대로 �
 
 도구 개수 14는 `tau_bench/envs/airline/tools/`의 모듈 수이며, 나머지 구성은 `src/harness/airline.py`와 `src/harness/aime.py`에 있다. planner에서 `task`, `ls`, `glob`, `grep`, `execute`, `edit_file`, `delete`를 제거하였으므로 D1의 후보 집합에는 위 표의 도구만 남는다(`docs/notes/deepagents_probe.md`에서 노출 도구가 `read_file`, `write_file`과 바인딩된 래퍼·도메인 도구뿐임을 확인하였다).
 
-서빙은 GPU 1–4만 사용한다(`scripts/serve_*.sh`).
+서빙 설정(장비 배치, 포트)은 `scripts/serve_*.sh`에 있다.
 
 | 서버 | 모델 | GPU | 포트 | 파라미터 |
 |---|---|---|---|---|
-| 실행 | Qwen3-32B | 1–2 (TP=2) | 18001 | `--max-model-len 40960 --max-num-seqs 16 --max-num-batched-tokens 8192 --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes --gpu-memory-utilization 0.90 --dtype bfloat16` |
-| 추출 | Qwen3-8B | 3 | 18002 | `--max-model-len 32768 --max-num-seqs 32 --tool-call-parser hermes --gpu-memory-utilization 0.90` |
-| 채점 | Qwen3-32B | 4 (TP=1) | 18003 | `--max-model-len 24576 --max-num-seqs 1 --max-num-batched-tokens 2048 --enable-prefix-caching --gpu-memory-utilization 0.90` |
+| 실행 | Qwen3-32B | 1–2 | | `--max-model-len 40960 --max-num-seqs 16 --max-num-batched-tokens 8192 --enable-prefix-caching --enable-auto-tool-choice --tool-call-parser hermes --gpu-memory-utilization 0.90 --dtype bfloat16` |
+| 추출 | Qwen3-8B | 3 | | `--max-model-len 32768 --max-num-seqs 32 --tool-call-parser hermes --gpu-memory-utilization 0.90` |
+| 채점 | Qwen3-32B | 4 | | `--max-model-len 24576 --max-num-seqs 1 --max-num-batched-tokens 2048 --enable-prefix-caching --gpu-memory-utilization 0.90` |
 
 모든 클라이언트는 `temperature=0`, `max_tokens=2048`, `logprobs=True`, `disable_streaming=True`, `enable_thinking=False`로 호출하며, 어느 에이전트의 호출인지는 `X-Agent` 헤더로 기록한다(`src/harness/model.py`). 요약 미들웨어는 planner와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다(`trigger=("tokens", 16000)`, `keep=("messages", 8)`; `docs/notes/deepagents_probe.md`).
 
@@ -215,9 +215,9 @@ Deep Agents(`deepagents 0.7.13`) 위의 두 그래프를 §3.1의 구조대로 �
 - 범주(`labels/RUBRIC.md`). `handoff`(경계에서 정보가 유실·변형·추가됨), `tool`(잘못된 도구나 인자, 오류 무시, 필수 조회 누락, 무의미한 반복), `reasoning_stability`(기록이 지지하지 않는 결론)의 세 범주다. 세부 태그(subtag)는 `hallucination_like`, `reasoning_like`, `handoff_induced`, `compression_induced`다.
 - 이벤트 필드. 이벤트마다 회복 여부(`recovered`), 회복 스텝(`recovery_step`), 어긋난 기록의 인용(`evidence`)을 필수로 받는다. `decisive_step`은 실패로 이어지는 첫 미회복 이벤트다.
 - 파생 스텝 클래스. `clean`(깨끗한 스텝), `transient`(회복된 오류), `decisive`(결정적 오류), `cascade`(decisive 이후의 스텝으로, 탐지 채점에서 제외하고 지연 계산에만 쓴다), `error`(그 외 미회복, 예를 들어 성공 실행의 미회복 이벤트)의 다섯 가지다.
-- 반복 규약(RUBRIC §5b). 같은 잘못된 값, 주장, 호출이 뒤 스텝에서 다시 나오면 스텝마다 별도 이벤트로 라벨한다. 반대로 subagent의 보고를 변형 없이 중계만 하는 planner 스텝은 라벨하지 않는다. 잘못된 내용이 나오는 모든 스텝이 탐지기가 울려야 하는 스텝이라는 것이 근거다. 이 규약은 스팟체크 직후인 2026-09-09 03:05에 고정하였다.
+- 반복 규약(RUBRIC §5b). 같은 잘못된 값, 주장, 호출이 뒤 스텝에서 다시 나오면 스텝마다 별도 이벤트로 라벨한다. 반대로 subagent의 보고를 변형 없이 중계만 하는 planner 스텝은 라벨하지 않는다. 잘못된 내용이 나오는 모든 스텝이 탐지기가 울려야 하는 스텝이라는 것이 근거다. 이 규약은 스팟체크 직후인 2026-에 고정하였다.
 - 스팟체크. 6개 실행(`airline_002`, `airline_013`, `airline_021`, `aime_003`, `aime_008`, `aime_012`)을 독립적으로 다시 라벨하였다. `decisive_step`은 6건 모두 일치하였고, 이벤트 스텝 집합의 Jaccard 유사도(두 집합의 교집합 크기를 합집합 크기로 나눈 값)는 평균 0.563이었다(`labels/spotcheck/agreement.json`). 불일치는 모두 두 번째 어노테이터의 이벤트가 첫 어노테이터의 부분집합이었던 경우로, 반복 방출과 하류 사용을 라벨하지 않은 데서 나왔다. 라벨을 다시 쓰는 대신 위의 반복 규약을 고정하는 것으로 해소하였고, 배치 2는 그 규약 아래 라벨하였다.
-- 라벨 컷. 2026-09-09 03:27 KST에 라벨을 확정하였다. 60개 실행 모두 `python -m src.eval.labels --validate`를 통과하였다(오류 0, 경고 0). 총 434개 이벤트, decisive_step이 있는 실행 47건, 라벨 대상 스텝 1,208개(τ-bench airline 826, AIME 2026 382)다. AIME 2026에는 `user_sim`과 `summarizer` 보조 스텝이 없어 라벨 대상 스텝 수가 총 스텝 수와 같다. 수치는 `labels/index.csv`와 `labels/notes.md`에 있다.
+- 라벨 컷. 2026-에 라벨을 확정하였다. 60개 실행 모두 `python -m src.eval.labels --validate`를 통과하였다(오류 0, 경고 0). 총 434개 이벤트, decisive_step이 있는 실행 47건, 라벨 대상 스텝 1,208개(τ-bench airline 826, AIME 2026 382)다. AIME 2026에는 `user_sim`과 `summarizer` 보조 스텝이 없어 라벨 대상 스텝 수가 총 스텝 수와 같다. 수치는 `labels/index.csv`와 `labels/notes.md`에 있다.
 
 #### 4.1.4 지표 정의
 
@@ -257,7 +257,7 @@ D1의 확률 P(a | 문맥)은 실행이 끝난 뒤 같은 가중치(Qwen3-32B, �
 - 후보 집합. A는 그 스텝 요청 본문의 `tools` 이름과 `no_tool`의 합집합이다. 모델이 바인딩되지 않은 이름을 호출한 경우(환각 도구 이름)에는 그 이름을 사후에 A에 추가하여 채점한다. 그러지 않으면 실제 행동의 확률이 정의되지 않기 때문이다. `user_sim`과 `summarizer` 스텝은 결정 지점이 아니다. 채점 서버의 24,576토큰을 넘는 prefix는 `d1_unscored.json`의 `prefix_too_long`으로 분류한다.
 - 기록 logprob의 용도. 실행 시 기록된 logprob은 같은 가중치의 또 다른 bf16(16비트 부동소수) 계산 결과이므로 재채점보다 참값에 가깝지 않고, 둘의 차이는 정확도가 아니라 두 추정치 사이의 반올림 잡음이다. 따라서 기록 logprob은 결과 지표로 쓰지 않고 렌더 정합 검사에만 쓴다. 실행 시 `logprobs` 옵션은 생성 토큰 ID를 받기 위한 채널로 켜 둔다(vLLM 0.9.2에는 `return_token_ids`가 없다). 기록이 없는 실행은 응답 텍스트를 다시 토큰화하며, 60회 검사에서 토큰 ID가 471건 중 467건 완전히 일치하였다.
 
-타당성 검사는 두 가지다. 렌더 정합 검사는 결정 지점마다 기록의 생성 토큰열에서 `<tool_call>` 위치를 찾아, 그 뒤 토큰열이 실제 선택 후보의 토큰열과 일치하는지 확인한다. 불일치나 수 단위의 logp 이탈은 채팅 템플릿이나 도구 스키마의 렌더 오류를 뜻한다. 재현성 검사는 같은 요청을 다른 KV 캐시 상태에서 다시 채점하여 값이 얼마나 흔들리는지 잰다. 결과는 다음 표와 같다(최종 채점 파일 `audit/d1.jsonl`, 2026-09-09 05:03 KST).
+타당성 검사는 두 가지다. 렌더 정합 검사는 결정 지점마다 기록의 생성 토큰열에서 `<tool_call>` 위치를 찾아, 그 뒤 토큰열이 실제 선택 후보의 토큰열과 일치하는지 확인한다. 불일치나 수 단위의 logp 이탈은 채팅 템플릿이나 도구 스키마의 렌더 오류를 뜻한다. 재현성 검사는 같은 요청을 다른 KV 캐시 상태에서 다시 채점하여 값이 얼마나 흔들리는지 잰다. 결과는 다음 표와 같다(최종 채점 파일 `audit/d1.jsonl`, 2026-.
 
 | 항목 | 값 |
 |---|---|
@@ -277,7 +277,7 @@ D1의 확률 P(a | 문맥)은 실행이 끝난 뒤 같은 가중치(Qwen3-32B, �
 
 - 설계 초기에는 prefill 경로(`prompt_logprobs`, 코드명 `m2`)를 정의로 두고, decode 경로와의 분포 일치(|Δp| ≤ 0.01인 지점이 95 % 이상)를 채택 조건으로 삼았다.
 - 배치 1 검사에서 두 경로의 일치는 62 %였다. 그러나 prefill 경로 자체도 기록 logprob과 같은 크기로 어긋났다(133지점에서 확률 0.01 이내 일치 86.5 %, 최대 차이 0.09). 이 조건이 잰 것은 두 재채점 경로 사이의 bf16 반올림 차이였고, 어느 경로도 다른 경로의 기준이 될 수 없었다.
-- 따라서 채택 조건을 철회하고 decode 경로 단일 방법으로 확정하였다(2026-09-09 04:12). prefill 경로로 채점한 211지점은 비교 표본으로만 남긴다(`audit/d1_m2_partial.jsonl`).
+- 따라서 채택 조건을 철회하고 decode 경로 단일 방법으로 확정하였다(2026-. prefill 경로로 채점한 211지점은 비교 표본으로만 남긴다(`audit/d1_m2_partial.jsonl`).
 
 ### 4.2 결과
 
@@ -538,8 +538,8 @@ D1의 라벨 최적 임계값은 1 − confidence 기준 0.003–0.007이다. �
 
 | agent | 결정 수 | 평균 conf | 저신뢰 비율 | handoff 층 저신뢰 | 근거 없는 인자 비율 (D2 (2)) | 도구 호출 | error | empty | repeat | ignored |
 |---|---|---|---|---|---|---|---|---|---|---|
-| planner | 431 | 0.90 | 0.10 | 0.10 |  0.04  | 400 | 0.09 | 0.00 | 0.03 | 0.08 |
-| db_agent | 420 | 0.95 | 0.08 | – |  0.20  | 357 | 0.18 | 0.00 | 0.33 | 0.01 |
+| planner | 431 | 0.90 | 0.10 | 0.10 | 0.04 | 400 | 0.09 | 0.00 | 0.03 | 0.08 |
+| db_agent | 420 | 0.95 | 0.08 | – | 0.20 | 357 | 0.18 | 0.00 | 0.33 | 0.01 |
 | policy_checker | 55 | 0.84 | 0.27 | – | – (식별자형 인자 없음) | 19 | 0.05 | 0.58 | 0.05 | 0.05 |
 
 | handoff 엣지 | n | 평균 fidelity | 저보존(<0.8) 비율 | 자주 빠지는 값 |
@@ -700,58 +700,58 @@ D3의 판정 방식 비교는 §4.2.13에 있다.
 계획 §9의 12건과 실험 중 추가된 항목을 결정 기록으로 남긴다. 각 항목의 형식은 "스펙 → 실행 → 이유"다.
 
 1. **채점 호출의 `max_tokens=0` → `max_tokens=1`.** vLLM은 `echo=true`가 아닌 `/v1/completions`에서 `max_tokens=0`을 받지 않는다.
-2. **추출기 = 실행 모델(32B) → 별도 Qwen3-8B 서버(:18002).** 추출에 32B를 쓸 이유가 없고 실행 서버와 자원이 경합하기 때문이다. D1은 실행 모델 전용 채점 서버(:18003, TP=1)에서 계측한다. AC-16의 "추출기도 같은 모델" 문구는 이로써 무효가 되었다.
+2. **추출기 = 실행 모델(32B) → 별도 Qwen3-8B 서버.** 추출에 32B를 쓸 이유가 없고 실행 서버와 자원이 경합하기 때문이다. D1은 실행 모델 전용 채점 서버,에서 계측한다. AC-16의 "추출기도 같은 모델" 문구는 이로써 무효가 되었다.
 3. **"직접 답변" 후보 제거(스펙 v2.1–2.2) → `no_tool` = 1 − P(`<tool_call>`)로 복원.** 도구를 부르지 않는 스텝도 결정 지점이므로, 후보 집합이 닫혀 있어야 분포가 정의된다.
 4. **AC-20(수식 정합성 검사) 신설.** AIME 2026에서 기록 대조 항목이 발언 값 대조 하나뿐이면 추론 오류를 잡을 수단이 없다고 보아, 발언의 수식을 sympy로 평가하는 AIME 2026 전용 검사를 추가하였다. 이 검사는 뒤에 삭제되었다(항목 18).
 5. **수식 정합성 검사를 OPTIONAL → MUST로 승격.** 위와 같은 이유로, AIME 2026 트레이스의 절반이 채점 대상에서 빠지는 것을 막으려 하였다.
 6. **Deep Agents 내장 `task` 호출 → 이름 있는 래퍼 도구 호출(옵션 A′).** `task`는 대상 subagent를 인자(`subagent_type`)에 숨겨 D1이 handoff 결정을 잴 수 없다. 래퍼는 `task`의 상태 규약(부모 상태 전달, 파일 상태 병합)을 복제하며, `todos`는 그 규약상 공유되지 않는다.
 7. **AC-11 "60건 전부" → 배치와 컷 시점에 따른 n을 명시.** 시간 게이트가 배치 2를 포기시킬 수 있는 설계였기 때문이다. 결과적으로 60건 전부 실행하고 라벨하였다.
-8. **AC-10 "14:00 단일 컷" → 단계별 컷(계획 §8 타임라인)과 14:00 신규 코드 컷.** 단일 컷은 무엇이 부분 완료인지를 구분하지 못한다.
+8. **AC-10 " 단일 컷" → 단계별 컷(계획 §8 타임라인)과 신규 코드 컷.** 단일 컷은 무엇이 부분 완료인지를 구분하지 못한다.
 9. **AC-5 "결정 지점마다 분포" → 채점 완료 지점과 `d1_unscored.json`의 유형별 집계.** prefix 길이, 경계 단언, 시간 컷으로 미채점 지점이 남을 수 있다. 아울러 `user_sim`과 `summarizer` 스텝을 결정 지점에서 제외하고, AC-4의 기록 항목에 도구 스키마, 요약 직전 원문, 시뮬레이터 호출, `finish_reason`을 명시하였다.
 10. **"분포 계산은 prefill 경로(`prompt_logprobs`)만" → decode 경로 teacher forcing 채점(`allowed_token_ids`) 단일 방법.** 처음에는 prefill 경로를 정의로 두고 decode 경로를 동일성 조건으로 검증하려 하였으나, prefill 경로도 기록과 같은 크기로 어긋나 그 조건 자체가 기준이 될 수 없었다(§4.1.5). 실행 기록의 logprob은 렌더 정합 검사에만 쓴다.
 11. **"τ-bench는 litellm과 `OPENAI_API_BASE`" → HTTP 직접 호출 사용자 시뮬레이터(`src/data/tau_user.py`).** litellm 경로로는 요청 본문과 헤더의 캡처, thinking 비활성, temperature 0 고정이 보장되지 않는다. 시스템 프롬프트와 `reset/step` 인터페이스는 원본을 따른다.
-12. **출력 형식 추가: 트레이스별 감사 보고서와 시스템 단위 집계.** 통합 점수 대신 근거 포인터와 역할·엣지 단위 프로파일을 낸다(02:35 결정).
-13. **발언 값 대조 검사와 D3 정의 보정(라벨 컷 이후, 05:02).** 초기의 발언 값 대조 검사(뒤에 폐기, 항목 18)는 근거 풀이 도구 결과와 고객 발화만이어서 AIME 2026 문제 문장의 값과 planner 지시문의 값을 근거 없음으로 세었으므로, 모델이 그 요청에서 입력으로 받은 것(system, user, tool 메시지; 자기 이전 발화 제외)을 근거로 인정하도록 고쳤다(평균 s 0.817 → 0.847, 793스텝 중 48스텝 변경). D3은 8B 추출기가 "Submitted 277." 같은 짧은 텍스트에서 값을 뽑지 못해 fidelity가 0이 되던 것을, 원문에 값이 문자 그대로 있으면 보존으로 인정하도록 고쳤다(report→planner의 fidelity 0 건수 69 → 52). 라벨은 탐지기를 보지 않고 달았으므로 정의 보정이며 라벨 맞춤이 아니다. 보정 전 출력은 `audit/_removed/`에 남겼다.
-14. **D2 어긋남 (1)(기록이 요구한 호출을 하지 않음) 사후 추가(06:00).** 결과 검토 중 subagent의 `no_tool`이 구조상 보고와 복귀임을 확인하고(260건 모두 다음 스텝이 planner), 끝내기 전에 지시받은 작업을 수행했는지를 보는 조건을 추가하였다(`src/audit/d2_instruction.py`). 라벨을 본 뒤의 추가이지만 조건은 지시문 정규식과 도구 군 매핑만 쓰고 라벨과 정답을 입력으로 받지 않는다. 다른 모듈의 수치는 변하지 않았다.
+12. **출력 형식 추가: 트레이스별 감사 보고서와 시스템 단위 집계.** 통합 점수 대신 근거 포인터와 역할·엣지 단위 프로파일을 낸다 결정).
+13. **발언 값 대조 검사와 D3 정의 보정(라벨 컷 이후,.** 초기의 발언 값 대조 검사(뒤에 폐기, 항목 18)는 근거 풀이 도구 결과와 고객 발화만이어서 AIME 2026 문제 문장의 값과 planner 지시문의 값을 근거 없음으로 세었으므로, 모델이 그 요청에서 입력으로 받은 것(system, user, tool 메시지; 자기 이전 발화 제외)을 근거로 인정하도록 고쳤다(평균 s 0.817 → 0.847, 793스텝 중 48스텝 변경). D3은 8B 추출기가 "Submitted 277." 같은 짧은 텍스트에서 값을 뽑지 못해 fidelity가 0이 되던 것을, 원문에 값이 문자 그대로 있으면 보존으로 인정하도록 고쳤다(report→planner의 fidelity 0 건수 69 → 52). 라벨은 탐지기를 보지 않고 달았으므로 정의 보정이며 라벨 맞춤이 아니다. 보정 전 출력은 `audit/_removed/`에 남겼다.
+14. **D2 어긋남 (1)(기록이 요구한 호출을 하지 않음) 사후 추가.** 결과 검토 중 subagent의 `no_tool`이 구조상 보고와 복귀임을 확인하고(260건 모두 다음 스텝이 planner), 끝내기 전에 지시받은 작업을 수행했는지를 보는 조건을 추가하였다(`src/audit/d2_instruction.py`). 라벨을 본 뒤의 추가이지만 조건은 지시문 정규식과 도구 군 매핑만 쓰고 라벨과 정답을 입력으로 받지 않는다. 다른 모듈의 수치는 변하지 않았다.
 15. **"근거 의존도"의 귀착.** 설계 인터뷰(스펙 Round 27–28)에서 제기된 "근거 의존도"는 처음에 "subagent가 도구 결과 없이 얼마나 근거 없는 주장을 하는가 = |1 − s|"라는 발언 값 대조 검사로 확정되었다. 같은 이름으로 논의된 반사실적 버전(근거 제거 시 결론 확률의 변화, Round 22)은 "logprob으로 환각과 추론을 판정하지 않는다"는 원칙에 따라 보조 특징으로 보류되었고 구현하지 않았다. 발언 값 대조 검사는 결과가 없어 폐기되었고(항목 18), 발언 층은 LLM 판정형 D4(설계만, 항목 20)로 재정의되었다.
-16. **인자 근거 검사(현재 D2 어긋남 (2)) 사후 추가(06:15).** 발언 값 대조 검사가 환각성 라벨을 놓친 원인이 값의 위치(발언이 아닌 도구 호출 인자)임을 확인하고 추가하였다. 처음에는 발언 층 검사의 두 번째 규칙으로 만들었으나 도구 호출 층의 검사이므로 D2로 합쳤다(항목 18; `src/audit/d2_args.py`). 정규식과 문자열 대조만 쓰며 라벨과 정답을 입력으로 받지 않고, 공항 코드는 τ-bench `list_all_airports`의 도시명을, 날짜는 자연어 표기를 근거로 인정한다. 다른 모듈의 수치는 변하지 않았다.
-17. **AIME 2026을 보조 실험으로 격하(06:30).** 계획은 두 도메인을 동격으로 두었으나(P3, AC-11), 결과 검토에서 AIME 2026이 멀티에이전트 과제로 부적합함이 드러났다. solver가 풀이의 거의 전부를 수행하고 planner의 실질적 결정이 적으며(라벨된 planner 오류 6건), 여러 셀이 τ-bench airline과 반대 방향이었다(planner D1 트레이스 max 0.34 대 0.81). 본문은 τ-bench airline만 보고하고 AIME 2026의 결과와 두 도메인 합산 셀은 §4.2.12에 참고로 두었으며, 실행·라벨·채점은 그대로다.
-18. **발언 값 대조 검사와 수식 정합성 검사 삭제, 인자 근거 검사를 D2로 합침(06:25).** 발언 값 대조 검사는 D2의 옛 발언 규칙과 대상·판정이 겹치고 신호가 없어(τ-bench airline subagent 0.47) 삭제하였고, 수식 정합성 검사는 AIME 2026 전용이며 수식의 77 %가 판정 불가여서 삭제하였다. 이로써 수학 수식 모듈은 이 연구에 없다. 인자 근거 검사는 결과가 있어(0.68, 정밀도 80 %) 유지하되 도구 호출 층의 검사이므로 D2의 조건으로 옮겼다. 삭제된 검사의 출력과 평가 이력은 `audit/_removed/`와 git 이력에 있으며, 값은 맞는데 결론이 틀린 추론 오류 층에 탐지기가 없음을 §1.2, §4.3, 한계에 명시하였다.
-19. **D2를 절차형 단일 모듈 "행동 근거성"으로 재정의(07:00–08:05).** 세 어긋남을 각각 AUROC로 매긴 평가는 잘못이었다. 0/1 검사의 AUROC는 (recall + 1 − FPR)/2로 정해져, 정밀도 82 %·FPR 2 %인 인자 근거 검사조차 재현율 때문에 0.6대에 갇히기 때문이다. 이에 D2를 "이 행동은 기록이 요구하고 허용한 것인가" 하나의 질문으로 되돌리고 세 어긋남의 OR로 0/1 플래그를 내며 플래그 지표로 평가하도록 하였다(`src/audit/d2_action.py`). 정의는 세 단계로 확정되었다. (a) 매핑 오류 수정(07:40): (1)∪(2)의 첫 규칙 집합(recall 0.48, FPR 0.12, AUROC 0.68)의 오탐 23건 중 21건이 "예약의 항공편 상세"를 항공편 검색 요구로 읽은 정규식 오류였고 참양성 6건도 같은 오류로 걸려 있었으므로, 검색 군이 검색 의도에만 걸리도록 고쳤다(수정 후 0.33 / 0.07 / 0.55 / AUROC 0.63; 라벨을 본 뒤의 매핑 오류 수정이며 임계값 조정이 아니고, AIME 2026 규칙은 그대로). (b) (3′) 채택(07:55): 도구 호출이 오류로 돌아온 스텝을 세 번째 어긋남으로 더하되 파일 도구의 첫 `read_file` 실패와 래퍼 행을 제외하였다(포함하면 오탐 14 → 22건, 그중 9건이 그 둘). 오류 반환 조건은 한때 확인 없이 정의에 들어갔다가 되돌려졌고, (2)만, (2)∪(3′), (1)∪(2)∪(3′), 파일·래퍼 포함 변형의 수치를 검토한 뒤 (1)∪(2)∪(3′)로 확정하였다(recall 0.48, FPR 0.07, precision 0.62, F1 0.54, AUROC 0.703 [0.625, 0.778]). (c) 기각한 변형: 실패를 보고한 handoff를 (1)에서 면제하는 안(0.25 / 0.03 / 0.71, AUROC 0.61)은 오탐 8건을 없애지만 decisive airline_002 스텝 19를 포함한 참양성 5건을 지워 기각하였고, `reported_failure`는 서술 필드로만 남겼다. D2에서 뺀 것은 발언의 숫자 주장에 도구 근거를 요구하던 옛 발언 규칙(`src/audit/d2_toolcalls.py`에 서술용으로 남음)과 empty·schema·repeat·ignored 로그 검사(시스템 집계의 서술 열로만 남음; repeat는 FPR을 0.07 → 0.31로 올린다)이다.
-20. **D4는 설계만 남기고 결과에서 제외(06:55–07:05).** 발언 층 검사의 본래 뜻은 근거(도구 결과와 지시) 텍스트와 응답 텍스트를 LLM에 주고 주장별 관계(supported, derived, unsupported, contradicted)를 구조화해 받는 LLM 판정형이며, 이를 §3.3의 D4 설계로 두었다. Qwen3-8B로 subagent 응답 스텝 467개(전 실행)에 파일럿한 결과 τ-bench airline AUROC 0.47, 플래그 정밀도 17 %, 깨끗한 스텝 플래그율 39 %, AIME 2026 정밀도 75 %·재현율 21 %로 채택할 수 없었다. 근거 길이는 원인이 아니고(중앙값 744자) 판정 모델의 한계로 보이나 32B 재시도는 하지 않았다. 출력은 `audit/_removed/d4_judge_8b_pilot.jsonl`, 코드는 `src/audit/unused/d4_judge.py`에 두고, §4.2에는 D4의 수치를 결과로 싣지 않는다.
-21. **0/1 모듈의 평가에 F1 추가(08:05).** D2처럼 0/1 플래그를 내는 모듈은 recall, FPR, precision에 F1(정밀도와 재현율의 조화평균)을 더해 `eval/metrics.md` §1b에 보고한다(`src/eval/metrics.py`). 연속 점수 모듈(D1, D3)은 그대로 AUROC가 주 지표다. D2의 F1은 τ-bench airline subagent 0.541, AIME 2026 0.571이다.
+16. **인자 근거 검사(현재 D2 어긋남 (2)) 사후 추가.** 발언 값 대조 검사가 환각성 라벨을 놓친 원인이 값의 위치(발언이 아닌 도구 호출 인자)임을 확인하고 추가하였다. 처음에는 발언 층 검사의 두 번째 규칙으로 만들었으나 도구 호출 층의 검사이므로 D2로 합쳤다(항목 18; `src/audit/d2_args.py`). 정규식과 문자열 대조만 쓰며 라벨과 정답을 입력으로 받지 않고, 공항 코드는 τ-bench `list_all_airports`의 도시명을, 날짜는 자연어 표기를 근거로 인정한다. 다른 모듈의 수치는 변하지 않았다.
+17. **AIME 2026을 보조 실험으로 격하.** 계획은 두 도메인을 동격으로 두었으나(P3, AC-11), 결과 검토에서 AIME 2026이 멀티에이전트 과제로 부적합함이 드러났다. solver가 풀이의 거의 전부를 수행하고 planner의 실질적 결정이 적으며(라벨된 planner 오류 6건), 여러 셀이 τ-bench airline과 반대 방향이었다(planner D1 트레이스 max 0.34 대 0.81). 본문은 τ-bench airline만 보고하고 AIME 2026의 결과와 두 도메인 합산 셀은 §4.2.12에 참고로 두었으며, 실행·라벨·채점은 그대로다.
+18. **발언 값 대조 검사와 수식 정합성 검사 삭제, 인자 근거 검사를 D2로 합침.** 발언 값 대조 검사는 D2의 옛 발언 규칙과 대상·판정이 겹치고 신호가 없어(τ-bench airline subagent 0.47) 삭제하였고, 수식 정합성 검사는 AIME 2026 전용이며 수식의 77 %가 판정 불가여서 삭제하였다. 이로써 수학 수식 모듈은 이 연구에 없다. 인자 근거 검사는 결과가 있어(0.68, 정밀도 80 %) 유지하되 도구 호출 층의 검사이므로 D2의 조건으로 옮겼다. 삭제된 검사의 출력과 평가 이력은 `audit/_removed/`와 git 이력에 있으며, 값은 맞는데 결론이 틀린 추론 오류 층에 탐지기가 없음을 §1.2, §4.3, 한계에 명시하였다.
+19. **D2를 절차형 단일 모듈 "행동 근거성"으로 재정의.** 세 어긋남을 각각 AUROC로 매긴 평가는 잘못이었다. 0/1 검사의 AUROC는 (recall + 1 − FPR)/2로 정해져, 정밀도 82 %·FPR 2 %인 인자 근거 검사조차 재현율 때문에 0.6대에 갇히기 때문이다. 이에 D2를 "이 행동은 기록이 요구하고 허용한 것인가" 하나의 질문으로 되돌리고 세 어긋남의 OR로 0/1 플래그를 내며 플래그 지표로 평가하도록 하였다(`src/audit/d2_action.py`). 정의는 세 단계로 확정되었다. (a) 매핑 오류 수정: (1)∪(2)의 첫 규칙 집합(recall 0.48, FPR 0.12, AUROC 0.68)의 오탐 23건 중 21건이 "예약의 항공편 상세"를 항공편 검색 요구로 읽은 정규식 오류였고 참양성 6건도 같은 오류로 걸려 있었으므로, 검색 군이 검색 의도에만 걸리도록 고쳤다(수정 후 0.33 / 0.07 / 0.55 / AUROC 0.63; 라벨을 본 뒤의 매핑 오류 수정이며 임계값 조정이 아니고, AIME 2026 규칙은 그대로). (b) (3′) 채택: 도구 호출이 오류로 돌아온 스텝을 세 번째 어긋남으로 더하되 파일 도구의 첫 `read_file` 실패와 래퍼 행을 제외하였다(포함하면 오탐 14 → 22건, 그중 9건이 그 둘). 오류 반환 조건은 한때 확인 없이 정의에 들어갔다가 되돌려졌고, (2)만, (2)∪(3′), (1)∪(2)∪(3′), 파일·래퍼 포함 변형의 수치를 검토한 뒤 (1)∪(2)∪(3′)로 확정하였다(recall 0.48, FPR 0.07, precision 0.62, F1 0.54, AUROC 0.703 [0.625, 0.778]). (c) 기각한 변형: 실패를 보고한 handoff를 (1)에서 면제하는 안(0.25 / 0.03 / 0.71, AUROC 0.61)은 오탐 8건을 없애지만 decisive airline_002 스텝 19를 포함한 참양성 5건을 지워 기각하였고, `reported_failure`는 서술 필드로만 남겼다. D2에서 뺀 것은 발언의 숫자 주장에 도구 근거를 요구하던 옛 발언 규칙(`src/audit/d2_toolcalls.py`에 서술용으로 남음)과 empty·schema·repeat·ignored 로그 검사(시스템 집계의 서술 열로만 남음; repeat는 FPR을 0.07 → 0.31로 올린다)이다.
+20. **D4는 설계만 남기고 결과에서 제외.** 발언 층 검사의 본래 뜻은 근거(도구 결과와 지시) 텍스트와 응답 텍스트를 LLM에 주고 주장별 관계(supported, derived, unsupported, contradicted)를 구조화해 받는 LLM 판정형이며, 이를 §3.3의 D4 설계로 두었다. Qwen3-8B로 subagent 응답 스텝 467개(전 실행)에 파일럿한 결과 τ-bench airline AUROC 0.47, 플래그 정밀도 17 %, 깨끗한 스텝 플래그율 39 %, AIME 2026 정밀도 75 %·재현율 21 %로 채택할 수 없었다. 근거 길이는 원인이 아니고(중앙값 744자) 판정 모델의 한계로 보이나 32B 재시도는 하지 않았다. 출력은 `audit/_removed/d4_judge_8b_pilot.jsonl`, 코드는 `src/audit/unused/d4_judge.py`에 두고, §4.2에는 D4의 수치를 결과로 싣지 않는다.
+21. **0/1 모듈의 평가에 F1 추가.** D2처럼 0/1 플래그를 내는 모듈은 recall, FPR, precision에 F1(정밀도와 재현율의 조화평균)을 더해 `eval/metrics.md` §1b에 보고한다(`src/eval/metrics.py`). 연속 점수 모듈(D1, D3)은 그대로 AUROC가 주 지표다. D2의 F1은 τ-bench airline subagent 0.541, AIME 2026 0.571이다.
 22. **§3.1 실행 환경 서술을 하네스 코드와 대조하여 정정(문서 검토).** 코드(`src/harness/airline.py`, `aime.py`, `deepagents_compat.py`)와 `docs/notes/deepagents_probe.md`에 따라 다음을 고쳤다. `policy_checker`의 정책 문서는 도구가 아니라 시스템 프롬프트에 있고 도구는 `think`와 파일 도구 `read_file`·`write_file`이며, planner와 모든 subagent가 이 두 파일 도구만 쓰고 나머지 내장 파일 도구 여섯 개는 제거되었다. 요약은 subagent가 아니라 그래프마다 붙는 미들웨어(16,000토큰에서 최근 8개 메시지를 남기고 요약)이며, 고객 시뮬레이터는 planner의 `respond_to_user` 도구를 통해서만 연결되고, 종료 조건은 τ-bench airline 30턴·20분, AIME 2026 15분, 재귀 한도 200이다. 아울러 τ-bench airline과 AIME 2026의 설명과 도구 14개의 이름을 추가하였으며, 수치와 결과는 바뀌지 않았다.
-23. **D2에 planner 위임 조건 추가(10:55).** 라벨된 handoff 오류 77건을 검토한 결과 실패는 정보의 양이 아니라 위임 내용의 적절성(실행 불가능한 위임, 실패 보고 뒤 재위임) 문제였다. 두 조건을 D2의 planner 쪽 조건으로 넣었다. 위임문 안의 지어낸 값은 이미 D2 조건 (2)가 검사하므로 중복을 피했다. 라벨을 보고 만든 조건이며, subagent 셀의 수치는 변하지 않았다.
-24. **D3을 실패 예측기에서 정보 손실 계측기로 재규정하고 손실 정답지를 만듦(10:45–11:00).** 사실 추출 집합 비교, LLM 비교, 원문 토큰 겹침 어느 방식으로도 실패 라벨과의 AUROC는 0.4–0.6이었다. 실패는 복합 원인이므로 D3은 자기 현상(손실)을 재는지로 평가해야 한다는 판단에 따라, 60건의 손실 정답지를 점수 비공개 상태에서 라벨링하였다(`labels/d3_loss/`).
-25. **D3 표준을 LLM 직접 비교(gpt-oss-20b)로 채택(11:10).** 손실 정답지 대비 LLM 직접 비교가 8B 사실 추출 + 집합 비교보다 정확하였고(순위 상관 0.71 대 0.61, 실질 손실 AUROC 0.74 대 0.62), 원문 값 토큰 겹침은 LLM과 같은 수준이었다. 이전 방식은 `src/audit/comparators/d3_factset.py`에 비교군으로 남겼다. 판정 서버는 같은 `math_infer` 환경의 vLLM을 0.11.0으로 올려 띄웠다. 실행과 D1 채점은 0.9.2에서 이루어졌다.
-26. **LLM-only 비교군 3종과 일반 judge 추가(09:10–10:30).** D1·D2·D3과 같은 질문을 Qwen3-32B, gpt-oss-20b, Qwen3-8B에 던지는 LLM-only 버전과, "이 스텝이 오류인가"만 묻는 8B 일반 judge를 τ-bench airline 라벨 스텝에 돌려 §4.2.14에 대조하였다.
+23. **D2에 planner 위임 조건 추가.** 라벨된 handoff 오류 77건을 검토한 결과 실패는 정보의 양이 아니라 위임 내용의 적절성(실행 불가능한 위임, 실패 보고 뒤 재위임) 문제였다. 두 조건을 D2의 planner 쪽 조건으로 넣었다. 위임문 안의 지어낸 값은 이미 D2 조건 (2)가 검사하므로 중복을 피했다. 라벨을 보고 만든 조건이며, subagent 셀의 수치는 변하지 않았다.
+24. **D3을 실패 예측기에서 정보 손실 계측기로 재규정하고 손실 정답지를 만듦.** 사실 추출 집합 비교, LLM 비교, 원문 토큰 겹침 어느 방식으로도 실패 라벨과의 AUROC는 0.4–0.6이었다. 실패는 복합 원인이므로 D3은 자기 현상(손실)을 재는지로 평가해야 한다는 판단에 따라, 60건의 손실 정답지를 점수 비공개 상태에서 라벨링하였다(`labels/d3_loss/`).
+25. **D3 표준을 LLM 직접 비교(gpt-oss-20b)로 채택.** 손실 정답지 대비 LLM 직접 비교가 8B 사실 추출 + 집합 비교보다 정확하였고(순위 상관 0.71 대 0.61, 실질 손실 AUROC 0.74 대 0.62), 원문 값 토큰 겹침은 LLM과 같은 수준이었다. 이전 방식은 `src/audit/comparators/d3_factset.py`에 비교군으로 남겼다. 판정 서버는 같은 `math_infer` 환경의 vLLM을 0.11.0으로 올려 띄웠다. 실행과 D1 채점은 0.9.2에서 이루어졌다.
+26. **LLM-only 비교군 3종과 일반 judge 추가.** D1·D2·D3과 같은 질문을 Qwen3-32B, gpt-oss-20b, Qwen3-8B에 던지는 LLM-only 버전과, "이 스텝이 오류인가"만 묻는 8B 일반 judge를 τ-bench airline 라벨 스텝에 돌려 §4.2.14에 대조하였다.
 
 ## 부록 B. 재현
 
-환경은 두 가지다. 서버는 conda `math_infer`(vLLM 0.9.2), 나머지는 conda `agent_failure_trace`(Python 3.11, `requirements.txt`)를 쓴다. GPU는 1–4번만 사용하며 포트는 18001–18003이다. 절차와 순서는 README의 "Reproduce" 절과 같다.
+환경은 두 가지다. 서버는 conda `math_infer`(vLLM 0.9.2), 나머지는 conda `agent_failure_trace`(Python 3.11, `requirements.txt`)를 쓴다. GPU는 1–4번만 사용하며 포트는–이다. 절차와 순서는 README의 "Reproduce" 절과 같다.
 
 ```bash
 # 0. 설치 (agent_failure_trace 환경)
 pip install -r requirements.txt
-# 1. 서버 3대 (GPU 1-4)
-bash scripts/serve_qwen32b.sh &        # 실행 모델 Qwen3-32B TP=2, GPU 1-2, :18001
-bash scripts/serve_qwen8b.sh &         # Qwen3-8B (비교군 전용: 8B 사실 추출·LLM-only 비교)
-bash scripts/serve_gptoss20b.sh &      # D3 판정 gpt-oss-20b
-bash scripts/serve_qwen32b_score.sh &  # D1 채점 Qwen3-32B TP=1, GPU 4, :18003
-export OPENAI_BASE_URL=http://localhost:18001/v1 OPENAI_API_BASE=$OPENAI_BASE_URL OPENAI_API_KEY=dummy
-python scripts/check_server.py && python scripts/probe_deepagents.py      # P1 / P1b 게이트
+# 1. 서버 (장비 배치와 포트는 각 스크립트 참고)
+bash scripts/serve_qwen32b.sh & # 실행 모델 Qwen3-32B
+bash scripts/serve_qwen8b.sh & # Qwen3-8B (비교군 전용: 8B 사실 추출·LLM-only 비교)
+bash scripts/serve_gptoss20b.sh & # D3 판정 gpt-oss-20b
+bash scripts/serve_qwen32b_score.sh & # D1 채점 Qwen3-32B
+export OPENAI_BASE_URL=<실행 모델 서버 주소> OPENAI_API_BASE=$OPENAI_BASE_URL OPENAI_API_KEY=dummy
+python scripts/check_server.py && python scripts/probe_deepagents.py # P1 / P1b 게이트
 # 2. 데이터 + 실행 (EXEC_RECORD_TOKENS=1 기본: 실행 시 logprobs는 생성 토큰 ID를 받는 채널로만 쓴다)
 python -m src.data.tau --write && python -m src.data.aime --write
-python -m src.run --domain airline --task 0 && python -m src.harness.validate runs/airline_000   # 스모크
-python -m src.run --batch 1 --parallel 4 --resume      # 이후 --batch 2
+python -m src.run --domain airline --task 0 && python -m src.harness.validate runs/airline_000 # 스모크
+python -m src.run --batch 1 --parallel 4 --resume # 이후 --batch 2
 # 3. 감사
-python -m src.audit.d1 --check && python -m src.audit.d1 --all --method stepwise        # D1 (채점 서버)
-python -m src.audit.d2_toolcalls && python -m src.audit.d2_instruction && python -m src.audit.d2_args && python -m src.audit.d2_delegation && python -m src.audit.d2_action   # D2
-python -m src.audit.d3_handoff --stats                                                   # D3 (gpt-oss-20b 판정)
-python -m src.audit.comparators.d3_factset --stats && python -m src.audit.llm_only all   # 비교군 (선택)
+python -m src.audit.d1 --check && python -m src.audit.d1 --all --method stepwise # D1 (채점 서버)
+python -m src.audit.d2_toolcalls && python -m src.audit.d2_instruction && python -m src.audit.d2_args && python -m src.audit.d2_delegation && python -m src.audit.d2_action # D2
+python -m src.audit.d3_handoff --stats # D3 (gpt-oss-20b 판정)
+python -m src.audit.comparators.d3_factset --stats && python -m src.audit.llm_only all # 비교군 (선택)
 python -m src.audit.report && python -m src.audit.system_report
 # 4. 라벨 + 평가
-python -m src.eval.index && python -m src.eval.summarize      # 이후 labels/RUBRIC.md에 따라 labels/<run_id>.json 작성
+python -m src.eval.index && python -m src.eval.summarize # 이후 labels/RUBRIC.md에 따라 labels/<run_id>.json 작성
 python -m src.eval.labels --validate
 python -m src.eval.metrics && python -m src.eval.thresholds && python -m src.eval.recovery
 python scripts/check_docs.py --proposal --skeleton --adr
