@@ -243,3 +243,10 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
   appendix history (no retired numbers; math-equation module deletion stated once without a number); 핵심 결과 table replaced
   by the user-approved 6-row 모듈/층/역할/주 지표/비교용 AUROC/판정 shape; D-numbering sentence before the §3.3 identity table;
   부록 B repro uses d2_toolcalls/d2_instruction/d2_args/d2_action/d3_handoff. check_docs --proposal/--skeleton OK.
+
+## 2026-09-09 09:10 KST (machine clock) — LLM comparators (user request: "세 모듈 모두 하자")
+- src/audit/llm_only.py: LLM-only D1 (verbalized candidate probabilities), D2 (three yes/no questions on tool use), D3
+  (verbalized fidelity) with Qwen3-32B thinking-on on :18001; population = labeled runs, non-aux, non-cascade steps (587)
+  + handoffs; cache audit/cache/llm_only.sqlite; outputs audit/llm_d{1,2,3}.jsonl. Smoke: 3 calls OK (13-22 s each).
+- Generic 8B step judge (src/audit/judge.py, "did THIS step fail?", p_fail) running in parallel on :18002 -> audit/judge.jsonl.
+- metrics items: LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_<direction>, Judge_p_fail. Servers 32B (GPU 1-2) and 8B (GPU 3) up.
