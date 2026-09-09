@@ -1,0 +1,503 @@
+<title>라벨 없는 멀티에이전트 실패 탐지</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;700&family=IBM+Plex+Sans+KR:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #f4f6f8; --bg-2: #e9edf1; --ink: #171b21; --ink-2: #5a6270; --ink-3: #8a919b;
+    --rule: #cfd5dc; --accent: #1f4e79; --accent-soft: #dbe6f2;
+    --s1: #2a78d6; --s2: #eb6834; --neutral: #9aa3ad; --bad: #b23a2e; --good: #1f7a4d;
+    --code-bg: #e6ebf0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #14181d; --bg-2: #1c2229; --ink: #eceff3; --ink-2: #a6aeb8; --ink-3: #7c8591;
+      --rule: #333b45; --accent: #8fb8e6; --accent-soft: #223449;
+      --s1: #3987e5; --s2: #d95926; --neutral: #6c7681; --bad: #e66767; --good: #4cb37f;
+      --code-bg: #232b34;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #14181d; --bg-2: #1c2229; --ink: #eceff3; --ink-2: #a6aeb8; --ink-3: #7c8591;
+    --rule: #333b45; --accent: #8fb8e6; --accent-soft: #223449;
+    --s1: #3987e5; --s2: #d95926; --neutral: #6c7681; --bad: #e66767; --good: #4cb37f;
+    --code-bg: #232b34;
+  }
+  html, body { background: var(--bg); color: var(--ink); margin: 0; }
+  body { font-family: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; font-size: 18px; line-height: 1.55; }
+  code, .mono { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
+  h1, h2 { font-family: "Noto Serif KR", "Apple Myungjo", "Batang", serif; font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+  h2 { font-size: 2rem; line-height: 1.25; }
+  p { margin: 0; }
+  a { color: var(--accent); }
+
+  .deck { display: flex; flex-direction: column; }
+  .slide {
+    position: relative; box-sizing: border-box; min-height: 100vh; width: 100%;
+    display: grid; grid-template-columns: 5.5rem 1fr; grid-template-rows: auto 1fr auto;
+    scroll-snap-align: start; border-bottom: 1px solid var(--rule);
+  }
+  html { scroll-snap-type: y proximity; }
+  .rail { grid-row: 1 / span 3; border-right: 1px solid var(--rule); padding: 1.4rem 0 0; text-align: center; }
+  .rail .num { display: block; font-size: 0.95rem; color: var(--ink-3); }
+  .rail .sec { display: block; writing-mode: vertical-rl; margin: 1.2rem auto 0; font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent); }
+  .head { padding: 2.2rem 3rem 0.6rem; }
+  .eyebrow { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .body { padding: 0.6rem 3rem 1.6rem; display: grid; gap: 1.2rem; align-content: start; max-width: 1180px; }
+  .foot { padding: 0 3rem 1.2rem; font-size: 0.8rem; color: var(--ink-3); display: flex; justify-content: space-between; gap: 2rem; }
+  .foot .rec { color: var(--ink-3); }
+
+  .lead { font-size: 1.28rem; line-height: 1.5; max-width: 42rem; text-wrap: pretty; }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); gap: 1.6rem 2.4rem; }
+  .cols > div > .k, .k { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 0.4rem; }
+  ul { margin: 0; padding-left: 1.2rem; } li { margin: 0.3rem 0; } li::marker { color: var(--ink-3); }
+  .quiet { color: var(--ink-2); }
+  .tag { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 0.78rem; padding: 0.1rem 0.5rem; border: 1px solid var(--rule); border-radius: 3px; color: var(--ink-2); background: var(--bg-2); vertical-align: middle; }
+  .tag.d { color: var(--accent); border-color: var(--accent-soft); background: var(--accent-soft); }
+
+  table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+  th, td { text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-weight: 600; color: var(--ink-2); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  td.n, th.n { text-align: right; font-family: "IBM Plex Mono", monospace; white-space: nowrap; }
+  .tbl { overflow-x: auto; }
+  tr.hi td { background: var(--accent-soft); }
+
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 1rem; }
+  .tile { border-top: 2px solid var(--accent); padding: 0.7rem 0 0; }
+  .tile .v { font-family: "IBM Plex Mono", monospace; font-size: 2rem; line-height: 1; }
+  .tile .l { font-size: 0.85rem; color: var(--ink-2); margin-top: 0.35rem; }
+
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; align-items: stretch; }
+  .flow .box { border: 1px solid var(--rule); border-radius: 4px; padding: 0.8rem 0.9rem; background: var(--bg-2); }
+  .flow .box .t { font-weight: 600; margin-bottom: 0.3rem; }
+  .flow .box .m { font-family: "IBM Plex Mono", monospace; font-size: 0.8rem; color: var(--accent); }
+  .flow .box p { font-size: 0.9rem; color: var(--ink-2); }
+  .flow .box.gap { background: transparent; border-style: dashed; }
+
+  pre { margin: 0; background: var(--code-bg); border-radius: 4px; padding: 0.9rem 1.1rem; font-family: "IBM Plex Mono", monospace; font-size: 0.86rem; line-height: 1.5; overflow-x: auto; color: var(--ink); }
+  .chart { overflow-x: auto; }
+  .chart svg { max-width: 100%; height: auto; font-family: "IBM Plex Sans KR", sans-serif; }
+  .chart .lab { fill: var(--ink-2); font-size: 13px; }
+  .chart .val { fill: var(--ink); font-size: 13px; font-family: "IBM Plex Mono", monospace; }
+  .chart .grid { stroke: var(--rule); stroke-width: 1; }
+  .chart .ref { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 4 4; }
+  .chart .ci { stroke: var(--ink-2); stroke-width: 1.5; }
+  .legend { display: flex; gap: 1.4rem; font-size: 0.85rem; color: var(--ink-2); }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 0.4rem; vertical-align: -1px; }
+
+  .title .body { align-content: center; }
+  .title h1 { font-size: 3rem; line-height: 1.2; max-width: 22ch; }
+  .title .sub { font-size: 1.25rem; color: var(--ink-2); max-width: 44rem; margin-top: 1rem; }
+  .title .meta { margin-top: 2rem; font-size: 0.9rem; color: var(--ink-3); }
+
+  .nav { position: fixed; right: 1.2rem; bottom: 1rem; font-size: 0.8rem; color: var(--ink-3); background: var(--bg); border: 1px solid var(--rule); border-radius: 4px; padding: 0.3rem 0.6rem; }
+  .nav b { color: var(--ink); font-family: "IBM Plex Mono", monospace; }
+  .prog { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--accent); width: 0; }
+  body.overview .deck { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 1rem; }
+  body.overview .slide { min-height: 0; transform: scale(1); font-size: 0.55rem; border: 1px solid var(--rule); cursor: pointer; grid-template-columns: 3rem 1fr; }
+  body.overview h2 { font-size: 1.1rem; } body.overview .title h1 { font-size: 1.6rem; }
+  body.overview .body { gap: 0.5rem; padding: 0.4rem 1rem 0.8rem; } body.overview .head { padding: 1rem 1rem 0.3rem; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (max-width: 800px) { .slide { grid-template-columns: 3.2rem 1fr; } .head, .body, .foot { padding-left: 1.2rem; padding-right: 1.2rem; } h2 { font-size: 1.5rem; } body { font-size: 16px; } .title h1 { font-size: 2rem; } .flow { grid-template-columns: 1fr 1fr; } }
+  @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+  @media print { .slide { min-height: 0; page-break-after: always; } .nav, .prog { display: none; } }
+</style>
+
+<div class="deck" id="deck">
+
+<section class="slide title">
+  <div class="rail"><span class="num mono">01</span><span class="sec">Coxwave</span></div>
+  <div class="head"></div>
+  <div class="body">
+    <p class="eyebrow">Coxwave AI 리서치·제품화 엔지니어 직무과제</p>
+    <h1>라벨 없는 멀티에이전트 실패 탐지</h1>
+    <p class="sub">실행 모델의 logprob과 기록 대조로 handoff·도구 실패를 사후 감사하는 파이프라인과 평가 데이터셋</p>
+    <p class="meta mono">τ-bench airline × 30 runs · Qwen3-32B · LangChain Deep Agents · 2026-09-09</p>
+  </div>
+  <div class="foot"><span class="rec mono">runs/airline_002/steps.jsonl · 32 steps · orchestrator ⇄ db_agent, policy_checker</span><span>→ / space 다음 · ← 이전 · O 전체 보기</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">02</span><span class="sec">문제</span></div>
+  <div class="head"><p class="eyebrow">1. 배경</p><h2>운영 로그에는 정답도 라벨도 없다</h2></div>
+  <div class="body">
+    <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생긴다. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐이다.</p>
+    <div class="cols">
+      <div><div class="k">대상 시스템</div><p>orchestrator가 과제별 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템. 2026년 프로덕션의 기본형인 orchestrator-worker 구조.</p></div>
+      <div><div class="k">탐지의 조건</div><p>실행 중 저장된 기록 위에서, 실행이 끝난 뒤에 수행한다. 과제의 정답이나 사람이 단 라벨은 쓰지 않는다. 실행 도중 끼어드는 가드레일은 범위 밖.</p></div>
+      <div><div class="k">기록에 담기는 것</div><p>스텝(모델 호출)마다 그 에이전트가 받은 메시지 전체, 응답, 부른 도구와 돌아온 결과. 에이전트별로 따로 쌓이며 그 사이를 오가는 것은 handoff 메시지와 공유 파일뿐.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">step 05 · orchestrator · tool_call db_agent("omar_davis_3817의 예약을 조회하라")</span><span>§1.1</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">03</span><span class="sec">문제</span></div>
+  <div class="head"><p class="eyebrow">1. 배경</p><h2>이 설정에서 묻는 것은 세 가지다</h2></div>
+  <div class="body">
+    <table>
+      <tr><th style="width:3rem">#</th><th>질문</th><th style="width:14rem">답하는 모듈</th></tr>
+      <tr><td class="mono">1</td><td>orchestrator가 다음에 어느 subagent나 도구를 부를지 고를 때의 불확실성을 정답 없이 수치화할 수 있는가</td><td><span class="tag d">D1</span> 결정 분포</td></tr>
+      <tr><td class="mono">2</td><td>subagent의 도구 호출이 orchestrator의 지시와 기록에 주어진 값에 근거한 것인지를 기록만으로 판정할 수 있는가</td><td><span class="tag d">D2</span> 행동 근거</td></tr>
+      <tr><td class="mono">3</td><td>에이전트 사이의 handoff에서 생기는 정보 손실이나 왜곡을 탐지하고 수치화할 수 있는가</td><td><span class="tag d">D3</span> handoff 정보 손실</td></tr>
+    </table>
+    <p class="quiet">보고 층(에이전트가 말한 결론이 근거에서 나왔는가)은 네 번째 모듈 <span class="tag d">D4</span> 보고 근거로 시도하였고, 결과는 뒤에서 그대로 보고한다.</p>
+  </div>
+  <div class="foot"><span class="rec mono">step 06 · db_agent · tool_call get_user_details(user_id="omar_davis_3817")</span><span>§1.1</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">04</span><span class="sec">문제</span></div>
+  <div class="head"><p class="eyebrow">1. 배경 · 문제 정의</p><h2>오류는 스텝의 어느 자리에서 드러나는가에 따라 성격이 다르다</h2></div>
+  <div class="body">
+    <div class="flow">
+      <div class="box"><div class="m">결정 → D1</div><div class="t">결정의 불확실성</div><p>어느 subagent·도구를 부를지. 잘못된 위임, 건너뜀, 실패한 위임 반복. 기록에는 정상 호출 한 줄로만 남는다.</p></div>
+      <div class="box"><div class="m">행동 → D2</div><div class="t">행동의 근거</div><p>지시가 요구한 조회를 건너뜀, 기록에 없는 값으로 호출, 오류 반환. "요구된"과 "주어진"은 자연어에서 읽어야 한다.</p></div>
+      <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없고 모든 문장이 근거에 있어야 하는 것도 아니다.</p></div>
+      <div class="box gap"><div class="m">스텝 사이 → D3</div><div class="t">handoff의 정보 손실</div><p>지시가 전제로, 보고가 다음 행동으로 넘어갈 때 사실이 빠지거나 바뀜. 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러난다.</p></div>
+    </div>
+    <p class="quiet">과제의 네 유형은 여기에 들어온다. handoff 문제는 결정과 경계, 도구 사용 실패는 행동, 환각은 행동(인자)과 보고, 추론 오류는 보고. 라벨도 이 자리에 맞춰 <code>handoff</code> / <code>tool</code> / <code>reasoning_stability</code> 세 범주로 단다.</p>
+  </div>
+  <div class="foot"><span class="rec mono">step 07 · db_agent · "Reservation JG7FMM is a business class reservation and active"</span><span>§1.2</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">05</span><span class="sec">배경</span></div>
+  <div class="head"><p class="eyebrow">2. 기존 연구 · 1.3 차별점</p><h2>공개 벤치마크는 실패 트레이스의 출력만 남긴다</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><div class="k">기존 연구</div>
+        <ul>
+          <li><b>실패 귀속 벤치마크</b> Who&amp;When, TraceElephant. 실패 트레이스만, 확률은 다른 모델로 근사. 완전 관측이 필요하다는 결론은 공유.</li>
+          <li><b>트레이스 오류 분류</b> MAST, TRAIL. 라벨 규약의 범주 정의의 바탕.</li>
+          <li><b>불확실성 기반 탐지</b> semantic entropy, SelfCheckGPT. 샘플링 기반. 이 연구는 유한 행동 집합에서만 불확실성을 쓴다.</li>
+        </ul></div>
+      <div><div class="k">이 연구의 차별점</div>
+        <ul>
+          <li>결정의 불확실성을 <b>실행 모델 자신의 확률</b>로 잰다. 같은 가중치·템플릿·도구 스키마, 샘플링 없음.</li>
+          <li><b>판정 주체를 층에 맞춘다.</b> 결정·행동은 코드, handoff 경계는 LLM. 어느 층에 무엇이 맞는지를 데이터로 정했다.</li>
+          <li><b>정답과 라벨 없이 돈다.</b> 임계값도 자기 분포의 백분위.</li>
+          <li><b>성공 실행을 포함한 완전 관측 데이터셋</b>과 생성 파이프라인을 남긴다.</li>
+        </ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">Zhang et al. ICML'25 · Chen et al. ACL'26 · Cemri et al. 2025 · Farquhar et al. Nature 2024</span><span>§1.3, §2</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">06</span><span class="sec">제안</span></div>
+  <div class="head"><p class="eyebrow">3. 제안 · 실행 환경</p><h2>τ-bench airline을 orchestrator→subagent 그래프로 실행한다</h2></div>
+  <div class="body">
+<pre>고객(시뮬레이터, 같은 모델) ⇄ orchestrator ─┬─ policy_checker  (think 도구 + 시스템 프롬프트의 정책 문서)
+                                             ├─ db_agent        (예약 데이터베이스 도구 14개)
+                                             └─ read_file / write_file  (공유 파일 /case_notes.md)</pre>
+    <div class="cols">
+      <div><div class="k">왜 이 벤치마크인가</div><p>정책 판단과 데이터베이스 조회가 섞인 고객 응대 과제. 대화가 끝난 뒤 DB의 최종 상태가 정답과 같아야 성공이라 성패가 객관적이다.</p></div>
+      <div><div class="k">subagent는 이름 있는 래퍼 도구</div><p>내장 <code>task</code>는 대상 subagent를 인자 안에 숨겨 "누구를 부르는가"의 확률을 잴 수 없다. 래퍼로 노출하면 handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에 놓인다.</p></div>
+      <div><div class="k">모델</div><p>실행 모델과 고객 시뮬레이터 모두 Qwen3-32B(thinking 끔). 같은 하네스로 돌린 AIME 2026 30회는 solver가 일을 거의 다 해 멀티에이전트 과제로 부적합, 부록 C.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">tool_calls.sqlite · 906 decision points · 340 handoffs</span><span>§3.1</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">07</span><span class="sec">제안</span></div>
+  <div class="head"><p class="eyebrow">3. 제안 · 기록과 운영 조건</p><h2>완전 관측 기록 위에서, 라벨 없이</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><div class="k">기록하는 것 (§3.2)</div>
+        <ul>
+          <li>스텝마다 HTTP 계층의 요청 본문(messages, tools 스키마)과 응답 본문(content, tool_calls, 생성 토큰의 logprob, finish_reason)</li>
+          <li>어느 에이전트의 호출인지는 요청 헤더로</li>
+          <li>도구 호출과 결과는 SQLite에, 공유 파일과 todo는 스텝별 스냅샷으로, 요약 직전 원문도</li>
+        </ul></div>
+      <div><div class="k">라벨 없는 운영을 위한 설계 (§3.4)</div>
+        <ul>
+          <li>탐지기 입력에 정답, 보상, 라벨이 없다. 임계값은 모듈별 자기 분포의 백분위</li>
+          <li>모든 플래그에 근거 포인터가 붙어 순위 → 소량 검수 → 임계값 갱신의 루프에 들어간다</li>
+          <li>전제는 완전 관측 로깅 계약. 출력만 남는 로그에서는 D1·D2·D3이 돌지 않는다</li>
+        </ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">X-Agent: db_agent · logprobs=true · temperature=0</span><span>§3.2, §3.4</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">08</span><span class="sec">제안</span></div>
+  <div class="head"><p class="eyebrow">3. 제안 · 탐지기 구성</p><h2>네 모듈, 층마다 다른 대조 상대와 판정 주체</h2></div>
+  <div class="body">
+    <div class="tbl"><table>
+      <tr><th>모듈</th><th>층</th><th>대조 상대</th><th>판정 주체</th><th>한 문장</th></tr>
+      <tr><td><span class="tag d">D1</span> 결정 분포</td><td>결정</td><td>모델 자신의 확률 분포</td><td>코드</td><td>다음 행동을 고를 때 얼마나 흔들렸는가</td></tr>
+      <tr><td><span class="tag d">D2</span> 행동 근거</td><td>행동(도구 호출)</td><td>기록(지시문, 주어진 값)</td><td>코드</td><td>이 도구 호출은 지시와 기록이 뒷받침하는가</td></tr>
+      <tr><td><span class="tag d">D3</span> handoff 정보 손실</td><td>handoff 경계</td><td>경계 반대편의 텍스트</td><td>LLM (gpt-oss-20b)</td><td>지시와 보고가 넘어가는 동안 어떤 사실이 빠지거나 바뀌었는가</td></tr>
+      <tr><td><span class="tag d">D4</span> 보고 근거</td><td>보고</td><td>근거(도구 결과, 지시문)</td><td>LLM (20B, 32B)</td><td>보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가</td></tr>
+    </table></div>
+    <div class="cols">
+      <div><div class="k">D1은 어떻게 확률을 얻는가</div><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산한다. 점수는 1 − p_actual, 1 − confidence, 1 − margin.</p></div>
+      <div><div class="k">D2는 세 어긋남의 OR</div><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 본다.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">d1.jsonl · d2_action.jsonl · d3_handoff.jsonl · d4_evidence_judge_&lt;judge&gt;.jsonl</span><span>§3.3</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">09</span><span class="sec">제안</span></div>
+  <div class="head"><p class="eyebrow">3. 제안 · 평가 데이터셋</p><h2>산출물은 그 자체로 네 유형을 모두 라벨한 데이터셋이다</h2></div>
+  <div class="body">
+    <div class="tiles">
+      <div class="tile"><div class="v">30</div><div class="l">완전 관측 트레이스 (성공 6 / 실패 24)</div></div>
+      <div class="tile"><div class="v">826</div><div class="l">라벨 대상 스텝</div></div>
+      <div class="tile"><div class="v">215</div><div class="l">오류 이벤트 (handoff 77 · tool 82 · reasoning 56)</div></div>
+      <div class="tile"><div class="v">24</div><div class="l">decisive step이 있는 실행</div></div>
+      <div class="tile"><div class="v">60</div><div class="l">handoff 정보 손실 정답지</div></div>
+    </div>
+    <div class="cols">
+      <div><div class="k">생성 파이프라인</div><p>실행 → 캡처 → 라벨러용 요약 → 블라인드 라벨링(탐지기 출력 비공개) → 스키마 검증과 독립 재라벨 스팟체크. 부록 B의 명령으로 재현.</p></div>
+      <div><div class="k">공개 벤치마크와 다른 점</div><p>성공 실행을 포함해 오탐율과 회복 분석이 되고, 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점할 수 있다. 라벨러가 사람이 아닌 것이 한계.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">labels/airline_002.json · decisive_step: 19 · error_events: 9</span><span>§3.5</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">10</span><span class="sec">평가</span></div>
+  <div class="head"><p class="eyebrow">4. 결과 및 평가 · 실험 설계</p><h2>라벨은 평가의 기준이며 탐지기의 입력이 아니다</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><div class="k">라벨링 프로토콜</div>
+        <ul>
+          <li>Claude 서브에이전트 6개가 실행 5건씩, <code>summary.md</code>만 보고 탐지기 출력은 보지 않음</li>
+          <li>이벤트마다 회복 여부, 회복 스텝, 근거 인용. decisive step은 실패로 이어진 첫 미회복 이벤트</li>
+          <li>스팟체크 6건: decisive 일치 6/6, 이벤트 집합 Jaccard 0.56 → 반복 규약 고정</li>
+        </ul></div>
+      <div><div class="k">지표</div>
+        <ul>
+          <li>스텝 AUROC: 양성은 전체 오류 또는 decisive, 음성은 깨끗한 스텝, cascade 제외. 95 % CI는 층화 부트스트랩 1,000회</li>
+          <li>0/1 플래그(D2)는 정밀도·재현율·F1·FPR. 0/1의 AUROC는 (재현율 + 1 − FPR)/2로 고정되어 참고값</li>
+          <li>D3은 실패 라벨이 아니라 손실 정답지 대비 상관과 실질 손실 AUROC</li>
+        </ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">python -m src.eval.labels --validate · 0 errors · 0 warnings</span><span>§4.1</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">11</span><span class="sec">결과</span></div>
+  <div class="head"><p class="eyebrow">4.2 핵심 결과</p><h2>τ-bench airline 30회에서 무엇을 쟀고 무엇이 나왔는가</h2></div>
+  <div class="body">
+    <div class="tbl"><table>
+      <tr><th>모듈</th><th>역할</th><th>주 지표</th><th>판정</th></tr>
+      <tr class="hi"><td>D1 결정 분포</td><td>orchestrator</td><td class="mono">AUROC 0.63 [0.54, 0.71] · decisive 0.75 [0.61, 0.86]</td><td>작동</td></tr>
+      <tr><td>D1 결정 분포</td><td>subagent</td><td class="mono">AUROC 0.54 · decisive 0.36</td><td>신호 없음</td></tr>
+      <tr class="hi"><td>D2 행동 근거</td><td>subagent</td><td class="mono">F1 0.54 (정밀도 0.62 · 재현율 0.48 · FPR 0.07)</td><td>작동 (부분)</td></tr>
+      <tr><td>D2 행동 근거</td><td>orchestrator (위임)</td><td class="mono">정밀도 0.91 · 재현율 0.22 · decisive 6/16</td><td>고정밀·저재현</td></tr>
+      <tr><td>D3 정보 손실, 보고→orchestrator</td><td>orchestrator</td><td class="mono">손실 정답지 대비 순위 상관 0.71 · 실질 손실 AUROC 0.74</td><td>계측 성립, 실패 예측은 약함</td></tr>
+      <tr><td>D3 정보 손실, 지시→전제</td><td>orchestrator</td><td class="mono">정답 fidelity 0.97</td><td>손실 없는 경계</td></tr>
+      <tr><td>D4 보고 근거</td><td>subagent</td><td class="mono">판정기 3종 AUROC 0.47 / 0.55 / 0.50, CI 모두 0.5 포함</td><td>신호 없음, 미채택</td></tr>
+    </table></div>
+  </div>
+  <div class="foot"><span class="rec mono">eval/metrics.md · 30 runs · 215 labeled events · 24 decisive</span><span>§4.2</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">12</span><span class="sec">결과</span></div>
+  <div class="head"><p class="eyebrow">결과 1</p><h2>orchestrator의 결정이 흔들린 정도는 실패를 예고한다</h2></div>
+  <div class="body">
+    <div class="chart">
+      <svg viewBox="0 0 720 230" width="720" height="230" role="img" aria-label="D1 1 − p_actual AUROC by role, with 95% CI">
+        <g class="lab"><text x="150" y="26" text-anchor="end">전체 오류 · orchestrator</text><text x="150" y="66" text-anchor="end">decisive · orchestrator</text><text x="150" y="126" text-anchor="end">전체 오류 · subagent</text><text x="150" y="166" text-anchor="end">decisive · subagent</text></g>
+        <line class="grid" x1="170" y1="6" x2="170" y2="190"/><line class="ref" x1="420" y1="6" x2="420" y2="190"/>
+        <text class="lab" x="420" y="210" text-anchor="middle">0.5 (우연)</text><text class="lab" x="170" y="210" text-anchor="middle">0</text><text class="lab" x="670" y="210" text-anchor="middle">1.0</text>
+        <rect x="170" y="12" width="313.5" height="18" rx="0" fill="var(--s1)"><title>orchestrator 전체 오류 AUROC 0.627 [0.543, 0.713]</title></rect><line class="ci" x1="441.5" y1="21" x2="526.5" y2="21"/><text class="val" x="536" y="26">0.63</text>
+        <rect x="170" y="52" width="373" height="18" fill="var(--s1)"><title>orchestrator decisive AUROC 0.746 [0.611, 0.862]</title></rect><line class="ci" x1="475.5" y1="61" x2="601" y2="61"/><text class="val" x="610" y="66">0.75</text>
+        <rect x="170" y="112" width="272" height="18" fill="var(--s2)"><title>subagent 전체 오류 AUROC 0.544 [0.442, 0.634]</title></rect><line class="ci" x1="391" y1="121" x2="487" y2="121"/><text class="val" x="496" y="126">0.54</text>
+        <rect x="170" y="152" width="178.5" height="18" fill="var(--s2)"><title>subagent decisive AUROC 0.357 [0.208, 0.512]</title></rect><line class="ci" x1="274" y1="161" x2="426" y2="161"/><text class="val" x="436" y="166">0.36</text>
+      </svg>
+    </div>
+    <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (n_pos 46 / dec 16)</span><span><i style="background:var(--s2)"></i>subagent (n_pos 48 / dec 8)</span><span>가로선은 95 % CI · 점수 1 − p_actual</span></div>
+    <div class="cols">
+      <div><p>orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타난다. 실행 단위로 보아도 가장 뜻밖이었던 결정 하나의 크기가 성패를 0.81로 가른다.</p></div>
+      <div><p>subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족하다. 오류는 어느 도구를 부르는가가 아니라 어떤 인자로 부르고 어떤 결론을 내는가에서 난다. 그래서 D1에 보이지 않는다.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">audit/d1.jsonl · 906 / 906 scored · confidence &gt; 0.99 in 62 %</span><span>§4.2.2, §4.2.3</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">13</span><span class="sec">결과</span></div>
+  <div class="head"><p class="eyebrow">결과 2</p><h2>subagent 층은 확신에 찬 잘못된 호출이라 코드 대조가 잡는다</h2></div>
+  <div class="body">
+    <div class="tbl"><table>
+      <tr><th>D2 행동 근거</th><th class="n">n_pos / n_neg</th><th class="n">TP</th><th class="n">FP</th><th class="n">정밀도</th><th class="n">재현율</th><th class="n">F1</th><th class="n">FPR</th><th class="n">decisive</th></tr>
+      <tr><td>subagent</td><td class="n">48 / 190</td><td class="n">23</td><td class="n">14</td><td class="n">0.62</td><td class="n">0.48</td><td class="n">0.54</td><td class="n">0.07</td><td class="n">2 / 8</td></tr>
+      <tr><td>orchestrator (위임)</td><td class="n">46 / 148</td><td class="n">10</td><td class="n">1</td><td class="n">0.91</td><td class="n">0.22</td><td class="n">0.35</td><td class="n">0.007</td><td class="n">6 / 16</td></tr>
+    </table></div>
+    <div class="cols">
+      <div><div class="k">무엇을 잡는가</div><ul>
+        <li>환각성 subagent 오류 29건 중 23건이 (2) 기록에 없는 값에 걸린다. 예: 고객이 성만 말했는데 <code>get_user_details(user_id='rossi_123')</code></li>
+        <li>지어낸 값은 발언이 아니라 <b>인자</b>에 있었다. 폐기한 발언 값 검사는 같은 49건 중 38건을 "근거 있음"으로 봤다</li>
+        <li>잡음의 주된 원인은 (1)의 지시문→도구 군 정규식</li></ul></div>
+      <div><div class="k">무엇을 놓치는가</div><ul>
+        <li>인자의 출처는 맞는데 선택이 틀린 경우(다른 예약의 날짜) 10건</li>
+        <li>보고 층과 경계 층의 오류 15건은 D2의 질문 밖</li>
+        <li>LLM에게 같은 질문을 시키면 정밀도 0.34–0.44로 코드보다 낮다 (§4.2.12)</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">d2_action.jsonl · airline flags 160 = subagent 125 + orchestrator 35</span><span>§4.2.2</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">14</span><span class="sec">결과</span></div>
+  <div class="head"><p class="eyebrow">결과 3</p><h2>D3은 손실을 재고, D4는 판정기를 키워도 우연 수준이다</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><div class="k">D3 · 손실 정답지 60건 대비 (보고→orchestrator)</div>
+        <div class="tbl"><table>
+          <tr><th>측정 방식</th><th class="n">순위 상관</th><th class="n">실질 손실 AUROC</th></tr>
+          <tr><td>8B 사실 추출 + 집합 비교 (이전 D3)</td><td class="n">0.61</td><td class="n">0.62</td></tr>
+          <tr><td>원문 값 토큰 겹침</td><td class="n">0.70</td><td class="n">0.75</td></tr>
+          <tr class="hi"><td>LLM 직접 비교, gpt-oss-20b (채택)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
+        </table></div>
+        <p class="quiet" style="margin-top:.6rem">실질 손실 12건 중 8건은 누락이 아니라 바꿔 말하기였다. "기록을 남김"이 "처리 완료"로. 값 집합의 차로는 원리적으로 안 보인다. 실패 라벨 대비 AUROC는 0.53으로 약하다.</p></div>
+      <div><div class="k">D4 · 판정기 세 종, airline subagent AUROC</div>
+        <div class="chart"><svg viewBox="0 0 360 150" width="360" height="150" role="img" aria-label="D4 AUROC by judge with 95% CI">
+          <g class="lab"><text x="92" y="26" text-anchor="end">Qwen3-8B</text><text x="92" y="66" text-anchor="end">gpt-oss-20b</text><text x="92" y="106" text-anchor="end">Qwen3-32B</text></g>
+          <line class="grid" x1="100" y1="6" x2="100" y2="126"/><line class="ref" x1="225" y1="6" x2="225" y2="126"/><text class="lab" x="225" y="144" text-anchor="middle">0.5</text><text class="lab" x="350" y="144" text-anchor="middle">1.0</text>
+          <rect x="100" y="12" width="118" height="16" fill="var(--neutral)"><title>Qwen3-8B AUROC 0.473 [0.383, 0.567]</title></rect><line class="ci" x1="196" y1="20" x2="242" y2="20"/><text class="val" x="250" y="25">0.47</text>
+          <rect x="100" y="52" width="137.5" height="16" fill="var(--neutral)"><title>gpt-oss-20b AUROC 0.550 [0.446, 0.658]</title></rect><line class="ci" x1="211.5" y1="60" x2="264.5" y2="60"/><text class="val" x="272" y="65">0.55</text>
+          <rect x="100" y="92" width="123.8" height="16" fill="var(--neutral)"><title>Qwen3-32B AUROC 0.495 [0.392, 0.603]</title></rect><line class="ci" x1="198" y1="100" x2="250.8" y2="100"/><text class="val" x="258" y="105">0.50</text>
+        </svg></div>
+        <p class="quiet">오탐의 정체: "Next step: check LQ940Q" 같은 진행 문장, "reservation is active" 같은 무해한 추정을 근거 없는 주장으로 셌다. D4는 모든 주장의 근거를 묻고 라벨은 실패를 부른 오류만 센다. 판정기 크기가 아니라 검사 정의의 문제.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">labels/d3_loss/labels.json · 60 handoffs · d4_evidence_judge_{qwen8b,gptoss20b,qwen32b}.jsonl</span><span>§4.2.11, §4.2.13</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">15</span><span class="sec">해석</span></div>
+  <div class="head"><p class="eyebrow">4.3 해석</p><h2>탐지기의 성능은 탐지기보다 어느 역할·어느 층에 붙이는가에 달려 있다</h2></div>
+  <div class="body">
+    <div class="tbl"><table>
+      <tr><th></th><th>orchestrator</th><th>subagent</th></tr>
+      <tr><td>D1 결정 분포 (코드, 확률)</td><td>decisive 0.75 · 트레이스 max 0.81</td><td class="quiet">0.54 · decisive 0.36 (우연)</td></tr>
+      <tr><td>D2 행동 근거 (코드, 기록 대조)</td><td>플래그 2건 (recall 0.04) · 위임 조건은 정밀도 0.91</td><td>F1 0.54 · FPR 0.07</td></tr>
+      <tr><td>D3 handoff 정보 손실 (LLM)</td><td colspan="2">보고→orchestrator 경계에서 손실 계측 성립 · 지시→전제는 손실 자체가 없음</td></tr>
+    </table></div>
+    <div class="cols">
+      <div><div class="k">같은 질문, 역할마다 다른 실패의 모양</div><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타난다. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 한다.</p></div>
+      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞선다(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 낫다(자연어 사이의 손실). "판정은 코드가 한다"는 행동 층에서만 성립한다.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">system_report.md · db_agent: 근거 없는 인자 비율 0.20 · report→orchestrator fidelity 0.44</span><span>§4.3</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">16</span><span class="sec">해석</span></div>
+  <div class="head"><p class="eyebrow">4.3 한계</p><h2>무엇을 주장하지 않는가</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><ul>
+        <li><b>한 도메인 30회.</b> 셀당 decisive 양성 8–16건, CI가 넓다. CI가 겹치는 곳에서 모듈 간 순위를 주장하지 않는다.</li>
+        <li><b>라벨러가 사람이 아니다.</b> decisive 일치 6/6이지만 이벤트 집합 Jaccard 0.56. 손실 정답지도 모델이 만들었다.</li>
+        <li><b>보고 층은 아직 잡지 못한다.</b> D4는 세 판정기 모두 우연 수준.</li>
+      </ul></div>
+      <div><ul>
+        <li><b>단일 모델 계열과 로깅 계약.</b> 실행·시뮬레이터·채점이 모두 Qwen3. 출력만 남는 로그에서는 돌지 않는다.</li>
+        <li><b>bf16 잡음 바닥.</b> confidence 약 0.005는 신호가 아니다. 라벨 최적 임계값이 그 수준에 있어 D1은 순위 지표로 쓰고 단독 알람은 두지 않는다.</li>
+        <li><b>순차 위임 그래프만.</b> 병렬 fan-out, 에이전트 간 직접 통신은 다루지 않았다.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">D1 label-optimal threshold: 1 − confidence 0.0074 · FPR 0.65</span><span>§4.3 한계</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">17</span><span class="sec">다음</span></div>
+  <div class="head"><p class="eyebrow">4.3 향후 방향</p><h2>결과가 가리키는 다음 단계</h2></div>
+  <div class="body">
+    <div class="flow">
+      <div class="box"><div class="m">보고 층</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잰다.</p></div>
+      <div class="box"><div class="m">보고 층 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산한다. LLM 없이 추론 오류를 잡을 후보.</p></div>
+      <div class="box"><div class="m">행동 층</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄인다.</p></div>
+      <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out 그래프에서 "역할이 가른다"가 유지되는지. §3.5 파이프라인이 출발점.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">labels: reasoning_stability 56 events already labeled for the next detector</span><span>§4.3</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">18</span><span class="sec">임팩트</span></div>
+  <div class="head"><p class="eyebrow">4.4 기대 효과</p><h2>운영 로그를 사후 검토하는 제품에 그대로 얹힌다</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><ul>
+        <li><b>라벨 없는 순위와 근거 포인터.</b> 첫날부터 스텝 순위가 나오고 검수자는 상위 몇 %만 연다. 순위 → 소량 검수 → 임계값 갱신의 닫힌 루프.</li>
+        <li><b>트레이스가 아니라 시스템을 평가.</b> 역할별·handoff 엣지별 프로파일이 프롬프트 수정, subagent 분리 같은 조치의 대상을 지목한다.</li>
+        <li><b>로깅 계약이 곧 온보딩 체크리스트.</b> 입력 전체, 응답, 도구 인자와 결과, 공유 상태 스냅샷, 에이전트 식별자, 그리고 D1을 위한 logprob 접근.</li>
+      </ul></div>
+      <div><ul>
+        <li><b>라벨 없이 시작.</b> 백분위 임계값으로 출발하고 검수가 쌓이면 그 셀만 라벨 최적으로 옮긴다.</li>
+        <li><b>감사 가능.</b> 결정·행동 층의 판정이 코드라 이의 제기에 근거 포인터로 답하고, 규칙 변경의 영향을 재실행으로 확인한다. LLM 판정은 D3 하나뿐이며 사실 목록으로 추적된다.</li>
+      </ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">audit/report/airline_002.md · 9 flags · each with evidence pointer</span><span>§4.4</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">19</span><span class="sec">부록</span></div>
+  <div class="head"><p class="eyebrow">부록 F · 코드</p><h2>무엇을 AI에게 맡기고 무엇을 사람이 결정했는가</h2></div>
+  <div class="body">
+    <div class="tbl"><table>
+      <tr><th>단계</th><th>AI (Claude Code)</th><th>사람</th></tr>
+      <tr><td>설계</td><td>인터뷰로 스펙과 계획 v2.4 작성, 두 검토 에이전트의 합의본</td><td>연구 질문, 네 층의 틀, 평가 조건, 계획 승인</td></tr>
+      <tr><td>구현·실행</td><td>하네스, 캡처, D1–D4, 평가·게이트 스크립트, 60회 실행과 채점</td><td>게이트 확인, 모듈 정의의 채택·기각, 자원 배정</td></tr>
+      <tr><td>라벨링</td><td>서브에이전트 6개 블라인드 라벨, 독립 스팟체크, 손실 정답지</td><td>라벨 규약 승인, 반복 규약 확정</td></tr>
+      <tr><td>해석·문서</td><td>지표, 표, 원인 진단, 초안, 수치 대조, 출처 확인</td><td>AIME 부록화, D2 정의, D4 재실행, 이름과 구조, 문제 정의와 요약 직접 수정</td></tr>
+    </table></div>
+    <div class="cols">
+      <div><div class="k">기록</div><p>커밋 151건, 시간순 작업 로그, 계획 이탈 결정 21건(부록 A), 문서 게이트 <code>check_docs.py</code>.</p></div>
+      <div><div class="k">코드와 문서</div><p class="mono">github.com/kangmc1/project-agent<br>docs/proposal.md · README.md · eval/metrics.md</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">git log --oneline | wc -l → 151</span><span>부록 F</span></div>
+</section>
+
+</div>
+<div class="prog" id="prog"></div>
+<div class="nav" id="nav"><b id="cur">01</b> / <span id="tot">19</span></div>
+
+<script>
+(function () {
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var cur = document.getElementById('cur'), prog = document.getElementById('prog');
+  document.getElementById('tot').textContent = String(slides.length).padStart(2, '0');
+  var idx = 0;
+  function go(i) {
+    idx = Math.max(0, Math.min(slides.length - 1, i));
+    slides[idx].scrollIntoView({ behavior: 'auto', block: 'start' });
+    update();
+  }
+  function update() {
+    cur.textContent = String(idx + 1).padStart(2, '0');
+    prog.style.width = ((idx + 1) / slides.length * 100) + '%';
+  }
+  function current() {
+    var best = 0, bd = Infinity;
+    slides.forEach(function (s, i) { var d = Math.abs(s.getBoundingClientRect().top); if (d < bd) { bd = d; best = i; } });
+    return best;
+  }
+  window.addEventListener('scroll', function () { idx = current(); update(); }, { passive: true });
+  document.addEventListener('keydown', function (e) {
+    if (e.target && /input|textarea/i.test(e.target.tagName)) return;
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') { e.preventDefault(); go(current() + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(current() - 1); }
+    else if (e.key === 'Home') { go(0); } else if (e.key === 'End') { go(slides.length - 1); }
+    else if (e.key === 'o' || e.key === 'O') { document.body.classList.toggle('overview'); }
+  });
+  slides.forEach(function (s, i) { s.addEventListener('click', function () { if (document.body.classList.contains('overview')) { document.body.classList.remove('overview'); go(i); } }); });
+  update();
+})();
+</script>

@@ -12,6 +12,7 @@ orchestrator의 결정 불안정성(D1)은 실패를 예측한다(decisive step 
 보고 근거(D4)는 판정기 세 종 모두 우연 수준이었다. 탐지기의 성능은 탐지기 자체보다 어느 역할·어느 층에 붙이는가에 따라 갈린다.
 
 - 제안서 (한국어, 주 제출물): [`docs/proposal.md`](docs/proposal.md)
+- 발표 슬라이드 (HTML, 19장): [`docs/slides.html`](docs/slides.html)
 - 계획 / ADR: `.omc/plans/agent-failure-detection-plan.md` (로컬, 미커밋) · 타임라인: [`docs/notes/timeline.md`](docs/notes/timeline.md)
 - AI 도구 활용(무엇을 AI에게 맡기고 무엇을 사람이 결정했는지): 제안서 부록 F
 
