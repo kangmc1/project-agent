@@ -7,7 +7,7 @@ LangChain Deep Agents 위에서 로컬 Qwen3-32B로 실제 실행한 τ-bench ai
 그 산출물인 완전 관측 트레이스 30건, 스텝 라벨 이벤트 215건, handoff 손실 정답지 60건은 과제의 네 실패 유형을 모두 라벨한
 평가 데이터셋이자 생성 파이프라인으로 함께 제출한다(제안서 §3.5). 같은 하네스로 실행한 AIME 2026 30회는 제안서 부록 C에 있다.
 결론은 세 문장이다. orchestrator의 결정 불안정성(D1)은 실패를 예측한다(decisive step AUROC 0.75).
-subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근거성 검사(D2, F1 0.54)가 맡는다.
+subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근거 검사(D2, F1 0.54)가 맡는다.
 탐지기의 성능은 탐지기 자체보다 어느 역할·어느 층에 붙이는가에 따라 갈린다.
 
 - 제안서 (한국어, 주 제출물): [`docs/proposal.md`](docs/proposal.md)
@@ -51,9 +51,9 @@ deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따�
 | 모듈 | 층 | 대조 상대 | 판정 주체 | 한 문장 | 코드 | 출력 |
 |---|---|---|---|---|---|---|
 | **D1** 결정 분포 | 결정 | 실행기 자신의 후보 행동(도구 이름 ∪ `no_tool`) 확률 분포, 같은 가중치로 재채점 | 코드 (LLM 없음) | 결정이 얼마나 흔들렸는가 — `1−p_actual`, `1−confidence`(정규화 엔트로피), `1−margin`, 그리고 handoff 층(위임 여부) | `d1_decision.py` | `audit/d1.jsonl` |
-| **D2** 행동 근거성 | 행동 (도구 호출) | 기록: orchestrator의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 행동은 기록이 요구하고 허용한 것인가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
+| **D2** 행동 근거 | 행동 (도구 호출) | 기록: orchestrator의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 행동은 기록이 요구하고 허용한 것인가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
 | **D3** handoff 정보 손실 | handoff 경계 텍스트 | 경계 반대편의 텍스트 | LLM 판정기 (gpt-oss-20b)가 두 텍스트를 비교 | 넘기는 과정에서 무엇이 빠지거나 바뀌었는가 — 지시→전제, 보고→orchestrator의 원자 사실 fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
-| **D4** 보고 근거성 | 보고 | 근거 (도구 결과 + 지시문) | LLM 판정 (Qwen3-8B / gpt-oss-20b / Qwen3-32B 비교) | 보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가 — 주장별 supported / derived / unsupported / contradicted. 세 판정기 모두 우연 수준(airline AUROC 0.47 / 0.55 / 0.50)이라 미채택 | `d4_evidence_judge.py` | `audit/d4_evidence_judge_<judge>.jsonl` |
+| **D4** 보고 근거 | 보고 | 근거 (도구 결과 + 지시문) | LLM 판정 (Qwen3-8B / gpt-oss-20b / Qwen3-32B 비교) | 보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가 — 주장별 supported / derived / unsupported / contradicted. 세 판정기 모두 우연 수준(airline AUROC 0.47 / 0.55 / 0.50)이라 미채택 | `d4_evidence_judge.py` | `audit/d4_evidence_judge_<judge>.jsonl` |
 
 D2와 D4는 같은 기록을 각각 **행동**과 **보고**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 보고는 자연어라
 LLM이 필요하다. D3은 자연어 텍스트 둘을 비교하는데, 60개 handoff 정보 손실 정답지에서 LLM 비교가 8B 사실 추출 + 집합 차보다
@@ -110,11 +110,11 @@ python scripts/check_docs.py --proposal --skeleton --adr
 |---|---|---|---|---|---|
 | D1 결정 분포 | 결정 | orchestrator | AUROC 0.63 [0.54, 0.71] / decisive **0.75** [0.61, 0.86] (1 − p_actual) | 좌동 | 작동 |
 | D1 결정 분포 | 결정 | subagent | AUROC 0.54 / 0.36 | 좌동 | 신호 없음 |
-| D2 행동 근거성 | 행동 | subagent | **F1 0.54** (정밀도 0.62, 재현율 0.48, FPR 0.07) | 0.70 [0.63, 0.78] / 0.59 | 작동 (부분) |
-| D2 행동 근거성 | 행동 | orchestrator (위임) | F1 0.35 (정밀도 **0.91**, 재현율 0.22, FPR 0.007); decisive 6/16 | 0.60 / 0.69 | 작동 (고정밀·저재현) |
+| D2 행동 근거 | 행동 | subagent | **F1 0.54** (정밀도 0.62, 재현율 0.48, FPR 0.07) | 0.70 [0.63, 0.78] / 0.59 | 작동 (부분) |
+| D2 행동 근거 | 행동 | orchestrator (위임) | F1 0.35 (정밀도 **0.91**, 재현율 0.22, FPR 0.007); decisive 6/16 | 0.60 / 0.69 | 작동 (고정밀·저재현) |
 | D3 handoff 정보 손실, 보고→orchestrator | 경계 | orchestrator | 손실 정답지 대비 순위 상관 0.71, 실질 손실 AUROC 0.74 (n = 30) | 실패 라벨 대비 0.53 / 0.59 (참고) | 계측 성립. 실패 예측은 약함 |
 | D3 handoff 정보 손실, 지시→전제 | 경계 | orchestrator | 정답 fidelity 0.97, 손실 거의 없음 (n = 30) | 0.55 / 0.62 (참고) | 손실 없는 경계로 확인 |
-| D4 보고 근거성 | 보고 | subagent | 판정기 3종 AUROC 0.47 / 0.55 / 0.50, CI 모두 0.5 포함 | 좌동 | 신호 없음. 미채택 |
+| D4 보고 근거 | 보고 | subagent | 판정기 3종 AUROC 0.47 / 0.55 / 0.50, CI 모두 0.5 포함 | 좌동 | 신호 없음. 미채택 |
 
 ## 한계
 

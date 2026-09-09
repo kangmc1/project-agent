@@ -138,7 +138,7 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
     # D4 evidence-dependence judge, one item per judge model: audit/d4_evidence_judge_<judge>.jsonl (subagent response steps)
     for f in sorted(_glob.glob(str(audit / "d4_evidence_judge_*.jsonl"))):
         tag = re.search(r"d4_evidence_judge_(.+)\.jsonl$", f).group(1)
-        d4 = add(f"D4_{tag}", roles=("subagent",), note=f"D4 보고 근거성 ({tag}): (unsupported + contradicted) / claims")
+        d4 = add(f"D4_{tag}", roles=("subagent",), note=f"D4 보고 근거 ({tag}): (unsupported + contradicted) / claims")
         for r in read_jsonl(Path(f)):
             v = _num(r.get("score"))
             if v is not None:
