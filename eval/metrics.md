@@ -1,6 +1,6 @@
 # Detection metrics
 
-- generated: 2026-09-09 10:35:40 KST
+- generated: 2026-09-09 10:36:22 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
@@ -52,9 +52,9 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | D2 | all | airline | 826/826 | 94 | 338 | 0.612 [0.569, 0.662] | 24 | 0.521 [0.475, 0.586] |
 | D2 | all | aime | 382/382 | 78 | 92 | 0.676 [0.619, 0.732] | 23 | 0.592 [0.511, 0.685] |
 | D2 | all | all | 1208/1208 | 172 | 430 | 0.640 [0.605, 0.673] | 47 | 0.555 [0.505, 0.607] |
-| D3 | planner | airline | 170/391 | 33 | 67 | 0.599 [0.523, 0.675] | 13 | 0.708 [0.563, 0.847] |
+| D3 | planner | airline | 170/391 | 33 | 67 | 0.614 [0.538, 0.690] | 13 | 0.723 [0.577, 0.862] |
 | D3 | planner | aime | 70/123 | 3 | 42 | 0.500 [0.500, 0.500] | 0 | n/a |
-| D3 | planner | all | 240/514 | 36 | 109 | 0.597 [0.532, 0.667] | 13 | 0.717 [0.579, 0.848] |
+| D3 | planner | all | 240/514 | 36 | 109 | 0.607 [0.542, 0.676] | 13 | 0.726 [0.602, 0.866] |
 | D3fid_instruction->premise | planner | airline | 105/391 | 21 | 44 | 0.401 [0.254, 0.554] | 7 | 0.349 [0.125, 0.609] |
 | D3fid_instruction->premise | planner | aime | 66/123 | 3 | 39 | 0.513 [0.128, 0.821] | 0 | n/a |
 | D3fid_instruction->premise | planner | all | 171/514 | 24 | 83 | 0.388 [0.260, 0.517] | 7 | 0.335 [0.114, 0.608] |
@@ -194,9 +194,9 @@ Same population as §1 (labeled runs, cascade excluded). A step is flagged when 
 | D2 | all | airline | 94 | 338 | 25 | 14 | 0.641 | 0.266 | 0.376 | 0.041 | 2/24 |
 | D2 | all | aime | 78 | 92 | 30 | 3 | 0.909 | 0.385 | 0.541 | 0.033 | 5/23 |
 | D2 | all | all | 172 | 430 | 55 | 17 | 0.764 | 0.320 | 0.451 | 0.040 | 7/47 |
-| D3 | planner | airline | 33 | 67 | 8 | 3 | 0.727 | 0.242 | 0.364 | 0.045 | 6/13 |
+| D3 | planner | airline | 33 | 67 | 8 | 1 | 0.889 | 0.242 | 0.381 | 0.015 | 6/13 |
 | D3 | planner | aime | 3 | 42 | 0 | 0 | n/a | 0.000 | n/a | 0.000 | n/a |
-| D3 | planner | all | 36 | 109 | 8 | 3 | 0.727 | 0.222 | 0.340 | 0.028 | 6/13 |
+| D3 | planner | all | 36 | 109 | 8 | 1 | 0.889 | 0.222 | 0.356 | 0.009 | 6/13 |
 | LLM_D2 | planner | airline | 44 | 148 | 3 | 10 | 0.231 | 0.068 | 0.105 | 0.068 | 0/16 |
 | LLM_D2 | planner | all | 44 | 148 | 3 | 10 | 0.231 | 0.068 | 0.105 | 0.068 | 0/16 |
 | LLM_D2 | subagent | airline | 37 | 190 | 17 | 26 | 0.395 | 0.459 | 0.425 | 0.137 | 3/8 |
@@ -512,9 +512,9 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | D2 | all | airline | 1 | 0.041 | 0.266 | 94 | 17/24 | 2.0 |
 | D2 | all | aime | 1 | 0.033 | 0.385 | 78 | 9/23 | 0.0 |
 | D2 | all | all | 1 | 0.040 | 0.320 | 172 | 26/47 | 2.0 |
-| D3 | planner | airline | 1 | 0.045 | 0.242 | 33 | 9/24 | 0.0 |
+| D3 | planner | airline | 1 | 0.015 | 0.242 | 33 | 9/24 | 0.0 |
 | D3 | planner | aime | 1e-09 | 0.000 | 0.000 | 3 | 0/23 | n/a |
-| D3 | planner | all | 1 | 0.028 | 0.222 | 36 | 9/47 | 0.0 |
+| D3 | planner | all | 1 | 0.009 | 0.222 | 36 | 9/47 | 0.0 |
 | D3fid_instruction->premise | planner | airline | 0.8 | 0.091 | 0.190 | 21 | 1/24 | 0.0 |
 | D3fid_instruction->premise | planner | aime | 0.8889 | 0.077 | 0.000 | 3 | 2/23 | 4.5 |
 | D3fid_instruction->premise | planner | all | 0.8667 | 0.072 | 0.083 | 24 | 3/47 | 3.0 |

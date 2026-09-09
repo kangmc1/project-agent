@@ -30,7 +30,7 @@ FLIGHT_SEARCH_ONLY = re.compile(r"\b(search|find|look for)\b[^.]{0,60}\b(flights
 FAILURE = re.compile(r"\b(not found|could not be found|no (?:such|matching|available) (?:reservation|user|function|tool|flight)s?|unable to|cannot|can't|could not|none of the (?:available )?(?:functions|tools)|does not exist|failed|no results?)\b", re.I)
 USER_ID_LOOSE = re.compile(r"\b[a-z]+_[a-z]+(?:_\d{2,5})?\b")
 # any code the planner explicitly labels as a reservation/booking/confirmation id (customers sometimes give non-6-char codes)
-LABELED_CODE = re.compile(r"\b(?:reservation|booking|confirmation)\s*(?:id|code|number|#)?\s*[:#]?\s*['\"]?([A-Z0-9]{4,12})\b", re.I)
+LABELED_CODE = re.compile(r"(?i:reservation|booking|confirmation)\s*(?i:id|code|number|#)?\s*[:#]?\s*['\"]?([A-Z0-9]{4,12})\b")  # code must be UPPERCASE/digits
 
 
 def _norm(s: str) -> str:
@@ -40,8 +40,11 @@ def _norm(s: str) -> str:
 def _has_identifier(instr: str) -> bool:
     if RESERVATION_ID.search(instr or "") or USER_ID.search(instr or "") or USER_ID_LOOSE.search(instr or ""):
         return True
-    m = LABELED_CODE.search(instr or "")
-    return bool(m and any(ch.isdigit() for ch in m.group(1)))
+    for m in LABELED_CODE.finditer(instr or ""):
+        code = m.group(1)
+        if code.upper() == code and not code.isalpha() or (code.isalpha() and code.isupper() and len(code) >= 5):
+            return True
+    return False
 
 
 def missing_identifier(wrapper: str, instr: str) -> bool:
