@@ -1,6 +1,6 @@
 # Detection metrics
 
-- generated: 2026-09-09 11:13:13 KST
+- generated: 2026-09-09 11:31:25 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise

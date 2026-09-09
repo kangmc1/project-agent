@@ -3,9 +3,9 @@
 D2 = ACTION GROUNDING: is this action (tool call) one the record required and allowed? For every non-aux step the module
 returns 1 if ANY of the following holds, else 0 (user's definition, 2026-09-09 07:55):
   (1) missing_tool      : the subagent ended its handoff without calling a tool family the planner's instruction required
-                          (d2_instruction.jsonl, scored at the report step)
+                          (d2_required_calls.jsonl, scored at the report step)
   (2) fabricated_arg    : a tool call at this step carries an identifier-like argument value the agent was never given
-                          (d2_args.jsonl)
+                          (d2_argument_grounding.jsonl)
   (3') tool_call_failed : a tool call at this step returned an error, EXCLUDING file tools (a first read_file of the
                           not-yet-created case-notes file fails by design) and wrapper rows (subagent-level errors are
                           judged inside the subagent's own steps). Mostly the symptom of (2): a call made with values the
@@ -43,12 +43,12 @@ def main() -> None:
             steps[(run.name, s["step_id"])] = {"run_id": run.name, "domain": meta.get("domain", run.name.split("_")[0]),
                                                 "step_id": s["step_id"], "agent": s["agent"],
                                                 "missing_tool": False, "fabricated_arg": False, "tool_error": False, "tool_call_failed": False, "missing_identifier": False, "reissued_after_failure": False, "evidence": [], "tool_error_evidence": []}
-    for r in _rows("d2_instruction.jsonl"):
+    for r in _rows("d2_required_calls.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("applicable") and r.get("satisfied") is False:
             steps[k]["missing_tool"] = True
             steps[k]["evidence"].append("required but never called: " + ", ".join("/".join(m["tools"]) for m in r["missing"]))
-    for r in _rows("d2_args.jsonl"):
+    for r in _rows("d2_argument_grounding.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("n_ungrounded", 0) > 0:
             steps[k]["fabricated_arg"] = True
@@ -59,7 +59,7 @@ def main() -> None:
             steps[k]["missing_identifier"] = bool(r.get("missing_identifier"))
             steps[k]["reissued_after_failure"] = bool(r.get("reissued_after_failure"))
             steps[k]["evidence"] += list(r.get("evidence") or [])
-    for r in _rows("d2_toolcalls.jsonl"):
+    for r in _rows("d2_tool_log.jsonl"):
         k = (r["run_id"], r["step_id"])
         if k in steps and r.get("kind") == "tool_call" and (r.get("checks") or {}).get("error"):
             steps[k]["tool_error"] = True  # descriptive: any error

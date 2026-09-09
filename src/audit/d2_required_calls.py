@@ -9,7 +9,7 @@ structurally "report and return" (260/260 followed by a planner step), so the qu
 but whether the requested work was done before ending. D2 rule 1 judges the utterance ("numbers need tool evidence");
 this rule judges the instruction.
 
-Output: audit/d2_instruction.jsonl   Usage: python -m src.audit.d2_instruction [--runs runs]
+Output: audit/d2_required_calls.jsonl   Usage: python -m src.audit.d2_required_calls [--runs runs]
 """
 from __future__ import annotations
 
@@ -129,7 +129,7 @@ def main() -> None:
     for run in sorted(Path(a.runs).glob("*/")):
         if (run / "steps.jsonl").exists():
             rows += audit_run(run)
-    with (AUDIT / "d2_instruction.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d2_required_calls.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     n_app = sum(r["applicable"] for r in rows)

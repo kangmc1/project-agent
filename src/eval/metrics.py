@@ -148,7 +148,7 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
 
 def load_d3_tool_flags(root: str | Path = ".") -> dict[tuple[str, int], dict[str, bool]]:
     flags: dict[tuple[str, int], dict[str, bool]] = {}
-    for r in read_jsonl(Path(root) / "audit" / "d2_toolcalls.jsonl"):
+    for r in read_jsonl(Path(root) / "audit" / "d2_tool_log.jsonl"):
         if r.get("kind") != "tool_call":
             continue
         k = (r["run_id"], int(r["step_id"]))

@@ -20,16 +20,16 @@ src/data/ aime.py tau.py tau_user.py # AIME 2026 loader, tau-bench airline env, 
 src/harness/ deepagents_compat.py model.py capture.py tools.py airline.py aime.py validate.py # graphs + full-observability capture
 src/run.py # run one task or a batch
 src/audit/ render.py d1.py # D1 decision-distribution scoring (scoring server)
- d2_rules.py d2_toolcalls.py d2_instruction.py d2_args.py d2_delegation.py d2_action.py # D2 action grounding (code only; subagent + planner conditions)
+ d2_rules.py d2_tool_log.py d2_required_calls.py d2_argument_grounding.py d2_delegation.py d2_action.py # D2 action grounding (code only; subagent + planner conditions)
  d3_handoff.py llm_only.py # D3 handoff information loss (LLM direct comparison, gpt-oss-20b); LLM-only comparators
  comparators/d3_factset.py extract.py # retired D3 route (Qwen3-8B fact extraction + set diff), kept as a comparator
  report.py system_report.py # per-trace reports, system-level aggregate
  judge.py # optional LLM-judge baseline (not part of the results)
- unused/d4_judge.py # D4 evidence-dependence judge — DESIGN ONLY, not used in results
+ unused/d4_evidence_judge.py # D4 evidence-dependence judge — DESIGN ONLY, not used in results
 src/eval/ index.py summarize.py labels.py metrics.py thresholds.py recovery.py
 data/ tau_task_ids.json aime_ids.json # fixed task samples (batch 1 = first 15 of each domain)
 runs/ index.csv, <run_id>/summary.md # raw traces are NOT committed (see.gitignore)
-audit/ d1.jsonl d1_check.json d2_toolcalls.jsonl d2_instruction.jsonl d2_args.jsonl d2_action.jsonl
+audit/ d1.jsonl d1_check.json d2_tool_log.jsonl d2_required_calls.jsonl d2_argument_grounding.jsonl d2_action.jsonl
  d3_handoff.jsonl d3_handoff_stats.json report/<run_id>.{json,md} system_report.{md,json}
 audit/_removed/ outputs of retired modules (utterance-grounding check, equation-consistency module, D4 8B pilot) — history only
 labels/ RUBRIC.md LABELER_PROMPT.md index.csv <run_id>.json # Claude-annotated step labels (evaluation only)
@@ -60,10 +60,10 @@ decomposition is largely formal there (proposal §4.2.12).
 
 | module | layer | compared against | judged by | one sentence | code | output |
 |---|---|---|---|---|---|---|
-| **D1** decision distribution | decision | the executor's own probability distribution over candidate actions (tool names ∪ `no_tool`), re-scored with the same weights | code (no LLM) | how much did the decision waver — `1−p_actual`, `1−confidence` (normalized entropy), `1−margin`, plus a handoff layer (delegate vs not) | `d1.py` | `audit/d1.jsonl` |
-| **D2** action grounding | action (tool call) | the record: the planner's instruction and the values the agent was given | code (no LLM) | is this action one the record required and allowed — flag = (1) a tool family the instruction required was never called ∪ (2) an identifier-like argument value was never given to the agent ∪ (3′) the call returned an error (file tools and wrapper rows excluded) | `d2_instruction.py` `d2_args.py` `d2_toolcalls.py` → `d2_action.py` | `audit/d2_action.jsonl` |
+| **D1** decision distribution | decision | the executor's own probability distribution over candidate actions (tool names ∪ `no_tool`), re-scored with the same weights | code (no LLM) | how much did the decision waver — `1−p_actual`, `1−confidence` (normalized entropy), `1−margin`, plus a handoff layer (delegate vs not) | `d1_decision.py` | `audit/d1.jsonl` |
+| **D2** action grounding | action (tool call) | the record: the planner's instruction and the values the agent was given | code (no LLM) | is this action one the record required and allowed — flag = (1) a tool family the instruction required was never called ∪ (2) an identifier-like argument value was never given to the agent ∪ (3′) the call returned an error (file tools and wrapper rows excluded) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
 | **D3** handoff information loss | handoff boundary text | the text on the other side of the boundary | LLM judge (gpt-oss-20b) comparing the two texts | what got lost or altered while handing over — instruction→premise and report→planner atomic-fact fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
-| **D4** evidence dependence — *design only* | utterance | the evidence (tool results + instruction) | external LLM as judge | how much does what was said depend on the evidence — per-claim supported / derived / unsupported / contradicted; an 8B pilot was not adopted (airline AUROC 0.47, flagged-step precision 17%) | `unused/d4_judge.py` | none |
+| **D4** evidence dependence — *design only* | utterance | the evidence (tool results + instruction) | external LLM as judge | how much does what was said depend on the evidence — per-claim supported / derived / unsupported / contradicted; an 8B pilot was not adopted (airline AUROC 0.47, flagged-step precision 17%) | `unused/d4_evidence_judge.py` | none |
 
 D2 and D4 compare the same record against **actions** and **utterances** respectively; actions are structured JSON and
 can be checked by code, utterances are natural language and need an LLM. D3 compares two natural-language texts, and on a
@@ -96,8 +96,8 @@ python -m src.data.tau --write && python -m src.data.aime --write
 python -m src.run --domain airline --task 0 && python -m src.harness.validate runs/airline_000 # smoke
 python -m src.run --batch 1 --parallel 4 --resume # then --batch 2
 # 3. audit
-python -m src.audit.d1 --check && python -m src.audit.d1 --all --method stepwise # D1 (scoring server)
-python -m src.audit.d2_toolcalls && python -m src.audit.d2_instruction && python -m src.audit.d2_args && python -m src.audit.d2_delegation && python -m src.audit.d2_action # D2
+python -m src.audit.d1_decision --check && python -m src.audit.d1_decision --all --method stepwise # D1 (scoring server)
+python -m src.audit.d2_tool_log && python -m src.audit.d2_required_calls && python -m src.audit.d2_argument_grounding && python -m src.audit.d2_delegation && python -m src.audit.d2_action # D2
 python -m src.audit.d3_handoff --stats # D3 (gpt-oss-20b judge)
 python -m src.audit.comparators.d3_factset --stats; python -m src.audit.llm_only all # comparators (optional)
 python -m src.audit.report && python -m src.audit.system_report

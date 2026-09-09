@@ -6,7 +6,7 @@ call too, so D2's question "is this action one the record required and allowed?"
   (b) reissued_after_failure : the previous report of the same wrapper stated failure / impossibility and the new delegation is
                                nearly identical (normalized similarity >= 0.8, no new identifier) — the record (that report) does
                                not allow repeating the call. Fires mostly after the decisive step (a loop symptom).
-Fabricated values inside the delegation text are already covered by D2 condition (2) (d2_args.py). Output: audit/d2_delegation.jsonl
+Fabricated values inside the delegation text are already covered by D2 condition (2) (d2_argument_grounding.py). Output: audit/d2_delegation.jsonl
 Usage: python -m src.audit.d2_delegation [--runs runs]
 """
 from __future__ import annotations

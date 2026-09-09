@@ -3,7 +3,7 @@
 For every assistant utterance: which tool evidence do its claims require (d2_rules), and was such a tool called
 with a result BEFORE the utterance (value must appear in the result when the claim carries a value)?
 Plus five tool-log checks per tool call: error, empty, repeat, schema violation, ignored error.
-Output: audit/d2_toolcalls.jsonl (one row per step or tool call).   Usage: python -m src.audit.d2_toolcalls [--runs runs]
+Output: audit/d2_tool_log.jsonl (one row per step or tool call).   Usage: python -m src.audit.d2_tool_log [--runs runs]
 """
 from __future__ import annotations
 
@@ -118,7 +118,7 @@ def main() -> None:
     ap.add_argument("--runs", default="runs")
     a = ap.parse_args()
     AUDIT.mkdir(exist_ok=True)
-    out = AUDIT / "d2_toolcalls.jsonl"
+    out = AUDIT / "d2_tool_log.jsonl"
     n = 0
     agg = Counter()
     with out.open("w", encoding="utf-8") as f:

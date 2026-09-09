@@ -18,7 +18,7 @@ WRAPPERS = {"policy_checker", "db_agent", "solver", "verifier"}
 
 
 def build(percentile: int = 10) -> dict:
-    d1, d3, d7, d3a = (_load(f) for f in ("d1.jsonl", "d2_toolcalls.jsonl", "d3_handoff.jsonl", "d2_args.jsonl"))
+    d1, d3, d7, d3a = (_load(f) for f in ("d1.jsonl", "d2_tool_log.jsonl", "d3_handoff.jsonl", "d2_argument_grounding.jsonl"))
     q = 1 - percentile / 100
     index = {}
     if Path("runs/index.csv").exists():

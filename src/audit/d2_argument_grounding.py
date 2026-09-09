@@ -10,7 +10,7 @@ extraction is needed. Score = fraction of identifier-like argument values that a
 Checked value kinds (tau-bench conventions + AIME): reservation ids, user ids, flight numbers, ISO dates, money, IATA codes
 under origin/destination keys, person names under *name* keys, and the final integer of submit_answer (must appear in a
 prior run_python result). Skipped tools: run_python / file tools / think (code and prose, not claims).
-Output: audit/d2_args.jsonl   Usage: python -m src.audit.d2_args [--runs runs]
+Output: audit/d2_argument_grounding.jsonl   Usage: python -m src.audit.d2_argument_grounding [--runs runs]
 """
 from __future__ import annotations
 
@@ -172,7 +172,7 @@ def main() -> None:
     for run in sorted(Path(a.runs).glob("*/")):
         if (run / "steps.jsonl").exists() and (run / "tool_calls.sqlite").exists():
             rows += audit_run(run)
-    with (AUDIT / "d2_args.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d2_argument_grounding.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     print(f"D2-args: steps {len(rows)}, values {sum(r['n_values'] for r in rows)}, "

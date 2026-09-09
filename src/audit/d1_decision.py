@@ -11,8 +11,8 @@ Definition (method 2): log P(a | prefix) by swapping only the action tokens '<to
 (raw pre-mask logprob), which keeps prefix caching alive.  P4(ii) verifies distribution-level agreement.
 
 Outputs: audit/d1.jsonl (+ optional --out), audit/d1_unscored.json, audit/d1_check.json
-Usage:  python -m src.audit.d1 --check [--runs runs]
-        python -m src.audit.d1 --all [--method stepwise|m2] [--planner-only] [--batch N] [--out audit/d1.jsonl] [--cut 2026-09-09T13:00]
+Usage:  python -m src.audit.d1_decision --check [--runs runs]
+        python -m src.audit.d1_decision --all [--method stepwise|m2] [--planner-only] [--batch N] [--out audit/d1.jsonl] [--cut 2026-09-09T13:00]
 """
 from __future__ import annotations
 

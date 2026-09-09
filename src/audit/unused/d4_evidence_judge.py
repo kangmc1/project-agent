@@ -9,7 +9,7 @@ in a fixed JSON schema:
   contradicted : conflicts with the evidence
 The LLM acts as a judge here (a deliberate departure from "LLM extracts, code judges", recorded in the proposal); it never
 sees labels or ground truth. Step score = (unsupported + contradicted) / claims; derived ratio reported alongside.
-Output: audit/d4_judge.jsonl   Usage: python -m src.audit.d4_judge [--runs runs] [--labeled-only]
+Output: audit/d4_evidence_judge.jsonl   Usage: python -m src.audit.d4_evidence_judge [--runs runs] [--labeled-only]
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ import glob
 import json
 from pathlib import Path
 
-from ..d2_args import _load_run
+from ..d2_argument_grounding import _load_run
 from ..extract import extract_json, map_parallel
 
 AUX = {"user_sim", "summarizer", "planner"}
@@ -95,7 +95,7 @@ def main() -> None:
     print(f"D4-judge: {len(targets)} subagent response steps with tool evidence")
     rows = list(map_parallel(score, targets))
     AUDIT.mkdir(exist_ok=True)
-    with (AUDIT / "d4_judge.jsonl").open("w", encoding="utf-8") as f:
+    with (AUDIT / "d4_evidence_judge.jsonl").open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     sc = [r["score"] for r in rows if r["score"] is not None]
