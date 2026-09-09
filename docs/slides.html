@@ -98,6 +98,10 @@
   .chart .ntext { fill: var(--ink); font-size: 13px; font-weight: 600; }
   .chart .ntext.mono { font-family: var(--mono); font-weight: 500; }
   .chart .sub { fill: var(--ink-2); font-size: 11.5px; }
+  .chart .det { fill: none; stroke: var(--accent); stroke-dasharray: 5 3; }
+  .chart .dtext { fill: var(--accent); font-size: 13px; font-weight: 600; }
+  .chart .edge.det { stroke: var(--accent); }
+  h3 .kp { text-transform: none; letter-spacing: 0.04em; }
   .legend { display: flex; flex-wrap: wrap; gap: 1.2rem; font-size: 0.82rem; color: var(--ink-2); }
   .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 0.4rem; vertical-align: -1px; }
 
@@ -141,32 +145,45 @@
   <div class="rail"><span class="num mono">02</span><span class="sec">1 배경</span></div>
   <div class="head"><p class="eyebrow"><b>1 배경</b></p><h2>실행 기록만으로 오류의 위치와 유형을 찾을 수 있는가</h2></div>
   <div class="body">
-    <div><h3><span class="ss"><span class="n">1.1</span>연구 세부 주제</span>배경과 이 설정에서 묻는 것</h3>
+    <div><h3><span class="ss"><span class="n">1.1</span>연구 세부 주제</span>배경과 세 가지 분석</h3>
     <div class="cols wide-left">
       <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생깁니다. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐이고 정답도 사람 라벨도 없습니다. 대상은 orchestrator가 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템이며, 탐지는 실행이 끝난 뒤 저장된 기록 위에서 수행합니다.</p>
       <ul class="q">
-        <li><span class="tag">D1</span> orchestrator가 다음에 누구를 부를지 고를 때의 불확실성을 정답 없이 수치화할 수 있는가</li>
-        <li><span class="tag">D2</span> subagent의 도구 호출이 지시와 기록에 주어진 값에 근거한 것인지를 기록만으로 판정할 수 있는가</li>
-        <li><span class="tag">D3</span> handoff에서 생기는 정보 손실이나 왜곡을 탐지하고 수치화할 수 있는가</li></ul>
+        <li><span class="tag">D1</span> orchestrator가 다음에 누구를 부를지 고를 때의 불확실성을 실행 모델 자신의 확률로 수치화</li>
+        <li><span class="tag">D2</span> subagent의 도구 호출 인자가 지시문과 기록에 주어진 값에 근거하는지를 코드로 판정</li>
+        <li><span class="tag">D3</span> handoff에서 빠지거나 바뀐 사실을 경계 양쪽 텍스트 비교로 탐지하고 손실을 수치화</li></ul>
     </div></div>
-    <div><h3><span class="ss"><span class="n">1.2</span>문제 정의</span>한 스텝의 세 자리와 스텝 사이의 경계에서 네 문제를 정의</h3>
-    <div class="chart"><svg viewBox="0 0 1100 170" width="1100" height="170" role="img" aria-label="스텝 구조: 결정, 행동, 보고, 그리고 스텝 사이의 handoff 경계">
-      <text class="sub" x="20" y="18">orchestrator 스텝</text>
-      <rect class="node hi" x="20" y="28" width="150" height="54" rx="4"/><text class="ntext" x="95" y="51" text-anchor="middle">결정</text><text class="sub" x="95" y="70" text-anchor="middle">누구를 부를지 · D1</text>
-      <path class="edge" d="M172 55 L198 55" marker-end="url(#a)"/>
-      <rect class="node" x="200" y="28" width="150" height="54" rx="4"/><text class="ntext" x="275" y="51" text-anchor="middle">행동</text><text class="sub" x="275" y="70" text-anchor="middle">subagent 위임 · D2</text>
-      <path class="edge" d="M352 55 L378 55"/>
-      <rect class="node" x="380" y="28" width="150" height="54" rx="4"/><text class="ntext" x="455" y="51" text-anchor="middle">보고</text><text class="sub" x="455" y="70" text-anchor="middle">고객에게 답함</text>
-      <rect class="node" x="560" y="16" width="120" height="78" rx="4" style="stroke-dasharray:4 4"/><text class="ntext" x="620" y="48" text-anchor="middle">handoff 경계</text><text class="sub" x="620" y="66" text-anchor="middle">지시 → 전제</text><text class="sub" x="620" y="82" text-anchor="middle">보고 → 다음 행동 · D3</text>
-      <path class="edge" d="M352 55 C 480 130, 540 130, 560 70"/><path class="edge" d="M680 55 L710 55"/>
-      <text class="sub" x="712" y="18">subagent 스텝</text>
-      <rect class="node" x="712" y="28" width="120" height="54" rx="4"/><text class="ntext" x="772" y="51" text-anchor="middle">결정</text><text class="sub" x="772" y="70" text-anchor="middle">어느 도구 · D1</text>
-      <path class="edge" d="M834 55 L856 55"/>
-      <rect class="node hi" x="858" y="28" width="120" height="54" rx="4"/><text class="ntext" x="918" y="51" text-anchor="middle">행동</text><text class="sub" x="918" y="70" text-anchor="middle">도구 호출 · D2</text>
-      <path class="edge" d="M980 55 L1002 55"/>
-      <rect class="node hi" x="1004" y="28" width="90" height="54" rx="4"/><text class="ntext" x="1049" y="51" text-anchor="middle">보고</text><text class="sub" x="1049" y="70" text-anchor="middle">D4</text>
-      <path class="edge" d="M1049 84 C 1049 140, 640 150, 620 96"/>
-      <text class="sub" x="560" y="130" text-anchor="middle">지시가 subagent의 전제로, 보고가 orchestrator의 다음 행동으로 넘어감</text>
+    <div><h3><span class="ss"><span class="n">1.2</span>문제 정의</span><span class="kp">Deep Agents</span> 실행 흐름에서 오류가 생기는 네 자리와 외부 판정자가 붙는 곳</h3>
+    <div class="chart"><svg viewBox="0 0 1100 232" width="1100" height="232" role="img" aria-label="Deep Agents 실행 흐름: orchestrator 스텝, subagent 스텝, 두 handoff, 그리고 외부 판정자 D1–D4가 붙는 자리">
+      <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/></marker></defs>
+      <text class="sub" x="20" y="14">orchestrator 스텝</text>
+      <rect class="node" x="20" y="24" width="110" height="48" rx="4"/><text class="ntext" x="75" y="45" text-anchor="middle">고객 메시지</text><text class="sub" x="75" y="63" text-anchor="middle">시뮬레이터</text>
+      <path class="edge" d="M130 48 L148 48" marker-end="url(#a)"/>
+      <rect class="node hi" x="150" y="24" width="140" height="48" rx="4"/><text class="ntext" x="220" y="45" text-anchor="middle">결정</text><text class="sub" x="220" y="63" text-anchor="middle">다음 행동 선택 · D1</text>
+      <path class="edge" d="M290 48 L308 48" marker-end="url(#a)"/>
+      <rect class="node" x="310" y="24" width="190" height="48" rx="4"/><text class="ntext" x="405" y="45" text-anchor="middle">행동</text><text class="sub" x="405" y="63" text-anchor="middle">subagent 위임 (래퍼 도구 호출)</text>
+      <path class="edge" d="M500 48 L518 48" marker-end="url(#a)"/>
+      <rect class="node" x="520" y="24" width="130" height="48" rx="4"/><text class="ntext" x="585" y="45" text-anchor="middle">보고</text><text class="sub" x="585" y="63" text-anchor="middle">고객에게 답변</text>
+      <path class="edge" d="M405 72 L405 114" marker-end="url(#a)"/><text class="sub" x="413" y="97">지시 handoff · D3</text>
+      <path class="edge" d="M965 116 L965 18 L220 18 L220 22" marker-end="url(#a)"/><text class="sub" x="592" y="12" text-anchor="middle">보고 handoff → orchestrator의 다음 결정 · D3</text>
+      <text class="sub" x="20" y="134">subagent 스텝</text><text class="sub" x="20" y="150">policy_checker · db_agent</text>
+      <rect class="node" x="310" y="116" width="190" height="48" rx="4"/><text class="ntext" x="405" y="137" text-anchor="middle">지시문 수신</text><text class="sub" x="405" y="155" text-anchor="middle">위임 메시지가 첫 입력</text>
+      <path class="edge" d="M500 140 L518 140" marker-end="url(#a)"/>
+      <rect class="node hi" x="520" y="116" width="140" height="48" rx="4"/><text class="ntext" x="590" y="137" text-anchor="middle">결정</text><text class="sub" x="590" y="155" text-anchor="middle">어느 도구를 부를지 · D1</text>
+      <path class="edge" d="M660 140 L678 140" marker-end="url(#a)"/>
+      <rect class="node hi" x="680" y="116" width="190" height="48" rx="4"/><text class="ntext" x="775" y="137" text-anchor="middle">도구 호출</text><text class="sub" x="775" y="155" text-anchor="middle">예약 DB 도구 14개 / 정책 조회</text>
+      <path class="edge" d="M870 140 L888 140" marker-end="url(#a)"/>
+      <rect class="node hi" x="890" y="116" width="150" height="48" rx="4"/><text class="ntext" x="965" y="137" text-anchor="middle">보고서 작성</text><text class="sub" x="965" y="155" text-anchor="middle">도구 결과로 반환</text>
+      <path class="edge" d="M720 164 C 720 184, 630 184, 630 166" marker-end="url(#a)"/><text class="sub" x="675" y="177" text-anchor="middle">반복</text>
+      <text class="sub" x="20" y="208">외부 판정</text><text class="sub" x="20" y="224">실행 후 · 기록 위에서</text>
+      <rect class="det" x="160" y="192" width="130" height="40" rx="4"/><text class="dtext" x="225" y="208" text-anchor="middle">D1 결정 분포</text><text class="sub" x="225" y="224" text-anchor="middle">후보별 logprob 재채점</text>
+      <path class="edge det" d="M225 192 L225 76" marker-end="url(#b)"/>
+      <rect class="det" x="310" y="192" width="190" height="40" rx="4"/><text class="dtext" x="405" y="208" text-anchor="middle">D3 handoff 정보 손실</text><text class="sub" x="405" y="224" text-anchor="middle">두 경계의 양쪽 텍스트 비교</text>
+      <path class="edge det" d="M320 192 C 296 192, 296 96, 397 96" marker-end="url(#b)"/>
+      <rect class="det" x="680" y="192" width="190" height="40" rx="4"/><text class="dtext" x="775" y="208" text-anchor="middle">D2 행동 근거</text><text class="sub" x="775" y="224" text-anchor="middle">인자를 지시문·기록과 대조</text>
+      <path class="edge det" d="M800 192 L800 168" marker-end="url(#b)"/>
+      <rect class="det" x="890" y="192" width="150" height="40" rx="4"/><text class="dtext" x="965" y="208" text-anchor="middle">D4 보고 근거</text><text class="sub" x="965" y="224" text-anchor="middle">주장을 도구 결과와 대조</text>
+      <path class="edge det" d="M965 192 L965 168" marker-end="url(#b)"/>
     </svg></div>
     </div>
     <div class="flow">
@@ -175,12 +192,12 @@
       <div class="box gap"><div class="m">경계 → D3</div><div class="t">handoff의 정보 손실</div><p>사실이 빠지거나 바뀌면 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러남. 양쪽 다 자연어.</p></div>
       <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없음.</p></div>
     </div>
-    <div><h3><span class="ss solo"><span class="n">1.3</span>차별점</span></h3>
+    <div><h3><span class="ss solo"><span class="n">1.3</span>차별점 <span class="kp">(Novelty)</span></span></h3>
       <ul class="cols4">
         <li>결정의 불확실성을 실행 모델 자신의 확률로 잼. 같은 가중치·템플릿·스키마, 샘플링 없음</li>
         <li>판정 주체를 층에 맞춤. 결정·행동은 코드, handoff 경계는 LLM. 어느 층에 무엇이 맞는지를 데이터로 정함</li>
         <li>정답과 라벨 없이 동작. 임계값도 자기 분포의 백분위</li>
-        <li>성공 실행을 포함한 완전 관측 데이터셋과 생성 파이프라인을 남김. 과제의 네 유형을 모두 라벨</li>
+        <li>성공 실행을 포함한 완전 관측 데이터셋과 생성 파이프라인을 남김. 결정·행동·경계·보고 네 층을 모두 라벨</li>
       </ul></div>
   </div>
 </section>
