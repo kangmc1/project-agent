@@ -492,9 +492,10 @@
           <div class="tile"><div class="v">0.97</div><div class="l">지시→전제 경계의 fidelity<br>30건 중 실질 손실 1건</div></div>
           <div class="tile"><div class="v">0.64</div><div class="l">보고→orchestrator 경계의 fidelity<br>30건 중 실질 손실 12건</div></div>
         </div></div>
-        <div><h4>측정 방식 비교 <span class="quiet" style="font-weight:400">(보고→orchestrator 30건)</span></h4>
+        <div><h4>측정 방식 비교 <span class="quiet" style="font-weight:400">(Claude가 채점한 정답 30건과 대조)</span></h4>
+        <p style="font-size:.9rem;margin-bottom:.45rem">handoff 60건을 Claude가 D3 점수를 보지 않고 직접 읽어, 넘어간 사실 중 몇 개가 남았는지(정답 fidelity)와 빠지거나 바뀐 것이 뒤 작업에 실제로 필요했는지(실질 손실)를 표시했습니다. <b>손실량 순위</b>는 30건을 정답 fidelity 순으로 세운 순서와 측정값 순으로 세운 순서가 얼마나 같은가, <b>실질 손실 구분</b>은 실질 손실 12건을 측정값만으로 가려내는가입니다.</p>
         <div class="tbl"><table>
-          <tr><th>측정 방식</th><th class="n">정답 손실량과의 순위 일치</th><th class="n">실질 손실 구분 AUROC</th></tr>
+          <tr><th>측정 방식</th><th class="n">손실량 순위 일치 (순위 상관)</th><th class="n">실질 손실 구분 (AUROC)</th></tr>
           <tr><td>atomic fact 기반 집합 비교 (Qwen3-8B)</td><td class="n">0.61</td><td class="n">0.62</td></tr>
           <tr><td>보고 전/후 토큰 일치도 비교</td><td class="n">0.70</td><td class="n">0.75</td></tr>
           <tr class="hi"><td>LLM-as-judge (gpt-oss-20b)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
