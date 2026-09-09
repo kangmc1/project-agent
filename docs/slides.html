@@ -123,10 +123,10 @@
   <div class="rail"><span class="num mono">02</span><span class="sec">문제</span></div>
   <div class="head"><p class="eyebrow">1. 배경</p><h2>운영 로그에는 정답도 라벨도 없다</h2></div>
   <div class="body">
-    <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생긴다. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐이다.</p>
+    <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생김. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐임.</p>
     <div class="cols">
       <div><div class="k">대상 시스템</div><p>orchestrator가 과제별 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템. 2026년 프로덕션의 기본형인 orchestrator-worker 구조.</p></div>
-      <div><div class="k">탐지의 조건</div><p>실행 중 저장된 기록 위에서, 실행이 끝난 뒤에 수행한다. 과제의 정답이나 사람이 단 라벨은 쓰지 않는다. 실행 도중 끼어드는 가드레일은 범위 밖.</p></div>
+      <div><div class="k">탐지의 조건</div><p>실행 중 저장된 기록 위에서, 실행이 끝난 뒤에 수행함. 과제의 정답이나 사람이 단 라벨은 쓰지 않음. 실행 도중 끼어드는 가드레일은 범위 밖.</p></div>
       <div><div class="k">기록에 담기는 것</div><p>스텝(모델 호출)마다 그 에이전트가 받은 메시지 전체, 응답, 부른 도구와 돌아온 결과. 에이전트별로 따로 쌓이며 그 사이를 오가는 것은 handoff 메시지와 공유 파일뿐.</p></div>
     </div>
   </div>
@@ -143,7 +143,7 @@
       <tr><td class="mono">2</td><td>subagent의 도구 호출이 orchestrator의 지시와 기록에 주어진 값에 근거한 것인지를 기록만으로 판정할 수 있는가</td><td><span class="tag d">D2</span> 행동 근거</td></tr>
       <tr><td class="mono">3</td><td>에이전트 사이의 handoff에서 생기는 정보 손실이나 왜곡을 탐지하고 수치화할 수 있는가</td><td><span class="tag d">D3</span> handoff 정보 손실</td></tr>
     </table>
-    <p class="quiet">보고 층(에이전트가 말한 결론이 근거에서 나왔는가)은 네 번째 모듈 <span class="tag d">D4</span> 보고 근거로 시도하였고, 결과는 뒤에서 그대로 보고한다.</p>
+    <p class="quiet">보고 층(에이전트가 말한 결론이 근거에서 나왔는가)은 네 번째 모듈 <span class="tag d">D4</span> 보고 근거로 시도하였고, 결과는 뒤에서 그대로 보고함.</p>
   </div>
   <div class="foot"><span class="rec mono">step 06 · db_agent · tool_call get_user_details(user_id="omar_davis_3817")</span><span>§1.1</span></div>
 </section>
@@ -153,12 +153,12 @@
   <div class="head"><p class="eyebrow">1. 배경 · 문제 정의</p><h2>오류는 스텝의 어느 자리에서 드러나는가에 따라 성격이 다르다</h2></div>
   <div class="body">
     <div class="flow">
-      <div class="box"><div class="m">결정 → D1</div><div class="t">결정의 불확실성</div><p>어느 subagent·도구를 부를지. 잘못된 위임, 건너뜀, 실패한 위임 반복. 기록에는 정상 호출 한 줄로만 남는다.</p></div>
-      <div class="box"><div class="m">행동 → D2</div><div class="t">행동의 근거</div><p>지시가 요구한 조회를 건너뜀, 기록에 없는 값으로 호출, 오류 반환. "요구된"과 "주어진"은 자연어에서 읽어야 한다.</p></div>
-      <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없고 모든 문장이 근거에 있어야 하는 것도 아니다.</p></div>
-      <div class="box gap"><div class="m">스텝 사이 → D3</div><div class="t">handoff의 정보 손실</div><p>지시가 전제로, 보고가 다음 행동으로 넘어갈 때 사실이 빠지거나 바뀜. 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러난다.</p></div>
+      <div class="box"><div class="m">결정 → D1</div><div class="t">결정의 불확실성</div><p>어느 subagent·도구를 부를지. 잘못된 위임, 건너뜀, 실패한 위임 반복. 기록에는 정상 호출 한 줄로만 남음.</p></div>
+      <div class="box"><div class="m">행동 → D2</div><div class="t">행동의 근거</div><p>지시가 요구한 조회를 건너뜀, 기록에 없는 값으로 호출, 오류 반환. "요구된"과 "주어진"은 자연어에서 읽어야 함.</p></div>
+      <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없고 모든 문장이 근거에 있어야 하는 것도 아님.</p></div>
+      <div class="box gap"><div class="m">스텝 사이 → D3</div><div class="t">handoff의 정보 손실</div><p>지시가 전제로, 보고가 다음 행동으로 넘어갈 때 사실이 빠지거나 바뀜. 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러남.</p></div>
     </div>
-    <p class="quiet">과제의 네 유형은 여기에 들어온다. handoff 문제는 결정과 경계, 도구 사용 실패는 행동, 환각은 행동(인자)과 보고, 추론 오류는 보고. 라벨도 이 자리에 맞춰 <code>handoff</code> / <code>tool</code> / <code>reasoning_stability</code> 세 범주로 단다.</p>
+    <p class="quiet">과제의 네 유형은 여기에 들어옴. handoff 문제는 결정과 경계, 도구 사용 실패는 행동, 환각은 행동(인자)과 보고, 추론 오류는 보고. 라벨도 이 자리에 맞춰 <code>handoff</code> / <code>tool</code> / <code>reasoning_stability</code> 세 범주로 붙임.</p>
   </div>
   <div class="foot"><span class="rec mono">step 07 · db_agent · "Reservation JG7FMM is a business class reservation and active"</span><span>§1.2</span></div>
 </section>
@@ -172,14 +172,14 @@
         <ul>
           <li><b>실패 귀속 벤치마크</b> Who&amp;When, TraceElephant. 실패 트레이스만, 확률은 다른 모델로 근사. 완전 관측이 필요하다는 결론은 공유.</li>
           <li><b>트레이스 오류 분류</b> MAST, TRAIL. 라벨 규약의 범주 정의의 바탕.</li>
-          <li><b>불확실성 기반 탐지</b> semantic entropy, SelfCheckGPT. 샘플링 기반. 이 연구는 유한 행동 집합에서만 불확실성을 쓴다.</li>
+          <li><b>불확실성 기반 탐지</b> semantic entropy, SelfCheckGPT. 샘플링 기반. 이 연구는 유한 행동 집합에서만 불확실성을 씀.</li>
         </ul></div>
       <div><div class="k">이 연구의 차별점</div>
         <ul>
-          <li>결정의 불확실성을 <b>실행 모델 자신의 확률</b>로 잰다. 같은 가중치·템플릿·도구 스키마, 샘플링 없음.</li>
-          <li><b>판정 주체를 층에 맞춘다.</b> 결정·행동은 코드, handoff 경계는 LLM. 어느 층에 무엇이 맞는지를 데이터로 정했다.</li>
-          <li><b>정답과 라벨 없이 돈다.</b> 임계값도 자기 분포의 백분위.</li>
-          <li><b>성공 실행을 포함한 완전 관측 데이터셋</b>과 생성 파이프라인을 남긴다.</li>
+          <li>결정의 불확실성을 <b>실행 모델 자신의 확률</b>로 잼. 같은 가중치·템플릿·도구 스키마, 샘플링 없음.</li>
+          <li><b>판정 주체를 층에 맞춤.</b> 결정·행동은 코드, handoff 경계는 LLM. 어느 층에 무엇이 맞는지를 데이터로 정함.</li>
+          <li><b>정답과 라벨 없이 동작함.</b> 임계값도 자기 분포의 백분위.</li>
+          <li><b>성공 실행을 포함한 완전 관측 데이터셋</b>과 생성 파이프라인을 남김.</li>
         </ul></div>
     </div>
   </div>
@@ -194,8 +194,8 @@
                                              ├─ db_agent        (예약 데이터베이스 도구 14개)
                                              └─ read_file / write_file  (공유 파일 /case_notes.md)</pre>
     <div class="cols">
-      <div><div class="k">왜 이 벤치마크인가</div><p>정책 판단과 데이터베이스 조회가 섞인 고객 응대 과제. 대화가 끝난 뒤 DB의 최종 상태가 정답과 같아야 성공이라 성패가 객관적이다.</p></div>
-      <div><div class="k">subagent는 이름 있는 래퍼 도구</div><p>내장 <code>task</code>는 대상 subagent를 인자 안에 숨겨 "누구를 부르는가"의 확률을 잴 수 없다. 래퍼로 노출하면 handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에 놓인다.</p></div>
+      <div><div class="k">왜 이 벤치마크인가</div><p>정책 판단과 데이터베이스 조회가 섞인 고객 응대 과제. 대화가 끝난 뒤 DB의 최종 상태가 정답과 같아야 성공이라 성패가 객관적임.</p></div>
+      <div><div class="k">subagent는 이름 있는 래퍼 도구</div><p>내장 <code>task</code>는 대상 subagent를 인자 안에 숨겨 "누구를 부르는가"의 확률을 잴 수 없음. 래퍼로 노출하면 handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에 놓임.</p></div>
       <div><div class="k">모델</div><p>실행 모델과 고객 시뮬레이터 모두 Qwen3-32B(thinking 끔). 같은 하네스로 돌린 AIME 2026 30회는 solver가 일을 거의 다 해 멀티에이전트 과제로 부적합, 부록 C.</p></div>
     </div>
   </div>
@@ -215,9 +215,9 @@
         </ul></div>
       <div><div class="k">라벨 없는 운영을 위한 설계 (§3.4)</div>
         <ul>
-          <li>탐지기 입력에 정답, 보상, 라벨이 없다. 임계값은 모듈별 자기 분포의 백분위</li>
-          <li>모든 플래그에 근거 포인터가 붙어 순위 → 소량 검수 → 임계값 갱신의 루프에 들어간다</li>
-          <li>전제는 완전 관측 로깅 계약. 출력만 남는 로그에서는 D1·D2·D3이 돌지 않는다</li>
+          <li>탐지기 입력에 정답, 보상, 라벨이 없음. 임계값은 모듈별 자기 분포의 백분위</li>
+          <li>모든 플래그에 근거 포인터가 붙어 순위 → 소량 검수 → 임계값 갱신의 루프에 들어감</li>
+          <li>전제는 완전 관측 로깅 계약. 출력만 남는 로그에서는 D1·D2·D3이 돌지 않음</li>
         </ul></div>
     </div>
   </div>
@@ -236,8 +236,8 @@
       <tr><td><span class="tag d">D4</span> 보고 근거</td><td>보고</td><td>근거(도구 결과, 지시문)</td><td>LLM (20B, 32B)</td><td>보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가</td></tr>
     </table></div>
     <div class="cols">
-      <div><div class="k">D1은 어떻게 확률을 얻는가</div><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산한다. 점수는 1 − p_actual, 1 − confidence, 1 − margin.</p></div>
-      <div><div class="k">D2는 세 어긋남의 OR</div><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 본다.</p></div>
+      <div><div class="k">D1은 어떻게 확률을 얻는가</div><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산함. 점수는 1 − p_actual, 1 − confidence, 1 − margin.</p></div>
+      <div><div class="k">D2는 세 어긋남의 OR</div><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 봄.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">d1.jsonl · d2_action.jsonl · d3_handoff.jsonl · d4_evidence_judge_&lt;judge&gt;.jsonl</span><span>§3.3</span></div>
@@ -256,7 +256,7 @@
     </div>
     <div class="cols">
       <div><div class="k">생성 파이프라인</div><p>실행 → 캡처 → 라벨러용 요약 → 블라인드 라벨링(탐지기 출력 비공개) → 스키마 검증과 독립 재라벨 스팟체크. 부록 B의 명령으로 재현.</p></div>
-      <div><div class="k">공개 벤치마크와 다른 점</div><p>성공 실행을 포함해 오탐율과 회복 분석이 되고, 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점할 수 있다. 라벨러가 사람이 아닌 것이 한계.</p></div>
+      <div><div class="k">공개 벤치마크와 다른 점</div><p>성공 실행을 포함해 오탐율과 회복 분석이 되고, 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점할 수 있음. 라벨러가 사람이 아닌 것이 한계.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">labels/airline_002.json · decisive_step: 19 · error_events: 9</span><span>§3.5</span></div>
@@ -319,8 +319,8 @@
     </div>
     <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (n_pos 46 / dec 16)</span><span><i style="background:var(--s2)"></i>subagent (n_pos 48 / dec 8)</span><span>가로선은 95 % CI · 점수 1 − p_actual</span></div>
     <div class="cols">
-      <div><p>orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타난다. 실행 단위로 보아도 가장 뜻밖이었던 결정 하나의 크기가 성패를 0.81로 가른다.</p></div>
-      <div><p>subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족하다. 오류는 어느 도구를 부르는가가 아니라 어떤 인자로 부르고 어떤 결론을 내는가에서 난다. 그래서 D1에 보이지 않는다.</p></div>
+      <div><p>orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타남. 실행 단위로 보아도 가장 뜻밖이었던 결정 하나의 크기가 성패를 0.81로 가름.</p></div>
+      <div><p>subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족함. 오류는 어느 도구를 부르는가가 아니라 어떤 인자로 부르고 어떤 결론을 내는가에서 남. 그래서 D1에 보이지 않음.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">audit/d1.jsonl · 906 / 906 scored · confidence &gt; 0.99 in 62 %</span><span>§4.2.2, §4.2.3</span></div>
@@ -337,8 +337,8 @@
     </table></div>
     <div class="cols">
       <div><div class="k">무엇을 잡는가</div><ul>
-        <li>환각성 subagent 오류 29건 중 23건이 (2) 기록에 없는 값에 걸린다. 예: 고객이 성만 말했는데 <code>get_user_details(user_id='rossi_123')</code></li>
-        <li>지어낸 값은 발언이 아니라 <b>인자</b>에 있었다. 폐기한 발언 값 검사는 같은 49건 중 38건을 "근거 있음"으로 봤다</li>
+        <li>환각성 subagent 오류 29건 중 23건이 (2) 기록에 없는 값에 걸림. 예: 고객이 성만 말했는데 <code>get_user_details(user_id='rossi_123')</code></li>
+        <li>지어낸 값은 발언이 아니라 <b>인자</b>에 있었음. 폐기한 발언 값 검사는 같은 49건 중 38건을 "근거 있음"으로 봄</li>
         <li>잡음의 주된 원인은 (1)의 지시문→도구 군 정규식</li></ul></div>
       <div><div class="k">무엇을 놓치는가</div><ul>
         <li>인자의 출처는 맞는데 선택이 틀린 경우(다른 예약의 날짜) 10건</li>
@@ -361,7 +361,7 @@
           <tr><td>원문 값 토큰 겹침</td><td class="n">0.70</td><td class="n">0.75</td></tr>
           <tr class="hi"><td>LLM 직접 비교, gpt-oss-20b (채택)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
         </table></div>
-        <p class="quiet" style="margin-top:.6rem">실질 손실 12건 중 8건은 누락이 아니라 바꿔 말하기였다. "기록을 남김"이 "처리 완료"로. 값 집합의 차로는 원리적으로 안 보인다. 실패 라벨 대비 AUROC는 0.53으로 약하다.</p></div>
+        <p class="quiet" style="margin-top:.6rem">실질 손실 12건 중 8건은 누락이 아니라 바꿔 말하기였음. "기록을 남김"이 "처리 완료"로. 값 집합의 차로는 원리적으로 안 보임. 실패 라벨 대비 AUROC는 0.53으로 약함.</p></div>
       <div><div class="k">D4 · 판정기 세 종, airline subagent AUROC</div>
         <div class="chart"><svg viewBox="0 0 360 150" width="360" height="150" role="img" aria-label="D4 AUROC by judge with 95% CI">
           <g class="lab"><text x="92" y="26" text-anchor="end">Qwen3-8B</text><text x="92" y="66" text-anchor="end">gpt-oss-20b</text><text x="92" y="106" text-anchor="end">Qwen3-32B</text></g>
@@ -370,7 +370,7 @@
           <rect x="100" y="52" width="137.5" height="16" fill="var(--neutral)"><title>gpt-oss-20b AUROC 0.550 [0.446, 0.658]</title></rect><line class="ci" x1="211.5" y1="60" x2="264.5" y2="60"/><text class="val" x="272" y="65">0.55</text>
           <rect x="100" y="92" width="123.8" height="16" fill="var(--neutral)"><title>Qwen3-32B AUROC 0.495 [0.392, 0.603]</title></rect><line class="ci" x1="198" y1="100" x2="250.8" y2="100"/><text class="val" x="258" y="105">0.50</text>
         </svg></div>
-        <p class="quiet">오탐의 정체: "Next step: check LQ940Q" 같은 진행 문장, "reservation is active" 같은 무해한 추정을 근거 없는 주장으로 셌다. D4는 모든 주장의 근거를 묻고 라벨은 실패를 부른 오류만 센다. 판정기 크기가 아니라 검사 정의의 문제.</p></div>
+        <p class="quiet">오탐의 정체: "Next step: check LQ940Q" 같은 진행 문장, "reservation is active" 같은 무해한 추정을 근거 없는 주장으로 셈. D4는 모든 주장의 근거를 묻고 라벨은 실패를 부른 오류만 셈. 판정기 크기가 아니라 검사 정의의 문제.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">labels/d3_loss/labels.json · 60 handoffs · d4_evidence_judge_{qwen8b,gptoss20b,qwen32b}.jsonl</span><span>§4.2.11, §4.2.13</span></div>
@@ -387,8 +387,8 @@
       <tr><td>D3 handoff 정보 손실 (LLM)</td><td colspan="2">보고→orchestrator 경계에서 손실 계측 성립 · 지시→전제는 손실 자체가 없음</td></tr>
     </table></div>
     <div class="cols">
-      <div><div class="k">같은 질문, 역할마다 다른 실패의 모양</div><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타난다. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 한다.</p></div>
-      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞선다(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 낫다(자연어 사이의 손실). "판정은 코드가 한다"는 행동 층에서만 성립한다.</p></div>
+      <div><div class="k">같은 질문, 역할마다 다른 실패의 모양</div><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타남. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 함.</p></div>
+      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞섬(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 나음(자연어 사이의 손실). "판정은 코드가 함"는 행동 층에서만 성립함.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">system_report.md · db_agent: 근거 없는 인자 비율 0.20 · report→orchestrator fidelity 0.44</span><span>§4.3</span></div>
@@ -400,14 +400,14 @@
   <div class="body">
     <div class="cols">
       <div><ul>
-        <li><b>한 도메인 30회.</b> 셀당 decisive 양성 8–16건, CI가 넓다. CI가 겹치는 곳에서 모듈 간 순위를 주장하지 않는다.</li>
-        <li><b>라벨러가 사람이 아니다.</b> decisive 일치 6/6이지만 이벤트 집합 Jaccard 0.56. 손실 정답지도 모델이 만들었다.</li>
-        <li><b>보고 층은 아직 잡지 못한다.</b> D4는 세 판정기 모두 우연 수준.</li>
+        <li><b>한 도메인 30회.</b> 셀당 decisive 양성 8–16건, CI가 넓음. CI가 겹치는 곳에서 모듈 간 순위를 주장하지 않음.</li>
+        <li><b>라벨러가 사람이 아님.</b> decisive 일치 6/6이지만 이벤트 집합 Jaccard 0.56. 손실 정답지도 모델이 만듦.</li>
+        <li><b>보고 층은 아직 잡지 못함.</b> D4는 세 판정기 모두 우연 수준.</li>
       </ul></div>
       <div><ul>
-        <li><b>단일 모델 계열과 로깅 계약.</b> 실행·시뮬레이터·채점이 모두 Qwen3. 출력만 남는 로그에서는 돌지 않는다.</li>
-        <li><b>bf16 잡음 바닥.</b> confidence 약 0.005는 신호가 아니다. 라벨 최적 임계값이 그 수준에 있어 D1은 순위 지표로 쓰고 단독 알람은 두지 않는다.</li>
-        <li><b>순차 위임 그래프만.</b> 병렬 fan-out, 에이전트 간 직접 통신은 다루지 않았다.</li>
+        <li><b>단일 모델 계열과 로깅 계약.</b> 실행·시뮬레이터·채점이 모두 Qwen3. 출력만 남는 로그에서는 돌지 않음.</li>
+        <li><b>bf16 잡음 바닥.</b> confidence 약 0.005는 신호가 아님. 라벨 최적 임계값이 그 수준에 있어 D1은 순위 지표로 쓰고 단독 알람은 두지 않음.</li>
+        <li><b>순차 위임 그래프만.</b> 병렬 fan-out, 에이전트 간 직접 통신은 다루지 않았음.</li>
       </ul></div>
     </div>
   </div>
@@ -419,10 +419,10 @@
   <div class="head"><p class="eyebrow">4.3 향후 방향</p><h2>결과가 가리키는 다음 단계</h2></div>
   <div class="body">
     <div class="flow">
-      <div class="box"><div class="m">보고 층</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잰다.</p></div>
-      <div class="box"><div class="m">보고 층 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산한다. LLM 없이 추론 오류를 잡을 후보.</p></div>
-      <div class="box"><div class="m">행동 층</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄인다.</p></div>
-      <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out 그래프에서 "역할이 가른다"가 유지되는지. §3.5 파이프라인이 출발점.</p></div>
+      <div class="box"><div class="m">보고 층</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼.</p></div>
+      <div class="box"><div class="m">보고 층 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산함. LLM 없이 추론 오류를 잡을 후보.</p></div>
+      <div class="box"><div class="m">행동 층</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄임.</p></div>
+      <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out 그래프에서 "역할이 가름"가 유지되는지. §3.5 파이프라인이 출발점.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">labels: reasoning_stability 56 events already labeled for the next detector</span><span>§4.3</span></div>
@@ -434,13 +434,13 @@
   <div class="body">
     <div class="cols">
       <div><ul>
-        <li><b>라벨 없는 순위와 근거 포인터.</b> 첫날부터 스텝 순위가 나오고 검수자는 상위 몇 %만 연다. 순위 → 소량 검수 → 임계값 갱신의 닫힌 루프.</li>
-        <li><b>트레이스가 아니라 시스템을 평가.</b> 역할별·handoff 엣지별 프로파일이 프롬프트 수정, subagent 분리 같은 조치의 대상을 지목한다.</li>
+        <li><b>라벨 없는 순위와 근거 포인터.</b> 첫날부터 스텝 순위가 나오고 검수자는 상위 몇 %만 열어 봄. 순위 → 소량 검수 → 임계값 갱신의 닫힌 루프.</li>
+        <li><b>트레이스가 아니라 시스템을 평가.</b> 역할별·handoff 엣지별 프로파일이 프롬프트 수정, subagent 분리 같은 조치의 대상을 지목함.</li>
         <li><b>로깅 계약이 곧 온보딩 체크리스트.</b> 입력 전체, 응답, 도구 인자와 결과, 공유 상태 스냅샷, 에이전트 식별자, 그리고 D1을 위한 logprob 접근.</li>
       </ul></div>
       <div><ul>
-        <li><b>라벨 없이 시작.</b> 백분위 임계값으로 출발하고 검수가 쌓이면 그 셀만 라벨 최적으로 옮긴다.</li>
-        <li><b>감사 가능.</b> 결정·행동 층의 판정이 코드라 이의 제기에 근거 포인터로 답하고, 규칙 변경의 영향을 재실행으로 확인한다. LLM 판정은 D3 하나뿐이며 사실 목록으로 추적된다.</li>
+        <li><b>라벨 없이 시작.</b> 백분위 임계값으로 출발하고 검수가 쌓이면 그 셀만 라벨 최적으로 옮김.</li>
+        <li><b>감사 가능.</b> 결정·행동 층의 판정이 코드라 이의 제기에 근거 포인터로 답하고, 규칙 변경의 영향을 재실행으로 확인함. LLM 판정은 D3 하나뿐이며 사실 목록으로 추적됨.</li>
       </ul></div>
     </div>
   </div>
