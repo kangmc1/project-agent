@@ -288,54 +288,58 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">05</span><span class="sec">3 제안</span></div>
-  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>네 탐지기는 탐지 대상마다 다른 상대와 대조하고 다른 주체가 판정합니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>오류 탐지기 종류 및 구성요소</h2></div>
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">3.3</span>탐지기 구성</span></h3>
     <div class="tbl"><table>
-      <tr><th>탐지기</th><th>탐지 대상</th><th>대조 상대</th><th>판정 주체</th><th>한 문장</th><th>출력</th></tr>
-      <tr><td><span class="tag">D1</span> 결정 분포</td><td>결정</td><td>모델 자신의 확률 분포</td><td>코드</td><td>다음 행동을 고를 때 얼마나 흔들렸는가</td><td class="mono">1 − p_actual, 1 − confidence, 1 − margin</td></tr>
-      <tr><td><span class="tag">D2</span> 행동 근거</td><td>행동(도구 호출)</td><td>기록(지시문, 주어진 값)</td><td>코드</td><td>이 도구 호출은 지시와 기록이 뒷받침하는가</td><td class="mono">0/1 플래그 + 근거 문자열</td></tr>
-      <tr><td><span class="tag">D3</span> handoff 정보 손실</td><td>handoff 경계</td><td>경계 반대편의 텍스트</td><td>LLM</td><td>지시와 보고가 넘어가는 동안 어떤 사실이 빠지거나 바뀌었는가</td><td class="mono">fidelity 0–1 + 누락·변형 목록</td></tr>
-      <tr><td><span class="tag">D4</span> 보고 근거</td><td>보고</td><td>근거(도구 결과, 지시문)</td><td>LLM</td><td>보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가</td><td class="mono">(unsupported + contradicted) / 주장 수</td></tr>
+      <tr><th>탐지기</th><th>탐지 대상</th><th>대조 상대</th><th>판정 주체</th><th>묻는 질문</th><th>점수</th></tr>
+      <tr><td><span class="tag">D1</span> 결정 분포</td><td>결정</td><td>모델 자신의 확률 분포</td><td>코드</td><td>다음 행동을 고를 때 얼마나 흔들렸는가</td><td>결정이 흔들린 정도 (1 − 실제 선택의 확률 등)</td></tr>
+      <tr><td><span class="tag">D2</span> 행동 근거</td><td>행동(도구 호출)</td><td>기록(지시문, 주어진 값)</td><td>코드</td><td>이 도구 호출은 지시와 기록이 뒷받침하는가</td><td>어긋남 있음/없음 (0/1) + 근거</td></tr>
+      <tr><td><span class="tag">D3</span> handoff 정보 손실</td><td>handoff 경계</td><td>경계 반대편의 텍스트</td><td>LLM</td><td>지시와 보고가 넘어가는 동안 어떤 사실이 빠지거나 바뀌었는가</td><td>사실 손실 비율 (1 − fidelity) + 누락·변형 목록</td></tr>
+      <tr><td><span class="tag">D4</span> 보고 근거</td><td>보고</td><td>근거(도구 결과, 지시문)</td><td>LLM</td><td>보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가</td><td>근거 없는 주장의 비율</td></tr>
     </table></div></div>
-    <div class="cols">
-      <div><h3>D1 · 확률을 얻는 법</h3><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산합니다. 샘플링 없이 결정 지점마다 후보 수만큼의 짧은 채점으로 끝납니다.</p></div>
-      <div><h3>D2 · 세 어긋남의 OR</h3><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 봅니다.</p></div>
-      <div><h3>D3 · 두 경계</h3><p>지시→전제(orchestrator 지시문 ↔ subagent 첫 발언)와 보고→orchestrator(subagent 보고 ↔ orchestrator 다음 행동). 판정 모델이 A의 사실을 나열하고 B에서 보존·누락·변형으로 표시합니다.</p></div>
-      <div><h3>D4 · D2와 같은 질문을 보고에</h3><p>지어낸 값이 도구 인자로도 쓰이면 둘 다 잡고, 요구된 조회를 건너뛴 것은 D2만, 값은 맞는데 틀린 결론은 D4만 잡습니다. 설계만 한 선택 탐지기 D5–D7은 부록 D.</p></div>
+    <div><h3>탐지기별 계산 방법</h3>
+    <div class="flow">
+      <div class="box"><div class="m">D1 결정 분포</div><div class="t">후보별 확률 재채점</div><p>후보는 부를 수 있는 도구 이름과 "도구 없이 답하기". 문맥을 고정하고 후보마다 실행 모델의 확률을 다시 계산. 샘플링 없음. 실제 선택의 확률이 낮거나 분포가 퍼져 있으면 흔들린 결정.</p></div>
+      <div class="box"><div class="m">D2 행동 근거</div><div class="t">세 가지 어긋남 검사</div><p>(1) 지시가 요구한 도구를 부르지 않음 (2) 기록 어디에도 없는 값(예약번호, 날짜 등)으로 호출 (3) 호출이 오류로 돌아옴. 하나라도 해당하면 1. orchestrator의 위임은 식별자 없는 위임과 실패 뒤 재위임을 검사.</p></div>
+      <div class="box"><div class="m">D3 handoff 정보 손실</div><div class="t">경계 양쪽 텍스트 비교</div><p>지시→전제, 보고→다음 행동의 두 경계. 판정 LLM이 앞 텍스트의 사실을 나열하고 뒤 텍스트에서 보존·누락·변형을 표시. fidelity = 보존된 사실의 비율.</p></div>
+      <div class="box"><div class="m">D4 보고 근거</div><div class="t">주장 단위 근거 판정</div><p>판정 LLM이 보고를 주장 단위로 나누고 각 주장을 근거 있음 / 근거에서 유도됨 / 근거 없음 / 근거와 모순으로 분류. 값은 맞는데 결론이 틀린 경우를 겨누는 유일한 탐지기.</p></div>
+    </div>
+    <p class="quiet" style="margin-top:.5rem">설계만 하고 구현하지 않은 선택 탐지기 D5–D7은 부록 D에 둡니다.</p></div>
     </div>
   </div>
 </section>
 
 <section class="slide">
   <div class="rail"><span class="num mono">06</span><span class="sec">3 제안</span></div>
-  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>탐지기는 라벨 없이 돌고, 실험의 산출물은 그대로 평가 데이터셋이 됩니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>라벨 없는 운영 설계와 평가 데이터셋</h2></div>
   <div class="body">
     <div class="cols two">
       <div><h3><span class="ss"><span class="n">3.4</span>라벨 없는 운영</span>설계 원칙</h3><ul>
-        <li>탐지기 입력에 정답, 보상, 라벨이 없음. 임계값은 탐지기별 자기 분포의 백분위(상위 5 %·10 %)</li>
-        <li>모든 플래그에 근거 포인터가 붙어 순위 → 소량 검수 → 임계값 갱신의 루프에 들어감</li>
-        <li>전제는 완전 관측 로깅 계약. 출력만 남는 로그에서는 D1·D2·D3이 돌지 않음</li></ul></div>
+        <li>탐지기는 정답이나 라벨 없이 실행 기록만 읽음. 경고 기준(임계값)은 각 탐지기 점수 분포의 상위 5 % 또는 10 %로 정함</li>
+        <li>경고마다 근거가 된 스텝과 값을 함께 표시. 점수 순으로 사람이 소량만 검수하고 기준을 조정하는 운영 루프</li>
+        <li>전제는 §3.2의 완전 관측 기록. 모델 출력만 남는 로그로는 D1·D2·D3을 돌릴 수 없음</li></ul></div>
       <div><h3><span class="ss"><span class="n">3.5</span>평가 데이터셋</span>공개 벤치마크와 다른 점</h3><ul>
-        <li>성공 실행을 포함해 오탐율과 회복 분석이 가능. 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점 가능</li>
-        <li>탐지기가 담당하지 않는 보고 지점에도 라벨이 있어 후속 탐지기를 같은 지표로 평가 가능</li>
-        <li>라벨러가 사람이 아닌 것이 한계. 사람 라벨의 대체가 아니라 출발점</li></ul></div>
+        <li>성공한 실행도 포함하므로 잘못 울린 경고(오탐)의 비율과 오류에서 회복한 경우를 잴 수 있음</li>
+        <li>모델이 본 입력과 도구 결과 원문을 그대로 담아 같은 모델로 다시 채점 가능</li>
+        <li>네 탐지 대상 모두에 라벨이 있어, 아직 잘 잡지 못하는 보고 지점의 후속 탐지기도 같은 기준으로 평가 가능</li>
+        <li>라벨은 사람이 아니라 Claude가 달았음. 사람 라벨의 대체가 아니라 출발점</li></ul></div>
     </div>
     <div><h3><span class="ss"><span class="n">3.5</span>평가 데이터셋</span>생성 파이프라인과 규모</h3>
     <div class="steps">
-      <div class="box"><div class="m">1 실행</div><p>고정 시드 과제 30건을 하네스로. 성패는 τ-bench 보상 1.0</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">2 캡처</div><p>스텝마다 입력 전체, 응답, 도구 호출·결과, 공유 파일 스냅샷</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">3 요약</div><p>라벨러용 summary.md. 탐지기 산출물은 포함하지 않음</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">4 블라인드 라벨</div><p>Claude 서브에이전트 6개가 5건씩. 이벤트, 회복, decisive step</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">5 검증</div><p>스키마 검사 + 독립 재라벨 스팟체크 6건</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">6 감사·평가</div><p>D1–D4 실행, 라벨은 평가에만</p></div>
+      <div class="box"><div class="m">1 실행</div><p>과제 30건 실행. 성패는 τ-bench의 정답 상태 비교로 판정</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">2 기록</div><p>스텝마다 모델 입력 전체, 응답, 도구 호출·결과, 공유 파일을 저장</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">3 요약</div><p>라벨러가 읽을 실행 요약본 생성. 탐지기 출력은 넣지 않음</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">4 라벨</div><p>Claude 라벨러 6개가 5건씩. 오류 이벤트·회복 여부·decisive step 표시</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">5 검증</div><p>형식 검사와 6건 독립 재라벨로 일치도 확인</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">6 탐지·평가</div><p>D1–D4 실행. 라벨은 성능 평가에만 사용</p></div>
     </div>
     <div class="tiles">
-      <div class="tile"><div class="v">30</div><div class="l">완전 관측 트레이스 (성공 6 / 실패 24)</div></div>
+      <div class="tile"><div class="v">30</div><div class="l">실행 기록 (성공 6 / 실패 24)</div></div>
       <div class="tile"><div class="v">826</div><div class="l">라벨 대상 스텝</div></div>
-      <div class="tile"><div class="v">215</div><div class="l">오류 이벤트 (handoff 77 · tool 82 · reasoning 56)</div></div>
-      <div class="tile"><div class="v">24</div><div class="l">decisive step이 있는 실행</div></div>
-      <div class="tile"><div class="v">60</div><div class="l">handoff 정보 손실 정답지</div></div>
+      <div class="tile"><div class="v">215</div><div class="l">오류 이벤트 (handoff 77 · 도구 82 · 추론 56)</div></div>
+      <div class="tile"><div class="v">24</div><div class="l">결정적 스텝(decisive)이 있는 실패 실행</div></div>
+      <div class="tile"><div class="v">60</div><div class="l">handoff 정보 손실 정답 사례 (D3 평가용)</div></div>
     </div>
     </div>
   </div>
@@ -343,11 +347,12 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">07</span><span class="sec">4 평가</span></div>
-  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b><span class="crumb">›</span>4.1 실험 설계</p><h2>라벨은 평가의 기준이며 탐지기의 입력이 아닙니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>탐지기 성능 평가를 위한 oracle 데이터 구축</h2></div>
   <div class="body">
-    <div><h3><span class="ss solo"><span class="n">4.1.2</span>실행 규모</span></h3><p>τ-bench airline 30회(배치 1·2 각 15건). 성공 6, 실패 24. 스텝 1,029개, 실행당 중앙값 31.5스텝. 하네스 오류로 끝난 실행은 없습니다.</p></div>
+    <div><h3><span class="ss solo"><span class="n">4.1</span>실험 설계</span></h3></div>
+    <div><h4><span class="n">4.1.2</span>실행 규모</h4><p>τ-bench airline 30회(배치 1·2 각 15건). 성공 6, 실패 24. 스텝 1,029개, 실행당 중앙값 31.5스텝.</p></div>
     <div class="cols wide-left">
-      <div><h3><span class="ss"><span class="n">4.1.3</span>라벨링 프로토콜</span>라벨 분포 (airline 215건)</h3>
+      <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 라벨 분포 (airline 215건)</h4>
       <div class="chart"><svg viewBox="0 0 640 210" width="640" height="210" role="img" aria-label="τ-bench airline 라벨 이벤트 215건의 범주와 subtag 구성">
         <text class="lab" x="0" y="14">범주 (215건)</text>
         <g class="lab"><text x="118" y="38" text-anchor="end">tool</text><text x="118" y="64" text-anchor="end">handoff</text><text x="118" y="90" text-anchor="end">reasoning_stability</text></g>
@@ -361,17 +366,33 @@
         <rect x="126" y="188" width="90" height="16" fill="var(--neutral)"><title>reasoning_like 30건</title></rect><text class="val" x="224" y="201">30 (subtag 없음 57)</text>
         <text class="sub" x="420" y="38">역할별: orchestrator 100 · subagent 115</text>
         <text class="sub" x="420" y="58">회복된 이벤트 48 · decisive step 24개</text>
-        <text class="sub" x="420" y="78">스팟체크 6건: decisive 일치 6/6</text>
-        <text class="sub" x="420" y="98">이벤트 집합 Jaccard 0.56 → 반복 규약 고정</text>
+        <text class="sub" x="420" y="78">재라벨 6건: decisive 일치 6/6</text>
+        <text class="sub" x="420" y="98">이벤트 집합 겹침(Jaccard) 평균 0.56</text>
       </svg></div></div>
-      <div><h3><span class="ss"><span class="n">4.1.3</span>라벨링 프로토콜</span>절차</h3><ul>
-        <li>Claude 서브에이전트 6개가 실행 5건씩. <code>summary.md</code>만 보고 탐지기 출력은 보지 않음</li>
-        <li>이벤트마다 회복 여부, 회복 스텝, 근거 인용. decisive step은 실패로 이어진 첫 미회복 이벤트</li>
-        <li>스텝 클래스: clean / transient / decisive / cascade / error. cascade는 채점에서 제외</li></ul></div>
+      <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 절차</h4><ul>
+        <li>Claude 라벨러 6개가 실행 5건씩. 실행 요약본만 보고 탐지기 출력은 보지 않음(블라인드)</li>
+        <li>오류 이벤트마다 회복 여부, 회복된 스텝, 기록에서 어긋난 부분의 인용을 기록</li>
+        <li>독립 재라벨 6건에서 decisive step은 모두 일치. 이벤트 집합 겹침 0.56은 두 번째 라벨러가 같은 오류의 반복을 빠뜨린 것이라, 반복도 스텝마다 라벨하도록 규약을 고정</li></ul></div>
     </div>
     <div class="cols two">
-      <div><h3><span class="ss solo"><span class="n">4.1.4</span>지표 정의</span></h3><p>스텝 AUROC는 양성이 전체 오류 또는 decisive, 음성이 깨끗한 스텝이며 95 % CI는 층화 부트스트랩 1,000회입니다. 0/1 플래그(D2)는 정밀도·재현율·F1·FPR로 잽니다. 0/1의 AUROC는 (재현율 + 1 − FPR)/2로 고정되어 참고값입니다.</p></div>
-      <div><h3><span class="ss solo"><span class="n">4.1.5</span>D1 채점 타당성</span></h3><p>결정 지점 906개 전부 채점. 렌더 정합 974/974. 같은 요청을 다른 캐시 상태에서 다시 채점하면 confidence가 약 0.005 흔들리며, 이것이 D1 값의 유효 자릿수를 정합니다.</p></div>
+      <div><h4><span class="n">4.1.3</span>decisive step과 스텝 클래스</h4>
+        <div class="chart"><svg viewBox="0 0 560 78" width="560" height="78" role="img" aria-label="스텝 클래스 예시: clean, transient, decisive, cascade">
+          <g>
+            <rect x="0" y="6" width="40" height="26" rx="3" fill="var(--bg-2)" stroke="var(--rule)"/><rect x="46" y="6" width="40" height="26" rx="3" fill="var(--bg-2)" stroke="var(--rule)"/>
+            <rect x="92" y="6" width="40" height="26" rx="3" fill="var(--neutral)"/><rect x="138" y="6" width="40" height="26" rx="3" fill="var(--bg-2)" stroke="var(--rule)"/><rect x="184" y="6" width="40" height="26" rx="3" fill="var(--bg-2)" stroke="var(--rule)"/>
+            <rect x="230" y="6" width="40" height="26" rx="3" fill="var(--accent)"/>
+            <rect x="276" y="6" width="40" height="26" rx="3" fill="var(--accent-soft)" stroke="var(--accent)" stroke-dasharray="3 2"/><rect x="322" y="6" width="40" height="26" rx="3" fill="var(--accent-soft)" stroke="var(--accent)" stroke-dasharray="3 2"/><rect x="368" y="6" width="40" height="26" rx="3" fill="var(--accent-soft)" stroke="var(--accent)" stroke-dasharray="3 2"/>
+            <text class="val" x="20" y="24" text-anchor="middle">1</text><text class="val" x="66" y="24" text-anchor="middle">2</text><text class="val" x="112" y="24" text-anchor="middle">3</text><text class="val" x="158" y="24" text-anchor="middle">4</text><text class="val" x="204" y="24" text-anchor="middle">5</text><text class="val" x="250" y="24" text-anchor="middle" fill="#fff">6</text><text class="val" x="296" y="24" text-anchor="middle">7</text><text class="val" x="342" y="24" text-anchor="middle">8</text><text class="val" x="388" y="24" text-anchor="middle">9</text>
+            <text class="sub" x="430" y="24">→ 과제 실패</text>
+          </g>
+          <text class="sub" x="112" y="50" text-anchor="middle">transient</text><text class="sub" x="112" y="64" text-anchor="middle">오류 뒤 회복됨</text>
+          <text class="sub" x="250" y="50" text-anchor="middle">decisive</text><text class="sub" x="250" y="64" text-anchor="middle">실패로 이어진 첫 미회복 오류</text>
+          <text class="sub" x="388" y="50" text-anchor="middle">cascade</text><text class="sub" x="388" y="64" text-anchor="middle">그 여파 · 채점 제외</text>
+          <text class="sub" x="43" y="50" text-anchor="middle">clean</text>
+        </svg></div>
+        <p style="margin-top:.3rem">decisive step은 실패한 실행에서 회복되지 못한 첫 오류 이벤트이며, 탐지기가 반드시 잡아야 하는 스텝입니다. 그 뒤의 스텝은 여파(cascade)로 보아 채점에서 뺍니다. 회복된 오류는 transient, 성공 실행의 미회복 오류는 error로 둡니다.</p></div>
+      <div><h4><span class="n">4.1.4</span>지표 정의</h4><p>스텝 AUROC는 탐지기 점수로 오류 스텝(전체 오류 또는 decisive만)을 깨끗한 스텝과 얼마나 잘 가르는지이며, 95 % 신뢰구간은 부트스트랩 1,000회로 구합니다. 0/1 플래그를 내는 D2는 정밀도·재현율·F1·오탐율로 잽니다.</p>
+        <h4 style="margin-top:.7rem"><span class="n">4.1.5</span>D1 채점 타당성</h4><p>결정 지점 906개를 모두 채점했고 채점용 입력이 실행 시 입력과 974/974 일치합니다. 같은 요청을 다시 채점하면 값이 약 0.005 흔들리므로 D1 값은 소수 둘째 자리까지만 유효합니다.</p></div>
     </div>
   </div>
 </section>
