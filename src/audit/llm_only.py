@@ -127,14 +127,19 @@ def _labeled() -> dict[str, dict]:
     return {json.load(open(f))["run_id"]: json.load(open(f)) for f in glob.glob("labels/*.json")}
 
 
+DOMAIN = "airline"  # user decision 09:15: comparators on τ-bench airline (main experiment) only
+
+
 def _population():
-    """(run, domain, steps(non-aux, non-cascade), all_steps, calls) for labeled runs."""
+    """(run, domain, steps(non-aux, non-cascade), all_steps, calls) for labeled runs of DOMAIN."""
     lab = _labeled()
     for run in sorted(Path("runs").glob("*/")):
         if run.name not in lab or not (run / "steps.jsonl").exists():
             continue
         steps, calls, meta = _load_run(run)
         domain = meta.get("domain", run.name.split("_")[0])
+        if domain != DOMAIN:
+            continue
         ds = lab[run.name].get("decisive_step")
         keep = [s for s in steps if s["agent"] not in AUX and not (ds is not None and s["step_id"] > ds)]
         yield run.name, domain, keep, steps, calls

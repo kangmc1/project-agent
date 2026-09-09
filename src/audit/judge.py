@@ -257,6 +257,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", default="runs")
     ap.add_argument("--run-id")
+    ap.add_argument("--domain", default="airline", help="restrict to runs of this domain (default airline)")
     ap.add_argument("--out", default=str(AUDIT / "judge.jsonl"))
     ap.add_argument("--stats", action="store_true")
     a = ap.parse_args()
@@ -266,6 +267,9 @@ def main() -> None:
 
     rows: list[dict] = []
     for run in sorted(Path(a.runs).glob("*/")):
+        _meta = json.loads((run / "meta.json").read_text()) if (run / "meta.json").exists() else {}
+        if a.domain and _meta.get("domain", run.name.split("_")[0]) != a.domain:
+            continue
         if a.run_id and run.name != a.run_id:
             continue
         if not (run / "steps.jsonl").exists():
