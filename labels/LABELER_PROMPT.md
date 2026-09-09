@@ -22,5 +22,5 @@ For each run_id in your assignment:
 7. Be conservative: no event without evidence; do not label style, verbosity, or the customer's own errors.
 
 Assignment: <RUN_IDS>. After writing the files, run
-`PYTHONPATH=/home/kangmc1/project-agent python -m src.eval.labels --validate` (env: `source /home/kangmc1/miniforge3/etc/profile.d/conda.sh && conda activate agentbench`)
+`PYTHONPATH=/home/kangmc1/agent_failure_trace python -m src.eval.labels --validate` (env: `source /home/kangmc1/miniforge3/etc/profile.d/conda.sh && conda activate agentbench`)
 and fix any schema errors. Report: per run_id — success flag, n_events, decisive_step, one-line rationale.
