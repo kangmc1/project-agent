@@ -1,6 +1,6 @@
-"""D4 (DESIGN ONLY, NOT USED IN RESULTS — user decision 07:05) — LLM-verbalized dependence of a subagent response on its evidence.
+"""D4 — LLM-verbalized dependence of a subagent response on its evidence.
 
-The 8B model receives two texts — (A) the evidence the subagent had in this request (tool results, plus the instruction
+The judge model receives two texts — (A) the evidence the subagent had in this request (tool results, plus the instruction
 it was given) and (B) the subagent's response — and verbalizes, claim by claim, how the response relates to the evidence,
 in a fixed JSON schema:
   supported    : stated in / directly readable from the evidence
@@ -9,7 +9,9 @@ in a fixed JSON schema:
   contradicted : conflicts with the evidence
 The LLM acts as a judge here (a deliberate departure from "LLM extracts, code judges", recorded in the proposal); it never
 sees labels or ground truth. Step score = (unsupported + contradicted) / claims; derived ratio reported alongside.
-Output: audit/d4_evidence_judge.jsonl   Usage: python -m src.audit.d4_evidence_judge [--runs runs] [--labeled-only]
+Output: audit/d4_evidence_judge_<judge>.jsonl   Usage: python -m src.audit.d4_evidence_judge [--runs runs] [--labeled-only]
+Judge server/model come from LLM_JUDGE_BASE / LLM_JUDGE_MODEL (defaults: gpt-oss-20b on :18004, see llm_only.py);
+the 8B pilot (archived in audit/_removed/) used the qwen8b extractor path with the same prompt.
 """
 from __future__ import annotations
 
@@ -18,8 +20,14 @@ import glob
 import json
 from pathlib import Path
 
-from ..d2_argument_grounding import _load_run
-from ..extract import extract_json, map_parallel
+import os
+
+from .d2_argument_grounding import _load_run
+from .extract import map_parallel
+from . import llm_only as L
+
+JUDGE = os.environ.get("LLM_JUDGE_MODEL", L.MODEL)
+TAG = os.environ.get("LLM_JUDGE_TAG", JUDGE)
 
 AUX = {"user_sim", "summarizer", "planner"}
 AUDIT = Path("audit")
@@ -38,7 +46,7 @@ _SCHEMA = (
 
 def judge(evidence: str, instruction: str, response: str) -> list[dict]:
     text = f"INSTRUCTION GIVEN TO THE AGENT:\n{instruction[:2000]}\n\nEVIDENCE (tool results):\n{evidence[:12000]}\n\nRESPONSE:\n{response[:4000]}"
-    out = extract_json(text, _SCHEMA)
+    out, _lat, _tok = L.ask(f"{_SCHEMA}\n\n{text}\n\nOutput JSON only.")
     claims = (out or {}).get("claims")
     if not isinstance(claims, list):
         return []
@@ -92,14 +100,15 @@ def main() -> None:
         if not (run / "steps.jsonl").exists() or (labeled is not None and run.name not in labeled):
             continue
         targets += list(step_targets(run))
-    print(f"D4-judge: {len(targets)} subagent response steps with tool evidence")
+    print(f"D4-judge[{JUDGE}]: {len(targets)} subagent response steps with tool evidence")
     rows = list(map_parallel(score, targets))
     AUDIT.mkdir(exist_ok=True)
-    with (AUDIT / "d4_evidence_judge.jsonl").open("w", encoding="utf-8") as f:
+    out_path = AUDIT / f"d4_evidence_judge_{TAG}.jsonl"
+    with out_path.open("w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
     sc = [r["score"] for r in rows if r["score"] is not None]
-    print(f"rows {len(rows)}, scored {len(sc)}, mean score {sum(sc)/len(sc) if sc else 0:.3f}, "
+    print(f"{out_path}: rows {len(rows)}, scored {len(sc)}, mean score {sum(sc)/len(sc) if sc else 0:.3f}, "
           f"steps with any unsupported/contradicted {sum(x>0 for x in sc)}, no claims parsed {len(rows)-len(sc)}")
 
 

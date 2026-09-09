@@ -1,10 +1,10 @@
 # Detection metrics
 
-- generated: 2026-09-09 11:31:25 KST
+- generated: 2026-09-09 13:36:55 KST
 - d1_scored_n: 1296 rows in `audit/d1.jsonl`
 - labeled runs: aime=30, airline=30 (total 60); runs in index: 62
 - D1 method(s) present: stepwise
-- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3fs_instruction->premise, D3fs_report->planner, D3_instruction->premise, D3_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, LLM-gptoss20b_D1_1-conf, LLM-gptoss20b_D1_1-p_actual, LLM-gptoss20b_D2, LLM-gptoss20b_D3_instruction->premise, LLM-gptoss20b_D3_report->planner, LLM-qwen8b_D1_1-conf, LLM-qwen8b_D1_1-p_actual, LLM-qwen8b_D2, LLM-qwen8b_D3_instruction->premise, LLM-qwen8b_D3_report->planner, Judge_p_fail, Judge_flag
+- items scored: D1_1-conf, D1_1-p_actual, D1_1-margin, D1_handoff, D2, D3fs_instruction->premise, D3fs_report->planner, D3_instruction->premise, D3_report->planner, LLM_D1_1-conf, LLM_D1_1-p_actual, LLM_D2, LLM_D3_instruction->premise, LLM_D3_report->planner, LLM-gptoss20b_D1_1-conf, LLM-gptoss20b_D1_1-p_actual, LLM-gptoss20b_D2, LLM-gptoss20b_D3_instruction->premise, LLM-gptoss20b_D3_report->planner, LLM-qwen8b_D1_1-conf, LLM-qwen8b_D1_1-p_actual, LLM-qwen8b_D2, LLM-qwen8b_D3_instruction->premise, LLM-qwen8b_D3_report->planner, D4_gptoss20b, D4_qwen32b, D4_qwen8b, Judge_p_fail, Judge_flag
 - bootstrap: 1000 stratified resamples, seed 0; AUROC is `n/a` when n_pos < 3 or n_neg < 3.
 
 ## 1. Step-level AUROC
@@ -163,6 +163,15 @@ Labeled runs only; cascade steps excluded; negatives = clean steps. `n_scored/n_
 | LLM-qwen8b_D3_report->planner | planner | airline | 40/391 | 17 | 23 | 0.448 [0.286, 0.639] | 7 | 0.475 [0.261, 0.693] |
 | LLM-qwen8b_D3_report->planner | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
 | LLM-qwen8b_D3_report->planner | planner | all | 40/514 | 17 | 23 | 0.448 [0.286, 0.639] | 7 | 0.475 [0.261, 0.693] |
+| D4_gptoss20b | subagent | airline | 249/435 | 29 | 110 | 0.550 [0.446, 0.658] | 4 | 0.572 [0.368, 0.800] |
+| D4_gptoss20b | subagent | aime | 184/259 | 45 | 15 | 0.656 [0.498, 0.801] | 6 | 0.778 [0.522, 0.978] |
+| D4_gptoss20b | subagent | all | 433/694 | 74 | 125 | 0.611 [0.537, 0.686] | 10 | 0.683 [0.523, 0.830] |
+| D4_qwen32b | subagent | airline | 251/435 | 31 | 109 | 0.495 [0.392, 0.603] | 6 | 0.657 [0.466, 0.830] |
+| D4_qwen32b | subagent | aime | 166/259 | 44 | 16 | 0.616 [0.492, 0.727] | 7 | 0.750 [0.536, 0.929] |
+| D4_qwen32b | subagent | all | 417/694 | 75 | 125 | 0.497 [0.425, 0.576] | 13 | 0.649 [0.502, 0.789] |
+| D4_qwen8b | subagent | airline | 253/435 | 31 | 110 | 0.473 [0.383, 0.567] | 6 | 0.305 [0.259, 0.350] |
+| D4_qwen8b | subagent | aime | 165/259 | 43 | 16 | 0.522 [0.397, 0.640] | 5 | 0.487 [0.344, 0.700] |
+| D4_qwen8b | subagent | all | 418/694 | 74 | 126 | 0.458 [0.393, 0.523] | 11 | 0.359 [0.286, 0.468] |
 | Judge_p_fail | planner | airline | 388/391 | 46 | 148 | 0.610 [0.521, 0.698] | 16 | 0.686 [0.567, 0.800] |
 | Judge_p_fail | planner | aime | 0/123 | 0 | 0 | n/a | 0 | n/a |
 | Judge_p_fail | planner | all | 388/514 | 46 | 148 | 0.610 [0.521, 0.698] | 16 | 0.686 [0.567, 0.800] |
@@ -321,6 +330,12 @@ All runs in `runs/index.csv` (labels not required); a run enters only if the ite
 | LLM-qwen8b_D2 | subagent | all | 10 | 4 | 6 | 0.500 [0.500, 0.500] | 0.771 [0.438, 1.000] |
 | LLM-qwen8b_D2 | all | airline | 9 | 3 | 6 | 0.500 [0.500, 0.500] | 1.000 [1.000, 1.000] |
 | LLM-qwen8b_D2 | all | all | 9 | 3 | 6 | 0.500 [0.500, 0.500] | 1.000 [1.000, 1.000] |
+| D4_gptoss20b | subagent | aime | 4 | 3 | 1 | not computable (success=1, failure=3) | not computable (success=1, failure=3) |
+| D4_gptoss20b | subagent | all | 4 | 3 | 1 | not computable (success=1, failure=3) | not computable (success=1, failure=3) |
+| D4_qwen32b | subagent | aime | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
+| D4_qwen32b | subagent | all | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
+| D4_qwen8b | subagent | aime | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
+| D4_qwen8b | subagent | all | 3 | 2 | 1 | not computable (success=1, failure=2) | not computable (success=1, failure=2) |
 | Judge_p_fail | planner | airline | 31 | 25 | 6 | 0.480 [0.280, 0.687] | 0.533 [0.300, 0.760] |
 | Judge_p_fail | planner | all | 31 | 25 | 6 | 0.480 [0.280, 0.687] | 0.533 [0.300, 0.760] |
 | Judge_p_fail | subagent | airline | 30 | 24 | 6 | 0.604 [0.364, 0.833] | 0.743 [0.493, 0.931] |
@@ -457,6 +472,15 @@ Predicted decisive step = argmax score over the run's scored steps in the role s
 | LLM-qwen8b_D3_instruction->premise | planner | all | 22 | 0.227 | 0.227 | 0.636 |
 | LLM-qwen8b_D3_report->planner | planner | airline | 18 | 0.333 | 0.333 | 0.667 |
 | LLM-qwen8b_D3_report->planner | planner | all | 18 | 0.333 | 0.333 | 0.667 |
+| D4_gptoss20b | subagent | airline | 24 | 0.083 | 0.125 | 0.208 |
+| D4_gptoss20b | subagent | aime | 22 | 0.136 | 0.545 | 0.682 |
+| D4_gptoss20b | subagent | all | 46 | 0.109 | 0.326 | 0.435 |
+| D4_qwen32b | subagent | airline | 24 | 0.083 | 0.167 | 0.208 |
+| D4_qwen32b | subagent | aime | 21 | 0.095 | 0.429 | 0.571 |
+| D4_qwen32b | subagent | all | 45 | 0.089 | 0.289 | 0.378 |
+| D4_qwen8b | subagent | airline | 24 | 0.042 | 0.083 | 0.250 |
+| D4_qwen8b | subagent | aime | 21 | 0.095 | 0.524 | 0.714 |
+| D4_qwen8b | subagent | all | 45 | 0.067 | 0.289 | 0.467 |
 | Judge_p_fail | planner | airline | 24 | 0.167 | 0.167 | 0.667 |
 | Judge_p_fail | planner | all | 24 | 0.167 | 0.167 | 0.667 |
 | Judge_p_fail | subagent | airline | 24 | 0.000 | 0.125 | 0.208 |
@@ -593,6 +617,15 @@ Threshold = the smallest score whose FPR on labeled **clean** steps of that role
 | LLM-qwen8b_D3_instruction->premise | planner | all | 0.25 | 0.098 | 0.160 | 25 | 2/47 | 0.0 |
 | LLM-qwen8b_D3_report->planner | planner | airline | 1 | 0.000 | 0.000 | 17 | 0/24 | n/a |
 | LLM-qwen8b_D3_report->planner | planner | all | 1 | 0.000 | 0.000 | 17 | 0/47 | n/a |
+| D4_gptoss20b | subagent | airline | 1 | 0.000 | 0.000 | 29 | 0/24 | n/a |
+| D4_gptoss20b | subagent | aime | 0.8462 | 0.067 | 0.289 | 45 | 11/22 | 1.0 |
+| D4_gptoss20b | subagent | all | 1 | 0.000 | 0.000 | 74 | 0/46 | n/a |
+| D4_qwen32b | subagent | airline | 0.7143 | 0.083 | 0.065 | 31 | 5/24 | 20.0 |
+| D4_qwen32b | subagent | aime | 0.75 | 0.062 | 0.159 | 44 | 6/22 | 2.0 |
+| D4_qwen32b | subagent | all | 0.7143 | 0.080 | 0.120 | 75 | 11/46 | 3.0 |
+| D4_qwen8b | subagent | airline | 0.6667 | 0.055 | 0.032 | 31 | 2/24 | 12.0 |
+| D4_qwen8b | subagent | aime | 0.5 | 0.062 | 0.070 | 43 | 3/22 | 3.0 |
+| D4_qwen8b | subagent | all | 0.6667 | 0.056 | 0.027 | 74 | 2/46 | 12.0 |
 | Judge_p_fail | planner | airline | 0.95 | 0.061 | 0.087 | 46 | 9/24 | 10.0 |
 | Judge_p_fail | planner | all | 0.95 | 0.061 | 0.087 | 46 | 9/47 | 10.0 |
 | Judge_p_fail | subagent | airline | 1 | 0.016 | 0.000 | 48 | 8/24 | 3.5 |
@@ -655,7 +688,7 @@ Intersection = 1296 step(s) scored by all of D1_1-conf, D2.
 
 ## 7. Any-flag coverage (descriptive)
 
-Of the 172 labeled error steps (decisive + transient), **0.709** (122/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
+Of the 172 labeled error steps (decisive + transient), **0.797** (137/172) are flagged by at least one item at its own 90th-percentile threshold (percentiles taken over that item's scores on all labeled non-aux steps).
 
-Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.3750, `D3_report->planner`=1.0000, `D3fs_instruction->premise`=0.3833, `D3fs_report->planner`=1.0000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM-gptoss20b_D1_1-conf`=0.5156, `LLM-gptoss20b_D1_1-p_actual`=0.9900, `LLM-gptoss20b_D2`=1.0000, `LLM-gptoss20b_D3_instruction->premise`=0.3333, `LLM-gptoss20b_D3_report->planner`=1.0000, `LLM-qwen8b_D1_1-conf`=0.3258, `LLM-qwen8b_D1_1-p_actual`=1.0000, `LLM-qwen8b_D2`=1.0000, `LLM-qwen8b_D3_instruction->premise`=0.2500, `LLM-qwen8b_D3_report->planner`=1.0000, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
+Item thresholds: `D1_1-conf`=0.2793, `D1_1-margin`=0.4443, `D1_1-p_actual`=0.2344, `D1_handoff`=0.4819, `D2`=1.0000, `D3_instruction->premise`=0.3750, `D3_report->planner`=1.0000, `D3fs_instruction->premise`=0.3833, `D3fs_report->planner`=1.0000, `D4_gptoss20b`=1.0000, `D4_qwen32b`=0.7500, `D4_qwen8b`=0.4000, `Judge_flag`=1.0000, `Judge_p_fail`=0.9500, `LLM-gptoss20b_D1_1-conf`=0.5156, `LLM-gptoss20b_D1_1-p_actual`=0.9900, `LLM-gptoss20b_D2`=1.0000, `LLM-gptoss20b_D3_instruction->premise`=0.3333, `LLM-gptoss20b_D3_report->planner`=1.0000, `LLM-qwen8b_D1_1-conf`=0.3258, `LLM-qwen8b_D1_1-p_actual`=1.0000, `LLM-qwen8b_D2`=1.0000, `LLM-qwen8b_D3_instruction->premise`=0.2500, `LLM-qwen8b_D3_report->planner`=1.0000, `LLM_D1_1-conf`=0.4523, `LLM_D1_1-p_actual`=1.0000, `LLM_D2`=1.0000, `LLM_D3_instruction->premise`=0.2000, `LLM_D3_report->planner`=0.9375.
 

@@ -135,6 +135,14 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
             by_dir3[d][k] = max(by_dir3[d].get(k, 0.0), 1.0 - f)
         for d in sorted(by_dir3):
             add(f"{lab}_D3_{d}", roles=("planner",), note=f"LLM-only D3 ({tag or 'qwen32b'}): 1 - verbalized fidelity").scores = by_dir3[d]
+    # D4 evidence-dependence judge, one item per judge model: audit/d4_evidence_judge_<judge>.jsonl (subagent response steps)
+    for f in sorted(_glob.glob(str(audit / "d4_evidence_judge_*.jsonl"))):
+        tag = re.search(r"d4_evidence_judge_(.+)\.jsonl$", f).group(1)
+        d4 = add(f"D4_{tag}", roles=("subagent",), note=f"D4 근거 의존 판정 ({tag}): (unsupported + contradicted) / claims")
+        for r in read_jsonl(Path(f)):
+            v = _num(r.get("score"))
+            if v is not None:
+                d4.scores[(r["run_id"], int(r["step_id"]))] = v
     judge = add("Judge_p_fail", note="Qwen3-8B judge, thinking on, p_fail")
     judge_flag = add("Judge_flag", note="Qwen3-8B judge: p_fail >= 0.5 as a 0/1 flag (for P/R/F1 comparison with D2)")
     for r in read_jsonl(audit / "judge.jsonl"):

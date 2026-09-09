@@ -1,6 +1,6 @@
 # Item scores by label subtag
 
-- generated: 2026-09-09 11:13:25 KST
+- generated: 2026-09-09 13:37:30 KST
 - `mean` is over the labeled error steps of that subtag where the item has a score; `flagged` is the fraction of those steps at or above the item's 90th-percentile threshold (percentile taken over the item's scores on all labeled non-aux steps).
 
 | subtag | n_steps | item | n_scored | mean | flagged@p90 | threshold |
@@ -29,6 +29,9 @@
 | hallucination_like | 69 | LLM-qwen8b_D2 | 13 | 0.4615 | 0.462 | 1.0000 |
 | hallucination_like | 69 | LLM-qwen8b_D3_instruction->premise | 1 | 0.3333 | 1.000 | 0.2500 |
 | hallucination_like | 69 | LLM-qwen8b_D3_report->planner | 1 | 0.3333 | 0.000 | 1.0000 |
+| hallucination_like | 69 | D4_gptoss20b | 22 | 0.6779 | 0.591 | 1.0000 |
+| hallucination_like | 69 | D4_qwen32b | 23 | 0.5566 | 0.478 | 0.7500 |
+| hallucination_like | 69 | D4_qwen8b | 20 | 0.0660 | 0.050 | 0.4000 |
 | hallucination_like | 69 | Judge_p_fail | 51 | 0.6324 | 0.216 | 0.9500 |
 | hallucination_like | 69 | Judge_flag | 51 | 0.6863 | 0.686 | 1.0000 |
 | handoff_induced | 93 | D1_1-conf | 93 | 0.0988 | 0.151 | 0.2793 |
@@ -55,6 +58,9 @@
 | handoff_induced | 93 | LLM-qwen8b_D2 | 33 | 0.0909 | 0.091 | 1.0000 |
 | handoff_induced | 93 | LLM-qwen8b_D3_instruction->premise | 21 | 0.0849 | 0.143 | 0.2500 |
 | handoff_induced | 93 | LLM-qwen8b_D3_report->planner | 13 | 0.5549 | 0.077 | 1.0000 |
+| handoff_induced | 93 | D4_gptoss20b | 11 | 0.4281 | 0.182 | 1.0000 |
+| handoff_induced | 93 | D4_qwen32b | 10 | 0.2410 | 0.100 | 0.7500 |
+| handoff_induced | 93 | D4_qwen8b | 11 | 0.2584 | 0.273 | 0.4000 |
 | handoff_induced | 93 | Judge_p_fail | 77 | 0.4370 | 0.130 | 0.9500 |
 | handoff_induced | 93 | Judge_flag | 77 | 0.4545 | 0.455 | 1.0000 |
 | none | 180 | D1_1-conf | 180 | 0.0614 | 0.083 | 0.2793 |
@@ -81,6 +87,9 @@
 | none | 180 | LLM-qwen8b_D2 | 22 | 0.4091 | 0.409 | 1.0000 |
 | none | 180 | LLM-qwen8b_D3_instruction->premise | 3 | 0.0000 | 0.000 | 0.2500 |
 | none | 180 | LLM-qwen8b_D3_report->planner | 2 | 0.4250 | 0.000 | 1.0000 |
+| none | 180 | D4_gptoss20b | 129 | 0.7496 | 0.543 | 1.0000 |
+| none | 180 | D4_qwen32b | 114 | 0.3203 | 0.123 | 0.7500 |
+| none | 180 | D4_qwen8b | 117 | 0.1194 | 0.171 | 0.4000 |
 | none | 180 | Judge_p_fail | 57 | 0.5228 | 0.123 | 0.9500 |
 | none | 180 | Judge_flag | 57 | 0.5614 | 0.561 | 1.0000 |
 | reasoning_like | 92 | D1_1-conf | 92 | 0.0193 | 0.022 | 0.2793 |
@@ -107,6 +116,9 @@
 | reasoning_like | 92 | LLM-qwen8b_D2 | 13 | 0.1538 | 0.154 | 1.0000 |
 | reasoning_like | 92 | LLM-qwen8b_D3_instruction->premise | 0 | - | - | 0.2500 |
 | reasoning_like | 92 | LLM-qwen8b_D3_report->planner | 1 | 0.5000 | 0.000 | 1.0000 |
+| reasoning_like | 92 | D4_gptoss20b | 44 | 0.4800 | 0.136 | 1.0000 |
+| reasoning_like | 92 | D4_qwen32b | 44 | 0.2037 | 0.068 | 0.7500 |
+| reasoning_like | 92 | D4_qwen8b | 42 | 0.0674 | 0.048 | 0.4000 |
 | reasoning_like | 92 | Judge_p_fail | 29 | 0.4724 | 0.207 | 0.9500 |
 | reasoning_like | 92 | Judge_flag | 29 | 0.4828 | 0.483 | 1.0000 |
 
