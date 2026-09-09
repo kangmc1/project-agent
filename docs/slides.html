@@ -73,6 +73,11 @@
   .steps { display: grid; grid-template-columns: repeat(5, 1fr 1.2rem) 1fr; align-items: center; gap: 0.3rem; }
   .steps .arrow { text-align: center; color: var(--ink-3); font-size: 1.1rem; }
   .steps .box { min-height: 5.6rem; }
+  .slide.dense { font-size: 15px; } .slide.dense .body { gap: 0.7rem; padding-bottom: 1rem; } .slide.dense .lead { font-size: 1.02rem; max-width: none; }
+  .slide.dense .box { padding: 0.5rem 0.7rem; } .slide.dense .box p { font-size: 0.86rem; } .slide.dense h3 { margin-bottom: 0.25rem; }
+  ul.q { list-style: none; padding: 0; } ul.q li { margin: 0.2rem 0; }
+  ul.cols4 { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem 1.2rem; } ul.cols4 li { margin: 0; font-size: 0.9rem; padding-left: 0.9rem; position: relative; } ul.cols4 li::before { content: "–"; position: absolute; left: 0; color: var(--accent); }
+  .refs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 1.5rem; font-size: 0.78rem; color: var(--ink-2); }
 
   pre { margin: 0; background: var(--code-bg); border-radius: 4px; padding: 0.8rem 1rem; font-family: var(--mono); font-size: 0.84rem; line-height: 1.5; overflow-x: auto; color: var(--ink); }
   .chart { overflow-x: auto; }
@@ -126,29 +131,18 @@
   </div>
 </section>
 
-<section class="slide">
+<section class="slide dense">
   <div class="rail"><span class="num mono">02</span><span class="sec">1 배경</span></div>
-  <div class="head"><p class="eyebrow">1.1 연구 세부 주제</p><h2>실행 기록만으로 오류의 위치와 유형을 찾을 수 있는가</h2></div>
+  <div class="head"><p class="eyebrow">1 배경 · 1.1 연구 세부 주제 · 1.2 문제 정의 · 1.3 차별점</p><h2>실행 기록만으로 오류의 위치와 유형을 찾을 수 있는가</h2></div>
   <div class="body">
-    <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생깁니다. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐이고 정답도 사람 라벨도 없습니다.</p>
-    <div class="cols">
-      <div><h3>대상 시스템</h3><p>orchestrator가 과제별 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템. 2026년 프로덕션의 기본형인 orchestrator-worker 구조.</p></div>
-      <div><h3>탐지의 설정</h3><p>실행 중 저장된 기록 위에서, 실행이 끝난 뒤에 수행. 과제의 정답이나 사람이 단 라벨은 쓰지 않음. 실행 도중 끼어드는 가드레일은 범위 밖.</p></div>
-      <div><h3>기록에 담기는 것</h3><p>스텝(모델 호출)마다 그 에이전트가 받은 메시지 전체, 응답, 부른 도구와 돌아온 결과. 에이전트별로 따로 쌓이며 그 사이를 오가는 것은 handoff 메시지와 공유 파일뿐.</p></div>
+    <div class="cols wide-left">
+      <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생깁니다. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐이고 정답도 사람 라벨도 없습니다. 대상은 orchestrator가 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템이며, 탐지는 실행이 끝난 뒤 저장된 기록 위에서 수행합니다.</p>
+      <div><h3>이 설정에서 묻는 것 (1.1)</h3><ul class="q">
+        <li><span class="tag">D1</span> orchestrator가 다음에 누구를 부를지 고를 때의 불확실성을 정답 없이 수치화할 수 있는가</li>
+        <li><span class="tag">D2</span> subagent의 도구 호출이 지시와 기록에 주어진 값에 근거한 것인지를 기록만으로 판정할 수 있는가</li>
+        <li><span class="tag">D3</span> handoff에서 생기는 정보 손실이나 왜곡을 탐지하고 수치화할 수 있는가</li></ul></div>
     </div>
-    <div class="tbl"><table>
-      <tr><th style="width:3rem">질문</th><th>이 설정에서 묻는 것</th><th style="width:13rem">답하는 모듈 (§3.3)</th></tr>
-      <tr><td class="mono">1</td><td>orchestrator가 다음에 어느 subagent나 도구를 부를지 고를 때의 불확실성을 정답 없이 수치화할 수 있는가</td><td><span class="tag">D1</span> 결정 분포</td></tr>
-      <tr><td class="mono">2</td><td>subagent의 도구 호출이 orchestrator의 지시와 기록에 주어진 값에 근거한 것인지를 기록만으로 판정할 수 있는가</td><td><span class="tag">D2</span> 행동 근거</td></tr>
-      <tr><td class="mono">3</td><td>에이전트 사이의 handoff에서 생기는 정보 손실이나 왜곡을 탐지하고 수치화할 수 있는가</td><td><span class="tag">D3</span> handoff 정보 손실</td></tr>
-    </table></div>
-  </div>
-</section>
-
-<section class="slide">
-  <div class="rail"><span class="num mono">03</span><span class="sec">1 배경</span></div>
-  <div class="head"><p class="eyebrow">1.2 문제 정의</p><h2>한 스텝의 세 자리와 스텝 사이의 경계에서 네 문제를 정의합니다</h2></div>
-  <div class="body">
+    <div><h3>한 스텝의 세 자리와 스텝 사이의 경계에서 네 문제를 정의 (1.2)</h3>
     <div class="chart"><svg viewBox="0 0 1100 170" width="1100" height="170" role="img" aria-label="스텝 구조: 결정, 행동, 보고, 그리고 스텝 사이의 handoff 경계">
       <text class="sub" x="20" y="18">orchestrator 스텝</text>
       <rect class="node hi" x="20" y="28" width="150" height="54" rx="4"/><text class="ntext" x="95" y="51" text-anchor="middle">결정</text><text class="sub" x="95" y="70" text-anchor="middle">누구를 부를지 · D1</text>
@@ -167,44 +161,49 @@
       <path class="edge" d="M1049 84 C 1049 140, 640 150, 620 96"/>
       <text class="sub" x="560" y="130" text-anchor="middle">지시가 subagent의 전제로, 보고가 orchestrator의 다음 행동으로 넘어감</text>
     </svg></div>
-    <div class="flow">
-      <div class="box"><div class="m">결정 → D1</div><div class="t">결정의 불확실성</div><p>잘못된 subagent 호출, 필요한 위임 건너뜀, 실패한 위임 반복. 기록에는 정상 호출 한 줄로만 남음.</p></div>
-      <div class="box"><div class="m">행동 → D2</div><div class="t">행동의 근거</div><p>요구된 조회 건너뜀, 기록에 없는 값으로 호출, 오류 반환. "요구된"과 "주어진"은 자연어 지시문에서 읽어야 함.</p></div>
-      <div class="box gap"><div class="m">경계 → D3</div><div class="t">handoff의 정보 손실</div><p>사실이 빠지거나 바뀌면 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러남. 양쪽 다 자연어라 세기 어려움.</p></div>
-      <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없고 모든 문장이 근거에 있어야 하는 것도 아님.</p></div>
     </div>
-    <p class="quiet">과제의 네 유형은 이렇게 들어옵니다. handoff 문제는 결정과 경계, 도구 사용 실패는 행동, 환각은 행동(인자)과 보고, 추론 오류는 보고. 라벨도 이 자리에 맞춰 <code>handoff</code> / <code>tool</code> / <code>reasoning_stability</code> 세 범주로 답니다.</p>
+    <div class="flow">
+      <div class="box"><div class="m">결정 → D1</div><div class="t">결정의 불확실성</div><p>잘못된 subagent 호출, 위임 건너뜀, 실패한 위임 반복. 기록에는 정상 호출 한 줄로만 남음.</p></div>
+      <div class="box"><div class="m">행동 → D2</div><div class="t">행동의 근거</div><p>요구된 조회 건너뜀, 기록에 없는 값으로 호출, 오류 반환. "요구된"과 "주어진"은 자연어에서 읽어야 함.</p></div>
+      <div class="box gap"><div class="m">경계 → D3</div><div class="t">handoff의 정보 손실</div><p>사실이 빠지거나 바뀌면 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러남. 양쪽 다 자연어.</p></div>
+      <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없음.</p></div>
+    </div>
+    <div><h3>차별점 (1.3)</h3>
+      <ul class="cols4">
+        <li>결정의 불확실성을 실행 모델 자신의 확률로 잼. 같은 가중치·템플릿·스키마, 샘플링 없음</li>
+        <li>판정 주체를 층에 맞춤. 결정·행동은 코드, handoff 경계는 LLM. 어느 층에 무엇이 맞는지를 데이터로 정함</li>
+        <li>정답과 라벨 없이 동작. 임계값도 자기 분포의 백분위</li>
+        <li>성공 실행을 포함한 완전 관측 데이터셋과 생성 파이프라인을 남김. 과제의 네 유형을 모두 라벨</li>
+      </ul></div>
   </div>
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">04</span><span class="sec">1·2</span></div>
-  <div class="head"><p class="eyebrow">1.3 차별점 · 2 기존 연구</p><h2>공개 벤치마크와 무엇이 다른가</h2></div>
+  <div class="rail"><span class="num mono">03</span><span class="sec">2 기존 연구</span></div>
+  <div class="head"><p class="eyebrow">2 기존 연구</p><h2>공개 벤치마크는 실패 트레이스의 출력만 남기고, 불확실성 탐지는 샘플링에 기댑니다</h2></div>
   <div class="body">
     <div class="tbl"><table>
-      <tr><th></th><th>실패 귀속 벤치마크 (Who&amp;When, TraceElephant)</th><th>불확실성 기반 탐지 (semantic entropy, SelfCheckGPT)</th><th>이 연구</th></tr>
-      <tr><td>트레이스</td><td>실패한 트레이스만. 오탐율 개념이 없음</td><td>단일 응답</td><td>성공 6 / 실패 24. 오탐율과 회복 분석이 가능</td></tr>
-      <tr><td>기록의 범위</td><td>대체로 출력만 (TraceElephant는 입력 포함)</td><td>출력 텍스트</td><td>모델이 본 입력, 도구 결과 원문, 공유 파일 스냅샷</td></tr>
-      <tr><td>확률의 출처</td><td>다른 모델로 재생해 근사</td><td>반복 샘플링의 불일치</td><td>실행 모델 자신의 확률, 같은 가중치·템플릿·스키마, 샘플링 없음</td></tr>
-      <tr><td>판정 주체</td><td>LLM 판정</td><td>모델 자신</td><td>층마다 다름: 결정·행동은 코드, handoff 경계는 LLM. 데이터로 정함</td></tr>
-      <tr><td>라벨</td><td>전문가 라벨 (평가에도 학습에도)</td><td>—</td><td>탐지기는 정답·라벨을 받지 않음. 라벨은 평가에만</td></tr>
+      <tr><th></th><th>실패 귀속 벤치마크 (Who&amp;When [1], TraceElephant [2])</th><th>트레이스 오류 분류 (MAST [3], TRAIL [4])</th><th>불확실성 기반 탐지 (semantic entropy [5], SelfCheckGPT [6])</th><th>이 연구</th></tr>
+      <tr><td>무엇을 하는가</td><td>실패한 멀티에이전트 트레이스에서 책임 에이전트와 결정적 스텝을 맞힘</td><td>span·스텝 단위 오류 분류체계. MAST 14개 실패 모드, TRAIL 841개 오류</td><td>반복 생성의 불일치로 환각을 탐지</td><td>실행 기록만으로 오류의 자리와 유형을 탐지하고 수치화</td></tr>
+      <tr><td>트레이스</td><td>실패한 트레이스만. 오탐율 개념이 없음</td><td>실패 트레이스 중심</td><td>단일 응답</td><td>성공 6 / 실패 24. 오탐율과 회복 분석이 가능</td></tr>
+      <tr><td>기록의 범위</td><td>대체로 출력만 (TraceElephant는 입력 포함)</td><td>출력과 span</td><td>출력 텍스트</td><td>모델이 본 입력, 도구 결과 원문, 공유 파일 스냅샷</td></tr>
+      <tr><td>확률의 출처</td><td>다른 모델로 재생해 근사</td><td>—</td><td>반복 샘플링의 불일치</td><td>실행 모델 자신의 확률, 샘플링 없음</td></tr>
+      <tr><td>판정 주체</td><td>LLM 판정</td><td>사람 어노테이터</td><td>모델 자신</td><td>층마다 다름: 결정·행동은 코드, handoff 경계는 LLM</td></tr>
+      <tr><td>이 연구와의 관계</td><td>"완전 관측이 필요하다"는 결론을 공유</td><td>라벨 규약의 범주 정의의 바탕</td><td>불확실성은 유한한 행동 집합에서만 씀. 텍스트 환각에는 쓰지 않음(과신 환각에 취약)</td><td></td></tr>
     </table></div>
-    <div class="cols two">
-      <div><h3>기존 연구에서 가져온 것</h3><ul>
-        <li>"완전 관측이 필요하다"는 결론 (TraceElephant [2])</li>
-        <li>라벨 규약의 범주 정의 (MAST [3], TRAIL [4])</li>
-        <li>불확실성은 유한한 행동 집합에서만. 텍스트 환각에는 쓰지 않음 (과신 환각에 취약, [5][6])</li></ul></div>
-      <div><h3>이 연구가 더하는 것</h3><ul>
-        <li>결정의 불확실성을 실행 모델 자신의 확률로 잼</li>
-        <li>판정 주체를 층에 맞추고, 어느 층에 무엇이 맞는지를 데이터로 정함</li>
-        <li>정답과 라벨 없이 동작. 임계값도 자기 분포의 백분위</li>
-        <li>성공 실행을 포함한 완전 관측 데이터셋과 생성 파이프라인</li></ul></div>
+    <div class="refs mono">
+      <div>[1] Zhang et al. Which Agent Causes Task Failures and When? ICML 2025. arXiv:2505.00212</div>
+      <div>[2] Chen et al. Seeing the Whole Elephant: A Benchmark for Failure Attribution in LLM-based Multi-Agent Systems. ACL 2026. arXiv:2604.22708</div>
+      <div>[3] Cemri et al. Why Do Multi-Agent LLM Systems Fail? arXiv:2503.13657, 2025</div>
+      <div>[4] Deshpande et al. TRAIL: Trace Reasoning and Agentic Issue Localization. arXiv:2505.08638, 2025</div>
+      <div>[5] Farquhar et al. Detecting hallucinations in large language models using semantic entropy. Nature 630, 2024</div>
+      <div>[6] Manakul et al. SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection. EMNLP 2023. arXiv:2303.08896</div>
     </div>
   </div>
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">05</span><span class="sec">3 제안</span></div>
+  <div class="rail"><span class="num mono">04</span><span class="sec">3 제안</span></div>
   <div class="head"><p class="eyebrow">3.1 실행 환경 · 3.2 완전 관측 기록</p><h2>τ-bench airline을 orchestrator→subagent 그래프로 실행하고 모든 호출을 기록합니다</h2></div>
   <div class="body">
     <div class="cols wide-left">
@@ -235,7 +234,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">06</span><span class="sec">3 제안</span></div>
+  <div class="rail"><span class="num mono">05</span><span class="sec">3 제안</span></div>
   <div class="head"><p class="eyebrow">3.3 탐지기 구성</p><h2>네 모듈은 층마다 다른 상대와 대조하고 다른 주체가 판정합니다</h2></div>
   <div class="body">
     <div class="tbl"><table>
@@ -255,7 +254,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">07</span><span class="sec">3 제안</span></div>
+  <div class="rail"><span class="num mono">06</span><span class="sec">3 제안</span></div>
   <div class="head"><p class="eyebrow">3.4 라벨 없는 운영 · 3.5 평가 데이터셋</p><h2>탐지기는 라벨 없이 돌고, 실험의 산출물은 그대로 평가 데이터셋이 됩니다</h2></div>
   <div class="body">
     <div class="steps">
@@ -287,7 +286,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">08</span><span class="sec">4 평가</span></div>
+  <div class="rail"><span class="num mono">07</span><span class="sec">4 평가</span></div>
   <div class="head"><p class="eyebrow">4.1 실험 설계</p><h2>라벨은 평가의 기준이며 탐지기의 입력이 아닙니다</h2></div>
   <div class="body">
     <div class="cols wide-left">
@@ -321,7 +320,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">09</span><span class="sec">4 결과</span></div>
+  <div class="rail"><span class="num mono">08</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow">4.2 결과 1 · D1 결정 분포</p><h2>orchestrator의 결정이 흔들린 정도는 실패를 예고하고, subagent에서는 신호가 없습니다</h2></div>
   <div class="body">
     <div class="cols wide-left">
@@ -358,7 +357,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">10</span><span class="sec">4 결과</span></div>
+  <div class="rail"><span class="num mono">09</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow">4.2 결과 2 · D2 행동 근거</p><h2>subagent의 실수는 확신에 찬 잘못된 호출이라 코드 대조가 잡습니다</h2></div>
   <div class="body">
     <div class="cols wide-left">
@@ -390,7 +389,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">11</span><span class="sec">4 결과</span></div>
+  <div class="rail"><span class="num mono">10</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow">4.2 결과 3 · D3 handoff 정보 손실 · D4 보고 근거</p><h2>D3은 손실을 재고, D4는 판정기를 키워도 우연 수준입니다</h2></div>
   <div class="body">
     <div class="cols two">
@@ -416,7 +415,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">12</span><span class="sec">4 결과</span></div>
+  <div class="rail"><span class="num mono">11</span><span class="sec">4 결과</span></div>
   <div class="head"><p class="eyebrow">4.2.6 임계값 · 4.2.12 판정 방식 대조</p><h2>D1은 순위 지표로 쓰고, 판정 주체는 층마다 데이터로 정했습니다</h2></div>
   <div class="body">
     <div class="cols two">
@@ -453,7 +452,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">13</span><span class="sec">4 해석</span></div>
+  <div class="rail"><span class="num mono">12</span><span class="sec">4 해석</span></div>
   <div class="head"><p class="eyebrow">4.3 해석</p><h2>탐지기의 성능은 탐지기보다 어느 역할·어느 층에 붙이는가에 달려 있습니다</h2></div>
   <div class="body">
     <div class="tbl"><table>
@@ -472,7 +471,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">14</span><span class="sec">4 해석</span></div>
+  <div class="rail"><span class="num mono">13</span><span class="sec">4 해석</span></div>
   <div class="head"><p class="eyebrow">4.3 한계 · 향후 방향</p><h2>무엇을 주장하지 않으며, 다음에 무엇을 할 것인가</h2></div>
   <div class="body">
     <div class="cols two">
@@ -494,7 +493,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">15</span><span class="sec">4 임팩트</span></div>
+  <div class="rail"><span class="num mono">14</span><span class="sec">4 임팩트</span></div>
   <div class="head"><p class="eyebrow">4.4 기대 효과</p><h2>운영 로그를 사후 검토하는 제품에 그대로 얹힙니다</h2></div>
   <div class="body">
     <div class="steps">
@@ -514,7 +513,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">16</span><span class="sec">요약</span></div>
+  <div class="rail"><span class="num mono">15</span><span class="sec">요약</span></div>
   <div class="head"><p class="eyebrow">요약</p><h2>무엇을 쟀고 무엇이 나왔는가</h2></div>
   <div class="body">
     <div class="cols wide-right">
@@ -539,7 +538,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">17</span><span class="sec">부록</span></div>
+  <div class="rail"><span class="num mono">16</span><span class="sec">부록</span></div>
   <div class="head"><p class="eyebrow">부록 C · 두 번째 도메인</p><h2>AIME 2026은 왜 본문에서 뺐는가</h2></div>
   <div class="body">
     <div class="cols two">
@@ -563,7 +562,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">18</span><span class="sec">부록</span></div>
+  <div class="rail"><span class="num mono">17</span><span class="sec">부록</span></div>
   <div class="head"><p class="eyebrow">부록 A · 스펙 이탈·정정 기록 21건 중</p><h2>결과를 바꾼 결정 여섯 가지</h2></div>
   <div class="body">
     <div class="tbl"><table>
@@ -580,7 +579,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">19</span><span class="sec">부록</span></div>
+  <div class="rail"><span class="num mono">18</span><span class="sec">부록</span></div>
   <div class="head"><p class="eyebrow">부록 D · 설계만 한 선택 모듈</p><h2>구현하지 않은 세 모듈과 그 이유</h2></div>
   <div class="body">
     <div class="flow three">
@@ -593,7 +592,7 @@
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">20</span><span class="sec">부록</span></div>
+  <div class="rail"><span class="num mono">19</span><span class="sec">부록</span></div>
   <div class="head"><p class="eyebrow">부록 B · E · 재현과 설정</p><h2>커밋된 산출물에서 모든 표를 다시 만들 수 있습니다</h2></div>
   <div class="body">
 <pre>bash scripts/serve_qwen32b.sh &amp;  bash scripts/serve_qwen32b_score.sh &amp;  bash scripts/serve_gptoss20b.sh &amp;   # 실행 · D1 채점 · D3/D4 판정
@@ -614,7 +613,7 @@ python -m src.eval.labels --validate &amp;&amp; python -m src.eval.metrics &amp;
 </section>
 
 <section class="slide">
-  <div class="rail"><span class="num mono">21</span><span class="sec">부록</span></div>
+  <div class="rail"><span class="num mono">20</span><span class="sec">부록</span></div>
   <div class="head"><p class="eyebrow">부록 F · AI 도구 활용</p><h2>무엇을 AI에게 맡기고 무엇을 사람이 결정했는가</h2></div>
   <div class="body">
     <div class="tbl"><table>
@@ -633,7 +632,7 @@ python -m src.eval.labels --validate &amp;&amp; python -m src.eval.metrics &amp;
 
 </div>
 <div class="prog" id="prog"></div>
-<div class="nav" id="nav"><b id="cur">01</b> / <span id="tot">21</span></div>
+<div class="nav" id="nav"><b id="cur">01</b> / <span id="tot">20</span></div>
 
 <script>
 (function () {
