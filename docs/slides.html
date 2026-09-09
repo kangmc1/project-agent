@@ -83,6 +83,10 @@
   ul.q { list-style: none; padding: 0; } ul.q li { margin: 0.2rem 0; }
   ul.cols4 { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem 1.2rem; } ul.cols4 li { margin: 0; font-size: 0.9rem; padding-left: 0.9rem; position: relative; } ul.cols4 li::before { content: "–"; position: absolute; left: 0; color: var(--accent); }
   .refs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.25rem 1.5rem; font-size: 0.78rem; color: var(--ink-2); }
+  .slide.related .body { grid-template-rows: 1fr auto; align-content: stretch; }
+  .slide.related th { padding: 0.6rem 0.45rem; } .slide.related td { padding: 1.5rem 0.45rem; }
+  .slide.related .refs { grid-template-columns: 1fr; gap: 0.3rem; border-top: 1px solid var(--ink-3); padding-top: 0.6rem; }
+  .slide.related .refs > div { display: grid; grid-template-columns: 2.2rem 1fr; }
 
   pre { margin: 0; background: var(--code-bg); border-radius: 4px; padding: 0.8rem 1rem; font-family: var(--mono); font-size: 0.84rem; line-height: 1.5; overflow-x: auto; color: var(--ink); }
   .chart { overflow-x: auto; }
@@ -208,7 +212,7 @@
   </div>
 </section>
 
-<section class="slide">
+<section class="slide related">
   <div class="rail"><span class="num mono">03</span><span class="sec">2 기존 연구</span></div>
   <div class="head"><p class="eyebrow"><b>2 기존 연구</b></p><h2>기존 연구는 실패 귀속 벤치마크, 트레이스 오류 분류, 불확실성 기반 탐지의 세 계열로 나뉩니다</h2></div>
   <div class="body">
@@ -218,14 +222,15 @@
       <tr><td class="nw">트레이스 오류 분류</td><td class="nw">MAST [3]<br>TRAIL [4]</td><td>트레이스 단위 오류 분류체계. MAST는 1,600여 트레이스에서 14개 실패 모드(이력 손실, 추론-행동 불일치, 검증 실패 등)를 정리하였고, TRAIL은 841개 오류를 추론(환각 등), 실행, 계획·조정으로 나누어 스텝 단위로 표시함</td><td>라벨 규약(§4.1.3)의 범주 정의의 바탕</td></tr>
       <tr><td class="nw">불확실성 기반 탐지</td><td class="nw">semantic entropy [5]<br>SelfCheckGPT [6]</td><td>반복 생성의 불일치로 환각을 탐지함</td><td>샘플링에 기반함. 이 제안은 유한 행동 집합에서만 불확실성을 쓰고, 텍스트 환각에는 쓰지 않음(과신 환각에 취약하기 때문)</td></tr>
     </table></div>
+    <div><h3><span class="kp">References</span></h3>
     <div class="refs mono">
-      <div>[1] Zhang et al. Which Agent Causes Task Failures and When? ICML 2025. arXiv:2505.00212</div>
-      <div>[2] Chen et al. Seeing the Whole Elephant: A Benchmark for Failure Attribution in LLM-based Multi-Agent Systems. ACL 2026. arXiv:2604.22708</div>
-      <div>[3] Cemri et al. Why Do Multi-Agent LLM Systems Fail? arXiv:2503.13657, 2025</div>
-      <div>[4] Deshpande et al. TRAIL: Trace Reasoning and Agentic Issue Localization. arXiv:2505.08638, 2025</div>
-      <div>[5] Farquhar et al. Detecting hallucinations in large language models using semantic entropy. Nature 630, 2024</div>
-      <div>[6] Manakul et al. SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection. EMNLP 2023. arXiv:2303.08896</div>
-    </div>
+      <div><span>[1]</span><span>Zhang, S. et al. Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems. ICML 2025. arXiv:2505.00212</span></div>
+      <div><span>[2]</span><span>Chen, M. et al. Seeing the Whole Elephant: A Benchmark for Failure Attribution in LLM-based Multi-Agent Systems. ACL 2026. arXiv:2604.22708</span></div>
+      <div><span>[3]</span><span>Cemri, M. et al. Why Do Multi-Agent LLM Systems Fail? arXiv:2503.13657, 2025</span></div>
+      <div><span>[4]</span><span>Deshpande, D. et al. TRAIL: Trace Reasoning and Agentic Issue Localization. arXiv:2505.08638, 2025</span></div>
+      <div><span>[5]</span><span>Farquhar, S. et al. Detecting hallucinations in large language models using semantic entropy. Nature 630, 625–630 (2024)</span></div>
+      <div><span>[6]</span><span>Manakul, P. et al. SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models. EMNLP 2023. arXiv:2303.08896</span></div>
+    </div></div>
   </div>
 </section>
 
