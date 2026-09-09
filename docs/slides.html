@@ -121,12 +121,12 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">02</span><span class="sec">문제</span></div>
-  <div class="head"><p class="eyebrow">1. 배경</p><h2>운영 로그에는 정답도 라벨도 없다</h2></div>
+  <div class="head"><p class="eyebrow">1. 배경</p><h2>운영 로그에는 정답도 라벨도 없습니다</h2></div>
   <div class="body">
-    <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생김. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐임.</p>
+    <p class="lead">에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생깁니다. 어디서 시작됐고 어떤 유형인지를 탐지하고 수치화해야 하는데, 운영에서 남는 것은 실행 기록뿐입니다.</p>
     <div class="cols">
       <div><div class="k">대상 시스템</div><p>orchestrator가 과제별 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템. 2026년 프로덕션의 기본형인 orchestrator-worker 구조.</p></div>
-      <div><div class="k">탐지의 조건</div><p>실행 중 저장된 기록 위에서, 실행이 끝난 뒤에 수행함. 과제의 정답이나 사람이 단 라벨은 쓰지 않음. 실행 도중 끼어드는 가드레일은 범위 밖.</p></div>
+      <div><div class="k">탐지의 조건</div><p>실행 중 저장된 기록 위에서, 실행이 끝난 뒤에 수행합니다. 과제의 정답이나 사람이 단 라벨은 쓰지 않습니다. 실행 도중 끼어드는 가드레일은 범위 밖.</p></div>
       <div><div class="k">기록에 담기는 것</div><p>스텝(모델 호출)마다 그 에이전트가 받은 메시지 전체, 응답, 부른 도구와 돌아온 결과. 에이전트별로 따로 쌓이며 그 사이를 오가는 것은 handoff 메시지와 공유 파일뿐.</p></div>
     </div>
   </div>
@@ -135,7 +135,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">03</span><span class="sec">문제</span></div>
-  <div class="head"><p class="eyebrow">1. 배경</p><h2>이 설정에서 묻는 것은 세 가지다</h2></div>
+  <div class="head"><p class="eyebrow">1. 배경</p><h2>이 설정에서 묻는 것은 세 가지입니다</h2></div>
   <div class="body">
     <table>
       <tr><th style="width:3rem">#</th><th>질문</th><th style="width:14rem">답하는 모듈</th></tr>
@@ -143,14 +143,14 @@
       <tr><td class="mono">2</td><td>subagent의 도구 호출이 orchestrator의 지시와 기록에 주어진 값에 근거한 것인지를 기록만으로 판정할 수 있는가</td><td><span class="tag d">D2</span> 행동 근거</td></tr>
       <tr><td class="mono">3</td><td>에이전트 사이의 handoff에서 생기는 정보 손실이나 왜곡을 탐지하고 수치화할 수 있는가</td><td><span class="tag d">D3</span> handoff 정보 손실</td></tr>
     </table>
-    <p class="quiet">보고 층(에이전트가 말한 결론이 근거에서 나왔는가)은 네 번째 모듈 <span class="tag d">D4</span> 보고 근거로 시도하였고, 결과는 뒤에서 그대로 보고함.</p>
+    <p class="quiet">보고 층(에이전트가 말한 결론이 근거에서 나왔는가)은 네 번째 모듈 <span class="tag d">D4</span> 보고 근거로 시도하였고, 결과는 뒤에서 그대로 보고합니다.</p>
   </div>
   <div class="foot"><span class="rec mono">step 06 · db_agent · tool_call get_user_details(user_id="omar_davis_3817")</span><span>§1.1</span></div>
 </section>
 
 <section class="slide">
   <div class="rail"><span class="num mono">04</span><span class="sec">문제</span></div>
-  <div class="head"><p class="eyebrow">1. 배경 · 문제 정의</p><h2>오류는 스텝의 어느 자리에서 드러나는가에 따라 성격이 다르다</h2></div>
+  <div class="head"><p class="eyebrow">1. 배경 · 문제 정의</p><h2>오류는 스텝의 어느 자리에서 드러나는가에 따라 성격이 다릅니다</h2></div>
   <div class="body">
     <div class="flow">
       <div class="box"><div class="m">결정 → D1</div><div class="t">결정의 불확실성</div><p>어느 subagent·도구를 부를지. 잘못된 위임, 건너뜀, 실패한 위임 반복. 기록에는 정상 호출 한 줄로만 남음.</p></div>
@@ -158,14 +158,14 @@
       <div class="box"><div class="m">보고 → D4</div><div class="t">보고의 근거</div><p>근거에 없는 값(환각), 값은 맞는데 틀린 결론(추론 오류). 대조할 구조화 기록이 없고 모든 문장이 근거에 있어야 하는 것도 아님.</p></div>
       <div class="box gap"><div class="m">스텝 사이 → D3</div><div class="t">handoff의 정보 손실</div><p>지시가 전제로, 보고가 다음 행동으로 넘어갈 때 사실이 빠지거나 바뀜. 받은 쪽은 정상으로 움직여 오류가 뒤늦게 드러남.</p></div>
     </div>
-    <p class="quiet">과제의 네 유형은 여기에 들어옴. handoff 문제는 결정과 경계, 도구 사용 실패는 행동, 환각은 행동(인자)과 보고, 추론 오류는 보고. 라벨도 이 자리에 맞춰 <code>handoff</code> / <code>tool</code> / <code>reasoning_stability</code> 세 범주로 붙임.</p>
+    <p class="quiet">과제의 네 유형은 여기에 들어옵니다. handoff 문제는 결정과 경계, 도구 사용 실패는 행동, 환각은 행동(인자)과 보고, 추론 오류는 보고. 라벨도 이 자리에 맞춰 <code>handoff</code> / <code>tool</code> / <code>reasoning_stability</code> 세 범주로 답니다.</p>
   </div>
   <div class="foot"><span class="rec mono">step 07 · db_agent · "Reservation JG7FMM is a business class reservation and active"</span><span>§1.2</span></div>
 </section>
 
 <section class="slide">
   <div class="rail"><span class="num mono">05</span><span class="sec">배경</span></div>
-  <div class="head"><p class="eyebrow">2. 기존 연구 · 1.3 차별점</p><h2>공개 벤치마크는 실패 트레이스의 출력만 남긴다</h2></div>
+  <div class="head"><p class="eyebrow">2. 기존 연구 · 1.3 차별점</p><h2>공개 벤치마크는 실패 트레이스의 출력만 남깁니다</h2></div>
   <div class="body">
     <div class="cols">
       <div><div class="k">기존 연구</div>
@@ -188,14 +188,14 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">06</span><span class="sec">제안</span></div>
-  <div class="head"><p class="eyebrow">3. 제안 · 실행 환경</p><h2>τ-bench airline을 orchestrator→subagent 그래프로 실행한다</h2></div>
+  <div class="head"><p class="eyebrow">3. 제안 · 실행 환경</p><h2>τ-bench airline을 orchestrator→subagent 그래프로 실행합니다</h2></div>
   <div class="body">
 <pre>고객(시뮬레이터, 같은 모델) ⇄ orchestrator ─┬─ policy_checker  (think 도구 + 시스템 프롬프트의 정책 문서)
                                              ├─ db_agent        (예약 데이터베이스 도구 14개)
                                              └─ read_file / write_file  (공유 파일 /case_notes.md)</pre>
     <div class="cols">
-      <div><div class="k">왜 이 벤치마크인가</div><p>정책 판단과 데이터베이스 조회가 섞인 고객 응대 과제. 대화가 끝난 뒤 DB의 최종 상태가 정답과 같아야 성공이라 성패가 객관적임.</p></div>
-      <div><div class="k">subagent는 이름 있는 래퍼 도구</div><p>내장 <code>task</code>는 대상 subagent를 인자 안에 숨겨 "누구를 부르는가"의 확률을 잴 수 없음. 래퍼로 노출하면 handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에 놓임.</p></div>
+      <div><div class="k">왜 이 벤치마크인가</div><p>정책 판단과 데이터베이스 조회가 섞인 고객 응대 과제. 대화가 끝난 뒤 DB의 최종 상태가 정답과 같아야 성공이라 성패가 객관적입니다.</p></div>
+      <div><div class="k">subagent는 이름 있는 래퍼 도구</div><p>내장 <code>task</code>는 대상 subagent를 인자 안에 숨겨 "누구를 부르는가"의 확률을 잴 수 없습니다. 래퍼로 노출하면 handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에 놓입니다.</p></div>
       <div><div class="k">모델</div><p>실행 모델과 고객 시뮬레이터 모두 Qwen3-32B(thinking 끔). 같은 하네스로 돌린 AIME 2026 30회는 solver가 일을 거의 다 해 멀티에이전트 과제로 부적합, 부록 C.</p></div>
     </div>
   </div>
@@ -236,8 +236,8 @@
       <tr><td><span class="tag d">D4</span> 보고 근거</td><td>보고</td><td>근거(도구 결과, 지시문)</td><td>LLM (20B, 32B)</td><td>보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가</td></tr>
     </table></div>
     <div class="cols">
-      <div><div class="k">D1은 어떻게 확률을 얻는가</div><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산함. 점수는 1 − p_actual, 1 − confidence, 1 − margin.</p></div>
-      <div><div class="k">D2는 세 어긋남의 OR</div><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 봄.</p></div>
+      <div><div class="k">D1은 어떻게 확률을 얻는가</div><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산합니다. 점수는 1 − p_actual, 1 − confidence, 1 − margin.</p></div>
+      <div><div class="k">D2는 세 어긋남의 OR</div><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 봅니다.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">d1.jsonl · d2_action.jsonl · d3_handoff.jsonl · d4_evidence_judge_&lt;judge&gt;.jsonl</span><span>§3.3</span></div>
@@ -245,7 +245,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">09</span><span class="sec">제안</span></div>
-  <div class="head"><p class="eyebrow">3. 제안 · 평가 데이터셋</p><h2>산출물은 그 자체로 네 유형을 모두 라벨한 데이터셋이다</h2></div>
+  <div class="head"><p class="eyebrow">3. 제안 · 평가 데이터셋</p><h2>산출물은 그 자체로 네 유형을 모두 라벨한 데이터셋입니다</h2></div>
   <div class="body">
     <div class="tiles">
       <div class="tile"><div class="v">30</div><div class="l">완전 관측 트레이스 (성공 6 / 실패 24)</div></div>
@@ -256,7 +256,7 @@
     </div>
     <div class="cols">
       <div><div class="k">생성 파이프라인</div><p>실행 → 캡처 → 라벨러용 요약 → 블라인드 라벨링(탐지기 출력 비공개) → 스키마 검증과 독립 재라벨 스팟체크. 부록 B의 명령으로 재현.</p></div>
-      <div><div class="k">공개 벤치마크와 다른 점</div><p>성공 실행을 포함해 오탐율과 회복 분석이 되고, 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점할 수 있음. 라벨러가 사람이 아닌 것이 한계.</p></div>
+      <div><div class="k">공개 벤치마크와 다른 점</div><p>성공 실행을 포함해 오탐율과 회복 분석이 되고, 입력과 도구 결과 원문을 담아 같은 가중치로 다시 채점할 수 있습니다. 라벨러가 사람이 아닌 것이 한계.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">labels/airline_002.json · decisive_step: 19 · error_events: 9</span><span>§3.5</span></div>
@@ -264,7 +264,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">10</span><span class="sec">평가</span></div>
-  <div class="head"><p class="eyebrow">4. 결과 및 평가 · 실험 설계</p><h2>라벨은 평가의 기준이며 탐지기의 입력이 아니다</h2></div>
+  <div class="head"><p class="eyebrow">4. 결과 및 평가 · 실험 설계</p><h2>라벨은 평가의 기준이며 탐지기의 입력이 아닙니다</h2></div>
   <div class="body">
     <div class="cols">
       <div><div class="k">라벨링 프로토콜</div>
@@ -304,7 +304,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">12</span><span class="sec">결과</span></div>
-  <div class="head"><p class="eyebrow">결과 1</p><h2>orchestrator의 결정이 흔들린 정도는 실패를 예고한다</h2></div>
+  <div class="head"><p class="eyebrow">결과 1</p><h2>orchestrator의 결정이 흔들린 정도는 실패를 예고합니다</h2></div>
   <div class="body">
     <div class="chart">
       <svg viewBox="0 0 720 230" width="720" height="230" role="img" aria-label="D1 1 − p_actual AUROC by role, with 95% CI">
@@ -319,8 +319,8 @@
     </div>
     <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (n_pos 46 / dec 16)</span><span><i style="background:var(--s2)"></i>subagent (n_pos 48 / dec 8)</span><span>가로선은 95 % CI · 점수 1 − p_actual</span></div>
     <div class="cols">
-      <div><p>orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타남. 실행 단위로 보아도 가장 뜻밖이었던 결정 하나의 크기가 성패를 0.81로 가름.</p></div>
-      <div><p>subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족함. 오류는 어느 도구를 부르는가가 아니라 어떤 인자로 부르고 어떤 결론을 내는가에서 남. 그래서 D1에 보이지 않음.</p></div>
+      <div><p>orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타납니다. 실행 단위로 보아도 가장 뜻밖이었던 결정 하나의 크기가 성패를 0.81로 가릅니다.</p></div>
+      <div><p>subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족합니다. 오류는 어느 도구를 부르는가가 아니라 어떤 인자로 부르고 어떤 결론을 내는가에서 납니다. 그래서 D1에 보이지 않습니다.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">audit/d1.jsonl · 906 / 906 scored · confidence &gt; 0.99 in 62 %</span><span>§4.2.2, §4.2.3</span></div>
@@ -328,7 +328,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">13</span><span class="sec">결과</span></div>
-  <div class="head"><p class="eyebrow">결과 2</p><h2>subagent 층은 확신에 찬 잘못된 호출이라 코드 대조가 잡는다</h2></div>
+  <div class="head"><p class="eyebrow">결과 2</p><h2>subagent 층은 확신에 찬 잘못된 호출이라 코드 대조가 잡습니다</h2></div>
   <div class="body">
     <div class="tbl"><table>
       <tr><th>D2 행동 근거</th><th class="n">n_pos / n_neg</th><th class="n">TP</th><th class="n">FP</th><th class="n">정밀도</th><th class="n">재현율</th><th class="n">F1</th><th class="n">FPR</th><th class="n">decisive</th></tr>
@@ -351,7 +351,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">14</span><span class="sec">결과</span></div>
-  <div class="head"><p class="eyebrow">결과 3</p><h2>D3은 손실을 재고, D4는 판정기를 키워도 우연 수준이다</h2></div>
+  <div class="head"><p class="eyebrow">결과 3</p><h2>D3은 손실을 재고, D4는 판정기를 키워도 우연 수준입니다</h2></div>
   <div class="body">
     <div class="cols">
       <div><div class="k">D3 · 손실 정답지 60건 대비 (보고→orchestrator)</div>
@@ -361,7 +361,7 @@
           <tr><td>원문 값 토큰 겹침</td><td class="n">0.70</td><td class="n">0.75</td></tr>
           <tr class="hi"><td>LLM 직접 비교, gpt-oss-20b (채택)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
         </table></div>
-        <p class="quiet" style="margin-top:.6rem">실질 손실 12건 중 8건은 누락이 아니라 바꿔 말하기였음. "기록을 남김"이 "처리 완료"로. 값 집합의 차로는 원리적으로 안 보임. 실패 라벨 대비 AUROC는 0.53으로 약함.</p></div>
+        <p class="quiet" style="margin-top:.6rem">실질 손실 12건 중 8건은 누락이 아니라 바꿔 말하기였습니다. "기록을 남김"이 "처리 완료"로. 값 집합의 차로는 원리적으로 안 보입니다. 실패 라벨 대비 AUROC는 0.53으로 약합니다.</p></div>
       <div><div class="k">D4 · 판정기 세 종, airline subagent AUROC</div>
         <div class="chart"><svg viewBox="0 0 360 150" width="360" height="150" role="img" aria-label="D4 AUROC by judge with 95% CI">
           <g class="lab"><text x="92" y="26" text-anchor="end">Qwen3-8B</text><text x="92" y="66" text-anchor="end">gpt-oss-20b</text><text x="92" y="106" text-anchor="end">Qwen3-32B</text></g>
@@ -370,7 +370,7 @@
           <rect x="100" y="52" width="137.5" height="16" fill="var(--neutral)"><title>gpt-oss-20b AUROC 0.550 [0.446, 0.658]</title></rect><line class="ci" x1="211.5" y1="60" x2="264.5" y2="60"/><text class="val" x="272" y="65">0.55</text>
           <rect x="100" y="92" width="123.8" height="16" fill="var(--neutral)"><title>Qwen3-32B AUROC 0.495 [0.392, 0.603]</title></rect><line class="ci" x1="198" y1="100" x2="250.8" y2="100"/><text class="val" x="258" y="105">0.50</text>
         </svg></div>
-        <p class="quiet">오탐의 정체: "Next step: check LQ940Q" 같은 진행 문장, "reservation is active" 같은 무해한 추정을 근거 없는 주장으로 셈. D4는 모든 주장의 근거를 묻고 라벨은 실패를 부른 오류만 셈. 판정기 크기가 아니라 검사 정의의 문제.</p></div>
+        <p class="quiet">오탐의 정체: "Next step: check LQ940Q" 같은 진행 문장, "reservation is active" 같은 무해한 추정을 근거 없는 주장으로 셌습니다. D4는 모든 주장의 근거를 묻고 라벨은 실패를 부른 오류만 셉니다. 판정기 크기가 아니라 검사 정의의 문제.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">labels/d3_loss/labels.json · 60 handoffs · d4_evidence_judge_{qwen8b,gptoss20b,qwen32b}.jsonl</span><span>§4.2.11, §4.2.13</span></div>
@@ -378,7 +378,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">15</span><span class="sec">해석</span></div>
-  <div class="head"><p class="eyebrow">4.3 해석</p><h2>탐지기의 성능은 탐지기보다 어느 역할·어느 층에 붙이는가에 달려 있다</h2></div>
+  <div class="head"><p class="eyebrow">4.3 해석</p><h2>탐지기의 성능은 탐지기보다 어느 역할·어느 층에 붙이는가에 달려 있습니다</h2></div>
   <div class="body">
     <div class="tbl"><table>
       <tr><th></th><th>orchestrator</th><th>subagent</th></tr>
@@ -387,8 +387,8 @@
       <tr><td>D3 handoff 정보 손실 (LLM)</td><td colspan="2">보고→orchestrator 경계에서 손실 계측 성립 · 지시→전제는 손실 자체가 없음</td></tr>
     </table></div>
     <div class="cols">
-      <div><div class="k">같은 질문, 역할마다 다른 실패의 모양</div><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타남. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 함.</p></div>
-      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞섬(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 나음(자연어 사이의 손실). "판정은 코드가 함"는 행동 층에서만 성립함.</p></div>
+      <div><div class="k">같은 질문, 역할마다 다른 실패의 모양</div><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타납니다. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 합니다.</p></div>
+      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞섭니다(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 낫습니다(자연어 사이의 손실). "판정은 코드가 합니다"는 행동 층에서만 성립합니다.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">system_report.md · db_agent: 근거 없는 인자 비율 0.20 · report→orchestrator fidelity 0.44</span><span>§4.3</span></div>
@@ -430,7 +430,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">18</span><span class="sec">임팩트</span></div>
-  <div class="head"><p class="eyebrow">4.4 기대 효과</p><h2>운영 로그를 사후 검토하는 제품에 그대로 얹힌다</h2></div>
+  <div class="head"><p class="eyebrow">4.4 기대 효과</p><h2>운영 로그를 사후 검토하는 제품에 그대로 얹힙니다</h2></div>
   <div class="body">
     <div class="cols">
       <div><ul>
