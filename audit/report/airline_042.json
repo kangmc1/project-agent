@@ -33,12 +33,11 @@
     "missing": [
      "5 to 7 business days",
      "cancellations are allowed only if travel insurance is bought and the condition is met",
-     "eligible for a refund if travel insurance is purchased and cancellation is due to health reasons",
      "need_info"
     ],
     "altered": []
    },
-   "evidence": "policy_checker report->planner: missing ['5 to 7 business days', 'cancellations are allowed only if travel insurance is bought and the condition is met', 'eligible for a refund if travel insurance is purchased and cancellation is due to health reasons'] altered []"
+   "evidence": "policy_checker report->planner: missing ['5 to 7 business days', 'cancellations are allowed only if travel insurance is bought and the condition is met', 'need_info'] altered []"
   },
   {
    "step": 11,

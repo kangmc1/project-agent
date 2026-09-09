@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["112", "1280", "1_to_64", "800", "8x8"], "altered": []} | verifier report->planner: missing ['112', '1280', '1_to_64'] altered [] |
+| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["112", "8x8"], "altered": []} | verifier report->planner: missing ['112', '8x8'] altered [] |
 | 5 | verifier | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary

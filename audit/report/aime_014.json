@@ -10,7 +10,6 @@
     "missing": [
      "184",
      "189",
-     "492 + 184√5",
      "5",
      "903.44"
     ],
@@ -18,7 +17,7 @@
      "final_answer"
     ]
    },
-   "evidence": "solver report->planner: missing ['184', '189', '492 + 184√5'] altered ['final_answer']"
+   "evidence": "solver report->planner: missing ['184', '189', '5'] altered ['final_answer']"
   },
   {
    "step": 9,

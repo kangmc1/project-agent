@@ -4,7 +4,9 @@
 |---|---|---|---|---|
 | 2 | planner | D1/tool | {"confidence": 0.629, "p_actual": 0.622, "margin": 0.245} | action distribution: db_agent 0.62, respond_to_user 0.38, no_tool 0.00 (actual: db_agent) |
 | 2 | planner | D1/handoff | {"p_delegate": 0.622, "H2": 0.956} | delegate-vs-not split p_delegate=0.62 |
-| 11 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["hxdubj", "reservation id hxdubj is associated with the user", "verified booking code association", "yara_garcia_1905"], "altered": []} | db_agent report->planner: missing ['hxdubj', 'reservation id hxdubj is associated with the user', 'verified booking code association'] altered [] |
+| 7 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["need_info"], "altered": []} | policy_checker report->planner: missing ['need_info'] altered [] |
+| 11 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["hxdubj", "verified booking code association", "yara_garcia_1905"], "altered": []} | db_agent report->planner: missing ['hxdubj', 'verified booking code association', 'yara_garcia_1905'] altered [] |
+| 19 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["/case_notes.md", "could not proceed", "successfully written"], "altered": []} | db_agent report->planner: missing ['/case_notes.md', 'could not proceed', 'successfully written'] altered [] |
 | 20 | db_agent | D1/tool | {"confidence": 0.65, "p_actual": 0.553, "margin": 0.217} | action distribution: get_reservation_details 0.55, calculate 0.34, no_tool 0.09 (actual: get_reservation_details) |
 | 20 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: get_reservation_details returned an error; call failed: get_reservation_details returned an error |
 | 23 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: search_direct_flight/search_onestop_flight/book_reservation/calculate, update_reservation_baggages, calculate |

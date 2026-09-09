@@ -19,15 +19,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "(2x + y)/2",
      "125:6",
      "2x + y",
-     "6/125(2x + y)",
-     "ai + ic + y"
+     "ai + ic + y",
+     "x",
+     "y"
     ],
     "altered": []
    },
-   "evidence": "verifier report->planner: missing ['(2x + y)/2', '125:6', '2x + y'] altered []"
+   "evidence": "verifier report->planner: missing ['125:6', '2x + y', 'ai + ic + y'] altered []"
   },
   {
    "step": 4,
@@ -72,12 +72,11 @@
     "fidelity": 0.0,
     "missing": [
      "incomplete",
-     "missing",
      "re-solve the aime problem with the objection from the verifier: the solution is incomplete and lacks a clear derivation of the incenter distances and the final answer. please provide a complete solution with the final integer answer and the key equations used."
     ],
     "altered": []
    },
-   "evidence": "solver instruction->premise: missing ['incomplete', 'missing', 're-solve the aime problem with the objection from the verifier: the solution is incomplete and lacks a clear derivation of the incenter distances and the final answer. please provide a complete solution with the final integer answer and the key equations used.'] altered []"
+   "evidence": "solver instruction->premise: missing ['incomplete', 're-solve the aime problem with the objection from the verifier: the solution is incomplete and lacks a clear derivation of the incenter distances and the final answer. please provide a complete solution with the final integer answer and the key equations used.'] altered []"
   },
   {
    "step": 6,

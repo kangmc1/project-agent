@@ -4,12 +4,12 @@
 |---|---|---|---|---|
 | 5 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: search_direct_flight.date=2024-05-15 |
 | 6 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: search_onestop_flight.date=2024-05-15 |
+| 8 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["3", "jfk", "may 15th", "new york", "san francisco"], "altered": []} | db_agent report->planner: missing ['3', 'jfk', 'may 15th'] altered [] |
 | 9 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: search_direct_flight.date=2024-05-15 |
 | 15 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: lookup/modification requested without reservation or user id: 'Find the last reservation with three passengers.' |
-| 15 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["user not found"], "altered": ["final_answer", "verdict"]} | db_agent report->planner: missing ['user not found'] altered ['final_answer', 'verdict'] |
 | 16 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error |
 | 20 | planner | D1/handoff | {"p_delegate": 0.82, "H2": 0.68} | delegate-vs-not split p_delegate=0.82 |
-| 20 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["not_found", "sara_doe_496", "the provided user id was not found in the database."], "altered": ["verdict"]} | db_agent report->planner: missing ['not_found', 'sara_doe_496', 'the provided user id was not found in the database.'] altered ['verdict'] |
+| 20 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["sara_doe_496"], "altered": ["verdict"]} | db_agent report->planner: missing ['sara_doe_496'] altered ['verdict'] |
 | 21 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error |
 | 22 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: search_direct_flight/search_onestop_flight |
 | 25 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: lookup/modification requested without reservation or user id: 'Search for recent delayed flights with three passengers without a specific user ID.' |

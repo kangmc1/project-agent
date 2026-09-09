@@ -2,6 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
+| 5 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["need_info"], "altered": ["user_id"]} | policy_checker report->planner: missing ['need_info'] altered ['user_id'] |
 | 6 | policy_checker | D1/tool | {"confidence": 0.761, "p_actual": 0.908, "margin": 0.821} | action distribution: think 0.91, no_tool 0.09, read_file 0.01 (actual: think) |
 | 10 | planner | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: policy_checker.user_id=amelia_rossi_1247 |
 | 11 | policy_checker | D1/tool | {"confidence": 0.669, "p_actual": 0.846, "margin": 0.699} | action distribution: read_file 0.85, think 0.15, write_file 0.01 (actual: read_file) |

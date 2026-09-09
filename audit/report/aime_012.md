@@ -2,8 +2,8 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["1", "6", "6/1", "7"], "altered": ["final_answer"]} | solver report->planner: missing ['1', '6', '6/1'] altered ['final_answer'] |
-| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["-2_3", "0", "1", "2", "3"], "altered": ["final_answer"]} | verifier report->planner: missing ['-2_3', '0', '1'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["1", "6", "7"], "altered": ["final_answer"]} | solver report->planner: missing ['1', '6', '7'] altered ['final_answer'] |
+| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["0", "1", "2", "3", "4"], "altered": ["final_answer"]} | verifier report->planner: missing ['0', '1', '2'] altered ['final_answer'] |
 | 5 | verifier | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary

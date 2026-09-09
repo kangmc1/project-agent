@@ -1,6 +1,23 @@
 {
  "flags": [
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "daiki_lee_6144",
+     "jfk",
+     "look up reservation details",
+     "may 17th"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['daiki_lee_6144', 'jfk', 'look up reservation details'] altered []"
+  },
+  {
    "step": 11,
    "agent": "planner",
    "module": "D1",

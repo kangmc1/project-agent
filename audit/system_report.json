@@ -54,20 +54,20 @@
    "handoff_edges": {
     "solver:instruction->premise": {
      "n": 43,
-     "mean_fidelity": 0.6487303347059444,
-     "low_fidelity_ratio(<0.8)": 0.6097560975609756,
+     "mean_fidelity": 0.7496392496392497,
+     "low_fidelity_ratio(<0.8)": 0.42424242424242425,
      "top_missing_keys": [
-      [
-       "m/n",
-       4
-      ],
       [
        "n",
        4
       ],
       [
-       "4",
+       "m",
        3
+      ],
+      [
+       "2",
+       2
       ]
      ],
      "top_altered_keys": [
@@ -87,8 +87,8 @@
     },
     "solver:report->planner": {
      "n": 43,
-     "mean_fidelity": 0.30109612609612607,
-     "low_fidelity_ratio(<0.8)": 0.8571428571428571,
+     "mean_fidelity": 0.3063152889292868,
+     "low_fidelity_ratio(<0.8)": 0.8292682926829268,
      "top_missing_keys": [
       [
        "1",
@@ -116,20 +116,20 @@
     },
     "verifier:instruction->premise": {
      "n": 29,
-     "mean_fidelity": 0.6422224894447117,
-     "low_fidelity_ratio(<0.8)": 0.7037037037037037,
+     "mean_fidelity": 0.7971014492753623,
+     "low_fidelity_ratio(<0.8)": 0.391304347826087,
      "top_missing_keys": [
       [
        "m",
        4
       ],
       [
-       "4",
+       "n",
        3
       ],
       [
-       "m/n",
-       3
+       "2",
+       2
       ]
      ],
      "top_altered_keys": [
@@ -149,19 +149,19 @@
     },
     "verifier:report->planner": {
      "n": 29,
-     "mean_fidelity": 0.43555839002267577,
-     "low_fidelity_ratio(<0.8)": 0.75,
+     "mean_fidelity": 0.5225340136054422,
+     "low_fidelity_ratio(<0.8)": 0.6071428571428571,
      "top_missing_keys": [
       [
        "0",
        5
       ],
       [
-       "true",
-       4
+       "20",
+       2
       ],
       [
-       "252/25",
+       "2",
        2
       ]
      ],
@@ -257,20 +257,20 @@
    "handoff_edges": {
     "db_agent:instruction->premise": {
      "n": 152,
-     "mean_fidelity": 0.7367433821768187,
-     "low_fidelity_ratio(<0.8)": 0.4375,
+     "mean_fidelity": 0.9386591478696742,
+     "low_fidelity_ratio(<0.8)": 0.10526315789473684,
      "top_missing_keys": [
       [
-       "aa123",
-       11
+       "2",
+       4
       ],
       [
-       "economy",
-       11
+       "may 20th",
+       3
       ],
       [
-       "dl456",
-       8
+       "available",
+       3
       ]
      ],
      "top_altered_keys": [
@@ -290,8 +290,8 @@
     },
     "db_agent:report->planner": {
      "n": 152,
-     "mean_fidelity": 0.4077022289032574,
-     "low_fidelity_ratio(<0.8)": 0.852112676056338,
+     "mean_fidelity": 0.424732719931461,
+     "low_fidelity_ratio(<0.8)": 0.8226950354609929,
      "top_missing_keys": [
       [
        "0",
@@ -323,20 +323,20 @@
     },
     "policy_checker:instruction->premise": {
      "n": 36,
-     "mean_fidelity": 0.7866780045351474,
-     "low_fidelity_ratio(<0.8)": 0.38095238095238093,
+     "mean_fidelity": 0.9174603174603174,
+     "low_fidelity_ratio(<0.8)": 0.19047619047619047,
      "top_missing_keys": [
-      [
-       "allowed under airline policy",
-       3
-      ],
-      [
-       "basic_economy",
-       3
-      ],
       [
        "eligible",
        2
+      ],
+      [
+       "allowed under airline policy",
+       2
+      ],
+      [
+       "airline's policy",
+       1
       ]
      ],
      "top_altered_keys": [
@@ -356,7 +356,7 @@
     },
     "policy_checker:report->planner": {
      "n": 36,
-     "mean_fidelity": 0.3735272443605777,
+     "mean_fidelity": 0.3856090668590669,
      "low_fidelity_ratio(<0.8)": 0.8888888888888888,
      "top_missing_keys": [
       [
@@ -365,7 +365,7 @@
       ],
       [
        "not_allowed",
-       10
+       9
       ],
       [
        "2024-05-15 15:00:00 est",

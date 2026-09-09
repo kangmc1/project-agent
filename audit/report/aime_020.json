@@ -55,15 +55,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "15 = (r - 4) * (b - 2)",
-     "15 = (r - 4) * (n - r - 2)",
      "32 52 72 92 112",
      "360",
-     "4"
+     "4",
+     "5",
+     "7"
     ],
     "altered": []
    },
-   "evidence": "solver report->planner: missing ['15 = (r - 4) * (b - 2)', '15 = (r - 4) * (n - r - 2)', '32 52 72 92 112'] altered []"
+   "evidence": "solver report->planner: missing ['32 52 72 92 112', '360', '4'] altered []"
   },
   {
    "step": 8,

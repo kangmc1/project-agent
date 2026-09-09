@@ -3,7 +3,6 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 4 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: lookup/modification requested without reservation or user id: 'Find a reservation with origin ATL, destination PHL, and travel date April 5th. Return the reservation ID and passenger ' |
-| 4 | planner | D3/instruction->premise | {"fidelity": 0.0, "missing": ["john doe", "res123456"], "altered": []} | db_agent instruction->premise: missing ['john doe', 'res123456'] altered [] |
 | 5 | db_agent | D1/tool | {"confidence": 0.754, "p_actual": 0.789, "margin": 0.652} | action distribution: get_user_details 0.79, get_reservation_details 0.14, search_direct_flight 0.06 (actual: get_user_details) |
 | 5 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: get_user_details.user_id=sara_doe_496; call failed: get_user_details returned an error |
 | 9 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: lookup/modification requested without reservation or user id: 'Find a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name Aarav Garcia. Return the ' |

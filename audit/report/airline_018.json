@@ -1,6 +1,22 @@
 {
  "flags": [
   {
+   "step": 5,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "need_info"
+    ],
+    "altered": [
+     "user_id"
+    ]
+   },
+   "evidence": "policy_checker report->planner: missing ['need_info'] altered ['user_id']"
+  },
+  {
    "step": 6,
    "agent": "policy_checker",
    "module": "D1",

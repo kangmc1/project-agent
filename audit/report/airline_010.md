@@ -6,6 +6,7 @@
 | 7 | planner | D1/handoff | {"p_delegate": 0.438, "H2": 0.989} | delegate-vs-not split p_delegate=0.44 |
 | 15 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=PDX |
 | 16 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": false} | argument never given: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX |
+| 23 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["sara_doe_496"], "altered": ["user_id"]} | db_agent report->planner: missing ['sara_doe_496'] altered ['user_id'] |
 | 24 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: book_reservation.user_id=sara_doe_496, book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; call failed: book_reservation returned an error |
 | 29 | db_agent | D1/tool | {"confidence": 0.723, "p_actual": 0.551, "margin": 0.122} | action distribution: book_reservation 0.55, get_user_details 0.43, no_tool 0.02 (actual: book_reservation) |
 | 29 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: book_reservation.user_id=gift_card_12345, book_reservation.user_id=gift_card_67890; call failed: book_reservation returned an error |

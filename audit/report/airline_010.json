@@ -46,6 +46,22 @@
    "evidence": "argument never given: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
   },
   {
+   "step": 23,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "sara_doe_496"
+    ],
+    "altered": [
+     "user_id"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['sara_doe_496'] altered ['user_id']"
+  },
+  {
    "step": 24,
    "agent": "db_agent",
    "module": "D2",

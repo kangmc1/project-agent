@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["184", "189", "492 + 184√5", "5", "903.44"], "altered": ["final_answer"]} | solver report->planner: missing ['184', '189', '492 + 184√5'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["184", "189", "5", "903.44"], "altered": ["final_answer"]} | solver report->planner: missing ['184', '189', '5'] altered ['final_answer'] |
 | 9 | solver | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary

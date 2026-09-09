@@ -10,7 +10,6 @@
     "missing": [
      "1",
      "900",
-     "900/1",
      "901"
     ],
     "altered": [
@@ -18,7 +17,7 @@
      "m_plus_n"
     ]
    },
-   "evidence": "solver report->planner: missing ['1', '900', '900/1'] altered ['final_answer', 'm_plus_n']"
+   "evidence": "solver report->planner: missing ['1', '900', '901'] altered ['final_answer', 'm_plus_n']"
   },
   {
    "step": 7,

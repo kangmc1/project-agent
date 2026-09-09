@@ -19,12 +19,11 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "gift_card_and_certificate_balances",
      "successful"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['gift_card_and_certificate_balances', 'successful'] altered []"
+   "evidence": "db_agent report->planner: missing ['successful'] altered []"
   },
   {
    "step": 4,

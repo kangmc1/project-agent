@@ -11,8 +11,8 @@
      "0",
      "1",
      "161",
-     "2024-05-24",
-     "2024-05-25"
+     "408",
+     "5rj7uh"
     ],
     "altered": [
      "reservation_id"
@@ -54,6 +54,21 @@
     "H2": 0.904
    },
    "evidence": "delegate-vs-not split p_delegate=0.32"
+  },
+  {
+   "step": 25,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "failed",
+     "fq8ape"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['failed', 'fq8ape'] altered []"
   },
   {
    "step": 27,

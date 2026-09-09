@@ -16,10 +16,10 @@ Flag thresholds = top 10% of each item's own distribution (per role). `success_r
 
 | edge | n | mean fidelity | low(<0.8) ratio | top missing | top altered |
 |---|---|---|---|---|---|
-| solver:instruction->premise | 43 | 0.65 | 0.61 | [('m/n', 4), ('n', 4), ('4', 3)] | [('final_answer', 3), ('distance_miles', 2), ('problem_statement', 2)] |
-| solver:report->planner | 43 | 0.30 | 0.86 | [('1', 5), ('s', 4), ('r', 4)] | [('final_answer', 11), ('m_plus_n', 1)] |
-| verifier:instruction->premise | 29 | 0.64 | 0.70 | [('m', 4), ('4', 3), ('m/n', 3)] | [('m', 2), ('n', 2), ('final_answer', 2)] |
-| verifier:report->planner | 29 | 0.44 | 0.75 | [('0', 5), ('true', 4), ('252/25', 2)] | [('final_answer', 1)] |
+| solver:instruction->premise | 43 | 0.75 | 0.42 | [('n', 4), ('m', 3), ('2', 2)] | [('final_answer', 3), ('distance_miles', 2), ('problem_statement', 2)] |
+| solver:report->planner | 43 | 0.31 | 0.83 | [('1', 5), ('s', 4), ('r', 4)] | [('final_answer', 11), ('m_plus_n', 1)] |
+| verifier:instruction->premise | 29 | 0.80 | 0.39 | [('m', 4), ('n', 3), ('2', 2)] | [('m', 2), ('n', 2), ('final_answer', 2)] |
+| verifier:report->planner | 29 | 0.52 | 0.61 | [('0', 5), ('20', 2), ('2', 2)] | [('final_answer', 1)] |
 
 ### Hotspots (top 5)
 
@@ -54,10 +54,10 @@ Flag thresholds = top 10% of each item's own distribution (per role). `success_r
 
 | edge | n | mean fidelity | low(<0.8) ratio | top missing | top altered |
 |---|---|---|---|---|---|
-| db_agent:instruction->premise | 152 | 0.74 | 0.44 | [('aa123', 11), ('economy', 11), ('dl456', 8)] | [('departure_time_end', 2), ('departure_time_start', 2), ('verdict', 2)] |
-| db_agent:report->planner | 152 | 0.41 | 0.85 | [('0', 17), ('jfk', 12), ('1', 9)] | [('verdict', 26), ('final_answer', 9), ('departure_date', 4)] |
-| policy_checker:instruction->premise | 36 | 0.79 | 0.38 | [('allowed under airline policy', 3), ('basic_economy', 3), ('eligible', 2)] | [('verdict', 5), ('final_answer', 4), ('flight_type', 2)] |
-| policy_checker:report->planner | 36 | 0.37 | 0.89 | [('need_info', 12), ('not_allowed', 10), ('2024-05-15 15:00:00 est', 7)] | [('verdict', 4), ('final_answer', 1), ('reservation_id', 1)] |
+| db_agent:instruction->premise | 152 | 0.94 | 0.11 | [('2', 4), ('may 20th', 3), ('available', 3)] | [('departure_time_end', 2), ('departure_time_start', 2), ('verdict', 2)] |
+| db_agent:report->planner | 152 | 0.42 | 0.82 | [('0', 17), ('jfk', 12), ('1', 9)] | [('verdict', 26), ('final_answer', 9), ('departure_date', 4)] |
+| policy_checker:instruction->premise | 36 | 0.92 | 0.19 | [('eligible', 2), ('allowed under airline policy', 2), ("airline's policy", 1)] | [('verdict', 5), ('final_answer', 4), ('flight_type', 2)] |
+| policy_checker:report->planner | 36 | 0.39 | 0.89 | [('need_info', 12), ('not_allowed', 9), ('2024-05-15 15:00:00 est', 7)] | [('verdict', 4), ('final_answer', 1), ('reservation_id', 1)] |
 
 ### Hotspots (top 5)
 

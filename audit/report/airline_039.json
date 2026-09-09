@@ -59,13 +59,12 @@
     "fidelity": 0.0,
     "missing": [
      "cancellation",
-     "full_refund",
      "h8q05l",
      "harper kovacs"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['cancellation', 'full_refund', 'h8q05l'] altered []"
+   "evidence": "db_agent report->planner: missing ['cancellation', 'h8q05l', 'harper kovacs'] altered []"
   },
   {
    "step": 12,

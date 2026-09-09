@@ -3,9 +3,8 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 2 | solver | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: run_python returned an error |
-| 5 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["(x - 4)^2 + (1/2x^2 - 4x - 33)^2 = r^2", "0", "2y = x^2 - 8x + 12", "39", "4"], "altered": []} | verifier report->planner: missing ['(x - 4)^2 + (1/2x^2 - 4x - 33)^2 = r^2', '0', '2y = x^2 - 8x + 12'] altered [] |
-| 10 | planner | D3/instruction->premise | {"fidelity": 0.0, "missing": ["4", "equation_of_parabola equation_of_circle discriminant_condition_for_tangency solving_system_of_equations"], "altered": []} | solver instruction->premise: missing ['4', 'equation_of_parabola equation_of_circle discriminant_condition_for_tangency solving_system_of_equations'] altered [] |
-| 10 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["0", "1/2", "2r - 1 = 0", "r", "r = 0.5"], "altered": ["final_answer"]} | solver report->planner: missing ['0', '1/2', '2r - 1 = 0'] altered ['final_answer'] |
+| 5 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["0", "2y = x^2 - 8x + 12", "39", "4"], "altered": []} | verifier report->planner: missing ['0', '2y = x^2 - 8x + 12', '39'] altered [] |
+| 10 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["0", "2r - 1 = 0", "r", "r = 0.5", "x^2 + (x^2 - r)^2 = r^2"], "altered": ["final_answer"]} | solver report->planner: missing ['0', '2r - 1 = 0', 'r'] altered ['final_answer'] |
 
 ## Per-module summary
 ```

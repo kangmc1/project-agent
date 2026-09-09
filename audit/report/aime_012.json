@@ -10,14 +10,13 @@
     "missing": [
      "1",
      "6",
-     "6/1",
      "7"
     ],
     "altered": [
      "final_answer"
     ]
    },
-   "evidence": "solver report->planner: missing ['1', '6', '6/1'] altered ['final_answer']"
+   "evidence": "solver report->planner: missing ['1', '6', '7'] altered ['final_answer']"
   },
   {
    "step": 4,
@@ -27,17 +26,17 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "-2_3",
      "0",
      "1",
      "2",
-     "3"
+     "3",
+     "4"
     ],
     "altered": [
      "final_answer"
     ]
    },
-   "evidence": "verifier report->planner: missing ['-2_3', '0', '1'] altered ['final_answer']"
+   "evidence": "verifier report->planner: missing ['0', '1', '2'] altered ['final_answer']"
   },
   {
    "step": 5,

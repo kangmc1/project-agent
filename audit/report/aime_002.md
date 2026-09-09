@@ -3,7 +3,7 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["26"], "altered": []} | solver report->planner: missing ['26'] altered [] |
-| 11 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["ensure that half_length is an integer", "the range function is still being passed a float", "use of 10**(half_length - 1) and 10**half_length when half_length is a float"], "altered": []} | solver report->planner: missing ['ensure that half_length is an integer', 'the range function is still being passed a float', 'use of 10**(half_length - 1) and 10**half_length when half_length is a float'] altered [] |
+| 11 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["the range function is still being passed a float"], "altered": []} | solver report->planner: missing ['the range function is still being passed a float'] altered [] |
 | 12 | solver | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: run_python returned an error |
 | 13 | solver | D1/tool | {"confidence": 0.695, "p_actual": 0.85, "margin": 0.7} | action distribution: run_python 0.85, no_tool 0.15, read_file 0.00 (actual: run_python) |
 | 13 | solver | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: run_python returned an error |

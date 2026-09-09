@@ -286,12 +286,11 @@
     "missing": [
      "investigate further and attempt to resolve the issue",
      "still failing",
-     "the payment_id parameter",
      "transfer the case to a human agent for assistance"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['investigate further and attempt to resolve the issue', 'still failing', 'the payment_id parameter'] altered []"
+   "evidence": "db_agent report->planner: missing ['investigate further and attempt to resolve the issue', 'still failing', 'transfer the case to a human agent for assistance'] altered []"
   },
   {
    "step": 93,
