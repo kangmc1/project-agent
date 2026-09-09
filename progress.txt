@@ -318,3 +318,17 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - airline AUROC 0.47 (8B) / 0.55 (20B) / 0.50 (32B), CIs all include 0.5; AIME 0.52 / 0.66 / 0.62. Clean-step flag rate rises with judge size (0.39/0.71/0.54).
 - Cause (inspected airline_002 s6-s13): procedural sentences counted as claims; harmless inferences ("reservation is active") marked unsupported. Value-bearing-only rescoring does not help (0.55/0.51). -> check-definition problem, not judge size. D4 stays not adopted.
 - Module moved unused/ -> src/audit/d4_evidence_judge.py; scripts/eval_d4.py; metrics.py D4_<judge> items; 8B pilot restored as audit/d4_evidence_judge_qwen8b.jsonl. Proposal §4.2.14 + A.27. Servers shut down 13:45.
+
+## 14:42 Editorial pass on proposal/README (user-directed, 13:44-14:42)
+- §1.1 rewritten: intro para, setting para (detection over the stored record, no 탐지기 wording), three research questions mapped to D1-D3.
+- §1.2 rewritten as pure problem definition, four problems named by property (결정의 불확실성 / 행동의 근거 / handoff의 정보 손실 / 보고의 근거);
+  layer 발언 -> 보고 everywhere; D4 renamed 보고 근거, D2 renamed 행동 근거 (metrics.py note updated, metrics regenerated).
+- §1.3 four novelties (items 4+5 merged, caveats moved out). §2 related work cut to three families; MAST low-agreement claim removed (paper reports kappa 0.88);
+  참고문헌 section (9 verified entries) added above §3.
+- §3.3: module table + layer diagram merged; D1-D4 descriptions condensed; optional modules renumbered D5-D7 and moved to 부록 D.
+- §4 review against eval/audit outputs: stale D2-orchestrator trace (0.470/0.560) and attribution (0.292/0.333) rows, subtag table (D2 handoff_induced 0.409,
+  D3 column from LLM D3), handoff-edge table (0.44/0.83, 0.49/0.86, 0.90/0.16), report flags 461 (D2 201), airline D2 flags 160 (subagent 125 + orchestrator 35).
+  D3 instruction->premise sentence in §4.3 (0.55, no loss) and D4 sentences updated. Truncated dates/typos in §4.1.3, §4.1.5, 부록 A fixed.
+- Pruning: §4.1.5 method history -> one sentence (A.6); §4.2.2 composition-history table removed (A.14 keeps it); §4.2.8 매칭 부표 removed, later
+  subsections renumbered 4.2.8-4.2.13 (refs updated incl. README); limitations bullets D1 coverage / hallucinated tool name / file-delete+todo removed;
+  부록 C pooled block removed; 부록 A 27 -> 21 items (old 1,7,8,13,22 dropped, 4+5 merged); new 부록 E with all setting details; README aligned.
