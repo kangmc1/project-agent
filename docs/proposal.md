@@ -205,15 +205,13 @@ Deep Agents(`deepagents 0.7.13`) 위의 그래프를 §3.1의 구조대로 실�
 
 도구 개수 14는 `tau_bench/envs/airline/tools/`의 모듈 수이며, 나머지 구성은 `src/harness/airline.py`에 있다(AIME 2026은 `src/harness/aime.py`, 부록 C). orchestrator에서 `task`, `ls`, `glob`, `grep`, `execute`, `edit_file`, `delete`를 제거하였으므로 D1의 후보 집합에는 위 표의 도구만 남는다(`docs/notes/deepagents_probe.md`에서 노출 도구가 `read_file`, `write_file`과 바인딩된 래퍼·도메인 도구뿐임을 확인하였다).
 
-모델은 셋이다. 서빙 설정은 `scripts/serve_*.sh`에 있다.
+모델은 셋을 썼다. 모든 호출은 `temperature=0`이며, 서빙 설정은 `scripts/serve_*.sh`에 있다.
 
-| 모델 | 역할 | thinking |
-|---|---|---|
-| Qwen3-32B | 실행 모델과 사용자 시뮬레이터. D1 채점(같은 가중치, 별도 서버, 문맥 24,576토큰). LLM 단독 비교군과 D4의 판정 | 실행·채점은 끔, 판정은 켬 |
-| gpt-oss-20b | D3 판정, D4 판정, LLM 단독 비교군 판정. 실행 모델과 다른 계열 | 기본 reasoning |
-| Qwen3-8B | 사실 추출 비교군(§4.2.12), D4 8B 파일럿, LLM 단독 8B 비교군 | 끔 |
+- **Qwen3-32B.** 실행 모델과 사용자 시뮬레이터로 쓴다. thinking을 끄고 `logprobs`를 켜서 생성 토큰 id를 받으며, 어느 에이전트의 호출인지를 `X-Agent` 헤더로 기록한다. D1 채점에는 같은 가중치를 문맥 24,576토큰의 별도 서버로 띄워 쓴다. LLM 단독 비교군과 D4의 판정에도 쓰며, 이때는 thinking을 켠다.
+- **gpt-oss-20b.** 실행 모델과 다른 계열의 판정 모델이다. D3 판정, D4 판정, LLM 단독 비교군 판정에 쓴다. 기본 reasoning 설정 그대로다.
+- **Qwen3-8B.** thinking을 끄고 사실 추출 비교군(§4.2.12), D4의 8B 파일럿, LLM 단독 8B 비교군에 쓴다.
 
-모든 호출은 `temperature=0`이다. 실행 하네스는 `logprobs`를 켜고(생성 토큰 id를 받는 채널) 어느 에이전트의 호출인지를 `X-Agent` 헤더로 기록한다(`src/harness/model.py`). 요약 미들웨어는 orchestrator와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다.
+요약 미들웨어는 orchestrator와 모든 subagent 그래프에 하나씩 붙으며, 문맥이 16,000토큰에 이르면 최근 8개 메시지를 남기고 요약한다.
 
 #### 4.1.2 실행 규모
 
