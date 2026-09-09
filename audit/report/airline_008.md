@@ -3,6 +3,7 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 2 | planner | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": false} | db_agent: lookup/modification requested without reservation or user id: "Retrieve the sum of the customer's gift card balances and the sum of their certificate balances." |
+| 2 | planner | D3/instruction->premise | {"fidelity": 0.0, "missing": ["Retrieve sum of customer's gift card balances", "Retrieve sum of customer's certificate balances"], "altered": []} | db_agent instruction->premise: missing ["Retrieve sum of customer's gift card balances", "Retrieve sum of customer's certificate balances"] altered [] |
 | 4 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: send_certificate |
 
 ## Per-module summary

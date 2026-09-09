@@ -1,6 +1,6 @@
 # Item scores by label subtag
 
-- generated: 2026-09-09 10:47:02 KST
+- generated: 2026-09-09 11:13:25 KST
 - `mean` is over the labeled error steps of that subtag where the item has a score; `flagged` is the fraction of those steps at or above the item's 90th-percentile threshold (percentile taken over the item's scores on all labeled non-aux steps).
 
 | subtag | n_steps | item | n_scored | mean | flagged@p90 | threshold |
@@ -10,8 +10,10 @@
 | hallucination_like | 69 | D1_1-margin | 69 | 0.1763 | 0.145 | 0.4443 |
 | hallucination_like | 69 | D1_handoff | 17 | 0.2517 | 0.176 | 0.4819 |
 | hallucination_like | 69 | D2 | 69 | 0.4638 | 0.464 | 1.0000 |
-| hallucination_like | 69 | D3_instruction->premise | 1 | 0.0000 | 0.000 | 0.3833 |
-| hallucination_like | 69 | D3_report->planner | 1 | 0.8000 | 0.000 | 1.0000 |
+| hallucination_like | 69 | D3fs_instruction->premise | 1 | 0.0000 | 0.000 | 0.3833 |
+| hallucination_like | 69 | D3fs_report->planner | 1 | 0.8000 | 0.000 | 1.0000 |
+| hallucination_like | 69 | D3_instruction->premise | 1 | 0.6000 | 1.000 | 0.3750 |
+| hallucination_like | 69 | D3_report->planner | 1 | 0.4000 | 0.000 | 1.0000 |
 | hallucination_like | 69 | LLM_D1_1-conf | 12 | 0.1932 | 0.000 | 0.4523 |
 | hallucination_like | 69 | LLM_D1_1-p_actual | 12 | 0.4958 | 0.167 | 1.0000 |
 | hallucination_like | 69 | LLM_D2 | 13 | 0.5385 | 0.538 | 1.0000 |
@@ -34,8 +36,10 @@
 | handoff_induced | 93 | D1_1-margin | 93 | 0.1266 | 0.140 | 0.4443 |
 | handoff_induced | 93 | D1_handoff | 82 | 0.1875 | 0.159 | 0.4819 |
 | handoff_induced | 93 | D2 | 93 | 0.4086 | 0.409 | 1.0000 |
-| handoff_induced | 93 | D3_instruction->premise | 34 | 0.1104 | 0.088 | 0.3833 |
-| handoff_induced | 93 | D3_report->planner | 61 | 0.6296 | 0.311 | 1.0000 |
+| handoff_induced | 93 | D3fs_instruction->premise | 34 | 0.1104 | 0.088 | 0.3833 |
+| handoff_induced | 93 | D3fs_report->planner | 61 | 0.6296 | 0.311 | 1.0000 |
+| handoff_induced | 93 | D3_instruction->premise | 68 | 0.1352 | 0.103 | 0.3750 |
+| handoff_induced | 93 | D3_report->planner | 67 | 0.5610 | 0.209 | 1.0000 |
 | handoff_induced | 93 | LLM_D1_1-conf | 33 | 0.2501 | 0.182 | 0.4523 |
 | handoff_induced | 93 | LLM_D1_1-p_actual | 33 | 0.4409 | 0.242 | 1.0000 |
 | handoff_induced | 93 | LLM_D2 | 33 | 0.0606 | 0.061 | 1.0000 |
@@ -58,8 +62,10 @@
 | none | 180 | D1_1-margin | 180 | 0.0978 | 0.094 | 0.4443 |
 | none | 180 | D1_handoff | 16 | 0.0247 | 0.000 | 0.4819 |
 | none | 180 | D2 | 180 | 0.2889 | 0.289 | 1.0000 |
-| none | 180 | D3_instruction->premise | 5 | 0.0000 | 0.000 | 0.3833 |
-| none | 180 | D3_report->planner | 4 | 0.4934 | 0.000 | 1.0000 |
+| none | 180 | D3fs_instruction->premise | 5 | 0.0000 | 0.000 | 0.3833 |
+| none | 180 | D3fs_report->planner | 4 | 0.4934 | 0.000 | 1.0000 |
+| none | 180 | D3_instruction->premise | 5 | 0.1667 | 0.200 | 0.3750 |
+| none | 180 | D3_report->planner | 5 | 0.7556 | 0.400 | 1.0000 |
 | none | 180 | LLM_D1_1-conf | 22 | 0.1416 | 0.136 | 0.4523 |
 | none | 180 | LLM_D1_1-p_actual | 22 | 0.6364 | 0.500 | 1.0000 |
 | none | 180 | LLM_D2 | 22 | 0.3182 | 0.318 | 1.0000 |
@@ -82,8 +88,10 @@
 | reasoning_like | 92 | D1_1-margin | 92 | 0.0207 | 0.011 | 0.4443 |
 | reasoning_like | 92 | D1_handoff | 10 | 0.0789 | 0.100 | 0.4819 |
 | reasoning_like | 92 | D2 | 92 | 0.1848 | 0.185 | 1.0000 |
-| reasoning_like | 92 | D3_instruction->premise | 2 | 0.0000 | 0.000 | 0.3833 |
-| reasoning_like | 92 | D3_report->planner | 2 | 0.9130 | 0.500 | 1.0000 |
+| reasoning_like | 92 | D3fs_instruction->premise | 2 | 0.0000 | 0.000 | 0.3833 |
+| reasoning_like | 92 | D3fs_report->planner | 2 | 0.9130 | 0.500 | 1.0000 |
+| reasoning_like | 92 | D3_instruction->premise | 2 | 0.4000 | 1.000 | 0.3750 |
+| reasoning_like | 92 | D3_report->planner | 2 | 0.5750 | 0.000 | 1.0000 |
 | reasoning_like | 92 | LLM_D1_1-conf | 13 | 0.1884 | 0.231 | 0.4523 |
 | reasoning_like | 92 | LLM_D1_1-p_actual | 13 | 0.4938 | 0.077 | 1.0000 |
 | reasoning_like | 92 | LLM_D2 | 13 | 0.3077 | 0.308 | 1.0000 |

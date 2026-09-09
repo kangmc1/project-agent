@@ -18,7 +18,7 @@ import re
 from pathlib import Path
 
 from .d2_rules import RESERVATION_ID, USER_ID
-from .d3_handoff import _load_run, _load_text, _dedupe_wrapper_rows, _planner_wrapper_calls, _find_planner_step_id
+from .comparators.d3_factset import _load_run, _load_text, _dedupe_wrapper_rows, _planner_wrapper_calls, _find_planner_step_id
 
 AUDIT = Path("audit")
 DB_LOOKUP = re.compile(r"\b(reservation|booking|confirmation code|itinerary|user|customer|passenger'?s? (?:details|profile|information|record)|profile|membership|cancel|update|modify|change|refund|upgrade)\b", re.I)

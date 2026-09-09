@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["111"], "altered": ["final_answer"]} | solver report->planner: missing ['111'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The computation was executed successfully.", "The integer part of 10^100 S is computed.", "The remainder when this integer is divided by 1000 is determined.", "The remainder when the greatest integer less than or equal to 10^100 S is divided by 1000 is 111.", "FINAL ANSWER: 111"], "altered": []} | solver report->planner: missing ['The computation was executed successfully.', 'The integer part of 10^100 S is computed.', 'The remainder when this integer is divided by 1000 is determined.'] altered [] |
 | 2 | solver | D1/tool | {"confidence": 0.527, "p_actual": 0.365, "margin": 0.271} | action distribution: no_tool 0.64, run_python 0.36, write_file 0.00 (actual: run_python) |
 | 5 | verifier | D1/tool | {"confidence": 0.645, "p_actual": 0.806, "margin": 0.612} | action distribution: run_python 0.81, no_tool 0.19, read_file 0.00 (actual: run_python) |
 | 7 | planner | D1/handoff | {"p_delegate": 0.818, "H2": 0.685} | delegate-vs-not split p_delegate=0.82 |

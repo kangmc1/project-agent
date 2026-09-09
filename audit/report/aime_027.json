@@ -12,6 +12,21 @@
    "evidence": "required but never called: run_python"
   },
   {
+   "step": 3,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "issue with previous code execution",
+     "try again to solve the system of equations"
+    ],
+    "altered": []
+   },
+   "evidence": "verifier report->planner: missing ['issue with previous code execution', 'try again to solve the system of equations'] altered []"
+  },
+  {
    "step": 31,
    "agent": "planner",
    "module": "D1",

@@ -2,11 +2,12 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The five smallest values of n that satisfy the condition are 31, 36, 41, 46, and 51.", "The sum of these values is 205.", "FINAL ANSWER: 205"], "altered": []} | solver report->planner: missing ['The five smallest values of n that satisfy the condition are 31, 36, 41, 46, and 51.', 'The sum of these values is 205.', 'FINAL ANSWER: 205'] altered [] |
 | 3 | solver | D1/tool | {"confidence": 0.754, "p_actual": 0.895, "margin": 0.79} | action distribution: no_tool 0.89, run_python 0.10, read_file 0.00 (actual: no_tool) |
 | 6 | verifier | D1/tool | {"confidence": 0.676, "p_actual": 0.836, "margin": 0.672} | action distribution: no_tool 0.84, run_python 0.16, read_file 0.00 (actual: no_tool) |
 | 7 | planner | D1/tool | {"confidence": 0.612, "p_actual": 0.608, "margin": 0.22} | action distribution: solver 0.61, no_tool 0.39, submit_answer 0.00 (actual: solver) |
 | 7 | planner | D1/handoff | {"p_delegate": 0.608, "H2": 0.966} | delegate-vs-not split p_delegate=0.61 |
-| 7 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["32 52 72 92 112", "360", "4", "5", "7"], "altered": []} | solver report->planner: missing ['32 52 72 92 112', '360', '4'] altered [] |
+| 7 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The urn contains n marbles, each either red or blue.", "There are at least 7 marbles of each color.", "When 7 marbles are drawn randomly without replacement, the probability of drawing exactly 4 red marbles equals the probability of drawing exactly 5 red marbles.", "We are to find the sum of the five least values of n for which this condition is satisfied.", "The claim is that the values are 32, 52, 72, 92, 112, with a sum of 360."], "altered": []} | solver report->planner: missing ['The urn contains n marbles, each either red or blue.', 'There are at least 7 marbles of each color.', 'When 7 marbles are drawn randomly without replacement, the probability of drawing exactly 4 red marbles equals the probability of drawing exactly 5 red marbles.'] altered [] |
 | 8 | solver | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary

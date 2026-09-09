@@ -88,6 +88,16 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
     for r in read_jsonl(audit / "d2_action.jsonl"):
         d3.scores[(r["run_id"], int(r["step_id"]))] = float(r.get("d3", 0))
 
+    # comparator: 8B fact-set fidelity (the pre-11:10 D3), kept for the measurement comparison
+    by_fs: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)
+    for r in read_jsonl(audit / "_comparators" / "d3_factset.jsonl"):
+        f = _num(r.get("fidelity"))
+        if f is None:
+            continue
+        k = (r["run_id"], int(r["planner_step_id"])); d = str(r.get("direction", "?"))
+        by_fs[d][k] = max(by_fs[d].get(k, 0.0), 1.0 - f)
+    for d in sorted(by_fs):
+        add(f"D3fs_{d}", roles=("planner",), note="comparator: 1 - fidelity from Qwen3-8B fact extraction + code set diff").scores = by_fs[d]
     by_dir: dict[str, dict[tuple[str, int], float]] = defaultdict(dict)  # D3 information-loss measure: fact-set fidelity per direction
     for r in read_jsonl(audit / "d3_handoff.jsonl"):
         f = _num(r.get("fidelity"))
@@ -97,7 +107,7 @@ def load_items(root: str | Path = ".") -> dict[str, Item]:
         d = str(r.get("direction", "?"))
         by_dir[d][k] = max(by_dir[d].get(k, 0.0), 1.0 - f)
     for d in sorted(by_dir):
-        add(f"D3_{d}", roles=("planner",), note="D3 정보 손실: 1 - fact-set fidelity (8B extraction), worst wrapper at the planner step").scores = by_dir[d]
+        add(f"D3_{d}", roles=("planner",), note="D3 정보 손실 (LLM direct comparison, gpt-oss-20b): 1 - fidelity, worst wrapper at the planner step").scores = by_dir[d]
 
     # LLM-only variants of D1/D2/D3 — same question as the module, LLM judgment. One item set per judge model:
     # default files llm_d{1,2,3}.jsonl = Qwen3-32B; llm_d{1,2,3}_<tag>.jsonl = other judges (e.g. gptoss20b).

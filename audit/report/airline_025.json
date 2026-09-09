@@ -1,6 +1,24 @@
 {
  "flags": [
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "User ID: aarav_ahmed_6699",
+     "Flight date: May 22",
+     "Origin: JFK",
+     "Destination: MCO",
+     "Requested operation: Find reservation details"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['User ID: aarav_ahmed_6699', 'Flight date: May 22', 'Origin: JFK'] altered []"
+  },
+  {
    "step": 10,
    "agent": "planner",
    "module": "D1",
@@ -59,26 +77,6 @@
    "evidence": "action distribution: search_onestop_flight 0.55, no_tool 0.45, search_direct_flight 0.00 (actual: search_onestop_flight)"
   },
   {
-   "step": 31,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "hat011",
-     "hat083",
-     "sara_doe_496"
-    ],
-    "altered": [
-     "final_answer",
-     "user_id",
-     "verdict"
-    ]
-   },
-   "evidence": "db_agent report->planner: missing ['hat011', 'hat083', 'sara_doe_496'] altered ['final_answer', 'user_id', 'verdict']"
-  },
-  {
    "step": 32,
    "agent": "db_agent",
    "module": "D2",
@@ -99,6 +97,23 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
+  },
+  {
+   "step": 36,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "book_reservation function failed",
+     "Failure due to missing required parameter 'date'",
+     "Agent will request the date for booking to proceed",
+     "Agent requests the date for the flight"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['book_reservation function failed', \"Failure due to missing required parameter 'date'\", 'Agent will request the date for booking to proceed'] altered []"
   },
   {
    "step": 37,
@@ -141,12 +156,14 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "could you please provide the date for the flight?",
-     "the `book_reservation` function failed because the required parameter `date` was not provided."
+     "function: book_reservation",
+     "failure reason: missing date parameter",
+     "action: request date for booking",
+     "request: provide date for flight"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['could you please provide the date for the flight?', 'the `book_reservation` function failed because the required parameter `date` was not provided.'] altered []"
+   "evidence": "db_agent report->planner: missing ['function: book_reservation', 'failure reason: missing date parameter', 'action: request date for booking'] altered []"
   },
   {
    "step": 42,
@@ -180,21 +197,6 @@
     "tool_call_failed": false
    },
    "evidence": "db_agent: re-issued after a failure report (similarity 1.00): 'Book the second cheapest economy class option for flight from JFK to SFO on May 24, which is the com'"
-  },
-  {
-   "step": 46,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "aarav_ahmed_6699",
-     "successfully transferred to a human agent"
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['aarav_ahmed_6699', 'successfully transferred to a human agent'] altered []"
   },
   {
    "step": 47,

@@ -15,15 +15,16 @@
    "step": 2,
    "agent": "planner",
    "module": "D3",
-   "direction": "report->planner",
+   "direction": "instruction->premise",
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "successful"
+     "Sum of the customer's gift card balances",
+     "Sum of the customer's certificate balances"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['successful'] altered []"
+   "evidence": "db_agent instruction->premise: missing [\"Sum of the customer's gift card balances\", \"Sum of the customer's certificate balances\"] altered []"
   },
   {
    "step": 4,

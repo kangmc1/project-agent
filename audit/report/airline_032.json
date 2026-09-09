@@ -1,6 +1,24 @@
 {
  "flags": [
   {
+   "step": 11,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "Reservation ID: KC18K6",
+     "Origin: MSP",
+     "Destination: CLT",
+     "Flight Type: one_way",
+     "Cabin: basic_economy"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['Reservation ID: KC18K6', 'Origin: MSP', 'Destination: CLT'] altered []"
+  },
+  {
    "step": 16,
    "agent": "planner",
    "module": "D1",
@@ -159,6 +177,20 @@
    "evidence": "required but never called: calculate"
   },
   {
+   "step": 64,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "No direct flights found for the given criteria."
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['No direct flights found for the given criteria.'] altered []"
+  },
+  {
    "step": 65,
    "agent": "db_agent",
    "module": "D1",
@@ -237,21 +269,6 @@
    "evidence": "required but never called: calculate"
   },
   {
-   "step": 75,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "payment_id",
-     "required parameter `payment_id` was missing"
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['payment_id', 'required parameter `payment_id` was missing'] altered []"
-  },
-  {
    "step": 76,
    "agent": "db_agent",
    "module": "D1",
@@ -284,6 +301,20 @@
     "tool_call_failed": false
    },
    "evidence": "required but never called: calculate"
+  },
+  {
+   "step": 82,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "None of the available functions can be used to create a new payment method for the user 'sophia_silva_7557'"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing [\"None of the available functions can be used to create a new payment method for the user 'sophia_silva_7557'\"] altered []"
   },
   {
    "step": 86,

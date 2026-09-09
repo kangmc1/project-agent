@@ -16,10 +16,10 @@ Flag thresholds = top 10% of each item's own distribution (per role). `success_r
 
 | edge | n | mean fidelity | low(<0.8) ratio | top missing | top altered |
 |---|---|---|---|---|---|
-| solver:instruction->premise | 43 | 0.75 | 0.42 | [('n', 4), ('m', 3), ('2', 2)] | [('final_answer', 3), ('distance_miles', 2), ('problem_statement', 2)] |
-| solver:report->planner | 43 | 0.31 | 0.83 | [('1', 5), ('s', 4), ('r', 4)] | [('final_answer', 11), ('m_plus_n', 1)] |
-| verifier:instruction->premise | 29 | 0.80 | 0.39 | [('m', 4), ('n', 3), ('2', 2)] | [('m', 2), ('n', 2), ('final_answer', 2)] |
-| verifier:report->planner | 29 | 0.52 | 0.61 | [('0', 5), ('20', 2), ('2', 2)] | [('final_answer', 1)] |
+| solver:instruction->premise | 43 | 0.84 | 0.26 | [('final integer answer', 5), ('key equations used', 2), ('Provide a complete solution with the final integer answer and the key equations used.', 2)] | [] |
+| solver:report->planner | 43 | 0.16 | 0.95 | [('n = 1', 2), ('distance from the school to the park is 252/25 miles', 1), ('m = 252', 1)] | [] |
+| verifier:instruction->premise | 29 | 0.80 | 0.43 | [('final integer answer', 1), ('key equations used', 1), ('Problem is AIME problem', 1)] | [('The operation is not associative; must evaluate step by step.', 1)] |
+| verifier:report->planner | 29 | 0.23 | 0.93 | [('distance from the school to the park is 252/25 miles', 2), ('m + n = 277', 2), ('even-length palindrome construction formula', 1)] | [('279 positive integers n less than 1000 such that f(n) = n', 1)] |
 
 ### Hotspots (top 5)
 
@@ -54,10 +54,10 @@ Flag thresholds = top 10% of each item's own distribution (per role). `success_r
 
 | edge | n | mean fidelity | low(<0.8) ratio | top missing | top altered |
 |---|---|---|---|---|---|
-| db_agent:instruction->premise | 152 | 0.94 | 0.11 | [('2', 4), ('may 20th', 3), ('available', 3)] | [('departure_time_end', 2), ('departure_time_start', 2), ('verdict', 2)] |
-| db_agent:report->planner | 152 | 0.42 | 0.82 | [('0', 17), ('jfk', 12), ('1', 9)] | [('verdict', 26), ('final_answer', 9), ('departure_date', 4)] |
-| policy_checker:instruction->premise | 36 | 0.92 | 0.19 | [('eligible', 2), ('allowed under airline policy', 2), ("airline's policy", 1)] | [('verdict', 5), ('final_answer', 4), ('flight_type', 2)] |
-| policy_checker:report->planner | 36 | 0.39 | 0.89 | [('need_info', 12), ('not_allowed', 9), ('2024-05-15 15:00:00 est', 7)] | [('verdict', 4), ('final_answer', 1), ('reservation_id', 1)] |
+| db_agent:instruction->premise | 152 | 0.90 | 0.16 | [('Date: May 24', 3), ('Option: second cheapest economy class option', 2), ('Passenger 1: Sophia Silva', 2)] | [('retrieve current business class price', 1), ('retrieve current economy class price', 1), ('Retrieve exact economy class prices for each reservation', 1)] |
+| db_agent:report->planner | 152 | 0.44 | 0.83 | [('Flight Type: one_way', 7), ('Cabin: basic_economy', 5), ('booking failed', 4)] | [('error type', 1), ('The available one-stop flights depart much earlier or later than the requested time window.', 1), ('HAT218 connecting flight arrival time 03:00+1 (3:00 AM next day)', 1)] |
+| policy_checker:instruction->premise | 36 | 0.97 | 0.06 | [('The check is under the current airline policy.', 1), ('policy check', 1)] | [('User is checking eligibility to pay a fee to change flight', 1)] |
+| policy_checker:report->planner | 36 | 0.49 | 0.86 | [('User ID: amelia_rossi_1247', 2), ('Requested action: Cancel flights due to a change in travel plans', 2), ('The current date is 2024-05-15 15:00:00 EST.', 2)] | [('The user is asking about the typical price difference between business and economy class for five reservations: JG7FMM, 2FBBAH, X7BYG1, EQ1G6C, BOH180.', 1), ('reservation ID unknown', 1), ("The number of free checked bags depends on the customer's membership tier and cabin class.", 1)] |
 
 ### Hotspots (top 5)
 

@@ -12,6 +12,21 @@
    "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Retrieve the sum of the customer's gift card balances and the sum of their certificate balances.\""
   },
   {
+   "step": 2,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "instruction->premise",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "Retrieve sum of customer's gift card balances",
+     "Retrieve sum of customer's certificate balances"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent instruction->premise: missing [\"Retrieve sum of customer's gift card balances\", \"Retrieve sum of customer's certificate balances\"] altered []"
+  },
+  {
    "step": 4,
    "agent": "db_agent",
    "module": "D2",

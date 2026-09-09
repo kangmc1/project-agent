@@ -3,7 +3,7 @@
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
 | 2 | solver | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
-| 3 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["10000", "1425", "1436", "16", "25"], "altered": []} | verifier report->planner: missing ['10000', '1425', '1436'] altered [] |
+| 3 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["Python script returned no output.", "Brute-force approach did not find a valid n in range 1000 to 1.", "Polynomial: x^3 - (n/6)x^2 + (n-11)x - 400.", "Roots are alpha^2, beta^2, gamma^2.", "Exactly 7 different possible values for alpha+beta+gamma."], "altered": []} | verifier report->planner: missing ['Python script returned no output.', 'Brute-force approach did not find a valid n in range 1000 to 1.', 'Polynomial: x^3 - (n/6)x^2 + (n-11)x - 400.'] altered [] |
 
 ## Per-module summary
 ```

@@ -8,13 +8,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "4xgccm",
-     "amelia_davis_8890",
-     "udmop1"
+     "case notes updated",
+     "operation details for finding upcoming flights for single-passenger reservations",
+     "user ID 'amelia_davis_8890'",
+     "reservation ID 'UDMOP1'",
+     "reservation ID '4XGCCM'"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['4xgccm', 'amelia_davis_8890', 'udmop1'] altered []"
+   "evidence": "db_agent report->planner: missing ['case notes updated', 'operation details for finding upcoming flights for single-passenger reservations', \"user ID 'amelia_davis_8890'\"] altered []"
   },
   {
    "step": 10,
@@ -50,6 +52,24 @@
     "margin": 0.124
    },
    "evidence": "action distribution: db_agent 0.56, policy_checker 0.44, write_file 0.00 (actual: db_agent)"
+  },
+  {
+   "step": 12,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "user ID 'amelia_davis_8890'",
+     "cancellations recorded in shared file `/case_notes.md`"
+    ],
+    "altered": [
+     "cancellation of reservation UDMOP1 recorded",
+     "cancellation of reservation 4XGCCM recorded"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing [\"user ID 'amelia_davis_8890'\", 'cancellations recorded in shared file `/case_notes.md`'] altered ['cancellation of reservation UDMOP1 recorded', 'cancellation of reservation 4XGCCM recorded']"
   },
   {
    "step": 14,

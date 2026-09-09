@@ -8,12 +8,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "flight from houston to denver on may 27th",
-     "successfully recorded"
+     "flight origin: Houston",
+     "flight destination: Denver",
+     "flight date: May 27th",
+     "reservation details recorded in case notes",
+     "status: successfully recorded"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['flight from houston to denver on may 27th', 'successfully recorded'] altered []"
+   "evidence": "db_agent report->planner: missing ['flight origin: Houston', 'flight destination: Denver', 'flight date: May 27th'] altered []"
   },
   {
    "step": 7,
@@ -39,24 +42,6 @@
    "evidence": "delegate-vs-not split p_delegate=0.85"
   },
   {
-   "step": 10,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "2024-05-15 15:00:00 est",
-     "need_info",
-     "unknown"
-    ],
-    "altered": [
-     "reservation_id"
-    ]
-   },
-   "evidence": "policy_checker report->planner: missing ['2024-05-15 15:00:00 est', 'need_info', 'unknown'] altered ['reservation_id']"
-  },
-  {
    "step": 11,
    "agent": "policy_checker",
    "module": "D1",
@@ -67,23 +52,6 @@
     "margin": 0.255
    },
    "evidence": "action distribution: no_tool 0.62, think 0.37, read_file 0.01 (actual: think)"
-  },
-  {
-   "step": 15,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "gift card",
-     "modify flight and baggage policy clauses; need reservation id cabin class and reservation type to determine eligibility for modification and baggage allowance",
-     "need_info",
-     "no membership tier"
-    ],
-    "altered": []
-   },
-   "evidence": "policy_checker report->planner: missing ['gift card', 'modify flight and baggage policy clauses; need reservation id cabin class and reservation type to determine eligibility for modification and baggage allowance', 'need_info'] altered []"
   },
   {
    "step": 17,
@@ -149,15 +117,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "04:00",
-     "1",
-     "13:00",
-     "changes have been recorded in the case notes",
-     "den"
+     "reservation ID 'OBUT9V'",
+     "status: successfully updated",
+     "flight HAT084 from DEN to LAS at 04:00",
+     "flight HAT266 from LAS to IAH at 13:00",
+     "checked bag added: 1"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['04:00', '1', '13:00'] altered []"
+   "evidence": "db_agent report->planner: missing [\"reservation ID 'OBUT9V'\", 'status: successfully updated', 'flight HAT084 from DEN to LAS at 04:00'] altered []"
   },
   {
    "step": 29,

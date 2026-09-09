@@ -8,12 +8,13 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "successfully retrieved and recorded in the case notes",
-     "va5sgq"
+     "reservation ID VA5SGQ",
+     "reservation details successfully retrieved",
+     "reservation details recorded in case notes"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['successfully retrieved and recorded in the case notes', 'va5sgq'] altered []"
+   "evidence": "db_agent report->planner: missing ['reservation ID VA5SGQ', 'reservation details successfully retrieved', 'reservation details recorded in case notes'] altered []"
   },
   {
    "step": 4,

@@ -46,22 +46,6 @@
    "evidence": "argument never given: search_direct_flight.airport=SFO, search_direct_flight.airport=PDX"
   },
   {
-   "step": 23,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "sara_doe_496"
-    ],
-    "altered": [
-     "user_id"
-    ]
-   },
-   "evidence": "db_agent report->planner: missing ['sara_doe_496'] altered ['user_id']"
-  },
-  {
    "step": 24,
    "agent": "db_agent",
    "module": "D2",
@@ -119,25 +103,6 @@
    "evidence": "action distribution: get_reservation_details 0.58, search_direct_flight 0.35, no_tool 0.06 (actual: search_direct_flight)"
   },
   {
-   "step": 34,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "error related to the `flight_number` parameter",
-     "failed",
-     "hat069",
-     "hat276"
-    ],
-    "altered": [
-     "flight_number_1"
-    ]
-   },
-   "evidence": "db_agent report->planner: missing ['error related to the `flight_number` parameter', 'failed', 'hat069'] altered ['flight_number_1']"
-  },
-  {
    "step": 35,
    "agent": "db_agent",
    "module": "D1",
@@ -193,23 +158,6 @@
     "tool_call_failed": false
    },
    "evidence": "argument never given: search_direct_flight.airport=LAX, search_direct_flight.airport=SFO, search_direct_flight.airport=SEA, search_direct_flight.airport=LAX"
-  },
-  {
-   "step": 45,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "error related to the `flight_number` parameter",
-     "failed",
-     "hat012",
-     "hat041"
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['error related to the `flight_number` parameter', 'failed', 'hat012'] altered []"
   },
   {
    "step": 46,

@@ -8,12 +8,14 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "h8q05l",
-     "successfully retrieved and recorded in the case notes"
+     "Confirmation number: H8Q05L",
+     "Reservation details retrieved",
+     "Retrieval status: successful",
+     "Recorded in case notes"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['h8q05l', 'successfully retrieved and recorded in the case notes'] altered []"
+   "evidence": "db_agent report->planner: missing ['Confirmation number: H8Q05L', 'Reservation details retrieved', 'Retrieval status: successful'] altered []"
   },
   {
    "step": 4,
@@ -58,13 +60,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "cancellation",
-     "h8q05l",
-     "harper kovacs"
+     "reservation ID H8Q05L",
+     "reservation status cancelled",
+     "refund status full refund initiated",
+     "customer name Harper Kovacs",
+     "case notes updated to reflect cancellation and refund"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['cancellation', 'h8q05l', 'harper kovacs'] altered []"
+   "evidence": "db_agent report->planner: missing ['reservation ID H8Q05L', 'reservation status cancelled', 'refund status full refund initiated'] altered []"
   },
   {
    "step": 12,

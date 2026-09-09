@@ -12,6 +12,21 @@
    "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find a reservation with origin ATL, destination PHL, and travel date April 5th. Return the reservation ID and passenger '"
   },
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [],
+    "altered": [
+     "user not found in system",
+     "suggestion to try different user or take another action"
+    ]
+   },
+   "evidence": "db_agent report->planner: missing [] altered ['user not found in system', 'suggestion to try different user or take another action']"
+  },
+  {
    "step": 5,
    "agent": "db_agent",
    "module": "D1",
@@ -75,18 +90,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "aarav garcia",
-     "april 5th",
-     "atl",
-     "could not be found",
-     "could not be located"
+     "user name Aarav Garcia not found",
+     "origin ATL",
+     "destination PHL",
+     "travel date April 5th",
+     "passenger name Aarav Garcia"
     ],
-    "altered": [
-     "final_answer",
-     "verdict"
-    ]
+    "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['aarav garcia', 'april 5th', 'atl'] altered ['final_answer', 'verdict']"
+   "evidence": "db_agent report->planner: missing ['user name Aarav Garcia not found', 'origin ATL', 'destination PHL'] altered []"
   },
   {
    "step": 15,
@@ -132,6 +144,23 @@
     "tool_call_failed": false
    },
    "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Perform a broader search for a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name A'"
+  },
+  {
+   "step": 19,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "The user with the name Aarav Garcia could not be found in the system.",
+     "I could not locate a reservation for Aarav Garcia with the given criteria (origin ATL, destination PHL, travel date April 5th)."
+    ],
+    "altered": [
+     "If you have additional details or a reservation ID, please provide them for further assistance."
+    ]
+   },
+   "evidence": "db_agent report->planner: missing ['The user with the name Aarav Garcia could not be found in the system.', 'I could not locate a reservation for Aarav Garcia with the given criteria (origin ATL, destination PHL, travel date April 5th).'] altered ['If you have additional details or a reservation ID, please provide them for further assistance.']"
   },
   {
    "step": 20,

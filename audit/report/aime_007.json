@@ -8,11 +8,11 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "276"
+     "N=276"
     ],
     "altered": []
    },
-   "evidence": "solver report->planner: missing ['276'] altered []"
+   "evidence": "solver report->planner: missing ['N=276'] altered []"
   },
   {
    "step": 4,
@@ -22,11 +22,12 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "391"
+     "The total number of permutations of the set A that satisfy the condition π^6(a) = a for all a ∈ A is 391.",
+     "FINAL ANSWER: 391"
     ],
     "altered": []
    },
-   "evidence": "verifier report->planner: missing ['391'] altered []"
+   "evidence": "verifier report->planner: missing ['The total number of permutations of the set A that satisfy the condition π^6(a) = a for all a ∈ A is 391.', 'FINAL ANSWER: 391'] altered []"
   }
  ],
  "per_module_summary": {

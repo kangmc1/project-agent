@@ -1,6 +1,6 @@
 # Percentile vs label-optimal thresholds
 
-- generated: 2026-09-09 10:47:02 KST
+- generated: 2026-09-09 11:13:24 KST
 - items: D1_1-conf, D2, D3_report->planner, D3_report->planner
 - percentile pool: every scored step of 62 run(s) in `runs/index.csv`, labeled or not
 - FPR / recall are always measured on labeled steps (cascade excluded); `d recall` / `d FPR` are the gaps to the label-optimal row of the same cell.
@@ -61,24 +61,24 @@
 | D2 | all | all | top 5% (p95) | 1 | 1296 | 172 | 430 | 0.042 | 0.366 | +0.000 | +0.000 |
 | D2 | all | all | top 10% (p90) | 1 | 1296 | 172 | 430 | 0.042 | 0.366 | +0.000 | +0.000 |
 | D2 | all | all | label-optimal (max J) | 1 | 1296 | 172 | 430 | 0.042 | 0.366 | - | - |
-| D3_report->planner | planner | airline | top 5% (p95) | 1 | 177 | 30 | 66 | 0.167 | 0.233 | -0.300 | -0.182 |
-| D3_report->planner | planner | airline | top 10% (p90) | 1 | 177 | 30 | 66 | 0.167 | 0.233 | -0.300 | -0.182 |
-| D3_report->planner | planner | airline | label-optimal (max J) | 0.75 | 177 | 30 | 66 | 0.348 | 0.533 | - | - |
-| D3_report->planner | planner | aime | top 5% (p95) | 1 | 69 | 3 | 40 | 0.300 | 0.333 | -0.667 | -0.150 |
-| D3_report->planner | planner | aime | top 10% (p90) | 1 | 69 | 3 | 40 | 0.300 | 0.333 | -0.667 | -0.150 |
-| D3_report->planner | planner | aime | label-optimal (max J) | 0.7143 | 69 | 3 | 40 | 0.450 | 1.000 | - | - |
-| D3_report->planner | planner | all | top 5% (p95) | 1 | 246 | 33 | 106 | 0.217 | 0.242 | -0.303 | -0.151 |
-| D3_report->planner | planner | all | top 10% (p90) | 1 | 246 | 33 | 106 | 0.217 | 0.242 | -0.303 | -0.151 |
-| D3_report->planner | planner | all | label-optimal (max J) | 0.75 | 246 | 33 | 106 | 0.368 | 0.545 | - | - |
-| D3_report->planner | planner | airline | top 5% (p95) | 1 | 177 | 30 | 66 | 0.167 | 0.233 | -0.300 | -0.182 |
-| D3_report->planner | planner | airline | top 10% (p90) | 1 | 177 | 30 | 66 | 0.167 | 0.233 | -0.300 | -0.182 |
-| D3_report->planner | planner | airline | label-optimal (max J) | 0.75 | 177 | 30 | 66 | 0.348 | 0.533 | - | - |
-| D3_report->planner | planner | aime | top 5% (p95) | 1 | 69 | 3 | 40 | 0.300 | 0.333 | -0.667 | -0.150 |
-| D3_report->planner | planner | aime | top 10% (p90) | 1 | 69 | 3 | 40 | 0.300 | 0.333 | -0.667 | -0.150 |
-| D3_report->planner | planner | aime | label-optimal (max J) | 0.7143 | 69 | 3 | 40 | 0.450 | 1.000 | - | - |
-| D3_report->planner | planner | all | top 5% (p95) | 1 | 246 | 33 | 106 | 0.217 | 0.242 | -0.303 | -0.151 |
-| D3_report->planner | planner | all | top 10% (p90) | 1 | 246 | 33 | 106 | 0.217 | 0.242 | -0.303 | -0.151 |
-| D3_report->planner | planner | all | label-optimal (max J) | 0.75 | 246 | 33 | 106 | 0.368 | 0.545 | - | - |
+| D3_report->planner | planner | airline | top 5% (p95) | 1 | 172 | 32 | 61 | 0.197 | 0.094 | -0.844 | -0.557 |
+| D3_report->planner | planner | airline | top 10% (p90) | 1 | 172 | 32 | 61 | 0.197 | 0.094 | -0.844 | -0.557 |
+| D3_report->planner | planner | airline | label-optimal (max J) | 0.3333 | 172 | 32 | 61 | 0.754 | 0.938 | - | - |
+| D3_report->planner | planner | aime | top 5% (p95) | 1 | 67 | 2 | 38 | 0.579 | 1.000 | +0.000 | +0.000 |
+| D3_report->planner | planner | aime | top 10% (p90) | 1 | 67 | 2 | 38 | 0.579 | 1.000 | +0.000 | +0.000 |
+| D3_report->planner | planner | aime | label-optimal (max J) | 1 | 67 | 2 | 38 | 0.579 | 1.000 | - | - |
+| D3_report->planner | planner | all | top 5% (p95) | 1 | 239 | 34 | 99 | 0.343 | 0.147 | -0.794 | -0.475 |
+| D3_report->planner | planner | all | top 10% (p90) | 1 | 239 | 34 | 99 | 0.343 | 0.147 | -0.794 | -0.475 |
+| D3_report->planner | planner | all | label-optimal (max J) | 0.3333 | 239 | 34 | 99 | 0.818 | 0.941 | - | - |
+| D3_report->planner | planner | airline | top 5% (p95) | 1 | 172 | 32 | 61 | 0.197 | 0.094 | -0.844 | -0.557 |
+| D3_report->planner | planner | airline | top 10% (p90) | 1 | 172 | 32 | 61 | 0.197 | 0.094 | -0.844 | -0.557 |
+| D3_report->planner | planner | airline | label-optimal (max J) | 0.3333 | 172 | 32 | 61 | 0.754 | 0.938 | - | - |
+| D3_report->planner | planner | aime | top 5% (p95) | 1 | 67 | 2 | 38 | 0.579 | 1.000 | +0.000 | +0.000 |
+| D3_report->planner | planner | aime | top 10% (p90) | 1 | 67 | 2 | 38 | 0.579 | 1.000 | +0.000 | +0.000 |
+| D3_report->planner | planner | aime | label-optimal (max J) | 1 | 67 | 2 | 38 | 0.579 | 1.000 | - | - |
+| D3_report->planner | planner | all | top 5% (p95) | 1 | 239 | 34 | 99 | 0.343 | 0.147 | -0.794 | -0.475 |
+| D3_report->planner | planner | all | top 10% (p90) | 1 | 239 | 34 | 99 | 0.343 | 0.147 | -0.794 | -0.475 |
+| D3_report->planner | planner | all | label-optimal (max J) | 0.3333 | 239 | 34 | 99 | 0.818 | 0.941 | - | - |
 
 cells: 24
 

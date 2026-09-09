@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["441"], "altered": ["final_answer"]} | solver report->planner: missing ['441'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The number of positive divisors of the product of all possible positive values of x is 441."], "altered": []} | solver report->planner: missing ['The number of positive divisors of the product of all possible positive values of x is 441.'] altered [] |
 
 ## Per-module summary
 ```

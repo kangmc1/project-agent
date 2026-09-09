@@ -8,13 +8,11 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "441"
+     "The number of positive divisors of the product of all possible positive values of x is 441."
     ],
-    "altered": [
-     "final_answer"
-    ]
+    "altered": []
    },
-   "evidence": "solver report->planner: missing ['441'] altered ['final_answer']"
+   "evidence": "solver report->planner: missing ['The number of positive divisors of the product of all possible positive values of x is 441.'] altered []"
   }
  ],
  "per_module_summary": {

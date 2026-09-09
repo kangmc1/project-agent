@@ -2,6 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["Let’s try a larger range again."], "altered": []} | solver report->planner: missing ['Let’s try a larger range again.'] altered [] |
 | 5 | solver | D1/tool | {"confidence": 0.74, "p_actual": 0.884, "margin": 0.767} | action distribution: run_python 0.88, no_tool 0.12, read_file 0.00 (actual: run_python) |
 | 9 | planner | D1/tool | {"confidence": 0.588, "p_actual": 0.76, "margin": 0.628} | action distribution: verifier 0.76, solver 0.13, submit_answer 0.10 (actual: verifier) |
 | 9 | planner | D1/handoff | {"p_delegate": 0.892, "H2": 0.493} | delegate-vs-not split p_delegate=0.89 |

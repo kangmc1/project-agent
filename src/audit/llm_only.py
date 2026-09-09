@@ -26,14 +26,14 @@ from pathlib import Path
 from openai import OpenAI
 
 from .extract import map_parallel
-from .d3_handoff import _load_run, _load_text, _dedupe_wrapper_rows, _planner_wrapper_calls, _find_planner_step_id, WRAPPERS
+from .comparators.d3_factset import _load_run, _load_text, _dedupe_wrapper_rows, _planner_wrapper_calls, _find_planner_step_id, WRAPPERS
 
 AUDIT = Path("audit")
 CACHE_DB = AUDIT / "cache" / "llm_only.sqlite"
 import os
-BASE = os.environ.get("LLM_JUDGE_BASE", "http://localhost:18001/v1")
-MODEL = os.environ.get("LLM_JUDGE_MODEL", "qwen32b")
-TAG = os.environ.get("LLM_JUDGE_TAG", "")  # "" = default Qwen3-32B files (llm_d1.jsonl); e.g. "gptoss20b" -> llm_d1_gptoss20b.jsonl
+BASE = os.environ.get("LLM_JUDGE_BASE", "http://localhost:18004/v1")  # default judge server = gpt-oss-20b
+MODEL = os.environ.get("LLM_JUDGE_MODEL", "gptoss20b")
+TAG = os.environ.get("LLM_JUDGE_TAG", "" if MODEL == "qwen32b" else MODEL)  # untagged files = Qwen3-32B runs (llm_d1.jsonl); others -> llm_d1_<model>.jsonl
 AUX = {"user_sim", "summarizer"}
 MAX_TOKENS = int(os.environ.get("LLM_JUDGE_MAX_TOKENS", "1800"))
 N_CTX = 8

@@ -1,6 +1,22 @@
 {
  "flags": [
   {
+   "step": 1,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "The five smallest values of n that satisfy the condition are 31, 36, 41, 46, and 51.",
+     "The sum of these values is 205.",
+     "FINAL ANSWER: 205"
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['The five smallest values of n that satisfy the condition are 31, 36, 41, 46, and 51.', 'The sum of these values is 205.', 'FINAL ANSWER: 205'] altered []"
+  },
+  {
    "step": 3,
    "agent": "solver",
    "module": "D1",
@@ -55,15 +71,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "32 52 72 92 112",
-     "360",
-     "4",
-     "5",
-     "7"
+     "The urn contains n marbles, each either red or blue.",
+     "There are at least 7 marbles of each color.",
+     "When 7 marbles are drawn randomly without replacement, the probability of drawing exactly 4 red marbles equals the probability of drawing exactly 5 red marbles.",
+     "We are to find the sum of the five least values of n for which this condition is satisfied.",
+     "The claim is that the values are 32, 52, 72, 92, 112, with a sum of 360."
     ],
     "altered": []
    },
-   "evidence": "solver report->planner: missing ['32 52 72 92 112', '360', '4'] altered []"
+   "evidence": "solver report->planner: missing ['The urn contains n marbles, each either red or blue.', 'There are at least 7 marbles of each color.', 'When 7 marbles are drawn randomly without replacement, the probability of drawing exactly 4 red marbles equals the probability of drawing exactly 5 red marbles.'] altered []"
   },
   {
    "step": 8,

@@ -2,6 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["distance from the school to the park is 252/25 miles", "m = 252", "n = 25", "m and n are relatively prime", "m + n = 277"], "altered": []} | solver report->planner: missing ['distance from the school to the park is 252/25 miles', 'm = 252', 'n = 25'] altered [] |
 
 ## Per-module summary
 ```

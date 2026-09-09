@@ -8,16 +8,33 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "1",
-     "900",
-     "901"
+     "p = 900/1",
+     "m = 900",
+     "n = 1",
+     "m+n = 901",
+     "FINAL ANSWER: 901"
     ],
-    "altered": [
-     "final_answer",
-     "m_plus_n"
-    ]
+    "altered": []
    },
-   "evidence": "solver report->planner: missing ['1', '900', '901'] altered ['final_answer', 'm_plus_n']"
+   "evidence": "solver report->planner: missing ['p = 900/1', 'm = 900', 'n = 1'] altered []"
+  },
+  {
+   "step": 6,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "Joanne places stickers 1 through 6 on a die, one at a time, by rolling the die and placing the sticker on the top face.",
+     "If the top face already has a sticker, the new sticker covers the old one.",
+     "All even-numbered stickers (2, 4, 6) are visible on the die at the end.",
+     "We are to find the conditional probability p that exactly one face is left blank at the end, given that all even-numbered stickers are visible.",
+     "The final answer should be in the form m/n, where m and n are relatively prime, and we are to find m + n."
+    ],
+    "altered": []
+   },
+   "evidence": "verifier report->planner: missing ['Joanne places stickers 1 through 6 on a die, one at a time, by rolling the die and placing the sticker on the top face.', 'If the top face already has a sticker, the new sticker covers the old one.', 'All even-numbered stickers (2, 4, 6) are visible on the die at the end.'] altered []"
   },
   {
    "step": 7,

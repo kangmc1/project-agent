@@ -1,20 +1,22 @@
 {
  "flags": [
   {
-   "step": 5,
+   "step": 2,
    "agent": "planner",
    "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "need_info"
+     "Reservation ID: SI5UKW",
+     "User ID: amelia_rossi_1297",
+     "Origin: MIA",
+     "Destination: PHX",
+     "Flight Type: one_way"
     ],
-    "altered": [
-     "user_id"
-    ]
+    "altered": []
    },
-   "evidence": "policy_checker report->planner: missing ['need_info'] altered ['user_id']"
+   "evidence": "db_agent report->planner: missing ['Reservation ID: SI5UKW', 'User ID: amelia_rossi_1297', 'Origin: MIA'] altered []"
   },
   {
    "step": 6,

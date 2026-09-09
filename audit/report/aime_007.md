@@ -2,8 +2,8 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["276"], "altered": []} | solver report->planner: missing ['276'] altered [] |
-| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["391"], "altered": []} | verifier report->planner: missing ['391'] altered [] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["N=276"], "altered": []} | solver report->planner: missing ['N=276'] altered [] |
+| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The total number of permutations of the set A that satisfy the condition π^6(a) = a for all a ∈ A is 391.", "FINAL ANSWER: 391"], "altered": []} | verifier report->planner: missing ['The total number of permutations of the set A that satisfy the condition π^6(a) = a for all a ∈ A is 391.', 'FINAL ANSWER: 391'] altered [] |
 
 ## Per-module summary
 ```

@@ -19,15 +19,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "10000",
-     "1425",
-     "1436",
-     "16",
-     "25"
+     "Python script returned no output.",
+     "Brute-force approach did not find a valid n in range 1000 to 1.",
+     "Polynomial: x^3 - (n/6)x^2 + (n-11)x - 400.",
+     "Roots are alpha^2, beta^2, gamma^2.",
+     "Exactly 7 different possible values for alpha+beta+gamma."
     ],
     "altered": []
    },
-   "evidence": "verifier report->planner: missing ['10000', '1425', '1436'] altered []"
+   "evidence": "verifier report->planner: missing ['Python script returned no output.', 'Brute-force approach did not find a valid n in range 1000 to 1.', 'Polynomial: x^3 - (n/6)x^2 + (n-11)x - 400.'] altered []"
   }
  ],
  "per_module_summary": {

@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["393"], "altered": ["final_answer"]} | solver report->planner: missing ['393'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["There are 393 ordered 7-tuples (a1,a2,a3,a4,a5,a6,a7) satisfying both conditions."], "altered": []} | solver report->planner: missing ['There are 393 ordered 7-tuples (a1,a2,a3,a4,a5,a6,a7) satisfying both conditions.'] altered [] |
 
 ## Per-module summary
 ```

@@ -1,5 +1,24 @@
 {
- "flags": [],
+ "flags": [
+  {
+   "step": 1,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "distance from the school to the park is 252/25 miles",
+     "m = 252",
+     "n = 25",
+     "m and n are relatively prime",
+     "m + n = 277"
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['distance from the school to the park is 252/25 miles', 'm = 252', 'n = 25'] altered []"
+  }
+ ],
  "per_module_summary": {
   "D1": {
    "n_scored": 8,

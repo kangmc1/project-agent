@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["daiki_lee_6144", "jfk", "look up reservation details", "may 17th"], "altered": []} | db_agent report->planner: missing ['daiki_lee_6144', 'jfk', 'look up reservation details'] altered [] |
+| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["User ID: daiki_lee_6144", "Flight origin: JFK", "Departure date: May 17th", "Requested operation: Look up reservation details", "Reservation details for the user have been successfully appended to the file `/case_notes.md`"], "altered": []} | db_agent report->planner: missing ['User ID: daiki_lee_6144', 'Flight origin: JFK', 'Departure date: May 17th'] altered [] |
 | 11 | planner | D1/handoff | {"p_delegate": 0.77, "H2": 0.779} | delegate-vs-not split p_delegate=0.77 |
 
 ## Per-module summary

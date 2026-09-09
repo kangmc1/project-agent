@@ -12,6 +12,24 @@
    "evidence": "delegate-vs-not split p_delegate=0.12"
   },
   {
+   "step": 4,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "User ID: mohamed_hernandez_5188",
+     "Flight origin: ATL",
+     "Flight destination: JFK",
+     "Date: May 17th",
+     "Requested operation: Find the reservation"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['User ID: mohamed_hernandez_5188', 'Flight origin: ATL', 'Flight destination: JFK'] altered []"
+  },
+  {
    "step": 7,
    "agent": "db_agent",
    "module": "D1",
@@ -34,6 +52,24 @@
     "margin": 0.605
    },
    "evidence": "action distribution: respond_to_user 0.78, write_file 0.17, policy_checker 0.04 (actual: respond_to_user)"
+  },
+  {
+   "step": 17,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "User ID: mohamed_hernandez_5188",
+     "Membership: silver",
+     "Reservations: 35V5SM, XXDC1M, V5EMZH, D1EW9B, 9HBUV8, DGZSYX",
+     "Payment method credit_card_5417084: Mastercard ending in 7393",
+     "Payment method certificate_6623588: $250"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['User ID: mohamed_hernandez_5188', 'Membership: silver', 'Reservations: 35V5SM, XXDC1M, V5EMZH, D1EW9B, 9HBUV8, DGZSYX'] altered []"
   },
   {
    "step": 21,

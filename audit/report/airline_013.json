@@ -1,22 +1,22 @@
 {
  "flags": [
   {
-   "step": 12,
+   "step": 2,
    "agent": "planner",
    "module": "D3",
    "direction": "report->planner",
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "cannot be modified under the airline's policy",
-     "modify flight policy: basic economy flights cannot be modified.",
-     "needs to confirm if they want to proceed with the upgrade if allowed",
-     "not_allowed",
-     "permitted but the user must pay the price difference"
+     "Reservation ID: XEWRD9",
+     "Flight 1: From LAX to ORD, Flight Number HAT030, Date: 2024-05-13, Price: $92",
+     "Flight 2: From ORD to ATL, Flight Number HAT223, Date: 2024-05-14, Price: $100",
+     "Flight 3: From ATL to DFW, Flight Number HAT252, Date: 2024-05-21, Price: $75",
+     "Flight 4: From DFW to LAX, Flight Number HAT124, Date: 2024-05-21, Price: $96"
     ],
     "altered": []
    },
-   "evidence": "policy_checker report->planner: missing [\"cannot be modified under the airline's policy\", 'modify flight policy: basic economy flights cannot be modified.', 'needs to confirm if they want to proceed with the upgrade if allowed'] altered []"
+   "evidence": "db_agent report->planner: missing ['Reservation ID: XEWRD9', 'Flight 1: From LAX to ORD, Flight Number HAT030, Date: 2024-05-13, Price: $92', 'Flight 2: From ORD to ATL, Flight Number HAT223, Date: 2024-05-14, Price: $100'] altered []"
   },
   {
    "step": 13,

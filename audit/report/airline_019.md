@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 2 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["successfully retrieved and recorded in the case notes", "va5sgq"], "altered": []} | db_agent report->planner: missing ['successfully retrieved and recorded in the case notes', 'va5sgq'] altered [] |
+| 2 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["reservation ID VA5SGQ", "reservation details successfully retrieved", "reservation details recorded in case notes"], "altered": []} | db_agent report->planner: missing ['reservation ID VA5SGQ', 'reservation details successfully retrieved', 'reservation details recorded in case notes'] altered [] |
 | 4 | db_agent | D1/tool | {"confidence": 0.626, "p_actual": 0.471, "margin": 0.185} | action distribution: read_file 0.47, write_file 0.29, no_tool 0.24 (actual: read_file) |
 | 8 | planner | D1/tool | {"confidence": 0.64, "p_actual": 0.656, "margin": 0.312} | action distribution: no_tool 0.66, respond_to_user 0.34, policy_checker 0.00 (actual: no_tool) |
 

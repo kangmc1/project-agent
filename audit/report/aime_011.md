@@ -2,7 +2,8 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["112", "8x8"], "altered": []} | verifier report->planner: missing ['112', '8x8'] altered [] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["Maximum possible value of M is 7056.", "Remainder when 7056 divided by 1000 is 56.", "Final answer is 56."], "altered": []} | solver report->planner: missing ['Maximum possible value of M is 7056.', 'Remainder when 7056 divided by 1000 is 56.', 'Final answer is 56.'] altered [] |
+| 4 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The integers from 1 to 64 are placed in an 8x8 grid.", "M is the sum of the absolute differences between adjacent cells horizontally and vertically.", "The goal is to find the maximum possible value of M and compute its remainder when divided by 1000.", "Total adjacent pairs = 112.", "Strategy: alternate high and low numbers in a checkerboard pattern."], "altered": []} | verifier report->planner: missing ['The integers from 1 to 64 are placed in an 8x8 grid.', 'M is the sum of the absolute differences between adjacent cells horizontally and vertically.', 'The goal is to find the maximum possible value of M and compute its remainder when divided by 1000.'] altered [] |
 | 5 | verifier | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary

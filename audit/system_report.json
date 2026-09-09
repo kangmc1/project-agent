@@ -54,120 +54,90 @@
    "handoff_edges": {
     "solver:instruction->premise": {
      "n": 43,
-     "mean_fidelity": 0.7496392496392497,
-     "low_fidelity_ratio(<0.8)": 0.42424242424242425,
+     "mean_fidelity": 0.8410241874546107,
+     "low_fidelity_ratio(<0.8)": 0.2619047619047619,
      "top_missing_keys": [
       [
-       "n",
-       4
-      ],
-      [
-       "m",
-       3
-      ],
-      [
-       "2",
-       2
-      ]
-     ],
-     "top_altered_keys": [
-      [
-       "final_answer",
-       3
-      ],
-      [
-       "distance_miles",
-       2
-      ],
-      [
-       "problem_statement",
-       2
-      ]
-     ]
-    },
-    "solver:report->planner": {
-     "n": 43,
-     "mean_fidelity": 0.3063152889292868,
-     "low_fidelity_ratio(<0.8)": 0.8292682926829268,
-     "top_missing_keys": [
-      [
-       "1",
+       "final integer answer",
        5
       ],
       [
-       "s",
-       4
+       "key equations used",
+       2
       ],
       [
-       "r",
-       4
+       "Provide a complete solution with the final integer answer and the key equations used.",
+       2
       ]
      ],
-     "top_altered_keys": [
+     "top_altered_keys": []
+    },
+    "solver:report->planner": {
+     "n": 43,
+     "mean_fidelity": 0.1564416663480131,
+     "low_fidelity_ratio(<0.8)": 0.9473684210526315,
+     "top_missing_keys": [
       [
-       "final_answer",
-       11
+       "n = 1",
+       2
       ],
       [
-       "m_plus_n",
+       "distance from the school to the park is 252/25 miles",
+       1
+      ],
+      [
+       "m = 252",
        1
       ]
-     ]
+     ],
+     "top_altered_keys": []
     },
     "verifier:instruction->premise": {
      "n": 29,
-     "mean_fidelity": 0.7971014492753623,
-     "low_fidelity_ratio(<0.8)": 0.391304347826087,
+     "mean_fidelity": 0.795337301588492,
+     "low_fidelity_ratio(<0.8)": 0.42857142857142855,
      "top_missing_keys": [
       [
-       "m",
-       4
+       "final integer answer",
+       1
       ],
       [
-       "n",
-       3
+       "key equations used",
+       1
       ],
       [
-       "2",
-       2
+       "Problem is AIME problem",
+       1
       ]
      ],
      "top_altered_keys": [
       [
-       "m",
-       2
-      ],
-      [
-       "n",
-       2
-      ],
-      [
-       "final_answer",
-       2
+       "The operation is not associative; must evaluate step by step.",
+       1
       ]
      ]
     },
     "verifier:report->planner": {
      "n": 29,
-     "mean_fidelity": 0.5225340136054422,
-     "low_fidelity_ratio(<0.8)": 0.6071428571428571,
+     "mean_fidelity": 0.23491431939631172,
+     "low_fidelity_ratio(<0.8)": 0.9310344827586207,
      "top_missing_keys": [
       [
-       "0",
-       5
-      ],
-      [
-       "20",
+       "distance from the school to the park is 252/25 miles",
        2
       ],
       [
-       "2",
+       "m + n = 277",
        2
+      ],
+      [
+       "even-length palindrome construction formula",
+       1
       ]
      ],
      "top_altered_keys": [
       [
-       "final_answer",
+       "279 positive integers n less than 1000 such that f(n) = n",
        1
       ]
      ]
@@ -257,132 +227,120 @@
    "handoff_edges": {
     "db_agent:instruction->premise": {
      "n": 152,
-     "mean_fidelity": 0.9386591478696742,
-     "low_fidelity_ratio(<0.8)": 0.10526315789473684,
+     "mean_fidelity": 0.9031093358391709,
+     "low_fidelity_ratio(<0.8)": 0.16447368421052633,
      "top_missing_keys": [
       [
-       "2",
-       4
-      ],
-      [
-       "may 20th",
+       "Date: May 24",
        3
       ],
       [
-       "available",
-       3
+       "Option: second cheapest economy class option",
+       2
+      ],
+      [
+       "Passenger 1: Sophia Silva",
+       2
       ]
      ],
      "top_altered_keys": [
       [
-       "departure_time_end",
-       2
+       "retrieve current business class price",
+       1
       ],
       [
-       "departure_time_start",
-       2
+       "retrieve current economy class price",
+       1
       ],
       [
-       "verdict",
-       2
+       "Retrieve exact economy class prices for each reservation",
+       1
       ]
      ]
     },
     "db_agent:report->planner": {
      "n": 152,
-     "mean_fidelity": 0.424732719931461,
-     "low_fidelity_ratio(<0.8)": 0.8226950354609929,
+     "mean_fidelity": 0.43752470203840105,
+     "low_fidelity_ratio(<0.8)": 0.8321167883211679,
      "top_missing_keys": [
       [
-       "0",
-       17
+       "Flight Type: one_way",
+       7
       ],
       [
-       "jfk",
-       12
+       "Cabin: basic_economy",
+       5
       ],
       [
-       "1",
-       9
+       "booking failed",
+       4
       ]
      ],
      "top_altered_keys": [
       [
-       "verdict",
-       26
+       "error type",
+       1
       ],
       [
-       "final_answer",
-       9
+       "The available one-stop flights depart much earlier or later than the requested time window.",
+       1
       ],
       [
-       "departure_date",
-       4
+       "HAT218 connecting flight arrival time 03:00+1 (3:00 AM next day)",
+       1
       ]
      ]
     },
     "policy_checker:instruction->premise": {
      "n": 36,
-     "mean_fidelity": 0.9174603174603174,
-     "low_fidelity_ratio(<0.8)": 0.19047619047619047,
+     "mean_fidelity": 0.9745098039215686,
+     "low_fidelity_ratio(<0.8)": 0.058823529411764705,
      "top_missing_keys": [
       [
-       "eligible",
-       2
+       "The check is under the current airline policy.",
+       1
       ],
       [
-       "allowed under airline policy",
-       2
-      ],
-      [
-       "airline's policy",
+       "policy check",
        1
       ]
      ],
      "top_altered_keys": [
       [
-       "verdict",
-       5
-      ],
-      [
-       "final_answer",
-       4
-      ],
-      [
-       "flight_type",
-       2
+       "User is checking eligibility to pay a fee to change flight",
+       1
       ]
      ]
     },
     "policy_checker:report->planner": {
      "n": 36,
-     "mean_fidelity": 0.3856090668590669,
-     "low_fidelity_ratio(<0.8)": 0.8888888888888888,
+     "mean_fidelity": 0.4902162309380824,
+     "low_fidelity_ratio(<0.8)": 0.8571428571428571,
      "top_missing_keys": [
       [
-       "need_info",
-       12
+       "User ID: amelia_rossi_1247",
+       2
       ],
       [
-       "not_allowed",
-       9
+       "Requested action: Cancel flights due to a change in travel plans",
+       2
       ],
       [
-       "2024-05-15 15:00:00 est",
-       7
+       "The current date is 2024-05-15 15:00:00 EST.",
+       2
       ]
      ],
      "top_altered_keys": [
       [
-       "verdict",
-       4
-      ],
-      [
-       "final_answer",
+       "The user is asking about the typical price difference between business and economy class for five reservations: JG7FMM, 2FBBAH, X7BYG1, EQ1G6C, BOH180.",
        1
       ],
       [
-       "reservation_id",
+       "reservation ID unknown",
+       1
+      ],
+      [
+       "The number of free checked bags depends on the customer's membership tier and cabin class.",
        1
       ]
      ]

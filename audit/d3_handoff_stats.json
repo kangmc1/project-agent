@@ -1,7 +1,13 @@
 {
-  "direction2_nonempty_ratio": 1.0,
-  "mean_fidelity[instruction->premise]": 0.8808762458471762,
-  "n[instruction->premise]": 260,
-  "mean_fidelity[report->planner]": 0.4104029233508762,
-  "n[report->planner]": 260
+ "instruction->premise": {
+  "n": 256,
+  "mean_fidelity": 0.8906187996033544,
+  "B_empty": 0
+ },
+ "report->planner": {
+  "n": 239,
+  "mean_fidelity": 0.3759654847105078,
+  "B_empty": 0
+ },
+ "judge": "gptoss20b"
 }

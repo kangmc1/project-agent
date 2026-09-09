@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["168", "8.125", "84"], "altered": []} | solver report->planner: missing ['168', '8.125', '84'] altered [] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["Circumradius R = 8.125", "Hexagon AA'CC'BB' is formed by triangle ABC and its rotated image A'B'C' about circumcenter", "Distances from vertices to center remain same under rotation", "Hexagon consists of triangle ABC, triangle A'B'C', quadrilaterals AA'C'C, CC'B'B, BB'A'A", "Rotation is by 90°"], "altered": []} | solver report->planner: missing ['Circumradius R = 8.125', "Hexagon AA'CC'BB' is formed by triangle ABC and its rotated image A'B'C' about circumcenter", 'Distances from vertices to center remain same under rotation'] altered [] |
 
 ## Per-module summary
 ```

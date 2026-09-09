@@ -8,14 +8,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "daiki_lee_6144",
-     "jfk",
-     "look up reservation details",
-     "may 17th"
+     "User ID: daiki_lee_6144",
+     "Flight origin: JFK",
+     "Departure date: May 17th",
+     "Requested operation: Look up reservation details",
+     "Reservation details for the user have been successfully appended to the file `/case_notes.md`"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['daiki_lee_6144', 'jfk', 'look up reservation details'] altered []"
+   "evidence": "db_agent report->planner: missing ['User ID: daiki_lee_6144', 'Flight origin: JFK', 'Departure date: May 17th'] altered []"
   },
   {
    "step": 11,

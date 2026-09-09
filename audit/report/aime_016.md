@@ -2,7 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["32"], "altered": []} | solver report->planner: missing ['32'] altered [] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["The sum of the 10th terms is 32.", "FINAL ANSWER: 32"], "altered": []} | solver report->planner: missing ['The sum of the 10th terms is 32.', 'FINAL ANSWER: 32'] altered [] |
 
 ## Per-module summary
 ```

@@ -2,7 +2,8 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
-| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["184", "189", "5", "903.44"], "altered": ["final_answer"]} | solver report->planner: missing ['184', '189', '5'] altered ['final_answer'] |
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["Computed value of P^2 is approximately 903.44.", "Exact expression P^2 = 492 + 184 sqrt(5).", "Form m sqrt(n) with m = 184 and n = 5.", "Final answer: 189."], "altered": []} | solver report->planner: missing ['Computed value of P^2 is approximately 903.44.', 'Exact expression P^2 = 492 + 184 sqrt(5).', 'Form m sqrt(n) with m = 184 and n = 5.'] altered [] |
+| 5 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["cos(108°) ≈ -0.30901699437494734", "ab + bc + cd + de + ea ≈ 796.0727224649485", "P^2 ≈ 1900.145444929897", "Derived expression: P^2 = 700 + 492√5", "Numerical value of 492√5 ≈ 1092.145444929897"], "altered": []} | verifier report->planner: missing ['cos(108°) ≈ -0.30901699437494734', 'ab + bc + cd + de + ea ≈ 796.0727224649485', 'P^2 ≈ 1900.145444929897'] altered [] |
 | 9 | solver | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: run_python |
 
 ## Per-module summary

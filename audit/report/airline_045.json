@@ -23,22 +23,6 @@
    "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Find the last reservation made by the customer and return its ID and details.'"
   },
   {
-   "step": 4,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "sara_doe_496"
-    ],
-    "altered": [
-     "user_id"
-    ]
-   },
-   "evidence": "db_agent report->planner: missing ['sara_doe_496'] altered ['user_id']"
-  },
-  {
    "step": 5,
    "agent": "db_agent",
    "module": "D1",
@@ -80,13 +64,14 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "3"
+     "User not found with the given ID.",
+     "Operation: Search for a reservation with 3 passengers failed."
     ],
     "altered": [
-     "verdict"
+     "No matching reservation could be found for the given criteria."
     ]
    },
-   "evidence": "db_agent report->planner: missing ['3'] altered ['verdict']"
+   "evidence": "db_agent report->planner: missing ['User not found with the given ID.', 'Operation: Search for a reservation with 3 passengers failed.'] altered ['No matching reservation could be found for the given criteria.']"
   },
   {
    "step": 10,
@@ -111,6 +96,24 @@
    "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with 2 passengers that matches the customer's description and return its ID and details.\"; db_agent: re-issued after a failure report (similarity 0.99): \"Search for a reservation with 2 passengers that matches the customer's description and return its ID\""
   },
   {
+   "step": 16,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "instruction->premise",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "Search for a reservation",
+     "Reservation has 2 passengers",
+     "Reservation matches the customer's description",
+     "Return its ID",
+     "Return its details"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent instruction->premise: missing ['Search for a reservation', 'Reservation has 2 passengers', \"Reservation matches the customer's description\"] altered []"
+  },
+  {
    "step": 17,
    "agent": "db_agent",
    "module": "D2",
@@ -131,21 +134,6 @@
     "tool_call_failed": false
    },
    "evidence": "db_agent: lookup/modification requested without reservation or user id: \"Search for a reservation with 3 passengers that matches the customer's description and return its ID and details.\""
-  },
-  {
-   "step": 20,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "operation failed to locate a reservation.",
-     "user not found with the provided details."
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['operation failed to locate a reservation.', 'user not found with the provided details.'] altered []"
   },
   {
    "step": 21,
@@ -170,6 +158,21 @@
    "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a reservation with 3 passengers, traveling from Chicago to Miami around mid-October, and return its ID and de'"
   },
   {
+   "step": 25,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "Error: User not found.",
+     "No details could be retrieved."
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent report->planner: missing ['Error: User not found.', 'No details could be retrieved.'] altered []"
+  },
+  {
    "step": 26,
    "agent": "db_agent",
    "module": "D2",
@@ -190,22 +193,6 @@
     "tool_call_failed": false
    },
    "evidence": "db_agent: lookup/modification requested without reservation or user id: 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami around mid-October, and return its ID '; db_agent: re-issued after a failure report (similarity 0.98): 'Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami around mid-October'"
-  },
-  {
-   "step": 30,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "delta_user_123"
-    ],
-    "altered": [
-     "verdict"
-    ]
-   },
-   "evidence": "db_agent report->planner: missing ['delta_user_123'] altered ['verdict']"
   },
   {
    "step": 31,
@@ -327,16 +314,13 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "8jx2wo",
-     "could not be found",
-     "no details were retrieved for the requested reservation."
+     "No details were retrieved for the requested reservation."
     ],
     "altered": [
-     "final_answer",
-     "verdict"
+     "The reservation ID \"8JX2WO\" could not be found."
     ]
    },
-   "evidence": "db_agent report->planner: missing ['8jx2wo', 'could not be found', 'no details were retrieved for the requested reservation.'] altered ['final_answer', 'verdict']"
+   "evidence": "db_agent report->planner: missing ['No details were retrieved for the requested reservation.'] altered ['The reservation ID \"8JX2WO\" could not be found.']"
   },
   {
    "step": 53,

@@ -2,6 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
+| 11 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["Reservation ID: KC18K6", "Origin: MSP", "Destination: CLT", "Flight Type: one_way", "Cabin: basic_economy"], "altered": []} | db_agent report->planner: missing ['Reservation ID: KC18K6', 'Origin: MSP', 'Destination: CLT'] altered [] |
 | 16 | planner | D1/tool | {"confidence": 0.649, "p_actual": 0.679, "margin": 0.358} | action distribution: db_agent 0.68, respond_to_user 0.32, no_tool 0.00 (actual: db_agent) |
 | 16 | planner | D1/handoff | {"p_delegate": 0.679, "H2": 0.905} | delegate-vs-not split p_delegate=0.68 |
 | 23 | db_agent | D1/tool | {"confidence": 0.718, "p_actual": 0.714, "margin": 0.51} | action distribution: write_file 0.71, read_file 0.20, no_tool 0.07 (actual: write_file) |
@@ -16,6 +17,7 @@
 | 59 | db_agent | D1/tool | {"confidence": 0.651, "p_actual": 0.574, "margin": 0.226} | action distribution: think 0.57, transfer_to_human_agents 0.35, no_tool 0.05 (actual: think) |
 | 60 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": true, "tool_call_failed": true} | argument never given: get_user_details.user_id=sophia_silva_123; call failed: get_user_details returned an error |
 | 61 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: calculate |
+| 64 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["No direct flights found for the given criteria."], "altered": []} | db_agent report->planner: missing ['No direct flights found for the given criteria.'] altered [] |
 | 65 | db_agent | D1/tool | {"confidence": 0.659, "p_actual": 0.508, "margin": 0.112} | action distribution: search_direct_flight 0.51, book_reservation 0.40, calculate 0.09 (actual: search_direct_flight) |
 | 66 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: book_reservation, calculate |
 | 67 | planner | D1/handoff | {"p_delegate": 0.27, "H2": 0.842} | delegate-vs-not split p_delegate=0.27 |
@@ -23,10 +25,10 @@
 | 72 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
 | 73 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
 | 74 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: calculate |
-| 75 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["payment_id", "required parameter `payment_id` was missing"], "altered": []} | db_agent report->planner: missing ['payment_id', 'required parameter `payment_id` was missing'] altered [] |
 | 76 | db_agent | D1/tool | {"confidence": 0.639, "p_actual": 0.591, "margin": 0.312} | action distribution: book_reservation 0.59, calculate 0.28, search_direct_flight 0.10 (actual: book_reservation) |
 | 76 | db_agent | D2 | {"missing_tool": false, "fabricated_arg": false, "tool_call_failed": true} | call failed: book_reservation returned an error |
 | 77 | db_agent | D2 | {"missing_tool": true, "fabricated_arg": false, "tool_call_failed": false} | required but never called: calculate |
+| 82 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["None of the available functions can be used to create a new payment method for the user 'sophia_silva_7557'"], "altered": []} | db_agent report->planner: missing ["None of the available functions can be used to create a new payment method for the user 'sophia_silva_7557'"] altered [] |
 | 86 | planner | D1/tool | {"confidence": 0.61, "p_actual": 0.465, "margin": 0.069} | action distribution: no_tool 0.53, respond_to_user 0.46, write_file 0.00 (actual: respond_to_user) |
 
 ## Per-module summary

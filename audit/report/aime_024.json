@@ -8,13 +8,15 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "111"
+     "The computation was executed successfully.",
+     "The integer part of 10^100 S is computed.",
+     "The remainder when this integer is divided by 1000 is determined.",
+     "The remainder when the greatest integer less than or equal to 10^100 S is divided by 1000 is 111.",
+     "FINAL ANSWER: 111"
     ],
-    "altered": [
-     "final_answer"
-    ]
+    "altered": []
    },
-   "evidence": "solver report->planner: missing ['111'] altered ['final_answer']"
+   "evidence": "solver report->planner: missing ['The computation was executed successfully.', 'The integer part of 10^100 S is computed.', 'The remainder when this integer is divided by 1000 is determined.'] altered []"
   },
   {
    "step": 2,

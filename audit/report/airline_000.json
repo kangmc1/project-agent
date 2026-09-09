@@ -30,15 +30,12 @@
    "signal": {
     "fidelity": 0.0,
     "missing": [
-     "/case_notes.md",
-     "failed",
-     "hat039",
-     "hat268",
-     "mia_li_123"
+     "case note written to file `/case_notes.md`",
+     "operation to book flights HAT268 and HAT039 for user mia_li_123 failed due to user not found"
     ],
     "altered": []
    },
-   "evidence": "db_agent report->planner: missing ['/case_notes.md', 'failed', 'hat039'] altered []"
+   "evidence": "db_agent report->planner: missing ['case note written to file `/case_notes.md`', 'operation to book flights HAT268 and HAT039 for user mia_li_123 failed due to user not found'] altered []"
   },
   {
    "step": 15,
@@ -154,6 +151,21 @@
    "evidence": "delegate-vs-not split p_delegate=0.69"
   },
   {
+   "step": 48,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "instruction->premise",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "flight number HAT136",
+     "flight number HAT039"
+    ],
+    "altered": []
+   },
+   "evidence": "db_agent instruction->premise: missing ['flight number HAT136', 'flight number HAT039'] altered []"
+  },
+  {
    "step": 49,
    "agent": "db_agent",
    "module": "D2",
@@ -174,22 +186,6 @@
     "tool_call_failed": false
    },
    "evidence": "db_agent: re-issued after a failure report (similarity 0.82): 'Find one-stop economy flights from New York to Seattle on dates near May 20th (e.g., May 19th, May 2'"
-  },
-  {
-   "step": 57,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "4",
-     "before 10am est",
-     "with departure time after 10am est on the requested dates"
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['4', 'before 10am est', 'with departure time after 10am est on the requested dates'] altered []"
   },
   {
    "step": 70,
@@ -236,24 +232,6 @@
    "evidence": "argument never given: book_reservation.airport=SFO; call failed: book_reservation returned an error"
   },
   {
-   "step": 87,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "credit_card_7815826",
-     "failed",
-     "hat218 + hat039",
-     "invalid or missing payment method",
-     "may 18th"
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['credit_card_7815826', 'failed', 'hat218 + hat039'] altered []"
-  },
-  {
    "step": 88,
    "agent": "db_agent",
    "module": "D2",
@@ -275,22 +253,6 @@
     "margin": 0.357
    },
    "evidence": "action distribution: db_agent 0.68, policy_checker 0.32, respond_to_user 0.00 (actual: db_agent)"
-  },
-  {
-   "step": 92,
-   "agent": "planner",
-   "module": "D3",
-   "direction": "report->planner",
-   "signal": {
-    "fidelity": 0.0,
-    "missing": [
-     "investigate further and attempt to resolve the issue",
-     "still failing",
-     "transfer the case to a human agent for assistance"
-    ],
-    "altered": []
-   },
-   "evidence": "db_agent report->planner: missing ['investigate further and attempt to resolve the issue', 'still failing', 'transfer the case to a human agent for assistance'] altered []"
   },
   {
    "step": 93,

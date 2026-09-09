@@ -1,6 +1,40 @@
 {
  "flags": [
   {
+   "step": 1,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "472392",
+     "1000",
+     "392"
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['472392', '1000', '392'] altered []"
+  },
+  {
+   "step": 10,
+   "agent": "planner",
+   "module": "D3",
+   "direction": "report->planner",
+   "signal": {
+    "fidelity": 0.0,
+    "missing": [
+     "Prime factorization of 17017 is 7 × 11 × 13 × 17.",
+     "17017^17 has prime factorization 7^17 × 11^17 × 13^17 × 17^17.",
+     "Any positive divisor d of 17017^17 can be written as d = 7^a × 11^b × 13^c × 17^d with 0 ≤ a,b,c,d ≤ 17.",
+     "We are to count the number of such divisors d ≡ 5 mod 12.",
+     "7^a mod 12 cycles with period 2: values 7,1."
+    ],
+    "altered": []
+   },
+   "evidence": "solver report->planner: missing ['Prime factorization of 17017 is 7 × 11 × 13 × 17.', '17017^17 has prime factorization 7^17 × 11^17 × 13^17 × 17^17.', 'Any positive divisor d of 17017^17 can be written as d = 7^a × 11^b × 13^c × 17^d with 0 ≤ a,b,c,d ≤ 17.'] altered []"
+  },
+  {
    "step": 13,
    "agent": "planner",
    "module": "D1",

@@ -2,6 +2,7 @@
 
 | step | agent | module | signal | evidence |
 |---|---|---|---|---|
+| 1 | planner | D3/report->planner | {"fidelity": 0.0, "missing": ["277"], "altered": []} | solver report->planner: missing ['277'] altered [] |
 | 2 | solver | D1/tool | {"confidence": 0.554, "p_actual": 0.692, "margin": 0.383} | action distribution: run_python 0.69, no_tool 0.31, read_file 0.00 (actual: run_python) |
 
 ## Per-module summary
