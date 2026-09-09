@@ -13,6 +13,7 @@ orchestrator의 결정 불안정성(D1)은 실패를 예측한다(decisive step 
 
 - 제안서 (한국어, 주 제출물): [`docs/proposal.md`](docs/proposal.md)
 - 계획 / ADR: `.omc/plans/agent-failure-detection-plan.md` (로컬, 미커밋) · 타임라인: [`docs/notes/timeline.md`](docs/notes/timeline.md)
+- AI 도구 활용(무엇을 AI에게 맡기고 무엇을 사람이 결정했는지): 제안서 부록 F
 
 ## 저장소 구성
 
