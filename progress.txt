@@ -335,3 +335,8 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 
 ## 14:44 §4.4 기대 효과: condensed to one paragraph + 부록 F (cb6a10d), then reverted at the user's request (c21863d).
 - Rationale for not moving it wholesale: the assignment guideline lists 기대 효과 under section 4 and check_docs gates on it. Final state = original five items in §4.4, appendices A-E only.
+
+## 14:49 Mission-coverage check -> two gaps closed
+- 14:47: §4.3 향후 방향 paragraph added (four next steps); 핵심 결과 2 and §4.3 had pointed at "§1.2의 다음 단계", which no longer existed after the §1.2 rewrite -> repointed.
+- 14:49: 부록 F "AI 도구 활용" (per-stage AI/human division table, records and verification, limits of the approach); README pointer. Deep Research not claimed (unverified).
+- Remaining non-requirement note: length ~14.4k words; §0 + 핵심 결과 표 serve as the presentation spine.
