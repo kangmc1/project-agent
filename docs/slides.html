@@ -353,7 +353,8 @@
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.1</span>실험 설계</span></h3></div>
     <div><h4><span class="n">4.1.2</span>실행 규모</h4><p>τ-bench airline 30회(배치 1·2 각 15건). 성공 6, 실패 24. 스텝 1,029개, 실행당 중앙값 31.5스텝.</p></div>
-    <div class="cols wide-left">
+    <div class="cols wide-left" style="align-items:stretch">
+      <div class="stack">
       <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 라벨 분포 (airline 215건)</h4>
       <div class="chart"><svg viewBox="0 0 640 210" width="640" height="210" role="img" aria-label="τ-bench airline 라벨 이벤트 215건의 범주와 subtag 구성">
         <text class="lab" x="0" y="14">범주 (215건)</text>
@@ -371,12 +372,6 @@
         <text class="sub" x="420" y="78">재라벨 6건: decisive 일치 6/6</text>
         <text class="sub" x="420" y="98">이벤트 집합 겹침(Jaccard) 평균 0.56</text>
       </svg></div></div>
-      <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 절차</h4><ul>
-        <li>Claude 라벨러 6개가 실행 5건씩. 실행 요약본만 보고 탐지기 출력은 보지 않음(블라인드)</li>
-        <li>오류 이벤트마다 회복 여부, 회복된 스텝, 기록에서 어긋난 부분의 인용을 기록</li>
-        <li>독립 재라벨 6건에서 decisive step은 모두 일치. 이벤트 집합 겹침 0.56은 두 번째 라벨러가 같은 오류의 반복을 빠뜨린 것이라, 반복도 스텝마다 라벨하도록 규약을 고정</li></ul></div>
-    </div>
-    <div class="cols wide-left" style="margin-top:1rem">
       <div><h4><span class="n">4.1.3</span>decisive step과 스텝 클래스</h4>
         <div class="chart"><svg viewBox="0 0 560 78" width="560" height="78" role="img" aria-label="스텝 클래스 예시: clean, transient, decisive, cascade">
           <g>
@@ -393,8 +388,15 @@
           <text class="sub" x="43" y="50" text-anchor="middle">clean</text>
         </svg></div>
         <p style="margin-top:.3rem">decisive step은 실패한 실행에서 회복되지 못한 첫 오류 이벤트이며, 탐지기가 반드시 잡아야 하는 스텝입니다. 그 뒤의 스텝은 여파(cascade)로 보아 채점에서 뺍니다. 회복된 오류는 transient, 성공 실행의 미회복 오류는 error로 둡니다.</p></div>
+      </div>
+      <div class="stack">
+      <div><h4><span class="n">4.1.3</span>라벨링 프로토콜 — 절차</h4><ul>
+        <li>Claude 라벨러 6개가 실행 5건씩. 실행 요약본만 보고 탐지기 출력은 보지 않음(블라인드)</li>
+        <li>오류 이벤트마다 회복 여부, 회복된 스텝, 기록에서 어긋난 부분의 인용을 기록</li>
+        <li>독립 재라벨 6건에서 decisive step은 모두 일치. 이벤트 집합 겹침 0.56은 두 번째 라벨러가 같은 오류의 반복을 빠뜨린 것이라, 반복도 스텝마다 라벨하도록 규약을 고정</li></ul></div>
       <div><h4><span class="n">4.1.4</span>지표 정의</h4><p>스텝 AUROC는 탐지기 점수로 오류 스텝(전체 오류 또는 decisive만)을 깨끗한 스텝과 얼마나 잘 가르는지이며, 95 % 신뢰구간은 부트스트랩 1,000회로 구합니다. 0/1 플래그를 내는 D2는 정밀도·재현율·F1·오탐율로 잽니다.</p>
         <h4 style="margin-top:.7rem"><span class="n">4.1.5</span>D1 채점 타당성</h4><p>결정 지점 906개를 모두 채점했고 채점용 입력이 실행 시 입력과 974/974 일치합니다. 같은 요청을 다시 채점하면 값이 약 0.005 흔들리므로 D1 값은 소수 둘째 자리까지만 유효합니다.</p></div>
+      </div>
     </div>
   </div>
 </section>
