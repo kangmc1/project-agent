@@ -484,7 +484,7 @@
   <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>탐지기 D3, D4 성능평가</h2></div>
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D3 (handoff 정보 손실) · D4 (보고 근거)</span></h3></div>
-    <p class="lead" style="margin-top:-.4rem;margin-bottom:1.6rem;max-width:none"><b>D3</b>은 handoff에서 넘어간 텍스트의 사실이 뒤쪽에 얼마나 남았는지를 LLM이 비교해 손실 비율을 내는 탐지기입니다.<br><b>D4</b>는 subagent 보고의 주장 하나하나가 도구 결과와 지시에 근거하는지를 LLM이 판정하는 탐지기입니다.</p>
+    <p class="lead" style="margin-top:-.4rem;margin-bottom:.2rem;max-width:none"><b>D3</b>은 handoff에서 넘어간 텍스트의 사실이 뒤쪽에 얼마나 남았는지를 LLM이 비교해 손실 비율을 내는 탐지기입니다.<br><b>D4</b>는 subagent 보고의 주장 하나하나가 도구 결과와 지시에 근거하는지를 LLM이 판정하는 탐지기입니다.</p>
     <div class="cols two">
       <div class="stack">
         <div><h4>D3 · 정답 대비 손실 <span class="quiet" style="font-weight:400">(handoff 60건을 Claude가 따로 채점 · §4.2.11)</span></h4>
@@ -492,15 +492,27 @@
           <div class="tile"><div class="v">0.97</div><div class="l">지시→전제 경계의 fidelity<br>30건 중 실질 손실 1건</div></div>
           <div class="tile"><div class="v">0.64</div><div class="l">보고→orchestrator 경계의 fidelity<br>30건 중 실질 손실 12건</div></div>
         </div></div>
-        <div><h4>측정 방식 비교 <span class="quiet" style="font-weight:400">(Claude가 채점한 정답 30건과 대조)</span></h4>
-        <p style="font-size:.9rem;margin-bottom:.45rem">handoff 60건을 Claude가 D3 점수를 보지 않고 직접 읽어, 앞쪽 텍스트(보고→orchestrator 경계라면 subagent의 보고서)에 든 예약번호·날짜·금액·결론 같은 사실 가운데 몇 개가 뒤쪽(orchestrator의 다음 행동)에 남았는지(정답 fidelity)와, 빠지거나 바뀐 사실이 뒤 작업에 실제로 필요했는지(실질 손실)를 표시했습니다. <b>손실량 순위</b>는 30건을 정답 fidelity 순으로 세운 순서와 측정값 순으로 세운 순서가 얼마나 같은가, <b>실질 손실 구분</b>은 실질 손실 12건을 측정값만으로 가려내는가입니다.</p>
+        <div><h4>측정 방식 비교 <span class="quiet" style="font-weight:400">(Claude가 D3 점수를 보지 않고 채점한 정답 30건과 대조)</span></h4>
+        <div class="chart"><svg viewBox="0 0 580 140" width="580" height="140" role="img" aria-label="handoff 예시: subagent 보고서의 사실 네 개가 orchestrator의 다음 행동에 어떻게 남는가">
+          <text class="sub" x="0" y="12">예시 · 보고→orchestrator 경계</text>
+          <rect class="node" x="0" y="18" width="215" height="104" rx="4"/><text class="ntext" x="107" y="40" text-anchor="middle">subagent 보고서 (앞쪽 A)</text>
+          <text class="lab" x="14" y="58">예약번호 JG7FMM</text><text class="lab" x="14" y="76">출발일 5월 12일</text><text class="lab" x="14" y="94">요금 210달러</text><text class="lab" x="14" y="112">환불 불가</text>
+          <path class="edge" d="M217 75 L298 75" marker-end="url(#a)"/><text class="sub" x="257" y="66" text-anchor="middle">handoff</text>
+          <rect class="node hi" x="300" y="18" width="280" height="104" rx="4"/><text class="ntext" x="440" y="40" text-anchor="middle">orchestrator의 다음 행동 (뒤쪽 B)</text>
+          <text class="lab" x="314" y="58">JG7FMM</text><text class="val" x="470" y="58" fill="var(--ink-2)">보존 ✓</text>
+          <text class="lab" x="314" y="76">출발일 5월 21일</text><text class="val" x="470" y="76" fill="var(--accent)">변형 ✗</text>
+          <text class="lab" x="314" y="94">(요금 언급 없음)</text><text class="val" x="470" y="94" fill="var(--accent)">누락 ✗</text>
+          <text class="lab" x="314" y="112">환불 불가</text><text class="val" x="470" y="112" fill="var(--ink-2)">보존 ✓</text>
+          <text class="lab" x="0" y="136">fidelity = 보존된 사실 / 전체 사실 = 2 / 4 = 0.50 · 빠지거나 바뀐 사실이 뒤 작업에 필요했으면 "실질 손실"</text>
+        </svg></div>
+        <p style="font-size:.88rem;margin:.3rem 0 .45rem"><b>손실량 순위</b>: Claude가 매긴 정답 fidelity 순서와 측정값 순서가 30건에서 얼마나 같은가 (순위 상관). <b>실질 손실 구분</b>: 실질 손실이 있었던 12건을 측정값만으로 가려내는가 (AUROC).</p>
         <div class="tbl"><table>
           <tr><th>측정 방식</th><th class="n">손실량 순위 일치 (순위 상관)</th><th class="n">실질 손실 구분 (AUROC)</th></tr>
           <tr><td>atomic fact 기반 집합 비교 (Qwen3-8B)</td><td class="n">0.61</td><td class="n">0.62</td></tr>
           <tr><td>보고 전/후 토큰 일치도 비교</td><td class="n">0.70</td><td class="n">0.75</td></tr>
           <tr class="hi"><td>LLM-as-judge (gpt-oss-20b)</td><td class="n">0.71</td><td class="n">0.74</td></tr>
         </table></div>
-        <p style="margin-top:.5rem">실질 손실 12건 중 8건은 값이 빠진 것이 아니라 바꿔 말한 것("기록을 남김" → "처리 완료")이라 값 비교로는 보이지 않고, LLM 직접 비교만 알아봅니다.</p></div>
+        <p style="margin-top:.4rem;font-size:.9rem">실질 손실 12건 중 8건은 바꿔 말하기("기록을 남김" → "처리 완료")라 토큰 비교로는 보이지 않고 LLM-as-judge만 알아봅니다.</p></div>
       </div>
       <div class="stack">
         <div><h4>D4 · 판정 LLM 세 종의 AUROC(Step) <span class="quiet" style="font-weight:400">(airline subagent, 95 % CI · §4.2.13)</span></h4>
