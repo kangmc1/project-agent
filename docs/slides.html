@@ -616,21 +616,21 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">14</span><span class="sec">4 임팩트</span></div>
-  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>운영 로그를 사후 검토하는 제품에 그대로 얹힙니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>라벨 없이 검토 대상을 좁히고 고칠 곳을 지목</h2></div>
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.4</span>기대 효과</span></h3></div>
     <div class="steps">
       <div class="box"><div class="m">운영 로그</div><p>성공·실패가 섞인 대량의 실행 기록. 라벨 없음</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">감사 파이프라인</div><p>역할별로 D1·D2·D3 배정. 스텝마다 신호와 근거 포인터</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">순위</div><p>탐지기별 백분위 임계값. 첫날부터 동작</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">판정과 순위</div><p>D2의 예/아니오 판정을 먼저 보고, 나머지는 D1 순위로 정렬. 라벨 없이 첫날부터</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">소량 검수</div><p>검수자는 상위 몇 %의 스텝만 열어 봄</p></div><div class="arrow">→</div>
-      <div class="box"><div class="m">임계값 갱신</div><p>검수가 쌓인 셀만 라벨 최적으로</p></div><div class="arrow">→</div>
+      <div class="box"><div class="m">위험도 학습</div><p>검수가 쌓이면 학습 기반 위험도 예측으로 (13장)</p></div><div class="arrow">→</div>
       <div class="box"><div class="m">시스템 프로파일</div><p>역할·엣지별 약점 → 조치 대상 지목</p></div>
     </div>
     <div class="cols">
-      <div><h3>트레이스가 아니라 시스템을 평가</h3><p>에이전트별 저신뢰 결정 비율과 D2 플래그 비율, handoff 엣지별 fidelity와 자주 빠지는 값이 나옵니다. "어디가 약한가"의 답이 트레이스 목록이 아니라 역할과 엣지 위의 프로파일이라 프롬프트 수정, 도구 스키마 변경, subagent 분리 같은 조치로 바로 번역됩니다.</p></div>
+      <div><h3>트레이스가 아니라 시스템을 평가</h3><p>에이전트별 저신뢰 결정 비율과 D2 플래그 비율, handoff 엣지별 fidelity와 자주 빠지는 값이 나옵니다. "어디가 약한가"의 답이 트레이스 목록이 아니라 역할과 엣지 위의 프로파일이라 프롬프트 수정, 도구 스키마 변경, subagent 분리 같은 조치로 바로 번역됩니다. 예로 db_agent는 도구 호출의 20 %가 기록에 없는 값이었고 보고→orchestrator 경계의 평균 fidelity는 0.44였습니다(12장). 이 프로파일은 라벨 없이 집계한 신호의 분포이며, 실패 한 건의 원인을 가리는 귀속(13장)과는 다릅니다.</p></div>
       <div><h3>로깅 계약이 곧 온보딩 체크리스트</h3><p>스텝마다 모델이 본 입력 전체, 응답 본문, 도구 인자와 결과 원문, 공유 상태 스냅샷, 에이전트 식별자. 여기까지로 D2와 D3이 돌고, 실행 모델의 logprob 접근이 더해지면 D1이 켜집니다.</p></div>
-      <div><h3>감사 가능</h3><p>결정·행동 지점의 판정이 코드이므로 재현되고, 이의 제기에 근거 포인터로 답하며, 규칙 변경의 영향을 재실행으로 확인합니다. LLM 판정은 D3 하나뿐이며 누락·변형된 사실 목록으로 추적됩니다.</p></div>
+      <div><h3>감사 가능</h3><p>행동 지점의 판정(D2)이 코드이므로 재현되고, 이의 제기에 근거 포인터로 답하며, 규칙 변경의 영향을 재실행으로 확인합니다. LLM 판정은 D3 하나뿐이며(D4는 미해결이라 배치에서 제외) 누락·변형된 사실 목록으로 추적됩니다.</p></div>
     </div>
   </div>
 </section>
