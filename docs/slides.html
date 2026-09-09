@@ -539,7 +539,7 @@
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 임계값과 판정 방식</span></h3></div>
     <div class="cols two">
-      <div><p class="lead" style="max-width:none;margin-bottom:.4rem">라벨 없이 정한 경고 기준(D1 점수 상위 5 %·10 %)이 라벨로 정한 최적 기준보다 얼마나 잃는지를 봅니다.</p><h4>임계값 실험 <span class="quiet" style="font-weight:400">(D1 1 − confidence, 라벨 없는 기준 대 라벨 최적 기준 · §4.2.6)</span></h4>
+      <div><p class="lead" style="max-width:none;margin-bottom:.4rem">D1 점수가 기준값을 넘으면 그 스텝에서 고른 행동이 옳지 않을 수 있다고 판정합니다. 라벨 없이 정한 기준(점수 상위 5 %·10 %)이 라벨로 정한 최적 기준보다 얼마나 잃는지를 봅니다.</p><h4>임계값 실험 <span class="quiet" style="font-weight:400">(D1 1 − confidence, 라벨 없는 기준 대 라벨 최적 기준 · §4.2.6)</span></h4>
         <div class="chart"><svg viewBox="0 0 520 220" width="520" height="220" role="img" aria-label="FPR 대 recall: 백분위 임계값과 라벨 최적 임계값">
           <line class="grid" x1="120" y1="10" x2="120" y2="180"/><line class="grid" x1="120" y1="180" x2="500" y2="180"/>
           <text class="lab" x="120" y="200" text-anchor="middle">FPR 0</text><text class="lab" x="310" y="200" text-anchor="middle">0.35</text><text class="lab" x="500" y="200" text-anchor="middle">0.7</text>
@@ -552,7 +552,7 @@
           <circle cx="303" cy="88" r="6" fill="var(--s2)"><title>subagent 라벨 최적: FPR 0.337, recall 0.542</title></circle><text class="val" x="313" y="92">라벨 최적</text>
         </svg></div>
         <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator</span><span><i style="background:var(--s2)"></i>subagent</span><span>점: 상위 5 % · 상위 10 % = 라벨 없는 기준, 라벨 최적 = 라벨로 찾은 최선</span></div>
-        <p class="quiet">라벨로 찾은 최적 기준은 조금이라도 흔들린 결정을 전부 경고하는 지점이라 정상 스텝의 34–65 %에도 경고가 울립니다. 상위 5–10 %만 경고하는 라벨 없는 기준은 오류의 4–17 %만 잡습니다. 따라서 D1은 검토할 스텝의 순서를 매기는 데 쓰고 단독 경고로는 쓰지 않습니다. D2는 점수가 아니라 예/아니오를 내므로 기준값이 필요 없어 라벨 없이 운영해도 잃는 것이 없습니다.</p></div>
+        <p class="quiet">라벨로 찾은 최적 기준은 조금이라도 흔들린 결정을 전부 의심하는 지점이라, 실제로는 문제없는 정상 스텝의 34–65 %까지 "고른 행동이 옳지 않을 수 있다"고 판정합니다. 상위 5–10 %만 의심하는 라벨 없는 기준은 반대로 실제 오류의 4–17 %만 판정합니다. 따라서 D1은 검토할 스텝의 순서를 매기는 데 쓰고 단독 판정으로는 쓰지 않습니다. D2는 점수가 아니라 "이 호출은 근거가 없다"는 예/아니오를 내므로 기준값이 필요 없어 라벨 없이 운영해도 잃는 것이 없습니다.</p></div>
       <div><h4>판정 방식 비교 <span class="quiet" style="font-weight:400">(같은 질문을 코드 대신 LLM-as-judge에게 물었을 때 · §4.2.12)</span></h4>
         <div class="tbl"><table>
           <tr><th>D1 · AUROC(Step)</th><th class="n">orchestrator 전체 / decisive</th><th class="n">subagent 전체</th></tr>
@@ -586,7 +586,7 @@
     <div class="cols">
       <div><h4>같은 질문, 역할마다 다른 실패의 모양</h4><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 지어낸 값으로 도구를 부르는 것으로 나타납니다. 그래서 감사 파이프라인은 모든 스텝에 모든 탐지기를 돌리는 구조가 아니라, 역할과 탐지 대상마다 맞는 탐지기를 배정하는 구조여야 합니다.</p></div>
       <div><h4>시스템 단위 집계 <span class="quiet" style="font-weight:400">(프로파일이 조치를 지목 · §4.2.10)</span></h4><p>라벨 없이 에이전트·경계 단위로 집계하면 db_agent는 도구 호출의 20 %가 기록에 없는 값으로 부른 것이었고, db_agent 보고→orchestrator 경계에서 D3이 잰 평균 fidelity는 0.44였습니다. 이런 프로파일이 프롬프트 수정이나 subagent 분리 같은 조치의 대상을 바로 지목합니다.</p></div>
-      <div><h4>D1은 순서, D2는 경고</h4><p>D1은 오류 스텝을 위로 올리는 순위 신호로는 쓸 수 있지만 고정 기준의 경고로는 약합니다(11장). D2는 예/아니오를 내고 오탐율이 7 %라 그대로 경고로 쓸 수 있습니다. 운영에서는 D2 경고를 먼저 보고, D1 순위로 검토 범위를 넓히는 순서가 맞습니다.</p></div>
+      <div><h4>D1은 순서, D2는 판정</h4><p>D1은 오류 스텝을 위로 올리는 순위 신호로는 쓸 수 있지만, 고정 기준으로 "고른 행동이 옳지 않다"고 판정하기에는 약합니다(11장). D2는 "이 호출은 근거가 없다"는 예/아니오를 내고 오탐율이 7 %라 그대로 판정으로 쓸 수 있습니다. 운영에서는 D2 판정을 먼저 보고, D1 순위로 검토 범위를 넓히는 순서가 맞습니다.</p></div>
     </div>
   </div>
 </section>
