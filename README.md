@@ -15,7 +15,7 @@ detector performance is decided less by the detector than by which role and laye
 
 ```
 scripts/ serve_qwen32b.sh serve_qwen32b_score.sh serve_gptoss20b.sh serve_qwen8b.sh # vLLM servers: executor, D1 scorer, D3 judge, 8B (comparators only)
- check_server.py (P1 gate) probe_deepagents.py (P1b gate) check_docs.py d1_*.sh (D1 batch scoring)
+ check_server.py (P1 gate) probe_deepagents.py (P1b gate) check_docs.py score_gold_llm_d3.py (D3 gold: LLM direct comparison)
 src/data/ aime.py tau.py tau_user.py # AIME 2026 loader, tau-bench airline env, raw-httpx user simulator
 src/harness/ deepagents_compat.py model.py capture.py tools.py airline.py aime.py validate.py # graphs + full-observability capture
 src/run.py # run one task or a batch
