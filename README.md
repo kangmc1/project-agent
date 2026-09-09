@@ -1,12 +1,12 @@
 # 라벨 없는 멀티에이전트 실패 탐지 (Coxwave 직무과제)
 
-planner→subagent 시스템의 실행 기록 전체를 읽고, **정답이나 라벨 없이** 실패를 짚어내는 **오프라인 감사기(auditor)**다.
+orchestrator→subagent 시스템의 실행 기록 전체를 읽고, **정답이나 라벨 없이** 실패를 짚어내는 **오프라인 감사기(auditor)**다.
 기록의 층마다 대조 상대와 판정 주체를 달리 둔다. 결정 층은 실행 모델 자신이 유한한 다음 행동 후보에 매긴 확률로(D1),
 행동 층은 도구 호출을 기록과 코드로 대조하여(D2), handoff 경계는 두 텍스트를 LLM으로 비교하여(D3) 검사한다.
-LangChain Deep Agents 위에서 로컬 Qwen3-32B로 실제 실행한 60회(τ-bench airline ×30 본 실험, AIME 2026 ×30 보조 실험)로 평가하였다.
-그 산출물인 완전 관측 트레이스 60건, 스텝 라벨 434건, handoff 손실 정답지 60건은 과제의 네 실패 유형을 모두 라벨한
-평가 데이터셋이자 생성 파이프라인으로 함께 제출한다(제안서 §3.5).
-결론은 세 문장이다. planner의 결정 불안정성(D1)은 실패를 예측한다(decisive step AUROC 0.75).
+LangChain Deep Agents 위에서 로컬 Qwen3-32B로 실제 실행한 τ-bench airline 30회로 평가하였다.
+그 산출물인 완전 관측 트레이스 30건, 스텝 라벨 이벤트 215건, handoff 손실 정답지 60건은 과제의 네 실패 유형을 모두 라벨한
+평가 데이터셋이자 생성 파이프라인으로 함께 제출한다(제안서 §3.5). 같은 하네스로 실행한 AIME 2026 30회는 제안서 부록 C에 있다.
+결론은 세 문장이다. orchestrator의 결정 불안정성(D1)은 실패를 예측한다(decisive step AUROC 0.75).
 subagent 층은 D1에 보이지 않으며, 대신 정밀도 위주의 행동 근거성 검사(D2, F1 0.54)가 맡는다.
 탐지기의 성능은 탐지기 자체보다 어느 역할·어느 층에 붙이는가에 따라 갈린다.
 
@@ -32,17 +32,17 @@ docs/          제안서, 타임라인
 ## 실행 그래프 (감사 대상 시스템)
 
 ```
-[τ-bench airline — 본 실험]                                      [AIME 2026 — 보조 실험]
-  customer(user_sim) ⇄ planner ─policy_checker─▶ think + 정책 wiki     planner ─solver───▶ run_python
-                               └─db_agent───────▶ DB 도구 14개                 └─verifier─▶ run_python (독립 재유도)
-  공유 파일 /case_notes.md (subagent가 덧붙임)                                  submit_answer
+[τ-bench airline]
+  customer(user_sim) ⇄ orchestrator ─policy_checker─▶ think + 정책 wiki
+                                    └─db_agent───────▶ DB 도구 14개
+  공유 파일 /case_notes.md (subagent가 덧붙임)
 ```
 
-subagent는 planner에게 **이름 붙은 wrapper 도구**(`policy_checker`, `db_agent`, `solver`, `verifier`)로 노출된다. wrapper는
+subagent는 orchestrator에게 **이름 붙은 wrapper 도구**(`policy_checker`, `db_agent`)로 노출된다. wrapper는
 deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따르므로, handoff 결정이 D1이 채점할 수 있는 도구 이름 위치에
-놓인다. 실행기는 Qwen3-32B(vLLM, thinking off)이고 사용자 시뮬레이터는 같은 모델을 raw HTTP로 호출한다. airline이 본 실험이다.
-AIME는 solver가 일을 거의 다 하고 planner가 실질적인 결정을 거의 내리지 않아(라벨된 planner 오류 6건) planner→subagent 분해가
-형식적이므로, 결과 검토 후 보조 실험으로 내렸다(제안서 §4.2.12).
+놓인다. 실행기는 Qwen3-32B(vLLM, thinking off)이고 사용자 시뮬레이터는 같은 모델을 raw HTTP로 호출한다.
+같은 하네스로 실행한 AIME 2026(orchestrator → solver, verifier)은 solver가 일을 거의 다 해 orchestrator→subagent 분해가 형식적이므로
+본문에서 빼고 제안서 부록 C에 두었다. 코드, 라벨 파일, 지표 표에서 orchestrator의 역할 이름은 `planner`다.
 
 ## 감사기 모듈
 
@@ -51,13 +51,13 @@ AIME는 solver가 일을 거의 다 하고 planner가 실질적인 결정을 거
 | 모듈 | 층 | 대조 상대 | 판정 주체 | 한 문장 | 코드 | 출력 |
 |---|---|---|---|---|---|---|
 | **D1** 결정 분포 | 결정 | 실행기 자신의 후보 행동(도구 이름 ∪ `no_tool`) 확률 분포, 같은 가중치로 재채점 | 코드 (LLM 없음) | 결정이 얼마나 흔들렸는가 — `1−p_actual`, `1−confidence`(정규화 엔트로피), `1−margin`, 그리고 handoff 층(위임 여부) | `d1_decision.py` | `audit/d1.jsonl` |
-| **D2** 행동 근거성 | 행동 (도구 호출) | 기록: planner의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 행동은 기록이 요구하고 허용한 것인가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
-| **D3** handoff 정보 손실 | handoff 경계 텍스트 | 경계 반대편의 텍스트 | LLM 판정기 (gpt-oss-20b)가 두 텍스트를 비교 | 넘기는 과정에서 무엇이 빠지거나 바뀌었는가 — 지시→전제, 보고→planner의 원자 사실 fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
+| **D2** 행동 근거성 | 행동 (도구 호출) | 기록: orchestrator의 지시문과 에이전트가 받은 값 | 코드 (LLM 없음) | 이 행동은 기록이 요구하고 허용한 것인가 — flag = (1) 지시문이 요구한 도구 계열을 한 번도 호출하지 않음 ∪ (2) 식별자형 인자 값이 에이전트에게 주어진 적 없음 ∪ (3′) 호출이 오류를 반환함 (파일 도구와 wrapper 행 제외) | `d2_required_calls.py` `d2_argument_grounding.py` `d2_tool_log.py` → `d2_action.py` | `audit/d2_action.jsonl` |
+| **D3** handoff 정보 손실 | handoff 경계 텍스트 | 경계 반대편의 텍스트 | LLM 판정기 (gpt-oss-20b)가 두 텍스트를 비교 | 넘기는 과정에서 무엇이 빠지거나 바뀌었는가 — 지시→전제, 보고→orchestrator의 원자 사실 fidelity | `d3_handoff.py` | `audit/d3_handoff.jsonl` |
 | **D4** 근거 의존 판정 — *설계만* | 발언 | 근거 (도구 결과 + 지시문) | 외부 LLM 판정 | 말한 것이 근거에 얼마나 의존하는가 — 주장별 supported / derived / unsupported / contradicted. 8B 파일럿은 채택하지 않음(airline AUROC 0.47, flag 정밀도 17 %) | `unused/d4_evidence_judge.py` | 없음 |
 
 D2와 D4는 같은 기록을 각각 **행동**과 **발언**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 발언은 자연어라
 LLM이 필요하다. D3은 자연어 텍스트 둘을 비교하는데, 60개 handoff 정보 손실 정답지에서 LLM 비교가 8B 사실 추출 + 집합 차보다
-정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) D3만 LLM이 판정한다. D2는 planner의 위임도
+정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) D3만 LLM이 판정한다. D2는 orchestrator의 위임도
 검사한다(식별자 누락, 실패 보고 후 재발행). D2는 flag 기준(정밀도 / 재현율 / F1 / FPR)으로 평가하며, AUROC은 비교 가능성을 위해서만
 싣는다. 0/1 점수의 AUROC은 (재현율 + 1 − FPR)/2로 고정되기 때문이다.
 
@@ -100,21 +100,18 @@ python scripts/check_docs.py --proposal --skeleton --adr
 ## 결과
 
 본 실험 τ-bench airline (30회: 성공 6 / 실패 24; 라벨된 오류 이벤트 215건, decisive step 24개).
-라벨은 평가에만 쓰며, 어떤 탐지기도 라벨이나 정답을 입력으로 받지 않는다. 전체 표, 실행 단위 지표, AIME 보조 실험은
-[`eval/metrics.md`](eval/metrics.md)와 `docs/proposal.md` §4.2에 있다.
+라벨은 평가에만 쓰며, 어떤 탐지기도 라벨이나 정답을 입력으로 받지 않는다. 전체 표와 실행 단위 지표는
+[`eval/metrics.md`](eval/metrics.md)와 `docs/proposal.md` §4.2에, AIME 2026은 제안서 부록 C에 있다.
 
 | 모듈 | 층 | 역할 | 주 지표 | AUROC 전체 오류 / decisive (비교용) | 판정 |
 |---|---|---|---|---|---|
-| D1 결정 분포 | 결정 | planner | AUROC 0.63 [0.54, 0.71] / decisive **0.75** [0.61, 0.86] (1 − p_actual) | 좌동 | 작동 |
+| D1 결정 분포 | 결정 | orchestrator | AUROC 0.63 [0.54, 0.71] / decisive **0.75** [0.61, 0.86] (1 − p_actual) | 좌동 | 작동 |
 | D1 결정 분포 | 결정 | subagent | AUROC 0.54 / 0.36 | 좌동 | 신호 없음 |
 | D2 행동 근거성 | 행동 | subagent | **F1 0.54** (정밀도 0.62, 재현율 0.48, FPR 0.07) | 0.70 [0.63, 0.78] / 0.59 | 작동 (부분) |
-| D2 행동 근거성 | 행동 | planner (위임) | F1 0.35 (정밀도 **0.91**, 재현율 0.22, FPR 0.007); decisive 6/16 | 0.60 / 0.69 | 작동 (고정밀·저재현) |
-| D3 handoff 정보 손실, 보고→planner | 경계 | planner | 손실 정답지 대비 순위 상관 0.71, 실질 손실 AUROC 0.74 (n = 30) | 실패 라벨 대비 0.53 / 0.59 (참고) | 계측 성립. 실패 예측은 약함 |
-| D3 handoff 정보 손실, 지시→전제 | 경계 | planner | 정답 fidelity 0.97, 손실 거의 없음 (n = 30) | 0.55 / 0.62 (참고) | 손실 없는 경계로 확인 |
+| D2 행동 근거성 | 행동 | orchestrator (위임) | F1 0.35 (정밀도 **0.91**, 재현율 0.22, FPR 0.007); decisive 6/16 | 0.60 / 0.69 | 작동 (고정밀·저재현) |
+| D3 handoff 정보 손실, 보고→orchestrator | 경계 | orchestrator | 손실 정답지 대비 순위 상관 0.71, 실질 손실 AUROC 0.74 (n = 30) | 실패 라벨 대비 0.53 / 0.59 (참고) | 계측 성립. 실패 예측은 약함 |
+| D3 handoff 정보 손실, 지시→전제 | 경계 | orchestrator | 정답 fidelity 0.97, 손실 거의 없음 (n = 30) | 0.55 / 0.62 (참고) | 손실 없는 경계로 확인 |
 | D4 근거 의존 판정 | 발언 | subagent | 설계만 · 결과 없음 | – | 미사용 |
-
-AIME 2026 (보조): D1 planner 전체 오류 AUROC 0.73 [0.46, 0.96], 양성 6건(판단 불가); D2 subagent 정밀도 0.91, 재현율 0.42,
-F1 0.57, AUROC 0.67 [0.60, 0.74].
 
 ## 한계
 
