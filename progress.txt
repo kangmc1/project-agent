@@ -288,3 +288,12 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Two planner conditions (missing identifier in delegation; re-issue after failure report) moved INTO D2 as planner-side
   conditions (src/audit/d2_delegation.py, folded by d2_action.py). D2 planner airline: P 0.909 R 0.217 F1 0.351 FPR 0.007,
   decisive 6/16; subagent cell unchanged. (b) fires 13x in cascade, 0 on labeled-error steps (post-decisive loop symptom).
+
+## 2026-09-09 10:50 KST (machine) — D3 gold (information loss) self-annotated; extraction guard
+- labels/d3_loss: 60 handoffs (30+30, airline), annotated by me blind to scores per RUBRIC.md: facts_A, preserved/altered,
+  gold_fidelity, material_loss. Result: material loss 13/60 (instr->premise 1, report->planner 12); gold fidelity mean 0.97 / 0.64.
+  8 of 13 material losses are ALTERATIONS/reframings (param error -> "system issue", recorded -> "processed", one-stop none ->
+  "no flights") or omission of the fabricated id used in a lookup — value-set diffs cannot see these.
+- Code D3 vs gold: rho 0.39 (instr->premise, n=22) / 0.62 (report->planner, n=28); material-loss AUROC 0.64 (report->planner).
+- d3_handoff: A-side extraction guard (A value must occur literally in A's text). Before/after comparison recorded above.
+- LLM-only judges covered only 11-15 of the 60 sample items -> rescoring the exact 60 with all three judges (scripts/score_gold_llm_d3.py).

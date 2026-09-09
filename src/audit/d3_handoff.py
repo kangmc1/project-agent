@@ -110,7 +110,7 @@ def _find_planner_step_id(planner_calls: list[tuple[int, str, dict | None]], too
     return best
 
 
-def _diff(a: dict, b: dict, raw_b: str = "") -> tuple[list[str], list[str], list[str], float | None]:
+def _diff(a: dict, b: dict, raw_b: str = "", raw_a: str = "") -> tuple[list[str], list[str], list[str], float | None]:
     # value-level comparison (robust to key-naming drift of the 8B extractor): a fact survives the boundary if its
     # normalized value appears in (or contains) any value on the other side. A value that appears literally in the raw
     # B text (e.g. inside the planner's next tool-call arguments) also counts as preserved — the 8B extractor misses
@@ -119,6 +119,10 @@ def _diff(a: dict, b: dict, raw_b: str = "") -> tuple[list[str], list[str], list
         return {_norm(v) for v in d.values() if v and _norm(v)}
     av, bv = _vals(a), _vals(b)
     raw = _norm(raw_b) if raw_b else ""
+    if raw_a:  # extraction guard (09-09): an A fact counts only if its value occurs literally in A's own text —
+        # the 8B extractor fills requested-but-absent items with invented values (31% of A values on instructions)
+        ra = _norm(raw_a)
+        av = {v for v in av if v in ra}
     def _present(v, pool):
         return any(v == w or (len(v) >= 3 and (v in w or w in v)) for w in pool)
     def _kept(v):
@@ -150,7 +154,7 @@ def build_handoff(row: dict, steps_by_id: dict[int, dict], planner_steps: list[d
         premise = ""
         B_empty2 = True
     B2 = extract_atomic_facts(premise) if premise.strip() else {}
-    missing2, added2, altered2, fidelity2 = _diff(A2, B2, premise)
+    missing2, added2, altered2, fidelity2 = _diff(A2, B2, premise, instruction)
 
     # direction: report -> planner
     report = _load_text(row["result_json"])
@@ -165,7 +169,7 @@ def build_handoff(row: dict, steps_by_id: dict[int, dict], planner_steps: list[d
         b1_text = ""
         B_empty1 = True
     B1 = extract_atomic_facts(b1_text) if b1_text.strip() else {}
-    missing1, added1, altered1, fidelity1 = _diff(A1, B1, b1_text)
+    missing1, added1, altered1, fidelity1 = _diff(A1, B1, b1_text, report)
 
     base = {"run_id": run_id, "domain": domain, "handoff_id": row["id"], "planner_step_id": planner_step_id,
             "wrapper": tool}
