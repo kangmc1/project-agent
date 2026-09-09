@@ -407,32 +407,31 @@
   <div class="head"><p class="eyebrow"><b>4 결과 및 평가</b></p><h2>Orchestrator 단위의 결정과 subagent 단위의 결정 안정성 평가</h2></div>
   <div class="body">
     <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D1 (결정 분포)</span></h3></div>
-    <div class="cols wide-left">
+    <div class="cols two">
       <div>
         <h4>스텝 수준 AUROC <span class="quiet" style="font-weight:400">(1 − p_actual, 95 % CI · §4.2.2)</span></h4>
-        <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D1 스텝 AUROC, 역할별">
-          <g class="lab"><text x="150" y="26" text-anchor="end">전체 오류 · orchestrator</text><text x="150" y="62" text-anchor="end">decisive · orchestrator</text><text x="150" y="116" text-anchor="end">전체 오류 · subagent</text><text x="150" y="152" text-anchor="end">decisive · subagent</text></g>
-          <line class="grid" x1="170" y1="6" x2="170" y2="176"/><line class="ref" x1="420" y1="6" x2="420" y2="176"/>
-          <text class="lab" x="420" y="196" text-anchor="middle">0.5 (우연)</text><text class="lab" x="170" y="196" text-anchor="middle">0</text><text class="lab" x="670" y="196" text-anchor="middle">1.0</text>
-          <rect x="170" y="12" width="313.5" height="18" fill="var(--s1)"><title>0.627 [0.543, 0.713] · n_pos 46 / n_neg 148</title></rect><line class="ci" x1="441.5" y1="21" x2="526.5" y2="21"/><text class="val" x="536" y="26">0.63</text>
-          <rect x="170" y="48" width="373" height="18" fill="var(--s1)"><title>0.746 [0.611, 0.862] · n_pos 16</title></rect><line class="ci" x1="475.5" y1="57" x2="601" y2="57"/><text class="val" x="610" y="62">0.75</text>
-          <rect x="170" y="102" width="272" height="18" fill="var(--s2)"><title>0.544 [0.442, 0.634] · n_pos 48 / n_neg 190</title></rect><line class="ci" x1="391" y1="111" x2="487" y2="111"/><text class="val" x="496" y="116">0.54</text>
-          <rect x="170" y="138" width="178.5" height="18" fill="var(--s2)"><title>0.357 [0.208, 0.512] · n_pos 8</title></rect><line class="ci" x1="274" y1="147" x2="426" y2="147"/><text class="val" x="436" y="152">0.36</text>
+        <div class="chart"><svg viewBox="0 0 580 205" width="580" height="205" role="img" aria-label="D1 스텝 AUROC, 역할별">
+          <g class="lab"><text x="88" y="26" text-anchor="end">전체 오류</text><text x="88" y="62" text-anchor="end">decisive</text><text x="88" y="116" text-anchor="end">전체 오류</text><text x="88" y="152" text-anchor="end">decisive</text></g>
+          <line class="grid" x1="100" y1="6" x2="100" y2="176"/><line class="ref" x1="320" y1="6" x2="320" y2="176"/><text class="lab" x="100" y="196" text-anchor="middle">0</text><text class="lab" x="320" y="196" text-anchor="middle">0.5 (우연)</text><text class="lab" x="540" y="196" text-anchor="middle">1.0</text>
+          <rect x="100" y="12" width="275.9" height="18" fill="var(--s1)"><title>0.627 [0.543, 0.713] · n_pos 46 / n_neg 148</title></rect><line class="ci" x1="338.9" y1="21" x2="413.7" y2="21"/><text class="val" x="421.7" y="26">0.63</text>
+          <rect x="100" y="48" width="328.2" height="18" fill="var(--s1)"><title>0.746 [0.611, 0.862] · n_pos 16</title></rect><line class="ci" x1="368.8" y1="57" x2="479.3" y2="57"/><text class="val" x="487.3" y="62">0.75</text>
+          <rect x="100" y="102" width="239.4" height="18" fill="var(--s2)"><title>0.544 [0.442, 0.634] · n_pos 48 / n_neg 190</title></rect><line class="ci" x1="294.5" y1="111" x2="379.0" y2="111"/><text class="val" x="387.0" y="116">0.54</text>
+          <rect x="100" y="138" width="157.1" height="18" fill="var(--s2)"><title>0.357 [0.208, 0.512] · n_pos 8</title></rect><line class="ci" x1="191.5" y1="147" x2="325.3" y2="147"/><text class="val" x="333.3" y="152">0.36</text>
         </svg></div>
-        <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (n_pos 46 / decisive 16)</span><span><i style="background:var(--s2)"></i>subagent (n_pos 48 / decisive 8)</span></div>
       </div>
       <div>
         <h4>트레이스 수준 AUROC <span class="quiet" style="font-weight:400">(max 요약, 실패 25 / 성공 6 · §4.2.3)</span></h4>
-        <div class="chart"><svg viewBox="0 0 400 130" width="400" height="130" role="img" aria-label="트레이스 수준 AUROC">
-          <g class="lab"><text x="130" y="26" text-anchor="end">D1 · orchestrator</text><text x="130" y="62" text-anchor="end">D1 · subagent</text><text x="130" y="98" text-anchor="end">D2 · subagent</text></g>
-          <line class="grid" x1="140" y1="6" x2="140" y2="112"/><line class="ref" x1="240" y1="6" x2="240" y2="112"/><text class="lab" x="240" y="126" text-anchor="middle">0.5</text><text class="lab" x="340" y="126" text-anchor="middle">1.0</text>
-          <rect x="140" y="12" width="162.6" height="16" fill="var(--s1)"><title>0.813 [0.627, 0.960]</title></rect><line class="ci" x1="265.4" y1="20" x2="332" y2="20"/><text class="val" x="338" y="25">0.81</text>
-          <rect x="140" y="48" width="110.6" height="16" fill="var(--s2)"><title>0.553 [0.273, 0.820]</title></rect><line class="ci" x1="194.6" y1="56" x2="304" y2="56"/><text class="val" x="310" y="61">0.55</text>
-          <rect x="140" y="84" width="122" height="16" fill="var(--s2)"><title>0.610 [0.400, 0.817]</title></rect><line class="ci" x1="220" y1="92" x2="303.4" y2="92"/><text class="val" x="310" y="97">0.61</text>
+        <div class="chart"><svg viewBox="0 0 580 205" width="580" height="205" role="img" aria-label="트레이스 수준 AUROC">
+          <g class="lab"><text x="88" y="26" text-anchor="end">D1</text><text x="88" y="80" text-anchor="end">D1</text><text x="88" y="116" text-anchor="end">D2</text></g>
+          <line class="grid" x1="100" y1="6" x2="100" y2="176"/><line class="ref" x1="320" y1="6" x2="320" y2="176"/><text class="lab" x="100" y="196" text-anchor="middle">0</text><text class="lab" x="320" y="196" text-anchor="middle">0.5 (우연)</text><text class="lab" x="540" y="196" text-anchor="middle">1.0</text>
+          <rect x="100" y="12" width="357.7" height="18" fill="var(--s1)"><title>0.813 [0.627, 0.960]</title></rect><line class="ci" x1="375.9" y1="21" x2="522.4" y2="21"/><text class="val" x="530.4" y="26">0.81</text>
+          <rect x="100" y="66" width="243.3" height="18" fill="var(--s2)"><title>0.553 [0.273, 0.820]</title></rect><line class="ci" x1="220.1" y1="75" x2="460.8" y2="75"/><text class="val" x="468.8" y="80">0.55</text>
+          <rect x="100" y="102" width="268.4" height="18" fill="var(--s2)"><title>0.610 [0.400, 0.817]</title></rect><line class="ci" x1="276.0" y1="111" x2="459.5" y2="111"/><text class="val" x="467.5" y="116">0.61</text>
         </svg></div>
       </div>
     </div>
-    <div class="cols wide-left">
+    <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (스텝 양성 46 / decisive 16)</span><span><i style="background:var(--s2)"></i>subagent (스텝 양성 48 / decisive 8)</span></div>
+    <div class="cols two">
       <div><p><b>스텝 수준 AUROC</b>는 라벨된 스텝 하나하나를 단위로, D1 점수가 오류 스텝을 깨끗한 스텝보다 높게 매기는지를 잽니다. 곧 어느 스텝에서 오류가 났는지 짚어내는 성능입니다. orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타나 decisive 0.75에 이르지만, subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족하고 오류는 어떤 인자로 부르는가에서 나므로 우연 수준입니다.</p></div>
       <div><p><b>트레이스 수준 AUROC</b>는 실행 하나를 단위로, 스텝 점수의 최댓값으로 실행 점수를 만들어 실패한 실행 24회를 성공 6회보다 높게 매기는지를 잽니다. 곧 이 실행이 실패할지를 점수만으로 맞히는 성능입니다. orchestrator D1은 0.81로 가장 흔들린 결정 하나가 성패를 가르고, subagent는 D1 0.55, D2 0.61로 실행 단위 예측이 약합니다.</p></div>
     </div>
