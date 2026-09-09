@@ -605,8 +605,9 @@
         <li><b>단일 모델 계열과 기록 전제.</b> 실행·시뮬레이터·D1 채점이 모두 Qwen3. 모델이 본 입력 전체와 확률을 남기는 기록이 있어야 동작하며, 출력만 남는 로그로는 돌지 않음</li>
         <li><b>순차 위임 그래프만.</b> orchestrator가 subagent를 하나씩 부르는 형태만 다뤘고, 병렬 실행이나 에이전트 간 직접 통신은 다루지 않았음</li></ul></div>
       <div><h4>향후 방향</h4>
-        <div class="flow" style="grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="flow" style="grid-template-columns:1fr;gap:.7rem">
           <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사를 위한 방법론 고안</div><p>판정 LLM 세 종 모두 0.5 부근이라 지금 정의로는 보고 지점을 판정하지 못함. 판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 넣는 등 D4를 제대로 잴 수 있는 검사 방법을 찾는 것이 다음 과제</p></div>
+          <div class="box"><div class="m">귀속</div><div class="t">실패 귀속: orchestrator와 subagent 중 누가 틀렸는가</div><p>탐지기 점수가 가장 높은 스텝이 decisive 스텝과 맞는 비율은 0.21 이하이고, 역할 일치 0.67은 "늘 orchestrator"라는 답과 같음(§4.2.4). 틀린 보고를 믿은 orchestrator의 흔들림에 신호가 찍히므로 원인이 subagent에 있어도 책임은 orchestrator로 기움. confidence와 다른 uncertainty 신호(다중 샘플링, hidden state probe)로 subagent 쪽 신호를 만들고, 경계 손실(D3)과 반사실 재실행으로 책임을 가르는 방법이 필요</p></div>
           <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out에서 "역할이 가른다"는 결론이 유지되는지 확인</p></div>
         </div></div>
     </div>
