@@ -430,8 +430,8 @@
         </svg></div>
       </div>
     </div>
-    <div class="legend"><span><i style="background:var(--s1)"></i>orchestrator (스텝 양성 46 / decisive 16)</span><span><i style="background:var(--s2)"></i>subagent (스텝 양성 48 / decisive 8)</span></div>
-    <div class="cols two">
+    <div class="legend" style="margin-top:-0.5rem"><span><i style="background:var(--s1)"></i>orchestrator (스텝 양성 46 / decisive 16)</span><span><i style="background:var(--s2)"></i>subagent (스텝 양성 48 / decisive 8)</span></div>
+    <div class="cols two" style="margin-top:-0.5rem">
       <div><p><b>스텝 수준 AUROC</b>는 라벨된 스텝 하나하나를 단위로, D1 점수가 오류 스텝을 깨끗한 스텝보다 높게 매기는지를 잽니다. 곧 어느 스텝에서 오류가 났는지 짚어내는 성능입니다. orchestrator는 매 스텝 여러 후보 사이에서 정하는 자리라 실패가 결정의 흔들림으로 나타나 decisive 0.75에 이르지만, subagent는 지시문으로 다음 행동이 거의 정해져 분포가 뾰족하고 오류는 어떤 인자로 부르는가에서 나므로 우연 수준입니다.</p></div>
       <div><p><b>트레이스 수준 AUROC</b>는 실행 하나를 단위로, 스텝 점수의 최댓값으로 실행 점수를 만들어 실패한 실행 24회를 성공 6회보다 높게 매기는지를 잽니다. 곧 이 실행이 실패할지를 점수만으로 맞히는 성능입니다. orchestrator D1은 0.81로 가장 흔들린 결정 하나가 성패를 가르고, subagent는 D1 0.55, D2 0.61로 실행 단위 예측이 약합니다.</p></div>
     </div>
