@@ -343,7 +343,7 @@
       <div><div class="k">무엇을 놓치는가</div><ul>
         <li>인자의 출처는 맞는데 선택이 틀린 경우(다른 예약의 날짜) 10건</li>
         <li>보고 층과 경계 층의 오류 15건은 D2의 질문 밖</li>
-        <li>LLM에게 같은 질문을 시키면 정밀도 0.34–0.44로 코드보다 낮다 (§4.2.12)</li></ul></div>
+        <li>LLM에게 같은 질문을 시키면 정밀도 0.34–0.44로 코드보다 낮음 (§4.2.12)</li></ul></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">d2_action.jsonl · airline flags 160 = subagent 125 + orchestrator 35</span><span>§4.2.2</span></div>
@@ -388,7 +388,7 @@
     </table></div>
     <div class="cols">
       <div><div class="k">같은 질문, 역할마다 다른 실패의 모양</div><p>orchestrator의 실패는 결정의 흔들림으로, subagent의 실패는 확신에 찬 잘못된 호출로 나타납니다. 감사 파이프라인은 모든 스텝에 모든 모듈을 돌리는 구조가 아니라 역할과 층에 모듈을 배정하는 라우팅 구조여야 합니다.</p></div>
-      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞섭니다(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 낫습니다(자연어 사이의 손실). "판정은 코드가 합니다"는 행동 층에서만 성립합니다.</p></div>
+      <div><div class="k">판정 주체도 층이 정한다 (§4.2.12)</div><p>D1 orchestrator에서는 코드와 LLM 판정이 0.68–0.77로 같은 수준. D2에서는 코드가 모든 지표에서 앞섭니다(구조화된 값의 문자열 대조). D3에서는 LLM 직접 비교가 낫습니다(자연어 사이의 손실). "판정은 코드가 한다"는 원칙은 행동 층에서만 성립합니다.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">system_report.md · db_agent: 근거 없는 인자 비율 0.20 · report→orchestrator fidelity 0.44</span><span>§4.3</span></div>
@@ -422,7 +422,7 @@
       <div class="box"><div class="m">보고 층</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼.</p></div>
       <div class="box"><div class="m">보고 층 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산함. LLM 없이 추론 오류를 잡을 후보.</p></div>
       <div class="box"><div class="m">행동 층</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄임.</p></div>
-      <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out 그래프에서 "역할이 가름"가 유지되는지. §3.5 파이프라인이 출발점.</p></div>
+      <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out 그래프에서 "역할이 가른다"는 결론이 유지되는지. §3.5 파이프라인이 출발점.</p></div>
     </div>
   </div>
   <div class="foot"><span class="rec mono">labels: reasoning_stability 56 events already labeled for the next detector</span><span>§4.3</span></div>
