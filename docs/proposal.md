@@ -17,7 +17,7 @@ orchestrator의 결정이 흔들린 정도는 실패를 부른 스텝을 AUROC 0
 
 에이전트가 동작하는 과정에서는 다양한 이유로 응답에 오류가 생길 수 있다. 이런 오류가 어디서부터 시작되었고 어떤 유형인지를 탐지하고 수치화하는 것이 중요하다. 이 연구는 orchestrator가 다음 행동을 고를 때의 불확실성, subagent의 도구 호출이 지시와 기록에 근거하는지, 에이전트 사이에 일이 넘어갈 때 정보가 빠지거나 왜곡되는지를 분석하여 오류의 유형과 시작점을 찾는다.
 
-실험은 orchestrator가 과제별 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템에서 이루어진다. 2026년 현재 프로덕션의 기본형인 orchestrator-worker 구조이며, 이 연구에서는 LangChain Deep Agents 하네스로 구성하였다.
+실험은 orchestrator가 과제별 subagent에게 일을 나누어 맡기는 순차 멀티에이전트 시스템에서 이루어진다. 2026년 현재 프로덕션의 기본형인 orchestrator-worker 구조이며, 이 연구에서는 LangChain Deep Agents [9] 하네스로 구성하였다.
 
 실행 중에 orchestrator와 subagent가 낸 모델 호출은 하나하나 스텝으로 기록 데이터베이스에 저장된다. 스텝마다 그 에이전트가 그 순간 받은 메시지 전체, 그에 대한 응답, 그 응답에서 부른 도구와 돌아온 결과가 담긴다. 에이전트마다 받는 메시지가 다르므로 기록도 에이전트별로 따로 쌓이며, 에이전트 사이를 오가는 것은 handoff 메시지와 공유 파일뿐이다. 탐지는 실행이 모두 끝난 뒤 이 저장된 기록 위에서 수행하며, 과제의 정답이나 사람이 단 라벨은 쓰지 않는다. 실행 도중에 끼어들어 막는 가드레일은 이 연구의 범위 밖이다.
 
@@ -39,7 +39,7 @@ orchestrator-worker 시스템에서 오류는 스텝의 어느 부분에서 드�
 
 **발언과 추론.** 에이전트가 말한 결론이 근거에서 따라 나오는지는 위 세 곳 어디서도 잡히지 않는다. 값은 맞는데 결론이 틀린 추론 오류와 발언 속의 환각이 여기 속한다. 이 층의 검사는 설계만 하였고(§3.3의 D4), 이 연구의 가장 큰 미해결 과제다(§4.3).
 
-과제가 제시한 네 유형은 이 정의에 다음과 같이 들어온다. handoff 문제는 결정과 handoff 경계에서, 도구 사용 실패는 행동에서, 환각은 행동(도구 인자)과 발언에서, 추론 오류는 발언에서 드러난다. 평가용 라벨(§4.1.3)도 이 관찰 지점에 맞추어 `handoff`, `tool`, `reasoning_stability`의 세 범주로 단다. 환각과 추론 오류를 `reasoning_stability` 하나로 묶은 이유는 세 가지다. 첫째, 스텝 시점에서 "지어낸 값"과 "잘못 계산한 값"은 구분되지 않는 경우가 많고, 사람 어노테이터 사이의 일치도도 낮다(MAST, Who&When의 세부 유형 κ). 둘째, 운영에서 중요한 것은 "이 결론을 믿어도 되는가"이며 원인 분류는 사후 태그로 충분하다. 셋째, 두 유형 모두 "근거로 지지되지 않는 결론이 궤적에 유입된다"는 하나의 사건이다.
+과제가 제시한 네 유형은 이 정의에 다음과 같이 들어온다. handoff 문제는 결정과 handoff 경계에서, 도구 사용 실패는 행동에서, 환각은 행동(도구 인자)과 발언에서, 추론 오류는 발언에서 드러난다. 평가용 라벨(§4.1.3)도 이 관찰 지점에 맞추어 `handoff`, `tool`, `reasoning_stability`의 세 범주로 단다. 환각과 추론 오류를 `reasoning_stability` 하나로 묶은 이유는 세 가지다. 첫째, 스텝 시점에서는 "지어낸 값"과 "잘못 계산한 값"이 구분되지 않는 경우가 많다. 둘 다 기록에 없는 값이 응답에 나타난 것으로만 보이기 때문이다. 둘째, 운영에서 중요한 것은 "이 결론을 믿어도 되는가"이며 원인 분류는 사후 태그로 충분하다. 셋째, 두 유형 모두 "근거로 지지되지 않는 결론이 궤적에 유입된다"는 하나의 사건이다.
 
 ### 1.3 차별점 (Novelty)
 
@@ -54,15 +54,27 @@ orchestrator-worker 시스템에서 오류는 스텝의 어느 부분에서 드�
 
 | 계열 | 대표 연구 | 요지 | 이 제안과의 관계 |
 |---|---|---|---|
-| 실패 귀속 벤치마크 | Who&When (ICML'25), TraceElephant (ACL'26) | 실패한 멀티에이전트 트레이스에서 책임 에이전트와 결정적 스텝을 맞히는 과제. TraceElephant는 입력까지 담은 완전 관측 트레이스로 귀속 정확도를 최대 76 % 높였다 | 두 벤치마크는 실패 트레이스만 담아 오탐율 개념이 없고, 확률은 다른 모델로 근사한다. 이 제안은 직접 실행으로 두 한계를 피하며, "완전 관측이 필요하다"는 결론은 공유한다 |
-| 트레이스 오류 분류 | MAST (2025), TRAIL (2025) | span·스텝 단위 오류 분류체계. MAST는 14개 실패 모드(이력 손실, 추론-행동 불일치, 검증 실패 등)를 제시하고 세부 유형의 어노테이터 일치도가 낮음을 보고한다 | 라벨 규약(§4.1.3)의 범주 정의와, 환각과 추론 오류를 한 범주로 묶은 근거(§1.2) |
-| 불확실성 기반 탐지 | semantic entropy, SelfCheckGPT | 반복 생성의 불일치로 환각을 탐지한다 | 샘플링에 기반한다. 이 제안은 유한 행동 집합에서만 불확실성을 쓰고, 텍스트 환각에는 쓰지 않는다(과신 환각에 취약하기 때문) |
+| 실패 귀속 벤치마크 | Who&When [1], TraceElephant [2] | 실패한 멀티에이전트 트레이스에서 책임 에이전트와 결정적 스텝을 맞히는 과제. TraceElephant는 입력까지 담은 완전 관측 트레이스로 귀속 정확도를 최대 76 % 높였다 | 두 벤치마크는 실패 트레이스만 담아 오탐율 개념이 없고, 확률은 다른 모델로 근사한다. 이 제안은 직접 실행으로 두 한계를 피하며, "완전 관측이 필요하다"는 결론은 공유한다 |
+| 트레이스 오류 분류 | MAST [3], TRAIL [4] | 트레이스 단위 오류 분류체계. MAST는 1,600여 트레이스에서 14개 실패 모드(이력 손실, 추론-행동 불일치, 검증 실패 등)를 정리하였고, TRAIL은 841개 오류를 추론(환각 등), 실행, 계획·조정으로 나누어 스텝 단위로 표시하였다 | 라벨 규약(§4.1.3)의 범주 정의의 바탕 |
+| 불확실성 기반 탐지 | semantic entropy [5], SelfCheckGPT [6] | 반복 생성의 불일치로 환각을 탐지한다 | 샘플링에 기반한다. 이 제안은 유한 행동 집합에서만 불확실성을 쓰고, 텍스트 환각에는 쓰지 않는다(과신 환각에 취약하기 때문) |
+
+## 참고문헌 (References)
+
+1. Zhang, S., Yin, M., Zhang, J., Liu, J., Han, Z., Zhang, J., Li, B., Wang, C., Wang, H., Chen, Y., Wu, Q. Which Agent Causes Task Failures and When? On Automated Failure Attribution of LLM Multi-Agent Systems. ICML 2025 (Spotlight). arXiv:2505.00212. https://arxiv.org/abs/2505.00212
+2. Chen, M., Wang, J., Mu, F., Wang, Y., Liu, Z., Feng, H., Wang, Q. Seeing the Whole Elephant: A Benchmark for Failure Attribution in LLM-based Multi-Agent Systems. ACL 2026. arXiv:2604.22708. https://arxiv.org/abs/2604.22708
+3. Cemri, M., Pan, M. Z., Yang, S., et al. Why Do Multi-Agent LLM Systems Fail? arXiv:2503.13657, 2025. https://arxiv.org/abs/2503.13657
+4. Deshpande, D., Gangal, V., et al. TRAIL: Trace Reasoning and Agentic Issue Localization. arXiv:2505.08638, 2025. https://arxiv.org/abs/2505.08638
+5. Farquhar, S., Kossen, J., Kuhn, L., Gal, Y. Detecting hallucinations in large language models using semantic entropy. Nature 630, 625–630 (2024). https://doi.org/10.1038/s41586-024-07421-0
+6. Manakul, P., Liusie, A., Gales, M. J. F. SelfCheckGPT: Zero-Resource Black-Box Hallucination Detection for Generative Large Language Models. EMNLP 2023. arXiv:2303.08896. https://arxiv.org/abs/2303.08896
+7. Yao, S., Shinn, N., Razavi, P., Narasimhan, K. τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains. arXiv:2406.12045, 2024. https://arxiv.org/abs/2406.12045
+8. MathArena. aime_2026 (dataset). https://huggingface.co/datasets/MathArena/aime_2026
+9. LangChain. Deep Agents (deepagents 0.7.13). https://github.com/langchain-ai/deepagents
 
 ## 3. 제안 (Methodology & Benchmark)
 
 ### 3.1 실행 환경: Deep Agents 위의 orchestrator→subagent 그래프
 
-**τ-bench airline이란.** τ-bench(Sierra Research, 2024)는 도구를 쓰는 에이전트를 시뮬레이션 고객과의 대화 속에서 평가하는 공개 벤치마크이며, τ-bench airline은 그 가운데 항공사 고객 응대 도메인이다. 에이전트는 문서로 주어진 항공사 정책을 지키면서 시뮬레이션 고객과 대화하고, 예약 데이터베이스를 조회·수정하는 도구 14개(`get_user_details`, `get_reservation_details`, `search_direct_flight`, `search_onestop_flight`, `book_reservation`, `update_reservation_flights`, `update_reservation_baggages`, `update_reservation_passengers`, `cancel_reservation`, `send_certificate`, `calculate`, `list_all_airports`, `transfer_to_human_agents`, `think`)로 과제를 수행한다. 대화가 끝난 뒤 데이터베이스의 최종 상태가 정답 상태와 같으면 성공이다.
+**τ-bench airline이란.** τ-bench [7](Sierra Research, 2024)는 도구를 쓰는 에이전트를 시뮬레이션 고객과의 대화 속에서 평가하는 공개 벤치마크이며, τ-bench airline은 그 가운데 항공사 고객 응대 도메인이다. 에이전트는 문서로 주어진 항공사 정책을 지키면서 시뮬레이션 고객과 대화하고, 예약 데이터베이스를 조회·수정하는 도구 14개(`get_user_details`, `get_reservation_details`, `search_direct_flight`, `search_onestop_flight`, `book_reservation`, `update_reservation_flights`, `update_reservation_baggages`, `update_reservation_passengers`, `cancel_reservation`, `send_certificate`, `calculate`, `list_all_airports`, `transfer_to_human_agents`, `think`)로 과제를 수행한다. 대화가 끝난 뒤 데이터베이스의 최종 상태가 정답 상태와 같으면 성공이다.
 
 τ-bench airline을 아래 구조의 그래프로 실행한다.
 
@@ -746,7 +758,7 @@ python scripts/check_docs.py --proposal --skeleton --adr
 
 ## 부록 C. 두 번째 도메인: AIME 2026
 
-AIME 2026은 미국 수학 초청 시험(American Invitational Mathematics Examination)의 2026년 문제로, 정답이 0–999의 정수다(`MathArena/aime_2026`). 같은 하네스로 30회 실행·라벨·채점하였다.
+AIME 2026은 미국 수학 초청 시험(American Invitational Mathematics Examination)의 2026년 문제로, 정답이 0–999의 정수다(`MathArena/aime_2026` [8]). 같은 하네스로 30회 실행·라벨·채점하였다.
 
 **그래프.** orchestrator가 두 subagent에게 풀이와 독립 검증을 맡기고 `submit_answer`로 한 번 제출한다.
 
