@@ -395,7 +395,7 @@
         <li>Claude 라벨러 6개가 실행 5건씩. 실행 요약본만 보고 탐지기 출력은 보지 않음(블라인드)</li>
         <li>오류 이벤트마다 회복 여부, 회복된 스텝, 기록에서 어긋난 부분의 인용을 기록</li>
         <li>독립 재라벨 6건에서 decisive step은 모두 일치. 이벤트 집합 겹침 0.56은 두 번째 라벨러가 같은 오류의 반복을 빠뜨린 것이라, 반복도 스텝마다 라벨하도록 규약을 고정</li></ul></div>
-      <div><h4><span class="n">4.1.4</span>지표 정의</h4><p>AUROC(Step)는 탐지기 점수로 오류 스텝(전체 오류 또는 decisive만)을 깨끗한 스텝과 얼마나 잘 가르는지이며, 95 % 신뢰구간은 부트스트랩 1,000회로 구합니다. 0/1 플래그를 내는 D2는 정밀도·재현율·F1·오탐율로 잽니다.</p></div>
+      <div><h4><span class="n">4.1.4</span>지표 정의</h4><p>AUROC(Step)는 탐지기 점수로 오류 스텝(전체 오류 또는 decisive만)을 깨끗한 스텝과 얼마나 잘 가르는지이며, 95 % 신뢰구간은 부트스트랩 1,000회로 구합니다. 0/1 플래그를 내는 D2는 precision·recall·F1·오탐율로 잽니다.</p></div>
       <div><h4><span class="n">4.1.5</span>D1 teacher forcing 검증</h4><p>결정 지점 906개 모두에 teacher forcing으로 후보 확률을 다시 계산했고, 그 입력이 실행 시 입력과 974/974 일치합니다. 같은 요청을 다시 teacher forcing하면 값이 약 0.005 흔들리므로 D1 값은 소수 둘째 자리까지만 유효합니다.</p></div>
       </div>
     </div>
@@ -445,30 +445,30 @@
     <div><h3><span class="ss solo"><span class="n">4.2</span>결과 · 탐지기 D2 (행동 근거)</span></h3></div>
     <div><h4>채택한 D2 (① + ② + ③)의 subagent 성능 <span class="quiet" style="font-weight:400">(양성 48 / 음성 190 · §4.2.2)</span></h4>
     <div class="tiles" style="grid-template-columns:repeat(4,1fr)">
-      <div class="tile"><div class="v">0.62</div><div class="l">정밀도 · 울린 경고 중 실제 오류의 비율</div></div>
-      <div class="tile"><div class="v">0.48</div><div class="l">재현율 · 실제 오류 중 잡아낸 비율</div></div>
-      <div class="tile"><div class="v">0.54</div><div class="l">F1 · 정밀도와 재현율의 조화평균</div></div>
+      <div class="tile"><div class="v">0.62</div><div class="l">precision · 울린 경고 중 실제 오류의 비율</div></div>
+      <div class="tile"><div class="v">0.48</div><div class="l">recall · 실제 오류 중 잡아낸 비율</div></div>
+      <div class="tile"><div class="v">0.54</div><div class="l">F1 · precision와 recall의 조화평균</div></div>
       <div class="tile"><div class="v">0.07</div><div class="l">오탐율 · 정상 스텝에서 잘못 울린 비율</div></div>
     </div></div>
     <div class="cols wide-left">
       <div>
-        <h4>검사 조합별 정밀도와 재현율 <span class="quiet" style="font-weight:400">(§4.2.2 · 부록 A.14)</span></h4>
+        <h4>검사 조합별 precision와 recall <span class="quiet" style="font-weight:400">(§4.2.2 · 부록 A.14)</span></h4>
         <p class="quiet" style="font-size:.84rem;margin-bottom:.3rem">① 요구된 도구를 부르지 않음 · ② 기록에 없는 값으로 호출 · ③ 호출이 오류로 돌아옴</p>
-        <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D2 검사 조합별 정밀도와 재현율">
+        <div class="chart"><svg viewBox="0 0 700 215" width="700" height="215" role="img" aria-label="D2 검사 조합별 precision와 recall">
           <line class="grid" x1="200" y1="6" x2="200" y2="190"/><text class="lab" x="200" y="206" text-anchor="middle">0</text><text class="lab" x="440" y="206" text-anchor="middle">0.5</text><text class="lab" x="680" y="206" text-anchor="middle">1.0</text>
-          <text class="lab" x="190" y="30" text-anchor="end">② 기록에 없는 값</text><rect x="200" y="16" width="393.6" height="9" fill="var(--s1)"><title>정밀도 0.82</title></rect><rect x="200" y="27" width="91.2" height="9" fill="var(--s2)"><title>재현율 0.19</title></rect><text class="val" x="599.6" y="25">0.82</text><text class="val" x="297.2" y="36">0.19</text>
-          <text class="lab" x="190" y="66" text-anchor="end">③ 호출 오류</text><rect x="200" y="52" width="446.4" height="9" fill="var(--s1)"><title>정밀도 0.93</title></rect><rect x="200" y="63" width="129.6" height="9" fill="var(--s2)"><title>재현율 0.27</title></rect><text class="val" x="652.4" y="61">0.93</text><text class="val" x="335.6" y="72">0.27</text>
-          <text class="lab" x="190" y="102" text-anchor="end">② + ③</text><rect x="200" y="88" width="403.2" height="9" fill="var(--s1)"><title>정밀도 0.84</title></rect><rect x="200" y="99" width="158.4" height="9" fill="var(--s2)"><title>재현율 0.33</title></rect><text class="val" x="609.2" y="97">0.84</text><text class="val" x="364.4" y="108">0.33</text>
-          <text class="lab" x="190" y="138" text-anchor="end">① + ②</text><rect x="200" y="124" width="264.0" height="9" fill="var(--s1)"><title>정밀도 0.55</title></rect><rect x="200" y="135" width="158.4" height="9" fill="var(--s2)"><title>재현율 0.33</title></rect><text class="val" x="470.0" y="133">0.55</text><text class="val" x="364.4" y="144">0.33</text>
-          <text class="lab" x="190" y="174" text-anchor="end">① + ② + ③ (채택)</text><rect x="200" y="160" width="297.6" height="9" fill="var(--s1)"><title>정밀도 0.62</title></rect><rect x="200" y="171" width="230.4" height="9" fill="var(--s2)"><title>재현율 0.48</title></rect><text class="val" x="503.6" y="169">0.62</text><text class="val" x="436.4" y="180">0.48</text>
+          <text class="lab" x="190" y="30" text-anchor="end">② 기록에 없는 값</text><rect x="200" y="16" width="393.6" height="9" fill="var(--s1)"><title>precision 0.82</title></rect><rect x="200" y="27" width="91.2" height="9" fill="var(--s2)"><title>recall 0.19</title></rect><text class="val" x="599.6" y="25">0.82</text><text class="val" x="297.2" y="36">0.19</text>
+          <text class="lab" x="190" y="66" text-anchor="end">③ 호출 오류</text><rect x="200" y="52" width="446.4" height="9" fill="var(--s1)"><title>precision 0.93</title></rect><rect x="200" y="63" width="129.6" height="9" fill="var(--s2)"><title>recall 0.27</title></rect><text class="val" x="652.4" y="61">0.93</text><text class="val" x="335.6" y="72">0.27</text>
+          <text class="lab" x="190" y="102" text-anchor="end">② + ③</text><rect x="200" y="88" width="403.2" height="9" fill="var(--s1)"><title>precision 0.84</title></rect><rect x="200" y="99" width="158.4" height="9" fill="var(--s2)"><title>recall 0.33</title></rect><text class="val" x="609.2" y="97">0.84</text><text class="val" x="364.4" y="108">0.33</text>
+          <text class="lab" x="190" y="138" text-anchor="end">① + ②</text><rect x="200" y="124" width="264.0" height="9" fill="var(--s1)"><title>precision 0.55</title></rect><rect x="200" y="135" width="158.4" height="9" fill="var(--s2)"><title>recall 0.33</title></rect><text class="val" x="470.0" y="133">0.55</text><text class="val" x="364.4" y="144">0.33</text>
+          <text class="lab" x="190" y="174" text-anchor="end">① + ② + ③ (채택)</text><rect x="200" y="160" width="297.6" height="9" fill="var(--s1)"><title>precision 0.62</title></rect><rect x="200" y="171" width="230.4" height="9" fill="var(--s2)"><title>recall 0.48</title></rect><text class="val" x="503.6" y="169">0.62</text><text class="val" x="436.4" y="180">0.48</text>
         </svg></div>
-        <div class="legend"><span><i style="background:var(--s1)"></i>정밀도</span><span><i style="background:var(--s2)"></i>재현율</span></div>
+        <div class="legend" style="margin-left:28.5%"><span><i style="background:var(--s1)"></i>precision</span><span><i style="background:var(--s2)"></i>recall</span></div>
       </div>
       <div class="stack">
         <div><h4>무엇을 잡는가</h4><ul>
           <li>검사 ②가 환각성 오류 29건 중 23건을 잡음. 예: 고객이 성만 말했는데 지어낸 ID로 조회</li>
           <li>검사 ③은 대개 ②의 결과(57건 중 32건 겹침)지만 ②가 놓친 잘못된 인자를 보완</li>
-          <li>orchestrator 위임 조건(식별자 없는 위임, 실패 뒤 재위임)은 정밀도 0.91로 결정적 실패 16건 중 6건을 잡음</li></ul></div>
+          <li>orchestrator 위임 조건(식별자 없는 위임, 실패 뒤 재위임)은 precision 0.91로 결정적 실패 16건 중 6건을 잡음</li></ul></div>
         <div><h4>무엇을 놓치는가</h4><ul>
           <li>값은 기록에 있지만 다른 예약의 값을 고른 경우 10건</li>
           <li>보고나 handoff에서 생긴 오류 15건은 D2가 보는 자리가 아님</li>
@@ -533,7 +533,7 @@
           <tr><td>LLM-only, Qwen3-32B</td><td class="n">0.60 / 0.68</td><td class="n">0.65</td></tr>
         </table></div>
         <div class="tbl" style="margin-top:.8rem"><table>
-          <tr><th>D2 · subagent</th><th class="n">정밀도</th><th class="n">재현율</th><th class="n">F1</th><th class="n">FPR</th></tr>
+          <tr><th>D2 · subagent</th><th class="n">precision</th><th class="n">recall</th><th class="n">F1</th><th class="n">FPR</th></tr>
           <tr class="hi"><td>코드</td><td class="n">0.62</td><td class="n">0.48</td><td class="n">0.54</td><td class="n">0.07</td></tr>
           <tr><td>LLM-only, gpt-oss-20b</td><td class="n">0.44</td><td class="n">0.46</td><td class="n">0.45</td><td class="n">0.12</td></tr>
           <tr><td>LLM-only, Qwen3-32B</td><td class="n">0.40</td><td class="n">0.46</td><td class="n">0.43</td><td class="n">0.14</td></tr>
@@ -551,7 +551,7 @@
     <div class="tbl"><table>
       <tr><th></th><th>orchestrator</th><th>subagent</th><th>판정</th></tr>
       <tr><td>D1 결정 분포 (코드, 확률)</td><td>decisive 0.75 · 트레이스 max 0.81</td><td class="quiet">0.54 · decisive 0.36 (우연)</td><td>orchestrator 결정에 배정</td></tr>
-      <tr><td>D2 행동 근거 (코드, 기록 대조)</td><td>플래그 2건 (recall 0.04) · 위임 조건은 정밀도 0.91</td><td>F1 0.54 · FPR 0.07</td><td>subagent 도구 지점과 orchestrator 위임에 배정</td></tr>
+      <tr><td>D2 행동 근거 (코드, 기록 대조)</td><td>플래그 2건 (recall 0.04) · 위임 조건은 precision 0.91</td><td>F1 0.54 · FPR 0.07</td><td>subagent 도구 지점과 orchestrator 위임에 배정</td></tr>
       <tr><td>D3 handoff 정보 손실 (LLM)</td><td colspan="2">보고→orchestrator 경계에서 손실 계측 성립 · 지시→전제는 손실 자체가 없음</td><td>경계 프로파일용, 실패 알람용 아님</td></tr>
       <tr><td>D4 보고 근거 (LLM)</td><td>—</td><td class="quiet">판정기 3종 모두 우연 수준</td><td>미채택, 검사 재정의 필요</td></tr>
     </table></div>
@@ -579,7 +579,7 @@
         <div class="flow" style="grid-template-columns:1fr 1fr">
           <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사 재정의</div><p>판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 포함해 다시 잼</p></div>
           <div class="box"><div class="m">보고 지점 · 코드</div><div class="t">D7 재도출</div><p>환불 조건 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. LLM 없이 추론 오류를 잡을 후보</p></div>
-          <div class="box"><div class="m">행동 지점</div><div class="t">D2 (1)의 정밀도</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄임</p></div>
+          <div class="box"><div class="m">행동 지점</div><div class="t">D2 (1)의 precision</div><p>지시문 정규식을 구조화된 위임 스키마나 소형 모델 추출로 바꿔 오탐 14건을 줄임</p></div>
           <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out에서 "역할이 가른다"는 결론이 유지되는지 확인</p></div>
         </div></div>
     </div>
@@ -615,14 +615,14 @@
       <div>
         <p>orchestrator가 subagent에게 일을 맡기는 시스템에서, 실행 기록만 보고 정답이나 라벨 없이 어느 스텝에서 어떤 실패가 일어났는지 짚어낼 수 있는지를 물었습니다. 기록을 결정, 행동, handoff 경계의 세 탐지 대상으로 나누고 탐지 대상마다 다른 검사를 두었습니다.</p>
         <p style="margin-top:.7rem">τ-bench airline 30회를 실행하고 탐지기 출력을 보지 않은 라벨러가 오류 215건을 달았습니다. 이 트레이스와 라벨은 네 실패 유형을 모두 담은 평가 데이터셋으로 함께 제출합니다.</p>
-        <p style="margin-top:.7rem">orchestrator의 결정이 흔들린 정도는 실패를 부른 스텝을 AUROC 0.75로 가려내지만 subagent에서는 우연 수준입니다. subagent는 행동 근거 검사가 오류의 절반 가까이를 정밀도 0.62로 잡습니다. handoff 정보 손실은 계측으로 성립하지만 실패 예측력은 약하고, 보고 지점의 근거 판정은 판정기 세 종 모두 우연 수준이었습니다. 탐지기의 성능은 탐지기 자체보다 어느 역할과 탐지 대상에 붙이는가에 달려 있으며, 감사 파이프라인은 역할별로 검사를 배정하는 구조여야 합니다.</p>
+        <p style="margin-top:.7rem">orchestrator의 결정이 흔들린 정도는 실패를 부른 스텝을 AUROC 0.75로 가려내지만 subagent에서는 우연 수준입니다. subagent는 행동 근거 검사가 오류의 절반 가까이를 precision 0.62로 잡습니다. handoff 정보 손실은 계측으로 성립하지만 실패 예측력은 약하고, 보고 지점의 근거 판정은 판정기 세 종 모두 우연 수준이었습니다. 탐지기의 성능은 탐지기 자체보다 어느 역할과 탐지 대상에 붙이는가에 달려 있으며, 감사 파이프라인은 역할별로 검사를 배정하는 구조여야 합니다.</p>
       </div>
       <div class="tbl"><table>
         <tr><th>탐지기</th><th>역할</th><th>주 지표</th><th>판정</th></tr>
         <tr class="hi"><td>D1 결정 분포</td><td class="nw">orchestrator</td><td class="mono">AUROC 0.63 · decisive 0.75</td><td>작동</td></tr>
         <tr><td>D1 결정 분포</td><td class="nw">subagent</td><td class="mono">0.54 · decisive 0.36</td><td>신호 없음</td></tr>
-        <tr class="hi"><td>D2 행동 근거</td><td class="nw">subagent</td><td class="mono">F1 0.54 (정밀도 0.62 · 재현율 0.48 · FPR 0.07)</td><td>작동 (부분)</td></tr>
-        <tr><td>D2 행동 근거</td><td class="nw">orchestrator (위임)</td><td class="mono">정밀도 0.91 · 재현율 0.22</td><td>고정밀·저재현</td></tr>
+        <tr class="hi"><td>D2 행동 근거</td><td class="nw">subagent</td><td class="mono">F1 0.54 (precision 0.62 · recall 0.48 · FPR 0.07)</td><td>작동 (부분)</td></tr>
+        <tr><td>D2 행동 근거</td><td class="nw">orchestrator (위임)</td><td class="mono">precision 0.91 · recall 0.22</td><td>고정밀·저재현</td></tr>
         <tr><td>D3 정보 손실, 보고→orchestrator</td><td class="nw">orchestrator</td><td class="mono">순위 상관 0.71 · 실질 손실 AUROC 0.74</td><td>계측 성립</td></tr>
         <tr><td>D3 정보 손실, 지시→전제</td><td class="nw">orchestrator</td><td class="mono">정답 fidelity 0.97</td><td>손실 없는 경계</td></tr>
         <tr><td>D4 보고 근거</td><td class="nw">subagent</td><td class="mono">AUROC 0.47 / 0.55 / 0.50</td><td>미채택</td></tr>
@@ -648,9 +648,9 @@
         <div class="tbl"><table>
           <tr><th>지표</th><th class="n">AIME 2026</th><th class="n">airline</th></tr>
           <tr><td>orchestrator D1, 트레이스 max AUROC</td><td class="n">0.34</td><td class="n">0.81</td></tr>
-          <tr><td>D2 subagent 정밀도 / 재현율 / F1</td><td class="n">0.91 / 0.42 / 0.57</td><td class="n">0.62 / 0.48 / 0.54</td></tr>
+          <tr><td>D2 subagent precision / recall / F1</td><td class="n">0.91 / 0.42 / 0.57</td><td class="n">0.62 / 0.48 / 0.54</td></tr>
           <tr><td>D2 subagent 귀속 에이전트 일치</td><td class="n">0.86</td><td class="n">0.25</td></tr>
-          <tr><td>repeat 로그 검사 정밀도</td><td class="n">0.86</td><td class="n">0.22</td></tr>
+          <tr><td>repeat 로그 검사 precision</td><td class="n">0.86</td><td class="n">0.22</td></tr>
         </table></div>
         <p class="quiet" style="margin-top:.6rem">실패의 전형이 "solver가 <code>run_python</code>을 반복하거나 부르지 않고 답을 보고"라 도구 지점 검사만 강합니다.</p></div>
     </div>
