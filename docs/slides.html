@@ -466,6 +466,87 @@
   <div class="foot"><span class="rec mono">git log --oneline | wc -l → 151</span><span>부록 F</span></div>
 </section>
 
+
+<section class="slide">
+  <div class="rail"><span class="num mono">20</span><span class="sec">백업</span></div>
+  <div class="head"><p class="eyebrow">부록 C · 두 번째 도메인</p><h2>AIME 2026은 왜 본문에서 뺐는가</h2></div>
+  <div class="body">
+    <div class="cols">
+      <div><div class="k">같은 하네스, 30회</div>
+        <ul>
+          <li>orchestrator → solver, verifier (<code>run_python</code>), <code>submit_answer</code>로 한 번 제출</li>
+          <li>성공 7 / 실패 23 · 라벨 이벤트 219건 (tool 134 · handoff 16 · reasoning 69)</li>
+          <li>solver가 풀이의 거의 전부를 수행. 라벨된 orchestrator 오류는 6건 (airline은 100건)</li>
+          <li>subagent의 행동이 사실상 강제됨. <code>run_python</code>을 부르거나 보고하는 것 외에 선택지가 없음</li>
+        </ul></div>
+      <div><div class="k">결과가 airline과 반대 방향</div>
+        <div class="tbl"><table>
+          <tr><th>지표</th><th class="n">AIME 2026</th><th class="n">airline</th></tr>
+          <tr><td>orchestrator D1, 트레이스 max AUROC</td><td class="n">0.34</td><td class="n">0.81</td></tr>
+          <tr><td>D2 subagent 정밀도 / 재현율 / F1</td><td class="n">0.91 / 0.42 / 0.57</td><td class="n">0.62 / 0.48 / 0.54</td></tr>
+          <tr><td>D2 subagent 귀속 에이전트 일치</td><td class="n">0.86</td><td class="n">0.25</td></tr>
+          <tr><td>repeat 로그 검사 정밀도</td><td class="n">0.86</td><td class="n">0.22</td></tr>
+        </table></div>
+        <p class="quiet" style="margin-top:.6rem">실패의 전형이 "solver가 <code>run_python</code>을 반복하거나 부르지 않고 답을 보고"라 도구 층 검사만 강합니다. orchestrator→subagent 분해가 형식적이어서 멀티에이전트 과제로 부적합하다고 판단했고, 역할 × 도메인 교훈의 대비 사례로만 씁니다.</p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">runs/aime_002 · 27 events · run_python re-issued 21× after the same TypeError</span><span>부록 C</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">21</span><span class="sec">백업</span></div>
+  <div class="head"><p class="eyebrow">부록 A · 스펙 이탈·정정 기록 21건 중</p><h2>결과를 바꾼 결정 여섯 가지</h2></div>
+  <div class="body">
+    <div class="tbl"><table>
+      <tr><th style="width:4rem">항목</th><th>결정</th><th>이유</th></tr>
+      <tr><td class="mono">A.4</td><td>내장 <code>task</code> 대신 이름 있는 래퍼 도구</td><td><code>task</code>는 대상 subagent를 인자에 숨겨 D1이 "누구를 부르는가"를 잴 수 없음</td></tr>
+      <tr><td class="mono">A.6</td><td>D1 채점을 decode 경로 단일 방법으로</td><td>prefill 경로와의 차이가 bf16 반올림 잡음과 같은 크기. 어느 쪽도 기준이 될 수 없음</td></tr>
+      <tr><td class="mono">A.13–14</td><td>발언 값 대조·수식 검사 삭제, D2를 세 어긋남의 OR 단일 플래그로</td><td>0/1 검사를 어긋남별 AUROC로 매긴 평가가 잘못. 지어낸 값은 발언이 아니라 인자에 있었음</td></tr>
+      <tr><td class="mono">A.12</td><td>AIME 2026을 부록으로</td><td>orchestrator 결정이 6건뿐. 멀티에이전트 과제로 부적합</td></tr>
+      <tr><td class="mono">A.18–19</td><td>D3을 실패 예측기에서 정보 손실 계측기로, 판정은 LLM 직접 비교로</td><td>손실 정답지 60건 대비 LLM 비교가 8B 사실 추출보다 정확 (0.71 vs 0.61)</td></tr>
+      <tr><td class="mono">A.21</td><td>D4를 20B·32B 판정기로 재실행</td><td>8B 실패가 판정기 크기 탓인지 확인. 셋 다 우연 수준 → 검사 정의의 문제</td></tr>
+    </table></div>
+    <p class="quiet">라벨을 본 뒤에 고친 것은 두 가지뿐이며 모두 기록했습니다. D2 (1)의 매핑 오류 수정(A.14)과 orchestrator 위임 조건 추가(A.17). 둘 다 규칙은 라벨과 정답을 입력으로 받지 않습니다.</p>
+  </div>
+  <div class="foot"><span class="rec mono">progress.txt · docs/notes/timeline.md · 151 commits</span><span>부록 A</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">22</span><span class="sec">백업</span></div>
+  <div class="head"><p class="eyebrow">부록 D · 설계만 한 선택 모듈</p><h2>구현하지 않은 세 모듈과 그 이유</h2></div>
+  <div class="body">
+    <div class="flow" style="grid-template-columns: repeat(3, 1fr)">
+      <div class="box"><div class="m">D5</div><div class="t">축약 손실</div><p>요약 미들웨어가 문맥을 줄일 때 사실이 빠지는지. 요약 직전 원문과 요약 결과를 D3 방식으로 비교. 이번 실험에서는 문맥이 16,000토큰에 이른 실행이 없어 요약이 발동하지 않았고 잴 표본이 없음.</p></div>
+      <div class="box"><div class="m">D6</div><div class="t">계획-행동 일치</div><p>orchestrator의 계획(todo, 지시문의 단계)과 실제 호출 순서 대조. 누락·추가·순서 뒤바뀜을 셈. <code>todos</code>가 subagent와 공유되지 않아 orchestrator 범위에서만 정의됨.</p></div>
+      <div class="box"><div class="m">D7</div><div class="t">재도출</div><p>환불 조건, 변경 수수료 같은 규칙을 코드로 옮겨 보고의 결론을 입력값에서 다시 계산. "근거 값에서 이 결론이 따라 나오는가"를 코드로 묻는 유일한 후보. 규칙 코드화 비용이 도메인마다 듦.</p></div>
+    </div>
+    <p class="quiet">세 모듈 모두 완전 관측 기록 위에서 코드로 판정하도록 설계했습니다. D7이 보고 층 공백을 메울 첫 후보입니다.</p>
+  </div>
+  <div class="foot"><span class="rec mono">summarizer steps in 60 runs: 0 · todos excluded by the task state protocol</span><span>부록 D</span></div>
+</section>
+
+<section class="slide">
+  <div class="rail"><span class="num mono">23</span><span class="sec">백업</span></div>
+  <div class="head"><p class="eyebrow">부록 B · E · 재현과 설정</p><h2>커밋된 산출물에서 모든 표를 다시 만들 수 있습니다</h2></div>
+  <div class="body">
+<pre>bash scripts/serve_qwen32b.sh &amp;  bash scripts/serve_qwen32b_score.sh &amp;  bash scripts/serve_gptoss20b.sh &amp;   # 실행 · D1 채점 · D3/D4 판정
+python -m src.run --batch 1 --parallel 4 --resume                                                     # 실행 (이어서 --batch 2)
+python -m src.audit.d1_decision --all --method stepwise; python -m src.audit.d2_action; python -m src.audit.d3_handoff --stats
+python -m src.eval.labels --validate &amp;&amp; python -m src.eval.metrics &amp;&amp; python -m src.eval.thresholds &amp;&amp; python -m src.eval.recovery</pre>
+    <div class="cols">
+      <div><div class="k">모델 설정 (부록 E)</div><ul>
+        <li>Qwen3-32B: 실행·시뮬레이터(thinking 끔, logprobs로 토큰 id 수신), D1 채점(같은 가중치, 문맥 24,576토큰), LLM 비교군·D4 판정(thinking 켬)</li>
+        <li>gpt-oss-20b: D3·D4 판정, 기본 reasoning. 실행 모델과 다른 계열</li>
+        <li>Qwen3-8B: 비교군 전용. 모든 호출 temperature 0</li></ul></div>
+      <div><div class="k">커밋 정책 (부록 B)</div><ul>
+        <li>원본 trace(<code>steps.jsonl</code>, <code>tool_calls.sqlite</code>, <code>fs/</code>)는 용량 때문에 미커밋. 스크립트로 재생성</li>
+        <li><code>runs/index.csv</code>, 실행 요약, <code>audit/</code>, <code>labels/</code>, <code>eval/</code>, 스크립트 전체는 커밋</li>
+        <li>vLLM 0.9.2(실행·D1 채점), 0.11.0(gpt-oss-20b 판정)</li></ul></div>
+    </div>
+  </div>
+  <div class="foot"><span class="rec mono">python scripts/check_docs.py --proposal --skeleton --adr → OK</span><span>부록 B, E</span></div>
+</section>
+
 </div>
 <div class="prog" id="prog"></div>
 <div class="nav" id="nav"><b id="cur">01</b> / <span id="tot">19</span></div>
