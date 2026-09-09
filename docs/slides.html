@@ -674,11 +674,13 @@
         <p class="quiet" style="margin-top:.6rem">orchestrator→subagent 분해가 형식적이어서 멀티에이전트 과제로 부적합하다고 판단했고, 역할 × 도메인 교훈의 대비 사례로만 씁니다.</p></div>
       <div><h3>결과가 airline과 반대 방향</h3>
         <div class="tbl"><table>
-          <tr><th>지표</th><th class="n">AIME 2026</th><th class="n">airline</th></tr>
-          <tr><td>orchestrator D1, 트레이스 max AUROC</td><td class="n">0.34</td><td class="n">0.81</td></tr>
-          <tr><td>D2 subagent precision / recall / F1</td><td class="n">0.91 / 0.42 / 0.57</td><td class="n">0.62 / 0.48 / 0.54</td></tr>
-          <tr><td>D2 subagent 귀속 에이전트 일치</td><td class="n">0.86</td><td class="n">0.25</td></tr>
-          <tr><td>repeat 로그 검사 precision</td><td class="n">0.86</td><td class="n">0.22</td></tr>
+          <tr><th>탐지기</th><th>지표</th><th class="n">AIME 2026</th><th class="n">airline</th></tr>
+          <tr><td class="nw">D1 orchestrator</td><td class="nw">AUROC(Trace)</td><td class="n">0.34</td><td class="n">0.81</td></tr>
+          <tr><td class="nw">D2 subagent</td><td class="nw">precision</td><td class="n">0.91</td><td class="n">0.62</td></tr>
+          <tr><td class="nw">D2 subagent</td><td class="nw">recall</td><td class="n">0.42</td><td class="n">0.48</td></tr>
+          <tr><td class="nw">D2 subagent</td><td class="nw">F1</td><td class="n">0.57</td><td class="n">0.54</td></tr>
+          <tr><td class="nw">D2 subagent</td><td class="nw">귀속 에이전트 일치</td><td class="n">0.86</td><td class="n">0.25</td></tr>
+          <tr><td class="nw">repeat 로그 검사</td><td class="nw">precision</td><td class="n">0.86</td><td class="n">0.22</td></tr>
         </table></div>
         <p class="quiet" style="margin-top:.6rem">실패의 전형이 "solver가 <code>run_python</code>을 반복하거나 부르지 않고 답을 보고"라 도구 지점 검사만 강합니다.</p></div>
     </div>
