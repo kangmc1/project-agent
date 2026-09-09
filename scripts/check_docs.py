@@ -22,7 +22,7 @@ def check_proposal() -> list[str]:
     problems = []
     problems += [f"section missing: {m}" for m in has(t, "## 1. 배경", "## 2. 기존 연구", "## 3. 제안", "## 4. 결과 및 평가", "기대 효과", "한계")]
     problems += [f"4-type table missing: {m}" for m in has(t, "| handoff 문제", "| 도구 사용 실패", "| 환각", "| 추론 오류")]
-    problems += [f"module design missing: {m}" for m in has(t, "**D1", "**D2", "**D3", "**D4", "D8", "D10", "D6")]
+    problems += [f"module design missing: {m}" for m in has(t, "**D1", "**D2", "**D3", "**D4", "D5", "D6", "D7")]
     problems += [f"AC-15 item missing: {m}" for m in has(t, "환각/추론 개별 판정", "subtag")]
     lim = ["60회", "단일 실행 모델", "시뮬레이터", "라벨러", "순차", "완전 관측", "일반화", "미구현", "커버리지", "주입 프롬프트", "삭제", "bf16"]
     problems += [f"limitation missing: {m}" for m in has(t, *lim)]
