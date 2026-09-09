@@ -58,7 +58,7 @@ deepagents의 `task` 상태 프로토콜(copy-in / merge-out)을 그대로 따�
 D2와 D4는 같은 기록을 각각 **행동**과 **보고**에 대조한다. 행동은 구조화된 JSON이라 코드로 검사할 수 있고, 보고는 자연어라
 LLM이 필요하다. D3은 자연어 텍스트 둘을 비교하는데, 60개 handoff 정보 손실 정답지에서 LLM 비교가 8B 사실 추출 + 집합 차보다
 정답지를 더 잘 따라갔으므로(순위 상관 0.71 vs 0.61, 실질 손실 AUROC 0.74 vs 0.62) LLM이 판정한다. 보고 층의 D4도 LLM 판정이지만
-판정기 세 종(8B, 20B, 32B) 모두 우연 수준이라 채택하지 않았다(제안서 §4.2.14). D2는 orchestrator의 위임도
+판정기 세 종(8B, 20B, 32B) 모두 우연 수준이라 채택하지 않았다(제안서 §4.2.13). D2는 orchestrator의 위임도
 검사한다(식별자 누락, 실패 보고 후 재발행). D2는 flag 기준(정밀도 / 재현율 / F1 / FPR)으로 평가하며, AUROC은 비교 가능성을 위해서만
 싣는다. 0/1 점수의 AUROC은 (재현율 + 1 − FPR)/2로 고정되기 때문이다.
 
@@ -90,7 +90,7 @@ python -m src.audit.d1_decision --check && python -m src.audit.d1_decision --all
 python -m src.audit.d2_tool_log && python -m src.audit.d2_required_calls && python -m src.audit.d2_argument_grounding && python -m src.audit.d2_delegation && python -m src.audit.d2_action   # D2
 python -m src.audit.d3_handoff --stats               # D3 (gpt-oss-20b 판정기)
 LLM_JUDGE_BASE=http://localhost:18004/v1 LLM_JUDGE_MODEL=gptoss20b python -m src.audit.d4_evidence_judge --labeled-only   # D4, 판정기별로 반복 (qwen32b: BASE :18001)
-python scripts/eval_d4.py audit/d4_evidence_judge_*.jsonl   # D4 판정기 비교 (제안서 §4.2.14)
+python scripts/eval_d4.py audit/d4_evidence_judge_*.jsonl   # D4 판정기 비교 (제안서 §4.2.13)
 python -m src.audit.comparators.d3_factset --stats; python -m src.audit.llm_only all   # 비교군 (선택)
 python -m src.audit.report && python -m src.audit.system_report
 # 4. 라벨 + 평가
