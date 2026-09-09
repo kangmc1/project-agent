@@ -297,3 +297,7 @@ T0 = 2026-09-09 01:41 KST. Plan: .omc/plans/agent-failure-detection-plan.md v2.4
 - Code D3 vs gold: rho 0.39 (instr->premise, n=22) / 0.62 (report->planner, n=28); material-loss AUROC 0.64 (report->planner).
 - d3_handoff: A-side extraction guard (A value must occur literally in A's text). Before/after comparison recorded above.
 - LLM-only judges covered only 11-15 of the 60 sample items -> rescoring the exact 60 with all three judges (scripts/score_gold_llm_d3.py).
+- 11:00 D3 gold comparison (same 60 items). report->planner: code D3 rho 0.61 / MAE 0.26 / material-loss AUROC 0.62 (11/17);
+  LLM 32B 0.61 / 0.21 / 0.71; gpt-oss-20b 0.71 / 0.19 / 0.74; 8B 0.77 / 0.19 / 0.72 (n=16). instruction->premise: gold nearly
+  constant (0.97), MAE 0.05-0.09 for all, only 1 material loss. Direct LLM comparison of the two texts is at least as faithful to
+  the loss gold as 8B-extraction + code diff, and better on material loss (it notices reframings). Servers shut down.

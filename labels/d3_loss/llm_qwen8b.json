@@ -1,0 +1,490 @@
+[
+ {
+  "item_id": "L01",
+  "direction": "report->planner",
+  "fidelity": 0.4,
+  "missing": [
+   "Error related to the `flight_number` parameter",
+   "Flight IDs HAT041 and HAT012",
+   "Suggestion to verify flight details"
+  ],
+  "latency": 50.57080268859863
+ },
+ {
+  "item_id": "L02",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 34.578890323638916
+ },
+ {
+  "item_id": "L03",
+  "direction": "instruction->premise",
+  "fidelity": 0.75,
+  "missing": [
+   "Ensure the data source is accurate",
+   "Ensure the correct class prices are retrieved"
+  ],
+  "latency": 24.900882244110107
+ },
+ {
+  "item_id": "L04",
+  "direction": "report->planner",
+  "fidelity": 0.8,
+  "missing": [
+   "$51",
+   "$55",
+   "appended to /case_notes.md"
+  ],
+  "latency": 47.92936992645264
+ },
+ {
+  "item_id": "L05",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 23.70806360244751
+ },
+ {
+  "item_id": "L06",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 7.7927844524383545
+ },
+ {
+  "item_id": "L07",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "user ID",
+   "flight details",
+   "reservation ID"
+  ],
+  "latency": 11.38511848449707
+ },
+ {
+  "item_id": "L08",
+  "direction": "instruction->premise",
+  "fidelity": 0.6666666666666666,
+  "missing": [],
+  "latency": 46.76567816734314
+ },
+ {
+  "item_id": "L09",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 9.348329305648804
+ },
+ {
+  "item_id": "L10",
+  "direction": "report->planner",
+  "fidelity": 0.75,
+  "missing": [
+   "ethan_martin_123"
+  ],
+  "latency": 21.309449672698975
+ },
+ {
+  "item_id": "L11",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 15.314905643463135
+ },
+ {
+  "item_id": "L12",
+  "direction": "report->planner",
+  "fidelity": 0.75,
+  "missing": [
+   "Operation: Calculate upgrade cost"
+  ],
+  "latency": 8.615694522857666
+ },
+ {
+  "item_id": "L13",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "reservation details for flight from Houston to Denver",
+   "date May 27th",
+   "successfully recorded in case notes"
+  ],
+  "latency": 37.07460880279541
+ },
+ {
+  "item_id": "L14",
+  "direction": "instruction->premise",
+  "fidelity": 0.6666666666666666,
+  "missing": [
+   "If not found, provide instructions for the customer to upload proof of purchase or contact a human agent for verification"
+  ],
+  "latency": 10.950881481170654
+ },
+ {
+  "item_id": "L15",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.49333739280701
+ },
+ {
+  "item_id": "L16",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 39.80353403091431
+ },
+ {
+  "item_id": "L17",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 8.766428232192993
+ },
+ {
+  "item_id": "L18",
+  "direction": "report->planner",
+  "fidelity": 0.16666666666666666,
+  "missing": [
+   "reservation ID 'OBUT9V'",
+   "flight HAT084 (DEN to LAS) at 04:00",
+   "flight HAT266 (LAS to IAH) at 13:00",
+   "one checked bag added",
+   "gift card gift_card_7091239 applied for payment"
+  ],
+  "latency": 16.889492988586426
+ },
+ {
+  "item_id": "L19",
+  "direction": "instruction->premise",
+  "fidelity": 0.8,
+  "missing": [
+   "Provide flight details and pricing"
+  ],
+  "latency": 17.317857265472412
+ },
+ {
+  "item_id": "L20",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 7.652925252914429
+ },
+ {
+  "item_id": "L21",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.50652313232422
+ },
+ {
+  "item_id": "L22",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 8.670456647872925
+ },
+ {
+  "item_id": "L23",
+  "direction": "instruction->premise",
+  "fidelity": 0.75,
+  "missing": [
+   "matches the customer's description"
+  ],
+  "latency": 7.356740713119507
+ },
+ {
+  "item_id": "L24",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "Reservation ID: 3RK2T9",
+   "Expected timeline: N/A"
+  ],
+  "latency": 10.421443223953247
+ },
+ {
+  "item_id": "L25",
+  "direction": "instruction->premise",
+  "fidelity": 0.8,
+  "missing": [
+   "If not found, return a message indicating the reservation could not be located."
+  ],
+  "latency": 6.464231014251709
+ },
+ {
+  "item_id": "L26",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.57478666305542
+ },
+ {
+  "item_id": "L27",
+  "direction": "report->planner",
+  "fidelity": 0.6,
+  "missing": [
+   "Request to find reservations",
+   "Gold members"
+  ],
+  "latency": 22.211283683776855
+ },
+ {
+  "item_id": "L28",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.14976263046265
+ },
+ {
+  "item_id": "L29",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.35661721229553
+ },
+ {
+  "item_id": "L30",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 7.608428239822388
+ },
+ {
+  "item_id": "L31",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 50.53456377983093
+ },
+ {
+  "item_id": "L32",
+  "direction": "instruction->premise",
+  "fidelity": null,
+  "missing": [],
+  "latency": 8.678481578826904
+ },
+ {
+  "item_id": "L33",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "The transfer to a human agent was successful."
+  ],
+  "latency": 20.860466957092285
+ },
+ {
+  "item_id": "L34",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 6.847695350646973
+ },
+ {
+  "item_id": "L35",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "HXDUBJ",
+   "Yara Garcia"
+  ],
+  "latency": 41.53394174575806
+ },
+ {
+  "item_id": "L36",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 49.51224184036255
+ },
+ {
+  "item_id": "L37",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 7.607036590576172
+ },
+ {
+  "item_id": "L38",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 49.478349447250366
+ },
+ {
+  "item_id": "L39",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 11.296347379684448
+ },
+ {
+  "item_id": "L40",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 6.876269102096558
+ },
+ {
+  "item_id": "L41",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "flight IDs HAT069 and HAT276"
+  ],
+  "latency": 22.773619651794434
+ },
+ {
+  "item_id": "L42",
+  "direction": "instruction->premise",
+  "fidelity": 0.8571428571428571,
+  "missing": [
+   "Action to take: Return reservation ID and relevant details if found; otherwise, confirm it could not be located."
+  ],
+  "latency": 19.692058086395264
+ },
+ {
+  "item_id": "L43",
+  "direction": "instruction->premise",
+  "fidelity": null,
+  "missing": [],
+  "latency": 12.576830863952637
+ },
+ {
+  "item_id": "L44",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 48.70878291130066
+ },
+ {
+  "item_id": "L45",
+  "direction": "instruction->premise",
+  "fidelity": 0.75,
+  "missing": [],
+  "latency": 16.270280361175537
+ },
+ {
+  "item_id": "L46",
+  "direction": "instruction->premise",
+  "fidelity": 0.25,
+  "missing": [
+   "Passenger's name",
+   "Current flight details",
+   "Available options for changing the date"
+  ],
+  "latency": 20.027799606323242
+ },
+ {
+  "item_id": "L47",
+  "direction": "report->planner",
+  "fidelity": 0.4,
+  "missing": [
+   "user ID 'amelia_davis_8890'",
+   "shared file path `/case_notes.md`"
+  ],
+  "latency": 8.570908069610596
+ },
+ {
+  "item_id": "L48",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 10.252731561660767
+ },
+ {
+  "item_id": "L49",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "User not found with the given ID.",
+   "Operation: Search for a reservation with 3 passengers failed.",
+   "No matching reservation could be found for the given criteria."
+  ],
+  "latency": 7.771090745925903
+ },
+ {
+  "item_id": "L50",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.37755513191223
+ },
+ {
+  "item_id": "L51",
+  "direction": "report->planner",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 6.866364240646362
+ },
+ {
+  "item_id": "L52",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 50.18047070503235
+ },
+ {
+  "item_id": "L53",
+  "direction": "instruction->premise",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.16880011558533
+ },
+ {
+  "item_id": "L54",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.222692251205444
+ },
+ {
+  "item_id": "L55",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 52.17353796958923
+ },
+ {
+  "item_id": "L56",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 48.14655518531799
+ },
+ {
+  "item_id": "L57",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 19.671792030334473
+ },
+ {
+  "item_id": "L58",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "User not found with the provided details."
+  ],
+  "latency": 23.414066553115845
+ },
+ {
+  "item_id": "L59",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 41.265247106552124
+ },
+ {
+  "item_id": "L60",
+  "direction": "instruction->premise",
+  "fidelity": 0.5714285714,
+  "missing": [
+   "If found, return the reservation ID and relevant details",
+   "If not found, confirm it could not be located"
+  ],
+  "latency": 23.359822750091553
+ }
+]

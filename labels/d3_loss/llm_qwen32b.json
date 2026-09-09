@@ -1,0 +1,555 @@
+[
+ {
+  "item_id": "L01",
+  "direction": "report->planner",
+  "fidelity": 0.25,
+  "missing": [
+   "flight IDs (HAT041 and HAT012)",
+   "verify flight details and try again"
+  ],
+  "latency": 14.709667921066284
+ },
+ {
+  "item_id": "L02",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 9.435302734375
+ },
+ {
+  "item_id": "L03",
+  "direction": "instruction->premise",
+  "fidelity": 0.75,
+  "missing": [
+   "Ensure the data source is accurate",
+   "that the correct class prices are retrieved"
+  ],
+  "latency": 33.48201894760132
+ },
+ {
+  "item_id": "L04",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 104.25547099113464
+ },
+ {
+  "item_id": "L05",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 14.950807571411133
+ },
+ {
+  "item_id": "L06",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 12.536925077438354
+ },
+ {
+  "item_id": "L07",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "user ID",
+   "flight details",
+   "reservation ID"
+  ],
+  "latency": 16.121519565582275
+ },
+ {
+  "item_id": "L08",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 31.41425371170044
+ },
+ {
+  "item_id": "L09",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 11.16144871711731
+ },
+ {
+  "item_id": "L10",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "ID: ethan_martin_123"
+  ],
+  "latency": 18.228243827819824
+ },
+ {
+  "item_id": "L11",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 11.159048557281494
+ },
+ {
+  "item_id": "L12",
+  "direction": "report->planner",
+  "fidelity": 0.833,
+  "missing": [
+   "Operation: Calculate upgrade cost"
+  ],
+  "latency": 15.974164724349976
+ },
+ {
+  "item_id": "L13",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "reservation details for flight from Houston to Denver",
+   "May 27th date",
+   "successfully recorded in case notes",
+   "offer of further assistance"
+  ],
+  "latency": 16.277775049209595
+ },
+ {
+  "item_id": "L14",
+  "direction": "instruction->premise",
+  "fidelity": 0.6666666666666666,
+  "missing": [
+   "If not found, provide instructions for the customer to upload proof of purchase or contact a human agent for verification"
+  ],
+  "latency": 19.14881944656372
+ },
+ {
+  "item_id": "L15",
+  "direction": "report->planner",
+  "fidelity": 0.9444444444444444,
+  "missing": [],
+  "latency": 42.66893696784973
+ },
+ {
+  "item_id": "L16",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 10.957927465438843
+ },
+ {
+  "item_id": "L17",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 11.378416776657104
+ },
+ {
+  "item_id": "L18",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "Reservation ID 'OBUT9V'",
+   "Flight HAT084 (DEN to LAS) at 04:00",
+   "Flight HAT266 (LAS to IAH) at 13:00",
+   "One checked bag added",
+   "Gift card gift_card_7091239 applied for payment",
+   "Changes recorded in case notes"
+  ],
+  "latency": 32.28078842163086
+ },
+ {
+  "item_id": "L19",
+  "direction": "instruction->premise",
+  "fidelity": 0.8,
+  "missing": [
+   "Provide flight details and pricing"
+  ],
+  "latency": 10.653286933898926
+ },
+ {
+  "item_id": "L20",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 17.320470333099365
+ },
+ {
+  "item_id": "L21",
+  "direction": "report->planner",
+  "fidelity": 0.357,
+  "missing": [
+   "User ID: mohamed_hernandez_5188",
+   "Origin: DEN",
+   "Destination: BOS",
+   "Flight Type: one_way",
+   "Flights: Flight 1 (DEN to MIA, HAT130, 2024-05-17, $57)",
+   "Flights: Flight 2 (MIA to BOS, HAT184, 2024-05-17, $72)",
+   "Passenger: Mohamed Hernandez (1996-10-16)",
+   "Payment ID: credit_card_5417084",
+   "Payment Amount: $159",
+   "Created At: 2024-05-12T17:08:42",
+   "Total Baggages: 0",
+   "Non-Free Baggages: 0",
+   "Insurance: yes",
+   "Flight status not explicitly mentioned"
+  ],
+  "latency": 76.12845540046692
+ },
+ {
+  "item_id": "L22",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 8.87986421585083
+ },
+ {
+  "item_id": "L23",
+  "direction": "instruction->premise",
+  "fidelity": 0.6666666666666666,
+  "missing": [
+   "matches the customer's description"
+  ],
+  "latency": 13.307281732559204
+ },
+ {
+  "item_id": "L24",
+  "direction": "report->planner",
+  "fidelity": 0.67,
+  "missing": [
+   "Reservation ID: 3RK2T9",
+   "Expected timeline: N/A"
+  ],
+  "latency": 13.037295818328857
+ },
+ {
+  "item_id": "L25",
+  "direction": "instruction->premise",
+  "fidelity": 0.8333333333333334,
+  "missing": [
+   "If not found, return a message indicating the reservation could not be located"
+  ],
+  "latency": 16.3751163482666
+ },
+ {
+  "item_id": "L26",
+  "direction": "report->planner",
+  "fidelity": null,
+  "missing": [],
+  "latency": 101.73539280891418
+ },
+ {
+  "item_id": "L27",
+  "direction": "report->planner",
+  "fidelity": 0.75,
+  "missing": [
+   "Gold members"
+  ],
+  "latency": 18.979344606399536
+ },
+ {
+  "item_id": "L28",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "origin \"HAT\"",
+   "destination \"271\"",
+   "\"HAT271\" as reservation ID not found",
+   "direct flight search returned no results",
+   "unclear if there are any changes in the flight schedule for this specific reference"
+  ],
+  "latency": 16.83694577217102
+ },
+ {
+  "item_id": "L29",
+  "direction": "report->planner",
+  "fidelity": 0.2857,
+  "missing": [
+   "flight date (May 22 from JFK to MCO)",
+   "current date (May 15, 2024)",
+   "membership tier not provided",
+   "request to check cancellation",
+   "policy details (24-hour window, insurance, cabin class rules)"
+  ],
+  "latency": 86.51008605957031
+ },
+ {
+  "item_id": "L30",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 9.9743812084198
+ },
+ {
+  "item_id": "L31",
+  "direction": "report->planner",
+  "fidelity": 0.6667,
+  "missing": [
+   "No one-stop flights from Chicago (ORD) to Miami (MIA) on October 16th"
+  ],
+  "latency": 69.82750034332275
+ },
+ {
+  "item_id": "L32",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 21.77174186706543
+ },
+ {
+  "item_id": "L33",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "The transfer to a human agent was successful."
+  ],
+  "latency": 14.788320302963257
+ },
+ {
+  "item_id": "L34",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 14.266796112060547
+ },
+ {
+  "item_id": "L35",
+  "direction": "report->planner",
+  "fidelity": 0.6,
+  "missing": [
+   "HXDUBJ",
+   "Yara Garcia"
+  ],
+  "latency": 20.060564517974854
+ },
+ {
+  "item_id": "L36",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "VERDICT: allowed",
+   "Policy clause: Checked bag allowance for gold members flying in economy class is 3 free checked bags."
+  ],
+  "latency": 12.688393831253052
+ },
+ {
+  "item_id": "L37",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 18.23196029663086
+ },
+ {
+  "item_id": "L38",
+  "direction": "report->planner",
+  "fidelity": 0.6666666666666666,
+  "missing": [],
+  "latency": 36.269073724746704
+ },
+ {
+  "item_id": "L39",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 16.778226375579834
+ },
+ {
+  "item_id": "L40",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 17.162734270095825
+ },
+ {
+  "item_id": "L41",
+  "direction": "report->planner",
+  "fidelity": 0.333,
+  "missing": [
+   "flight IDs HAT069 and HAT276"
+  ],
+  "latency": 11.28490924835205
+ },
+ {
+  "item_id": "L42",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 42.899330377578735
+ },
+ {
+  "item_id": "L43",
+  "direction": "instruction->premise",
+  "fidelity": 0.5,
+  "missing": [
+   "current airline policy"
+  ],
+  "latency": 21.684401512145996
+ },
+ {
+  "item_id": "L44",
+  "direction": "report->planner",
+  "fidelity": 0.333,
+  "missing": [
+   "Attempted to retrieve user details for \"delta_user_123\", but the user was not found."
+  ],
+  "latency": 9.63387131690979
+ },
+ {
+  "item_id": "L45",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 12.890053272247314
+ },
+ {
+  "item_id": "L46",
+  "direction": "instruction->premise",
+  "fidelity": 0.75,
+  "missing": [],
+  "latency": 39.85647463798523
+ },
+ {
+  "item_id": "L47",
+  "direction": "report->planner",
+  "fidelity": 0.6666666666666666,
+  "missing": [
+   "user ID 'amelia_davis_8890'",
+   "/case_notes.md"
+  ],
+  "latency": 18.79281520843506
+ },
+ {
+  "item_id": "L48",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 20.016464948654175
+ },
+ {
+  "item_id": "L49",
+  "direction": "report->planner",
+  "fidelity": 0.333,
+  "missing": [
+   "User not found with the given ID.",
+   "Operation: Search for a reservation with 3 passengers failed."
+  ],
+  "latency": 23.58724331855774
+ },
+ {
+  "item_id": "L50",
+  "direction": "report->planner",
+  "fidelity": 0.2,
+  "missing": [
+   "/case_notes.md",
+   "shared file for future reference"
+  ],
+  "latency": 20.6974515914917
+ },
+ {
+  "item_id": "L51",
+  "direction": "report->planner",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 12.99799656867981
+ },
+ {
+  "item_id": "L52",
+  "direction": "report->planner",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 11.23360300064087
+ },
+ {
+  "item_id": "L53",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 66.31715750694275
+ },
+ {
+  "item_id": "L54",
+  "direction": "report->planner",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 10.588485717773438
+ },
+ {
+  "item_id": "L55",
+  "direction": "report->planner",
+  "fidelity": 0.0,
+  "missing": [
+   "Reservation ID: \"QKRY03\"",
+   "User ID: \"omar_rossi_1241\"",
+   "Flights from MCO to PHX and PHX to DTW on May 24 and 25, 2024",
+   "Passengers: Omar Rossi and Liam Lee",
+   "Gift card \"gift_card_6490722\" used for $408",
+   "0 total baggage, 0 non-free baggage",
+   "Insurance: Yes",
+   "Requested operation: Look up the flight reservation",
+   "The reservation details for user ID \"omar_rossi_1241\" have been successfully retrieved",
+   "All four reservations for user ID \"omar_rossi_1241\" have been successfully retrieved",
+   "Reservation ID: \"UM3OG5\"",
+   "Flights: SEA to DFW, DFW to ATL, and ATL to SEA on May 26 and 28, 2024",
+   "Passengers: Omar Rossi and Liam Lee",
+   "Gift card \"gift_card_8190333\" used for $830",
+   "0 total baggage, 0 non-free baggage",
+   "Insurance: No",
+   "Reservation ID: \"5RJ7UH\"",
+   "Flights: LAX to SFO and SFO to LAX on May 26 and 29, 2024",
+   "Passengers: Omar Rossi and Isabella Anderson",
+   "Credit card \"credit_card_7407366\" used for $710",
+   "1 total baggage, 0 non-free baggage",
+   "Insurance: No",
+   "Reservation ID: \"FQ8APE\"",
+   "Flights: EWR to IAH and IAH to ORD on May 25, 2024",
+   "Passengers: Ivan Garcia",
+   "Gift card \"gift_card_8190333\" used for $161",
+   "0 total baggage, 0 non-free baggage",
+   "Insurance: Yes",
+   "Reservation ID: \"QKRY03\"",
+   "Flights: MCO to PHX and PHX to DTW on May 24 and 25, 2024",
+   "Passengers: Omar Rossi and Liam Lee",
+   "Gift card \"gift_card_6490722\" used for $408",
+   "0 total baggage, 0 non-free baggage",
+   "Insurance: Yes"
+  ],
+  "latency": 46.27971577644348
+ },
+ {
+  "item_id": "L56",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "Let me know if you'd like to explore alternative options."
+  ],
+  "latency": 17.822818517684937
+ },
+ {
+  "item_id": "L57",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 11.287877082824707
+ },
+ {
+  "item_id": "L58",
+  "direction": "report->planner",
+  "fidelity": 0.5,
+  "missing": [
+   "User not found with the provided details."
+  ],
+  "latency": 14.962832689285278
+ },
+ {
+  "item_id": "L59",
+  "direction": "instruction->premise",
+  "fidelity": 1.0,
+  "missing": [],
+  "latency": 9.279188394546509
+ },
+ {
+  "item_id": "L60",
+  "direction": "instruction->premise",
+  "fidelity": 0.571,
+  "missing": [
+   "If found, return the reservation ID and relevant details",
+   "otherwise, confirm it could not be located"
+  ],
+  "latency": 19.89586305618286
+ }
+]
