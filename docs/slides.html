@@ -646,14 +646,14 @@
         <p style="margin-top:.7rem">orchestrator 결정의 확률 분포(D1)는 실패를 부른 스텝을 AUROC 0.75로 가려내지만 subagent에서는 0.5 부근입니다. 다만 D1은 고정 기준으로 판정하기에는 약해 검토 순위로 쓰고, 판정은 D2가 맡습니다. subagent는 행동 근거 검사가 오류의 절반 가까이를 precision 0.62로 잡습니다. handoff 정보 손실은 계측으로 성립하지만 실패 예측력은 약하고, 보고 지점의 근거 판정(D4)은 판정 LLM 세 종 모두 0.5 부근이어서 이 연구가 남기는 가장 큰 후속 과제입니다. 탐지기의 성능은 탐지기 자체보다 어느 역할과 탐지 대상에 붙이는가에 달려 있으며, 감사 파이프라인은 역할별로 검사를 배정하는 구조여야 합니다.</p>
       </div>
       <div class="tbl"><table>
-        <tr><th>탐지기</th><th>역할</th><th>주 지표</th><th>판정</th></tr>
-        <tr class="hi"><td>D1 결정 분포</td><td class="nw">orchestrator</td><td class="mono">AUROC 0.63 · decisive 0.75</td><td>작동 (순위)</td></tr>
-        <tr><td>D1 결정 분포</td><td class="nw">subagent</td><td class="mono">0.54 · decisive 0.36</td><td>신호 없음</td></tr>
-        <tr class="hi"><td>D2 행동 근거</td><td class="nw">subagent</td><td class="mono">F1 0.54 (precision 0.62 · recall 0.48 · FPR 0.07)</td><td>작동 (부분)</td></tr>
-        <tr><td>D2 행동 근거</td><td class="nw">orchestrator (위임)</td><td class="mono">precision 0.91 · recall 0.22</td><td>고정밀·저재현</td></tr>
-        <tr><td>D3 정보 손실, 보고→orchestrator</td><td class="nw">subagent → orchestrator</td><td class="mono">순위 상관 0.71 · 실질 손실 AUROC 0.74</td><td>계측 성립</td></tr>
-        <tr><td>D3 정보 손실, 지시→전제</td><td class="nw">orchestrator → subagent</td><td class="mono">정답 fidelity 0.97</td><td>손실 없는 경계</td></tr>
-        <tr><td>D4 보고 근거</td><td class="nw">subagent</td><td class="mono">AUROC 0.47 / 0.55 / 0.50</td><td>미해결 · 다음 과제</td></tr>
+        <tr><th>탐지기</th><th>역할 · 경계</th><th>주 지표</th><th>쓰임</th></tr>
+        <tr class="hi"><td>D1 결정 분포</td><td class="nw">orchestrator 결정</td><td class="mono">AUROC(Step) 0.63 · decisive 0.75 · AUROC(Trace) 0.81</td><td>검토 순위</td></tr>
+        <tr><td>D1 결정 분포</td><td class="nw">subagent 결정</td><td class="mono">AUROC(Step) 0.54 · decisive 0.36</td><td>쓰지 않음 (신호 없음)</td></tr>
+        <tr class="hi"><td>D2 행동 근거</td><td class="nw">subagent 도구 호출</td><td class="mono">precision 0.62 · recall 0.48 · FPR 0.07</td><td>판정</td></tr>
+        <tr><td>D2 행동 근거</td><td class="nw">orchestrator 위임</td><td class="mono">precision 0.91 · recall 0.22</td><td>판정 (고정밀·저재현)</td></tr>
+        <tr><td>D3 handoff 정보 손실</td><td class="nw">보고 → orchestrator</td><td class="mono">순위 상관 0.71 · 실질 손실 AUROC 0.74</td><td>경계 손실 계측 (실패 판정 아님)</td></tr>
+        <tr><td>D3 handoff 정보 손실</td><td class="nw">지시 → 전제</td><td class="mono">fidelity 0.97</td><td>손실 거의 없음</td></tr>
+        <tr><td>D4 보고 근거</td><td class="nw">subagent 보고</td><td class="mono">AUROC(Step) 0.47–0.55 (판정 LLM 3종)</td><td>미해결 · 다음 과제</td></tr>
       </table>
       <p class="quiet mono" style="margin-top:.8rem;font-size:.82rem">github.com/kangmc1/project-agent · docs/proposal.md · eval/metrics.md</p></div>
     </div>
