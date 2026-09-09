@@ -288,15 +288,16 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">05</span><span class="sec">3 제안</span></div>
-  <div class="head"><p class="eyebrow"><b>3 제안</b><span class="crumb">›</span>3.3 탐지기 구성</p><h2>네 모듈은 층마다 다른 상대와 대조하고 다른 주체가 판정합니다</h2></div>
+  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>네 모듈은 층마다 다른 상대와 대조하고 다른 주체가 판정합니다</h2></div>
   <div class="body">
+    <div><h3><span class="ss solo"><span class="n">3.3</span>탐지기 구성</span></h3>
     <div class="tbl"><table>
       <tr><th>모듈</th><th>층</th><th>대조 상대</th><th>판정 주체</th><th>한 문장</th><th>출력</th></tr>
       <tr><td><span class="tag">D1</span> 결정 분포</td><td>결정</td><td>모델 자신의 확률 분포</td><td>코드</td><td>다음 행동을 고를 때 얼마나 흔들렸는가</td><td class="mono">1 − p_actual, 1 − confidence, 1 − margin</td></tr>
       <tr><td><span class="tag">D2</span> 행동 근거</td><td>행동(도구 호출)</td><td>기록(지시문, 주어진 값)</td><td>코드</td><td>이 도구 호출은 지시와 기록이 뒷받침하는가</td><td class="mono">0/1 플래그 + 근거 문자열</td></tr>
       <tr><td><span class="tag">D3</span> handoff 정보 손실</td><td>handoff 경계</td><td>경계 반대편의 텍스트</td><td>LLM (gpt-oss-20b)</td><td>지시와 보고가 넘어가는 동안 어떤 사실이 빠지거나 바뀌었는가</td><td class="mono">fidelity 0–1 + 누락·변형 목록</td></tr>
       <tr><td><span class="tag">D4</span> 보고 근거</td><td>보고</td><td>근거(도구 결과, 지시문)</td><td>LLM (20B, 32B)</td><td>보고의 주장 하나하나가 도구 결과와 지시에서 나온 것인가</td><td class="mono">(unsupported + contradicted) / 주장 수</td></tr>
-    </table></div>
+    </table></div></div>
     <div class="cols">
       <div><h3>D1 · 확률을 얻는 법</h3><p>후보 A = 바인딩된 도구 이름 ∪ <code>no_tool</code>. 문맥을 고정하고 후보의 토큰열만 바꿔 넣어 log P(a | 문맥)을 같은 가중치로 다시 계산합니다. 샘플링 없이 결정 지점마다 후보 수만큼의 짧은 채점으로 끝납니다.</p></div>
       <div><h3>D2 · 세 어긋남의 OR</h3><p>(1) 지시가 요구한 도구 군을 부르지 않음 (2) 기록 어디에도 없는 식별자로 호출 (3′) 호출이 오류로 돌아옴. orchestrator의 위임에는 식별자 없는 위임과 실패 뒤 재위임을 봅니다.</p></div>
