@@ -1,0 +1,602 @@
+[
+ {
+  "run_id": "airline_010",
+  "handoff_id": 46,
+  "planner_step_id": 45,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The booking failed due to an error related to the `flight_number` parameter. This might indicate an issue with the provided flight IDs (`HAT041` and `HAT012`). Please verify the flight details and try again. If the issue persists, contact a human agent for assistance.",
+  "B": "{\"content\": \"I'm encountering a persistent issue with the flight booking system, which is preventing the booking using the provided flight numbers. I recommend contacting a human agent for assistance to ensure your booking is processed smoothly. Would you like me to provide contact details for customer support?\"}",
+  "item_id": "L01"
+ },
+ {
+  "run_id": "airline_017",
+  "handoff_id": 51,
+  "planner_step_id": 62,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Confirm availability for Flight Combination HAT286 (IAH to LAS) and HAT047 (LAS to SEA) on May 23 for 2 passengers under reservation ID 4NQLHD and proceed with rescheduling and business class upgrades.",
+  "B": "- Reservation ID: 4NQLHD\n- Flight Combination: HAT286 (IAH to LAS) and HAT047 (LAS to SEA)\n- Date: May 23\n- Passengers: 2\n- Requested Operation: Confirm availability and proceed with rescheduling and business class upgrades\n\n",
+  "item_id": "L02"
+ },
+ {
+  "run_id": "airline_002",
+  "handoff_id": 66,
+  "planner_step_id": 57,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Re-verify the economy class prices for the flights in the following reservations: JG7FMM, 2FBBAH, X7BYG1, EQ1G6C, BOH180. Ensure the data source is accurate and that the correct class prices are retrieved.",
+  "B": "- Reservation ID: JG7FMM\n- Reservation ID: 2FBBAH\n- Reservation ID: X7BYG1\n- Reservation ID: EQ1G6C\n- Reservation ID: BOH180\n- Requested operation: Re-verify economy class prices for each reservation.\n\n",
+  "item_id": "L03"
+ },
+ {
+  "run_id": "airline_010",
+  "handoff_id": 21,
+  "planner_step_id": 14,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- **Cheapest round-trip flights**:\n  - **JFK to SEA (HAT069)** on May 20 with a price of $51.\n  - **SEA to JFK (HAT276)** on May 25 with a price of $55.\n  - **Total cost**: $106 in basic economy class.\n\nThe information has been successfully appended to the shared file `/case_notes.md`. Let me know if you need further assistance!",
+  "B": "{\"content\": \"I found a direct round-trip flight for you: JFK to SEA (HAT069) on May 20 and SEA to JFK (HAT276) on May 25, with a total cost of $106 in basic economy class. Would you like to proceed with booking this flight?\"}",
+  "item_id": "L04"
+ },
+ {
+  "run_id": "airline_048",
+  "handoff_id": 4,
+  "planner_step_id": 7,
+  "wrapper": "policy_checker",
+  "direction": "instruction->premise",
+  "A": "Check if changing the date of a Basic Economy round trip reservation is allowed under airline policy.",
+  "B": "- User is inquiring about changing the date of a Basic Economy round trip reservation.\n- The reservation type is Basic Economy.\n- The requested action is to change the date of the reservation.\n- The policy states that Basic Economy flights cannot be modified in any way, including changing dates.\n\nAccording to the airline policy, Basic Economy flights cannot be modified. This restriction includes changing the date of the reservation.\n\nVERDICT: not_allowed — <Modify flight policy clause: \"Basic economy flights cannot be modified.\">",
+  "item_id": "L05"
+ },
+ {
+  "run_id": "airline_017",
+  "handoff_id": 36,
+  "planner_step_id": 46,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Confirm availability for Flight Combination HAT286 (IAH to LAS) and HAT047 (LAS to SEA) on May 23 for 2 passengers and proceed with rescheduling and business class upgrades.",
+  "B": "- Reservation involves flight combination HAT286 (IAH to LAS) and HAT047 (LAS to SEA)\n- Date: May 23\n- Number of passengers: 2\n- Requested operation: Confirm availability and proceed with rescheduling and business class upgrades\n\n",
+  "item_id": "L06"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 9,
+  "planner_step_id": 16,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "I need more specific details to search for a reservation, such as the user ID, flight details, or reservation ID. Please provide additional information to proceed.",
+  "B": "{\"content\": \"I'm still unable to locate your reservation. It would be very helpful if you could provide the departure city, destination, or the approximate travel date. Any additional information you can provide will assist me in finding your reservation.\"}",
+  "item_id": "L07"
+ },
+ {
+  "run_id": "airline_048",
+  "handoff_id": 7,
+  "planner_step_id": 11,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Cancel the reservation with ID EUJUY6 and provide confirmation of the cancellation.",
+  "B": "- Reservation ID: EUJUY6\n- Requested operation: Cancel the reservation and provide confirmation\n\n",
+  "item_id": "L08"
+ },
+ {
+  "run_id": "airline_031",
+  "handoff_id": 30,
+  "planner_step_id": 36,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Retrieve the details of Reservation ID 9HBUV8, including the status of each flight segment.",
+  "B": "- Reservation ID: 9HBUV8\n- Requested operation: Retrieve reservation details, including the status of each flight segment.\n\n",
+  "item_id": "L09"
+ },
+ {
+  "run_id": "airline_016",
+  "handoff_id": 14,
+  "planner_step_id": 21,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- The user with the name Ethan Martin (ID: ethan_martin_123) was not found in the system.\n\nNo reservation could be searched due to the user not being found.",
+  "B": "{\"content\": \"I'm sorry, Ethan, but we couldn't find a user named Ethan Martin in our system with the details you provided. Could you please double-check your name or provide any other information that might help us locate your reservation?\"}",
+  "item_id": "L10"
+ },
+ {
+  "run_id": "airline_025",
+  "handoff_id": 11,
+  "planner_step_id": 16,
+  "wrapper": "policy_checker",
+  "direction": "instruction->premise",
+  "A": "Check if cancellation is allowed for reservation M20IZO with economy cabin class and no travel insurance.",
+  "B": "- User is inquiring about cancellation for reservation M20IZO.\n- The reservation has an economy cabin class.\n- The user does not have travel insurance.\n- The current date is 2024-05-15 15:00:00 EST.\n\nAccording to the airline policy, economy flights can only be cancelled if travel insurance is purchased and the conditions for cancellation are met. Since the user does not have travel insurance, the cancellation is not allowed unless the reservation is within 24 hours of booking or the airline has cancelled the flight. The policy does not allow cancellations for economy flights without insurance under other circumstances.\n\nVERDICT: not_allowed — Policy clause: Economy flights can only be cancelled if travel insurance is bought and the condition is met.",
+  "item_id": "L11"
+ },
+ {
+  "run_id": "airline_017",
+  "handoff_id": 27,
+  "planner_step_id": 35,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The cost of upgrading one leg (either HAT112 or HAT047) to business class for 2 passengers on May 24 is $1400.00.\n\n**Operation Summary:**\n- Operation: Calculate upgrade cost\n- Legs considered: HAT112 or HAT047\n- Key returned value: $1400.00",
+  "B": "{\"content\": \"Upgrading only one leg (either HAT112 or HAT047) to business class for 2 passengers on May 24 would cost $1400.00. This is still over your $1000 budget. Would you like to explore other options, such as upgrading to a different class or adjusting the travel date?\"}",
+  "item_id": "L12"
+ },
+ {
+  "run_id": "airline_003",
+  "handoff_id": 11,
+  "planner_step_id": 4,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The reservation details for the flight from Houston to Denver on May 27th have been successfully recorded in the case notes. Let me know if you need further assistance!",
+  "B": "{\"file_path\": \"/case_notes.md\"}",
+  "item_id": "L13"
+ },
+ {
+  "run_id": "airline_042",
+  "handoff_id": 10,
+  "planner_step_id": 16,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Re-check reservation ID 3RK2T9 for any linked travel insurance. If not found, provide instructions for the customer to upload proof of purchase or contact a human agent for verification.",
+  "B": "- Reservation ID: 3RK2T9\n- Operation requested: Re-check for linked travel insurance\n- Action: Retrieve reservation details\n\n",
+  "item_id": "L14"
+ },
+ {
+  "run_id": "airline_017",
+  "handoff_id": 8,
+  "planner_step_id": 10,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Found one-stop flights from IAH to SEA on May 24, 2024.\n- **Available Flights**:\n  1. **Flight HAT112** (IAH to LAS):\n     - Departure: 22:00\n     - Arrival: 01:00 (next day)\n     - Business class seats available: 19\n     - Business class price: $404\n  2. **Flight HAT190** (IAH to LAS):\n     - Departure: 01:00\n     - Arrival: 04:00\n     - Business class seats available: 3\n     - Business class price: $464\n  3. **Flight HAT286** (IAH to LAS):\n     - Departure: 22:00\n     - Arrival: 01:00 (next day)\n     - Business class seats available: 11\n     - Business class price: $399\n  - **Connecting Flight HAT047** (LAS to SEA):\n     - Departure: 13:00\n     - Arrival: 15:30\n     - Business class seats available: 13\n     - Business class price: $202\n\n- Business class upgrades are available for all flights, but availability varies by flight segment.",
+  "B": "{\"content\": \"I found several one-stop flights from IAH to SEA on May 24 for 2 passengers. Here are the options:\\n\\n1. **Flight HAT112** (IAH to LAS):\\n   - Departure: 22:00\\n   - Arrival: 01:00 (next day)\\n   - Business class seats available: 19\\n   - Business class price: $404\\n\\n2. **Flight HAT190** (IAH to LAS):\\n   - Departure: 01:00\\n   - Arrival: 04:00\\n   - Business class seats available: 3\\n   - Business class price: $464\\n\\n3. **Flight HAT286** (IAH to LAS):\\n   - Departure: 22:00\\n   - Arrival: 01:00 (next day)\\n   - Business class seats available: 11\\n   - Business class price: $399\\n\\n- **Connecting Flight HAT047** (LAS to SEA):\\n   - Departure: 13:00\\n   - Arrival: 15:30\\n   - Business class seats available: 13\\n   - Business class price: $202\\n\\nBusiness class upgrades are available for all flights, but availability varies by flight segment. Please let me know which option you prefer, and I can proceed with the rescheduling and upgrade.\"}",
+  "item_id": "L15"
+ },
+ {
+  "run_id": "airline_004",
+  "handoff_id": 15,
+  "planner_step_id": 15,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Find reservations for user ID 'omar_rossi_1241' with flights from New York to Chicago.",
+  "B": "- User ID: 'omar_rossi_1241'\n- Requested operation: Find reservations with flights from New York to Chicago\n\n",
+  "item_id": "L16"
+ },
+ {
+  "run_id": "airline_010",
+  "handoff_id": 24,
+  "planner_step_id": 23,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Book the round-trip flight with the following details: JFK to SEA (HAT069) on May 20 and SEA to JFK (HAT276) on May 25. Apply the smaller gift card first, then the larger one, and include all free baggage allowance. No insurance required.",
+  "B": "- User requested to book a round-trip flight with flight numbers HAT069 (JFK to SEA on May 20) and HAT276 (SEA to JFK on May 25).\n- Payment method: Apply the smaller gift card first, then the larger one.\n- Include all free baggage allowance.\n- No insurance is required.\n\n",
+  "item_id": "L17"
+ },
+ {
+  "run_id": "airline_003",
+  "handoff_id": 27,
+  "planner_step_id": 25,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The reservation ID 'OBUT9V' has been successfully updated with the new return flight options: HAT084 (DEN to LAS) at 04:00 and HAT266 (LAS to IAH) at 13:00. One checked bag has been added, and the gift card with the smallest balance (gift_card_7091239) has been applied for payment. The changes have been recorded in the case notes.",
+  "B": "{\"file_path\": \"/case_notes.md\"}",
+  "item_id": "L18"
+ },
+ {
+  "run_id": "airline_013",
+  "handoff_id": 5,
+  "planner_step_id": 7,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Find available nonstop flights from ATL to LAS that depart within 3-4 hours of the original departure time from Atlanta (Flight 3: HAT252, Date: 2024-05-21). Provide flight details and pricing.",
+  "B": "- User requested nonstop flights from ATL to LAS.\n- Original flight: HAT252, Date: 2024-05-21.\n- Looking for flights departing within 3-4 hours of the original departure time.\n\n",
+  "item_id": "L19"
+ },
+ {
+  "run_id": "airline_017",
+  "handoff_id": 45,
+  "planner_step_id": 56,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Search for reservations associated with the user ID 'liam_khan_2521' for flights from IAH to SEA on May 23 and retrieve the reservation ID.",
+  "B": "- User ID: 'liam_khan_2521'\n- Origin: IAH\n- Destination: SEA\n- Date: May 23\n- Requested operation: Search for reservations and retrieve reservation ID\n\n",
+  "item_id": "L20"
+ },
+ {
+  "run_id": "airline_031",
+  "handoff_id": 30,
+  "planner_step_id": 36,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Reservation ID: 9HBUV8\n- User ID: mohamed_hernandez_5188\n- Origin: DEN\n- Destination: BOS\n- Flight Type: one_way\n- Cabin: basic_economy\n- Flights:\n  - Flight 1: DEN to MIA, Flight Number HAT130, Date 2024-05-17, Price $57\n  - Flight 2: MIA to BOS, Flight Number HAT184, Date 2024-05-17, Price $72\n- Passengers:\n  - First Name: Mohamed, Last Name: Hernandez, Date of Birth: 1996-10-16\n- Payment History:\n  - Payment ID: credit_card_5417084, Amount: $159\n- Created At: 2024-05-12T17:08:42\n- Total Baggages: 0\n- Non-Free Baggages: 0\n- Insurance: yes\n\nThe reservation details for Reservation ID 9HBUV8 have been successfully retrieved. The status of each flight segment is not explicitly mentioned in the returned data, but the flights are scheduled for May 17, 2024. If you need further information or actions related to this reservation, please let me know.",
+  "B": "{\"instruction\": \"Check if the cancellation of a multi-leg Basic Economy flight (Reservation ID 9HBUV8) is allowed under the airline's policy, given that the flights are scheduled for May 17, 2024, and the reservation was made on May 12, 2024.\"}",
+  "item_id": "L21"
+ },
+ {
+  "run_id": "airline_026",
+  "handoff_id": 22,
+  "planner_step_id": 24,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Upgrade the reservation with ID M20IZO from economy to business class and charge the credit card ending in 7334 for $597.",
+  "B": "- Reservation ID: M20IZO\n- Current operation: Upgrade from economy to business class\n- Payment method: Credit card ending in 7334\n- Amount to charge: $597\n\n",
+  "item_id": "L22"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 12,
+  "planner_step_id": 20,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Search for a reservation with 3 passengers that matches the customer's description and return its ID and details.",
+  "B": "- User request: Search for a reservation with 3 passengers.\n- Operation: Find matching reservation ID and details.\n\n",
+  "item_id": "L23"
+ },
+ {
+  "run_id": "airline_042",
+  "handoff_id": 7,
+  "planner_step_id": 11,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Reservation ID: 3RK2T9\n- Travel insurance status: Not linked\n- Refund process: Cannot proceed with a refund as there is no travel insurance linked to this reservation.\n- Expected timeline: N/A\n\nSince there is no travel insurance linked to this reservation, the refund process cannot be initiated. Please contact a human agent for further assistance.",
+  "B": "{\"content\": \"I'm sorry, but I see that there is no travel insurance linked to your reservation. As a result, we cannot process a refund at this time. Please contact a human agent for further assistance or more information on your options.\"}",
+  "item_id": "L24"
+ },
+ {
+  "run_id": "airline_006",
+  "handoff_id": 9,
+  "planner_step_id": 14,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Search for a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name Aarav Garcia. If not found, return a message indicating the reservation could not be located.",
+  "B": "- Operation: Search for a reservation\n- Parameters: \n  - Origin: ATL\n  - Destination: PHL\n  - Travel Date: April 5th\n  - Passenger Name: Aarav Garcia\n\n",
+  "item_id": "L25"
+ },
+ {
+  "run_id": "airline_031",
+  "handoff_id": 35,
+  "planner_step_id": 43,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Reservation ID: 9HBUV8 has travel insurance (\"yes\").\n- Flight segments: \n  - DEN to MIA (Flight HAT130, 2024-05-17)\n  - MIA to BOS (Flight HAT184, 2024-05-17)\n- No indication that any flight segments have already been used.\n\nOperation: get_reservation_details\nReservation ID: 9HBUV8\nKey returned values: insurance: yes, flights: [{\"origin\": \"DEN\", \"destination\": \"MIA\", \"flight_number\": \"HAT130\", \"date\": \"2024-05-17\", \"price\": 57}, {\"origin\": \"MIA\", \"destination\": \"BOS\", \"flight_number\": \"HAT184\", \"date\": \"2024-05-17\", \"price\": 72}]\n\n<tool_call>\n{\"name\": \"write_file\", \"arguments\": {\"file_path\": \"/case_notes.md\", \"content\": \"Operation: get_reservation_details\\nReservation ID: 9HBUV8\\nKey returned values: insurance: yes, flights: [{\\\"origin\\\": \\\"DEN\\\", \\\"destination\\\": \\\"MIA\\\", \\\"flight_number\\\": \\\"HAT130\\\", \\\"date\\\": \\\"2024-05-17\\\", \\\"price\\\": 57}, {\\\"origin\\\": \\\"MIA\\\", \\\"destination\\\": \\\"BOS\\\", \\\"flight_number\\\": \\\"HAT184\\\", \\\"date\\\": \\\"2024-05-17\\\", \\\"price\\\": 72}]\"}}\n}\n</tool_call>",
+  "B": "{\"instruction\": \"Check if the cancellation of a multi-leg Basic Economy flight (Reservation ID 9HBUV8) is allowed under the airline's policy, given that the flights are scheduled for May 17, 2024, the reservation was made on May 12, 2024, and the user has travel insurance.\"}",
+  "item_id": "L26"
+ },
+ {
+  "run_id": "airline_037",
+  "handoff_id": 3,
+  "planner_step_id": 4,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The request to find all reservations for flight HAT045 and Gold members has been transferred to a human agent for further assistance.",
+  "B": "{\"content\": \"A human agent is now handling your request for flight HAT045. They will reach out to you shortly for more details and to assist you further. Please stay tuned.\"}",
+  "item_id": "L27"
+ },
+ {
+  "run_id": "airline_032",
+  "handoff_id": 36,
+  "planner_step_id": 46,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "No direct flights were found between origin \"HAT\" and destination \"271\" on May 26, 2024. \n\nSince \"HAT271\" as a reservation ID was not found and the direct flight search returned no results, it is unclear if there are any changes in the flight schedule for this specific reference. Please provide additional details or clarify the flight or reservation information for further assistance.",
+  "B": "{\"content\": \"It seems there are no available flights for HAT271 on May 26. Could you confirm if this is the correct flight number and date? Alternatively, I can help you look for other available flights on that day.\"}",
+  "item_id": "L28"
+ },
+ {
+  "run_id": "airline_025",
+  "handoff_id": 8,
+  "planner_step_id": 11,
+  "wrapper": "policy_checker",
+  "direction": "report->planner",
+  "A": "- User is inquiring about cancellation for reservation M20IZO.\n- The flight is scheduled on May 22 from JFK to MCO.\n- The current date is May 15, 2024.\n- The user has not provided membership tier or cabin class.\n- The request is to check if cancellation is allowed.\n\nAccording to the airline policy, cancellation is allowed within 24 hours of booking, or if the airline cancels the flight. Otherwise, basic economy or economy flights can be cancelled only if travel insurance is bought and the condition is met, and business flights can always be cancelled. Since the current date is May 15 and the flight is scheduled for May 22, the 24-hour window has passed. Without knowing the cabin class or whether travel insurance was purchased, I cannot determine if cancellation is allowed.\n\nVERDICT: need_info — <Cancellation rules depend on cabin class and travel insurance status.>",
+  "B": "{\"instruction\": \"Retrieve the cabin class and insurance status for reservation M20IZO.\"}",
+  "item_id": "L29"
+ },
+ {
+  "run_id": "airline_003",
+  "handoff_id": 27,
+  "planner_step_id": 25,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Update reservation ID 'OBUT9V' with the new return flight option: HAT084 (DEN to LAS) at 04:00 and HAT266 (LAS to IAH) at 13:00. Add one checked bag and apply the gift card with the smallest balance for payment.",
+  "B": "- Reservation ID: 'OBUT9V'\n- New return flight options: HAT084 (DEN to LAS) at 04:00 and HAT266 (LAS to IAH) at 13:00\n- Add one checked bag\n- Apply the gift card with the smallest balance for payment\n- Operation: Update reservation flight and baggage information\n\n",
+  "item_id": "L30"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 26,
+  "planner_step_id": 41,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- No one-stop flights were found from Chicago (ORD) to Miami (MIA) on October 16th.\n\nIt seems there are no available flights matching the specified criteria. Would you like to consider alternative dates or flight options?",
+  "B": "{\"content\": \"I'm sorry, but there are no flights matching your criteria of Delta flight 452 from Chicago to Miami on October 16th either. Would you like to consider alternative dates or flight options?\"}",
+  "item_id": "L31"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 3,
+  "planner_step_id": 4,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Find the last reservation made by the customer and return its ID and details.",
+  "B": "- Requested operation: Find the last reservation made by the customer and return its ID and details.\n- No specific user ID or reservation ID provided.\n\n",
+  "item_id": "L32"
+ },
+ {
+  "run_id": "airline_008",
+  "handoff_id": 2,
+  "planner_step_id": 2,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The transfer to a human agent was successful. A representative will assist you with retrieving the requested information.",
+  "B": "It looks like a customer service representative will assist you with retrieving the requested information. If you have any other questions or need further assistance, feel free to ask!",
+  "item_id": "L33"
+ },
+ {
+  "run_id": "airline_031",
+  "handoff_id": 7,
+  "planner_step_id": 4,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Find the reservation for user ID mohamed_hernandez_5188 with a flight from ATL to JFK on May 17th.",
+  "B": "- User ID: mohamed_hernandez_5188\n- Flight origin: ATL\n- Flight destination: JFK\n- Date: May 17th\n- Requested operation: Find the reservation\n\n",
+  "item_id": "L34"
+ },
+ {
+  "run_id": "airline_024",
+  "handoff_id": 33,
+  "planner_step_id": 43,
+  "wrapper": "policy_checker",
+  "direction": "report->planner",
+  "A": "The change fees for Yara Garcia's reservation HXDUBJ cannot be waived due to insurance coverage, as the policy does not allow using insurance for this purpose.",
+  "B": "{\"content\": \"I'm sorry, but according to the airline's policy, change fees cannot be waived using insurance coverage. The fees for updating your reservation and adding checked bags will still apply. Would you like to proceed with an alternative payment method for these additional costs?\"}",
+  "item_id": "L35"
+ },
+ {
+  "run_id": "airline_044",
+  "handoff_id": 6,
+  "planner_step_id": 11,
+  "wrapper": "policy_checker",
+  "direction": "report->planner",
+  "A": "The checked baggage allowance for a gold member flying in economy class is 3 free checked bags. \n\nVERDICT: allowed | not_allowed | need_info — <Policy clause: Checked bag allowance for gold members flying in economy class is 3 free checked bags.>",
+  "B": "{\"content\": \"As a gold member flying in economy class, you are allowed to bring 3 free checked suitcases. Let me know if you need further assistance!\"}",
+  "item_id": "L36"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 29,
+  "planner_step_id": 47,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on mid-October on flight Delta 457, and return its ID and details.",
+  "B": "- User requested to search for a Delta reservation with 3 passengers.\n- Travel details: Chicago to Miami in mid-October on flight Delta 457.\n- Requested to return the reservation ID and its details.\n\n",
+  "item_id": "L37"
+ },
+ {
+  "run_id": "airline_006",
+  "handoff_id": 15,
+  "planner_step_id": 24,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- User \"Aarav Garcia\" could not be found in the system.\n- No reservation details were located for the specified criteria.\n\nThe reservation could not be located. Please verify the details provided or contact support for further assistance.",
+  "B": "{\"content\": \"I'm sorry, but we are unable to locate the reservation for Aarav Garcia with the given details. Since the reservation cannot be identified, we are unable to proceed with the requested changes. Please try to locate your reservation ID or contact our support team with additional information for further assistance.\"}",
+  "item_id": "L38"
+ },
+ {
+  "run_id": "airline_003",
+  "handoff_id": 22,
+  "planner_step_id": 19,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Change the return flight for reservation ID 'OBUT9V' to the fastest available option on May 27th, even if it includes a stopover. Add one checked bag to the reservation and apply the gift card with the smallest balance for payment.",
+  "B": "- Reservation ID: 'OBUT9V'\n- New return flight date: May 27th\n- Allow stopovers for the fastest option\n- Add one checked bag\n- Apply the gift card with the smallest balance for payment\n\n",
+  "item_id": "L39"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 22,
+  "planner_step_id": 35,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Search for a Delta reservation with 3 passengers, traveling from Chicago to Miami on October 15th on flight Delta 452, and return its ID and details.",
+  "B": "- User requested to search for a Delta reservation with 3 passengers.\n- Travel details: From Chicago to Miami on October 15th on flight Delta 452.\n- Operation: Retrieve the reservation ID and its details.\n\n",
+  "item_id": "L40"
+ },
+ {
+  "run_id": "airline_010",
+  "handoff_id": 32,
+  "planner_step_id": 34,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The booking failed due to an error related to the `flight_number` parameter. This might indicate an issue with the provided flight IDs (`HAT069` and `HAT276`). I will investigate further to resolve the issue.",
+  "B": "{\"content\": \"I encountered an issue while attempting to book the flights using the provided flight numbers. It seems there might be a problem with the system processing these flight IDs. I will look into this further. In the meantime, would you like me to suggest alternative flights for you?\"}",
+  "item_id": "L41"
+ },
+ {
+  "run_id": "airline_006",
+  "handoff_id": 15,
+  "planner_step_id": 24,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Search for a reservation made under the name Aarav Garcia for a flight from ATL to PHL, with a travel date of April 5th, and booked through the airline's website. Return the reservation ID and relevant details if found; otherwise, confirm it could not be located.",
+  "B": "- User name: Aarav Garcia\n- Origin: ATL\n- Destination: PHL\n- Travel date: April 5th\n- Booking source: Airline's website\n- Requested operation: Search for reservation\n\n",
+  "item_id": "L42"
+ },
+ {
+  "run_id": "airline_003",
+  "handoff_id": 14,
+  "planner_step_id": 10,
+  "wrapper": "policy_checker",
+  "direction": "instruction->premise",
+  "A": "Check if the customer is allowed to change their flight and add a checked bag under the current airline policy.",
+  "B": "- User is requesting to change their flight and add a checked bag.\n- The reservation details are not provided, so the reservation ID, user ID, and current flight details are unknown.\n- The user's membership tier is also not specified.\n- The requested action involves modifying a flight and adding a checked bag.\n- The current date is 2024-05-15 15:00:00 EST.\n\n",
+  "item_id": "L43"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 18,
+  "planner_step_id": 30,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Attempted to retrieve user details for \"delta_user_123\", but the user was not found.\n- No reservation details could be retrieved for the specified criteria.\n\nNo further action can be taken with the current information.",
+  "B": "{\"content\": \"I'm sorry, but I'm still unable to locate your reservation with the current information. If you can provide any additional details, such as the exact travel date, flight number, or any other relevant information, I would be happy to assist you further.\"}",
+  "item_id": "L44"
+ },
+ {
+  "run_id": "airline_018",
+  "handoff_id": 10,
+  "planner_step_id": 14,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Retrieve the reservation's creation time, cabin class, and whether travel insurance was purchased for reservation ID SI5UKW.",
+  "B": "- Reservation ID: SI5UKW\n- Requested details: creation time, cabin class, and insurance status\n\n",
+  "item_id": "L45"
+ },
+ {
+  "run_id": "airline_048",
+  "handoff_id": 2,
+  "planner_step_id": 2,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Find the reservation with the ID EUJUY6 and provide the passenger's name, current flight details, and available options for changing the date.",
+  "B": "- Reservation ID: EUJUY6\n- Requested operation: Retrieve reservation details, including passenger name, flight details, and options for changing the date.\n\n",
+  "item_id": "L46"
+ },
+ {
+  "run_id": "airline_029",
+  "handoff_id": 18,
+  "planner_step_id": 12,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The cancellations of reservations UDMOP1 and 4XGCCM for user ID 'amelia_davis_8890' have been successfully recorded in the shared file `/case_notes.md`. Let me know if there is anything else I can assist you with!",
+  "B": "{\"content\": \"The cancellations for both reservations, UDMOP1 and 4XGCCM, have been successfully processed. If there's anything else you need, feel free to ask!\"}",
+  "item_id": "L47"
+ },
+ {
+  "run_id": "airline_031",
+  "handoff_id": 33,
+  "planner_step_id": 39,
+  "wrapper": "policy_checker",
+  "direction": "instruction->premise",
+  "A": "Check if the cancellation of a multi-leg Basic Economy flight (Reservation ID 9HBUV8) is allowed under the airline's policy, given that the flights are scheduled for May 17, 2024, and the reservation was made on May 12, 2024.",
+  "B": "- User requested to cancel a multi-leg Basic Economy flight.\n- Reservation ID is 9HBUV8.\n- Flights are scheduled for May 17, 2024.\n- Reservation was made on May 12, 2024.\n- No information about travel insurance or membership tier is provided.\n\nAccording to the airline's policy, Basic Economy flights can only be cancelled if the cancellation occurs within 24 hours of booking or if the airline cancels the flight. Since the reservation was made on May 12, 2024, and the current date is May 15, 2024, the 24-hour window has passed. Additionally, there is no mention of the airline cancelling any of the flights or the user having travel insurance, which is required for cancellations outside the 24-hour window.\n\nVERDICT: not_allowed — <Policy Clause: Cancel flight> Basic Economy flights can only be cancelled within 24 hours of booking or if the airline cancels the flight. The 24-hour window has passed, and there is no indication that the airline has cancelled any of the flights or that the user has travel insurance.\n\n",
+  "item_id": "L48"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 6,
+  "planner_step_id": 9,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- User not found with the given ID.\n- Operation: Search for a reservation with 3 passengers failed.\n\nNo matching reservation could be found for the given criteria.",
+  "B": "{\"content\": \"I'm unable to locate your reservation with the provided details. It might help if you can provide additional information such as the destination, departure city, or the approximate travel date. Could you share any of these details?\"}",
+  "item_id": "L49"
+ },
+ {
+  "run_id": "airline_024",
+  "handoff_id": 16,
+  "planner_step_id": 19,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The case note has been successfully written to the file `/case_notes.md`. \n\nSummary:\n- The operation to calculate the cost for upgrading to business class and adding checked bags could not proceed because the user for reservations \"HAT072\" and \"HAT278\" was not found.\n- This information has been recorded in the shared file for future reference.",
+  "B": "{\"content\": \"I encountered an issue while processing your request. The system could not find the user associated with the flights HAT072 and HAT278. This might be a technical error. I have recorded this issue for further investigation. In the meantime, could you please confirm your reservation details or provide any additional information that might help resolve this?\"}",
+  "item_id": "L50"
+ },
+ {
+  "run_id": "airline_026",
+  "handoff_id": 14,
+  "planner_step_id": 16,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The total price difference for upgrading reservation M20IZO from economy to business class is $597.",
+  "B": "{\"content\": \"The total price difference for upgrading your reservation M20IZO from economy to business class is $597. Would you like to proceed with the upgrade and pay this amount?\"}",
+  "item_id": "L51"
+ },
+ {
+  "run_id": "airline_044",
+  "handoff_id": 2,
+  "planner_step_id": 2,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Checked baggage allowance: 1 total baggage (0 non-free)\n- Membership status: Not specified in the reservation details\n\nThe reservation details do not explicitly mention the passenger's membership status. If you need further information about the passenger's membership, additional tools or data sources may be required.",
+  "B": "{\"content\": \"Based on your booking (JMO1MG), you are allowed to bring 1 checked suitcase for free. However, your membership status is not specified in the reservation details. Would you like to provide more information or check it through another method?\"}",
+  "item_id": "L52"
+ },
+ {
+  "run_id": "airline_004",
+  "handoff_id": 17,
+  "planner_step_id": 21,
+  "wrapper": "policy_checker",
+  "direction": "instruction->premise",
+  "A": "Check if the following changes are allowed under airline policy for reservation 'FQ8APE':\n1. Change the passenger from 'Ivan Garcia' to 'Omar Rossi'.\n2. Upgrade the cabin class from 'basic_economy' to 'economy'.\n3. Add 3 checked bags.",
+  "B": "- Reservation ID: FQ8APE\n- Requested changes: Change passenger name from 'Ivan Garcia' to 'Omar Rossi', upgrade cabin class from 'basic_economy' to 'economy', and add 3 checked bags.\n- Current cabin class: basic_economy.\n- Checked bags to be added: 3.\n- No other relevant dates or membership information provided.\n\nAccording to the airline policy:\n- Changing the passenger name is not allowed because the number of passengers cannot be modified, and the passenger details must remain the same.\n- Upgrading the cabin class is allowed, as all reservations can change cabin without altering the flights.\n- Adding 3 checked bags is allowed, as the user can add but not remove checked bags.\n\nVERDICT: not_allowed — The change of passenger name is not allowed under the airline policy.",
+  "item_id": "L53"
+ },
+ {
+  "run_id": "airline_032",
+  "handoff_id": 27,
+  "planner_step_id": 32,
+  "wrapper": "policy_checker",
+  "direction": "report->planner",
+  "A": "The request to add Kevin Smith as an additional passenger to the existing booking for flight HAT271 on May 26 is not allowed under the airline policy. The policy explicitly prohibits changing the number of passengers in a reservation.",
+  "B": "{\"content\": \"I'm sorry, but according to airline policy, we cannot add additional passengers to an existing reservation. However, I can assist you in creating a new reservation for Kevin Smith for the same flight on May 26. Would you like to proceed with this option?\"}",
+  "item_id": "L54"
+ },
+ {
+  "run_id": "airline_004",
+  "handoff_id": 7,
+  "planner_step_id": 4,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- Reservation ID: \"QKRY03\"\n- User ID: \"omar_rossi_1241\"\n- Flight details: Flights from MCO to PHX and PHX to DTW on May 24 and 25, 2024.\n- Passengers: Omar Rossi and Liam Lee.\n- Payment: Gift card \"gift_card_6490722\" used for $408.\n- Baggage: 0 total baggage, 0 non-free baggage.\n- Insurance: Yes.\n- Requested operation: Look up the flight reservation\n\nThe reservation details for user ID \"omar_rossi_1241\" have been successfully retrieved.\n\nAll four reservations for user ID \"omar_rossi_1241\" have been successfully retrieved and are as follows:\n\n1. **Reservation ID: \"UM3OG5\"**\n   - Flights: SEA to DFW, DFW to ATL, and ATL to SEA on May 26 and 28, 2024.\n   - Passengers: Omar Rossi and Liam Lee.\n   - Payment: Gift card \"gift_card_8190333\" used for $830.\n   - Baggage: 0 total baggage, 0 non-free baggage.\n   - Insurance: No.\n\n2. **Reservation ID: \"5RJ7UH\"**\n   - Flights: LAX to SFO and SFO to LAX on May 26 and 29, 2024.\n   - Passengers: Omar Rossi and Isabella Anderson.\n   - Payment: Credit card \"credit_card_7407366\" used for $710.\n   - Baggage: 1 total baggage, 0 non-free baggage.\n   - Insurance: No.\n\n3. **Reservation ID: \"FQ8APE\"**\n   - Flights: EWR to IAH and IAH to ORD on May 25, 2024.\n   - Passengers: Ivan Garcia.\n   - Payment: Gift card \"gift_card_8190333\" used for $161.\n   - Baggage: 0 total baggage, 0 non-free baggage.\n   - Insurance: Yes.\n\n4. **Reservation ID: \"QKRY03\"**\n   - Flights: MCO to PHX and PHX to DTW on May 24 and 25, 2024.\n   - Passengers: Omar Rossi and Liam Lee.\n   - Payment: Gift card \"gift_card_6490722\" used for $408.\n   - Baggage: 0 total baggage, 0 non-free baggage.\n   - Insurance: Yes.\n\nLet me know if you need further assistance with any of these reservations.",
+  "B": "{\"content\": \"I see that you have multiple reservations. Could you please specify which reservation you would like to modify by providing the reservation ID?\"}",
+  "item_id": "L55"
+ },
+ {
+  "run_id": "airline_046",
+  "handoff_id": 27,
+  "planner_step_id": 44,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "The search for direct flights from SFO to JFK on April 8th returned no results. There may be no available flights for this route and date. Let me know if you'd like to explore alternative options.",
+  "B": "{\"content\": \"I'm sorry, but I couldn't find any records for flight DL142 from SFO to JFK on April 8th. Could there be a possibility that the date or flight number was different? If you have any other details, please let me know so I can assist you further.\"}",
+  "item_id": "L56"
+ },
+ {
+  "run_id": "airline_039",
+  "handoff_id": 5,
+  "planner_step_id": 7,
+  "wrapper": "policy_checker",
+  "direction": "instruction->premise",
+  "A": "Check if the cancellation of a one-way flight with confirmation number H8Q05L is allowed under the airline's policy. The reservation is for Harper Kovacs, with origin JFK and destination ATL, in basic economy class, and includes travel insurance.",
+  "B": "- User: Harper Kovacs\n- Reservation: H8Q05L\n- Flight: One-way from JFK to ATL\n- Cabin class: Basic economy\n- Includes travel insurance\n\nUnder the airline's cancellation policy, basic economy flights can be cancelled only if travel insurance is bought and the condition is met. Since the reservation includes travel insurance, the cancellation is allowed.\n\nVERDICT: allowed — <policy clause: \"basic economy or economy flights can be cancelled only if travel insurance is bought and the condition is met\">",
+  "item_id": "L57"
+ },
+ {
+  "run_id": "airline_045",
+  "handoff_id": 12,
+  "planner_step_id": 20,
+  "wrapper": "db_agent",
+  "direction": "report->planner",
+  "A": "- User not found with the provided details.\n- Operation failed to locate a reservation.",
+  "B": "{\"content\": \"I'm sorry, but I'm still unable to locate your reservation with the current details. If you can provide the departure city, destination, or the approximate travel date, I can assist you more effectively.\"}",
+  "item_id": "L58"
+ },
+ {
+  "run_id": "airline_031",
+  "handoff_id": 39,
+  "planner_step_id": 50,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Cancel the reservation with ID 9HBUV8 and process the refund according to the airline's policy, considering the travel insurance is in effect.",
+  "B": "- Reservation ID: 9HBUV8\n- Operation requested: Cancel reservation and process refund\n- Travel insurance: In effect\n\n",
+  "item_id": "L59"
+ },
+ {
+  "run_id": "airline_006",
+  "handoff_id": 12,
+  "planner_step_id": 19,
+  "wrapper": "db_agent",
+  "direction": "instruction->premise",
+  "A": "Perform a broader search for a reservation with origin ATL, destination PHL, travel date April 5th, and passenger name Aarav Garcia. If found, return the reservation ID and relevant details; otherwise, confirm it could not be located.",
+  "B": "- Operation: Search for a reservation\n- Origin: ATL\n- Destination: PHL\n- Travel Date: April 5th\n- Passenger Name: Aarav Garcia\n\n",
+  "item_id": "L60"
+ }
+]
