@@ -241,7 +241,7 @@
 
 <section class="slide">
   <div class="rail"><span class="num mono">04</span><span class="sec">3 제안</span></div>
-  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>τ-bench airline을 orchestrator→subagent 그래프로 실행하고 모든 호출을 기록</h2></div>
+  <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>모든 LLM 호출을 완전 관측으로 남기고, 그 기록만 읽는 탐지기를 두는 파이프라인</h2></div>
   <div class="body">
     <div class="cols sec1">
       <div style="padding-top:2.2rem">
@@ -276,6 +276,7 @@
         <text class="sub" x="24" y="470">탐지기 D1–D4는 이 기록 이외의 어떤 정보도 입력으로 받지 않음 (정답 · 보상 · 라벨 없음)</text>
       </svg></div></div>
       <div class="stack">
+        <div><p>제안은 두 가지입니다. 모든 LLM 호출을 입력 전체와 확률까지 남기는 완전 관측 기록(3.2)과, 그 기록만 읽고 역할별로 배정하는 탐지기(3.3)입니다. τ-bench airline을 orchestrator→subagent 그래프로 30회 실행한 것은 이 제안을 검증한 사례이며, 4장의 평가는 그 위에서 수행했습니다.</p></div>
         <h3><span class="ss solo"><span class="n">3.1</span>실행 환경</span></h3>
         <div><h4><span class="n">3.1.1</span>왜 이 벤치마크인가</h4><p>정책 판단과 데이터베이스 조회가 섞인 고객 응대 과제입니다. 에이전트는 문서로 주어진 항공사 정책을 지키면서 시뮬레이션 고객과 대화하고, 대화가 끝난 뒤 DB의 최종 상태가 정답과 같아야 성공이라 성패가 객관적입니다.</p></div>
         <div><h4><span class="n">3.1.2</span>subagent</h4><p>orchestrator는 <code>policy_checker</code>, <code>db_agent</code>라는 이름의 도구를 부르고, 그 도구가 subagent 그래프를 실행한 뒤 보고서를 도구 결과로 돌려줍니다. 내장 <code>task</code>는 대상 subagent를 인자 안에 숨겨 "누구를 부르는가"의 확률을 잴 수 없기 때문입니다.</p></div>
@@ -609,6 +610,7 @@
           <div class="box"><div class="m">보고 지점</div><div class="t">D4 검사를 위한 방법론 고안</div><p>판정 LLM 세 종 모두 0.5 부근이라 지금 정의로는 보고 지점을 판정하지 못함. 판정 대상을 결론 문장으로 좁히고 근거에 정책 문서를 넣는 등 D4를 제대로 잴 수 있는 검사 방법을 찾는 것이 다음 과제</p></div>
           <div class="box"><div class="m">귀속</div><div class="t">실패 귀속: orchestrator와 subagent 중 누가 틀렸는가</div><p>탐지기 점수가 가장 높은 스텝이 decisive 스텝과 맞는 비율은 0.21 이하이고, 역할 일치 0.67은 "늘 orchestrator"라는 답과 같음(§4.2.4). 틀린 보고를 믿은 orchestrator의 흔들림에 신호가 찍히므로 원인이 subagent에 있어도 책임은 orchestrator로 기움. confidence와 다른 uncertainty 신호(다중 샘플링, hidden state probe)로 subagent 쪽 신호를 만들고, 경계 손실(D3)과 반사실 재실행으로 책임을 가르는 방법이 필요</p></div>
           <div class="box"><div class="m">일반화</div><div class="t">도메인·그래프 확장</div><p>orchestrator 결정이 많은 검색·코딩 도메인, 병렬 fan-out에서 "역할이 가른다"는 결론이 유지되는지 확인</p></div>
+        <p class="quiet" style="margin-top:.7rem"><b>다음 단계.</b> ① orchestrator 결정이 많은 검색·코딩 도메인으로 실행과 라벨을 확장 → ② 확장된 라벨 위에서 D4 검사 방법 후보를 같은 AUROC(Step) 기준으로 비교 → ③ 귀속은 역할 일치를 지표로 두고 기준선 0.67(늘 orchestrator)을 넘는지로 검증. 모두 지금의 기록·라벨 파이프라인을 그대로 씁니다.</p>
         </div></div>
     </div>
   </div>
