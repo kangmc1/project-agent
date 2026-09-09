@@ -243,13 +243,13 @@
   <div class="head"><p class="eyebrow"><b>3 제안</b></p><h2>τ-bench airline을 orchestrator→subagent 그래프로 실행하고 모든 호출을 기록합니다</h2></div>
   <div class="body">
     <div class="cols sec1">
-      <div>
+      <div style="padding-top:2.2rem">
       <div class="chart"><svg viewBox="0 0 760 490" width="760" height="490" role="img" aria-label="실행 그래프와 기록 계층: 고객 시뮬레이터, orchestrator, policy_checker, db_agent, 정책 문서, 예약 DB, 공유 파일, 캡처 계층, 기록 DB">
         <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="var(--ink-3)"/></marker></defs>
         <rect class="grp" x="400" y="22" width="180" height="142" rx="6"/>
         <rect class="node" x="410" y="30" width="160" height="52" rx="4"/><text class="ntext mono" x="490" y="52" text-anchor="middle">policy_checker</text><text class="sub" x="490" y="70" text-anchor="middle">정책 판단 · DB 접근 없음</text>
         <rect class="node" x="410" y="104" width="160" height="52" rx="4"/><text class="ntext mono" x="490" y="126" text-anchor="middle">db_agent</text><text class="sub" x="490" y="144" text-anchor="middle">예약 조회 · 변경</text>
-        <text class="sub" x="490" y="178" text-anchor="middle">subagents · 각자 LLM</text>
+        <text class="sub" x="490" y="178" text-anchor="middle">subagents</text>
         <rect class="node" x="610" y="30" width="140" height="52" rx="4"/><text class="ntext" x="680" y="52" text-anchor="middle">정책 문서</text><text class="sub" x="680" y="70" text-anchor="middle">시스템 프롬프트 · think 도구</text>
         <rect class="node" x="610" y="104" width="140" height="52" rx="4"/><text class="ntext" x="680" y="126" text-anchor="middle">예약 DB</text><text class="sub" x="680" y="144" text-anchor="middle">τ-bench 도구 14개</text>
         <path class="edge" d="M570 56 L608 56" marker-end="url(#a)"/><path class="edge" d="M570 130 L608 130" marker-end="url(#a)"/>
