@@ -556,13 +556,13 @@
       <div><h4>판정 방식 비교 <span class="quiet" style="font-weight:400">(같은 질문을 코드 대신 LLM-as-judge에게 물었을 때 · §4.2.12)</span></h4>
         <div class="tbl"><table>
           <tr><th>D1 · AUROC(Step)</th><th class="n">orchestrator 전체 / decisive</th><th class="n">subagent 전체</th></tr>
-          <tr class="hi"><td>코드 (실행 모델의 확률)</td><td class="n">0.63 / 0.75</td><td class="n">0.54</td></tr>
+          <tr class="hi"><td>코드 (D1, teacher forcing 확률)</td><td class="n">0.63 / 0.75</td><td class="n">0.54</td></tr>
           <tr><td>LLM-as-judge (gpt-oss-20b)</td><td class="n">0.64 / 0.77</td><td class="n">0.62</td></tr>
           <tr><td>LLM-as-judge (Qwen3-32B)</td><td class="n">0.60 / 0.68</td><td class="n">0.65</td></tr>
         </table></div>
         <div class="tbl" style="margin-top:.8rem"><table>
           <tr><th>D2 · subagent</th><th class="n">precision</th><th class="n">recall</th><th class="n">F1</th><th class="n">FPR</th></tr>
-          <tr class="hi"><td>코드 (기록 대조)</td><td class="n">0.62</td><td class="n">0.48</td><td class="n">0.54</td><td class="n">0.07</td></tr>
+          <tr class="hi"><td>코드 (D2, 기록과 문자열 대조)</td><td class="n">0.62</td><td class="n">0.48</td><td class="n">0.54</td><td class="n">0.07</td></tr>
           <tr><td>LLM-as-judge (gpt-oss-20b)</td><td class="n">0.44</td><td class="n">0.46</td><td class="n">0.45</td><td class="n">0.12</td></tr>
           <tr><td>LLM-as-judge (Qwen3-32B)</td><td class="n">0.40</td><td class="n">0.46</td><td class="n">0.43</td><td class="n">0.14</td></tr>
         </table></div>
